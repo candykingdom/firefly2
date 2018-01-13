@@ -1,4 +1,4 @@
-update=Mon 08 Jan 2018 09:24:32 PM MST
+update=Fri 12 Jan 2018 06:45:30 PM MST
 version=1
 last_client=kicad
 [pcbnew]
@@ -81,3 +81,4 @@ LibName49=/home/achew22/Projects/hardware/SparkFun-Kicad-Libraries/SparkFun-Sens
 LibName50=/home/achew22/Projects/hardware/SparkFun-Kicad-Libraries/Teensy_3_and_LC_Series_Boards_v1.1
 LibName51=/home/achew22/Projects/hardware/SparkFun-Kicad-Libraries/User-Submitted
 LibName52=/home/achew22/Projects/hardware/SparkFun-Kicad-Libraries/adafruit
+LibName53=/home/achew22/Projects/hardware/snapeda/10118194-0001LF
