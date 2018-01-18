@@ -38,17 +38,17 @@ struct RadioPacket {
 
 /** TODO: create an interface for the radio. */
 class Radio {
-  public:
-    /**
-     * If a packet is avilable, reads it into the provided struct and return
-     * true. If no packet is available, returns false.
-     */
-    virtual bool readPacket(RadioPacket &packet) = 0;
+ public:
+  /**
+   * If a packet is avilable, reads it into the provided struct and return
+   * true. If no packet is available, returns false.
+   */
+  virtual bool readPacket(RadioPacket &packet) = 0;
 
-    /**
-     * Sends the packet.
-     */
-    virtual void sendPacket(RadioPacket &packet) = 0;
+  /**
+   * Sends the packet.
+   */
+  virtual void sendPacket(RadioPacket &packet) = 0;
 };
 
 #endif

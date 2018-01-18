@@ -2,6 +2,4 @@
 
 #include "../Radio.hpp"
 
-TEST(Radio, nothing) {
-  EXPECT_EQ(1, 1);
-}
+TEST(Radio, nothing) { EXPECT_EQ(1, 1); }
