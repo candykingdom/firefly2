@@ -1,15 +1,13 @@
 #ifndef __RADIO_H__
 #define __RADIO_H__
 
-// Arduino provides the types of the form 'int8_t'. In vanilla C++, we need to
-// include these manually.
-#ifndef ARDUINO
-#include <cstdint>
-#endif
+#include "Types.hpp"
 
 enum PacketType {
   PING,
 };
+
+static const uint8_t PACKET_DATA_LENGTH = 58;
 
 struct RadioPacket {
   /**
@@ -33,8 +31,20 @@ struct RadioPacket {
    * The raw application-layer data. The length is the max packet length (61)
    * minus the size of the packet ID and type (3 bytes).
    */
-  uint8_t data[58];
+  uint8_t data[PACKET_DATA_LENGTH];
 };
+
+inline bool operator==(const RadioPacket& lhs, const RadioPacket& rhs) {
+  // Data length too big -> invalid packet, so return false
+  if (lhs.dataLength > PACKET_DATA_LENGTH ||
+      rhs.dataLength > PACKET_DATA_LENGTH) {
+    return false;
+  }
+
+  return lhs.packetId == rhs.packetId && lhs.type == rhs.type &&
+         lhs.dataLength == rhs.dataLength &&
+         !memcmp(lhs.data, rhs.data, lhs.dataLength);
+}
 
 /** TODO: create an interface for the radio. */
 class Radio {
@@ -43,12 +53,12 @@ class Radio {
    * If a packet is avilable, reads it into the provided struct and return
    * true. If no packet is available, returns false.
    */
-  virtual bool readPacket(RadioPacket &packet) = 0;
+  virtual bool readPacket(RadioPacket& packet) = 0;
 
   /**
    * Sends the packet.
    */
-  virtual void sendPacket(RadioPacket &packet) = 0;
+  virtual void sendPacket(RadioPacket& packet) = 0;
 };
 
 #endif
