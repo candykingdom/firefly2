@@ -20,8 +20,21 @@ class NetworkManager {
    */
   void send(RadioPacket &packet);
 
+  // Public for testing
+  static const uint8_t kRecentIdsCacheSize = 5;
+
  private:
+  void AddToRecentIdsCache(uint16_t id);
+
   Radio *const radio;
+
+  /**
+   * We maintain a circular buffer of the most recent packet IDs seen. When a
+   * packet is sent or received, its packet ID is added to this buffer, and the
+   * LRU ID is dropped.
+   */
+  uint16_t recentIdsCache[kRecentIdsCacheSize];
+  uint8_t recentIdsCacheIndex;
 };
 
 #endif

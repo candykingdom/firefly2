@@ -32,6 +32,61 @@ TEST(NetworkManager, receive_setsPacket) {
   EXPECT_EQ(packet, receivedPacket);
 }
 
+TEST(NetworkManager, receive_rebroadasts) {
+  FakeRadio radio;
+  NetworkManager *networkManager = new NetworkManager(&radio);
+  RadioPacket packet;
+
+  RadioPacket receivedPacket;
+  receivedPacket.packetId = 12345;
+  receivedPacket.dataLength = 1;
+  radio.setReceivePacket(&receivedPacket);
+
+  EXPECT_EQ(networkManager->receive(packet), true);
+  EXPECT_EQ(*radio.getSentPacket(), receivedPacket);
+
+  // With same ID, shouldn't rebroadcast again
+  networkManager->receive(packet);
+  EXPECT_EQ(radio.getSentPacket(), nullptr);
+
+  // New id means it should rebroadcast
+  receivedPacket.packetId = 6789;
+  radio.setReceivePacket(&receivedPacket);
+  EXPECT_EQ(networkManager->receive(packet), true);
+  EXPECT_EQ(*radio.getSentPacket(), receivedPacket);
+
+  // Make sure it doesn't crash when exceeding the cache size
+  // Start from 1 because 0 isn't a valid packet ID.
+  for (uint16_t i = 1; i < NetworkManager::kRecentIdsCacheSize * 2; i++) {
+    receivedPacket.packetId = i;
+    radio.setReceivePacket(&receivedPacket);
+    EXPECT_EQ(networkManager->receive(packet), true);
+    EXPECT_EQ(*radio.getSentPacket(), receivedPacket);
+
+    EXPECT_EQ(networkManager->receive(packet), true);
+    EXPECT_EQ(radio.getSentPacket(), nullptr);
+  }
+}
+
+TEST(NetworkManager, receive_doesntRebroadcastSentId) {
+  FakeRadio radio;
+  NetworkManager *networkManager = new NetworkManager(&radio);
+  RadioPacket sentPacket;
+  sentPacket.dataLength = 1;
+  networkManager->send(sentPacket);
+  // Consume the FakeRadio's sent packet
+  radio.getSentPacket();
+
+  RadioPacket receivedPacket;
+  receivedPacket.packetId = sentPacket.packetId;
+  receivedPacket.dataLength = 1;
+  radio.setReceivePacket(&receivedPacket);
+
+  RadioPacket packet;
+  EXPECT_EQ(networkManager->receive(packet), true);
+  EXPECT_EQ(radio.getSentPacket(), nullptr);
+}
+
 TEST(NetworkManager, send_sendsPacket) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);

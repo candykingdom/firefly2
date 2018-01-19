@@ -9,7 +9,7 @@ bool FakeRadio::readPacket(RadioPacket &packet) {
   if (receivedPacket == nullptr) {
     return false;
   } else {
-    packet = *receivedPacket;
+    memcpy(&packet, receivedPacket, sizeof(RadioPacket));
     return true;
   }
 }
@@ -27,7 +27,6 @@ void FakeRadio::setReceivePacket(RadioPacket *packet) {
 
 RadioPacket *FakeRadio::getSentPacket() {
   RadioPacket *thePacket = sentPacket;
-  delete sentPacket;
   sentPacket = nullptr;
   return thePacket;
 }

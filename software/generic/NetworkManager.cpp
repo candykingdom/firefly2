@@ -1,11 +1,26 @@
 #include "NetworkManager.hpp"
 
-NetworkManager::NetworkManager(Radio *const radio) : radio(radio) {}
+NetworkManager::NetworkManager(Radio *const radio) : radio(radio) {
+  for (uint8_t i = 0; i < kRecentIdsCacheSize; i++) {
+    recentIdsCache[i] = 0;
+  }
+  recentIdsCacheIndex = 0;
+}
 
 bool NetworkManager::receive(RadioPacket &packet) {
   if (!radio->readPacket(packet)) {
     return false;
   }
+
+  // Rebroadcast the packet if we haven't seen it's ID recently.
+  for (uint8_t i = 0; i < kRecentIdsCacheSize; i++) {
+    if (recentIdsCache[i] == packet.packetId) {
+      return true;
+    }
+  }
+
+  radio->sendPacket(packet);
+  AddToRecentIdsCache(packet.packetId);
 
   return true;
 }
@@ -13,4 +28,10 @@ bool NetworkManager::receive(RadioPacket &packet) {
 void NetworkManager::send(RadioPacket &packet) {
   packet.packetId = random(1, 0xFFFF);
   radio->sendPacket(packet);
+  AddToRecentIdsCache(packet.packetId);
+}
+
+void NetworkManager::AddToRecentIdsCache(uint16_t id) {
+  recentIdsCache[recentIdsCacheIndex++] = id;
+  recentIdsCacheIndex %= kRecentIdsCacheSize;
 }
