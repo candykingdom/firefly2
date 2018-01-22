@@ -38,11 +38,13 @@ TEST(RadioStateMachine, sendsHeartbeats) {
   setMillis(RadioStateMachine::kSlaveNoPacketTimeout + 1);
   stateMachine->Tick();
   EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Master);
-  EXPECT_EQ(radio.getSentPacket(), nullptr);
+  RadioPacket *packet = radio.getSentPacket();
+  EXPECT_NE(packet, nullptr);
+  EXPECT_EQ(packet->type, HEARTBEAT);
 
   advanceMillis(RadioStateMachine::kMasterHeartbeatInterval);
   stateMachine->Tick();
-  RadioPacket *packet = radio.getSentPacket();
+  packet = radio.getSentPacket();
   EXPECT_NE(packet, nullptr);
   EXPECT_EQ(packet->type, HEARTBEAT);
 

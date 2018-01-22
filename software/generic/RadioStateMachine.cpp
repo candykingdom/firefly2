@@ -1,4 +1,5 @@
 #include "RadioStateMachine.hpp"
+#include <cstdio>
 
 RadioStateMachine::RadioStateMachine(NetworkManager *networkManager)
     : networkManager(networkManager) {
@@ -46,6 +47,7 @@ void RadioStateMachine::Tick() {
         beginMaster();
         break;
     }
+    state = nextState;
     // 0 is disabled. Clear the timer - the state will probably set this
     // anyway.
     setTimer(0);
@@ -81,6 +83,9 @@ void RadioStateMachine::PerformMasterElection(RadioPacket *receivedPacket) {
 
 void RadioStateMachine::handleMasterEvent(RadioEventData &data) {
   if (data.packet != nullptr) {
+#ifdef DEBUG
+    printf("Received type %d\n", data.packet->type);
+#endif
     switch (data.packet->type) {
       case HEARTBEAT:
         PerformMasterElection(data.packet);
@@ -91,16 +96,23 @@ void RadioStateMachine::handleMasterEvent(RadioEventData &data) {
         break;
     }
   } else if (data.timerExpired) {
-    packet.type = HEARTBEAT;
-    packet.dataLength = 0;
-    networkManager->send(packet);
+    SendHeartbeat();
   }
 }
 
 void RadioStateMachine::beginSlave() { setTimer(kSlaveNoPacketTimeout); }
 
-void RadioStateMachine::beginMaster() { setTimer(kMasterHeartbeatInterval); }
+void RadioStateMachine::beginMaster() {
+  SendHeartbeat();
+  setTimer(kMasterHeartbeatInterval);
+}
 
 void RadioStateMachine::setTimer(uint16_t delay) {
   timerExpiresAt = millis() + delay;
+}
+
+void RadioStateMachine::SendHeartbeat() {
+  packet.type = HEARTBEAT;
+  packet.dataLength = 0;
+  networkManager->send(packet);
 }

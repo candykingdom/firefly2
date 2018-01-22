@@ -64,6 +64,9 @@ class RadioStateMachine {
   /** Performs master election based on the received heartbeat. */
   void PerformMasterElection(RadioPacket *receivedPacket);
 
+  /** Sends a heartbeat packet. */
+  void SendHeartbeat();
+
   NetworkManager *const networkManager;
 
   /** The current state. */
