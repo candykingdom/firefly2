@@ -3,7 +3,7 @@
 set -euo pipefail
 
 cd software/generic
-mkdir build
+mkdir build || true
 cd build
 cmake ..
 make && ./generictest
