@@ -4,7 +4,8 @@
 #include "Types.hpp"
 
 enum PacketType {
-  PING,
+  // Tells the slaves that they should blink the light.
+  HEARTBEAT,
 };
 
 static const uint8_t PACKET_DATA_LENGTH = 58;

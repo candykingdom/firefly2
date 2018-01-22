@@ -6,6 +6,7 @@
 #include "FakeRadio.hpp"
 
 TEST(RadioStateMachine, initializes) {
+  setMillis(0);
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
@@ -14,6 +15,7 @@ TEST(RadioStateMachine, initializes) {
 }
 
 TEST(RadioStateMachine, becomesMasterAfterTimeout) {
+  setMillis(0);
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
@@ -25,4 +27,28 @@ TEST(RadioStateMachine, becomesMasterAfterTimeout) {
   setMillis(RadioStateMachine::kSlaveNoPacketTimeout + 1);
   stateMachine->Tick();
   EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Master);
+}
+
+TEST(RadioStateMachine, sendsHeartbeats) {
+  setMillis(0);
+  FakeRadio radio;
+  NetworkManager *networkManager = new NetworkManager(&radio);
+  RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
+
+  setMillis(RadioStateMachine::kSlaveNoPacketTimeout + 1);
+  stateMachine->Tick();
+  EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Master);
+  EXPECT_EQ(radio.getSentPacket(), nullptr);
+
+  advanceMillis(RadioStateMachine::kMasterHeartbeatInterval);
+  stateMachine->Tick();
+  RadioPacket *packet = radio.getSentPacket();
+  EXPECT_NE(packet, nullptr);
+  EXPECT_EQ(packet->type, HEARTBEAT);
+
+  advanceMillis(RadioStateMachine::kMasterHeartbeatInterval);
+  stateMachine->Tick();
+  packet = radio.getSentPacket();
+  EXPECT_NE(packet, nullptr);
+  EXPECT_EQ(packet->type, HEARTBEAT);
 }

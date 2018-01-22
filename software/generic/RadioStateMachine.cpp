@@ -63,14 +63,16 @@ void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
 }
 
 void RadioStateMachine::handleMasterEvent(RadioEventData &data) {
-  // TODO
+  if (data.timerExpired) {
+    packet.type = HEARTBEAT;
+    packet.dataLength = 0;
+    networkManager->send(packet);
+  }
 }
 
 void RadioStateMachine::beginSlave() { setTimer(kSlaveNoPacketTimeout); }
 
-void RadioStateMachine::beginMaster() {
-  // TODO
-}
+void RadioStateMachine::beginMaster() { setTimer(kMasterHeartbeatInterval); }
 
 void RadioStateMachine::setTimer(uint16_t delay) {
   timerExpiresAt = millis() + delay;

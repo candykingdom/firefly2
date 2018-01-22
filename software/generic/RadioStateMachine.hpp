@@ -44,6 +44,11 @@ class RadioStateMachine {
    */
   static const uint16_t kSlaveNoPacketTimeout = 5000;
 
+  /**
+   * When master, send a heartbeat this often.
+   */
+  static const uint16_t kMasterHeartbeatInterval = 1000;
+
  private:
   // Handler functions
   void handleSlaveEvent(RadioEventData &data);
@@ -67,6 +72,8 @@ class RadioStateMachine {
 
   /** The milliseconds when the timer expires and fires an event. */
   uint16_t timerExpiresAt = 0;
+
+  RadioPacket packet;
 };
 
 #endif

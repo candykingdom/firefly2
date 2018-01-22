@@ -9,3 +9,5 @@ uint16_t currentTime = 0;
 uint16_t millis() { return currentTime; }
 
 void setMillis(uint16_t time) { currentTime = time; }
+
+void advanceMillis(uint16_t time) { currentTime += time; }

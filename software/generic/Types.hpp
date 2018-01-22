@@ -18,6 +18,7 @@ uint16_t random(uint16_t min, uint16_t max);
 // Provide the millis function, and allowing setting it for tests.
 uint16_t millis();
 void setMillis(uint16_t time);
+void advanceMillis(uint16_t time);
 
 #else
 // Arduino

@@ -9,7 +9,7 @@ TEST(NetworkManager, receive_noPackets) {
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioPacket packet;
   packet.packetId = 12345;
-  packet.type = PING;
+  packet.type = HEARTBEAT;
   packet.dataLength = 1;
   packet.data[0] = 100;
   RadioPacket originalPacket = packet;
