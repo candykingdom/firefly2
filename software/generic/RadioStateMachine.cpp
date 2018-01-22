@@ -57,13 +57,27 @@ void RadioStateMachine::Tick() {
 void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
   // If the timer fired, then we haven't received a packet in a while and should
   // become master
-  if (data.timerExpired) {
+  if (data.packet != nullptr) {
+    if (data.packet->type == HEARTBEAT) {
+      setTimer(kSlaveNoPacketTimeout);
+    }
+  } else if (data.timerExpired) {
     nextState = RadioState::Master;
   }
 }
 
 void RadioStateMachine::handleMasterEvent(RadioEventData &data) {
-  if (data.timerExpired) {
+  if (data.packet != nullptr) {
+    switch (data.packet->type) {
+      case HEARTBEAT:
+        // TODO: master election
+        break;
+
+      case CLAIM_MASTER:
+        nextState = RadioState::Slave;
+        break;
+    }
+  } else if (data.timerExpired) {
     packet.type = HEARTBEAT;
     packet.dataLength = 0;
     networkManager->send(packet);

@@ -6,6 +6,10 @@
 enum PacketType {
   // Tells the slaves that they should blink the light.
   HEARTBEAT,
+
+  // Sent by a master to claim mastership and tell all other masters to become
+  // slaves. Usually sent as part of master negotiation.
+  CLAIM_MASTER,
 };
 
 static const uint8_t PACKET_DATA_LENGTH = 58;
