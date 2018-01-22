@@ -26,7 +26,7 @@ TEST(NetworkManager, receive_setsPacket) {
   RadioPacket receivedPacket;
   receivedPacket.packetId = 12345;
   receivedPacket.dataLength = 1;
-  radio.setReceivePacket(&receivedPacket);
+  radio.setReceivedPacket(&receivedPacket);
 
   EXPECT_EQ(networkManager->receive(packet), true);
   EXPECT_EQ(packet, receivedPacket);
@@ -40,7 +40,7 @@ TEST(NetworkManager, receive_rebroadasts) {
   RadioPacket receivedPacket;
   receivedPacket.packetId = 12345;
   receivedPacket.dataLength = 1;
-  radio.setReceivePacket(&receivedPacket);
+  radio.setReceivedPacket(&receivedPacket);
 
   EXPECT_EQ(networkManager->receive(packet), true);
   EXPECT_EQ(*radio.getSentPacket(), receivedPacket);
@@ -51,7 +51,7 @@ TEST(NetworkManager, receive_rebroadasts) {
 
   // New id means it should rebroadcast
   receivedPacket.packetId = 6789;
-  radio.setReceivePacket(&receivedPacket);
+  radio.setReceivedPacket(&receivedPacket);
   EXPECT_EQ(networkManager->receive(packet), true);
   EXPECT_EQ(*radio.getSentPacket(), receivedPacket);
 
@@ -59,7 +59,7 @@ TEST(NetworkManager, receive_rebroadasts) {
   // Start from 1 because 0 isn't a valid packet ID.
   for (uint16_t i = 1; i < NetworkManager::kRecentIdsCacheSize * 2; i++) {
     receivedPacket.packetId = i;
-    radio.setReceivePacket(&receivedPacket);
+    radio.setReceivedPacket(&receivedPacket);
     EXPECT_EQ(networkManager->receive(packet), true);
     EXPECT_EQ(*radio.getSentPacket(), receivedPacket);
 
@@ -80,7 +80,7 @@ TEST(NetworkManager, receive_doesntRebroadcastSentId) {
   RadioPacket receivedPacket;
   receivedPacket.packetId = sentPacket.packetId;
   receivedPacket.dataLength = 1;
-  radio.setReceivePacket(&receivedPacket);
+  radio.setReceivedPacket(&receivedPacket);
 
   RadioPacket packet;
   EXPECT_EQ(networkManager->receive(packet), true);

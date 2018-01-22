@@ -21,7 +21,7 @@ void FakeRadio::sendPacket(RadioPacket &packet) {
   memcpy(sentPacket, &packet, sizeof(RadioPacket));
 }
 
-void FakeRadio::setReceivePacket(RadioPacket *packet) {
+void FakeRadio::setReceivedPacket(RadioPacket *packet) {
   receivedPacket = packet;
 }
 

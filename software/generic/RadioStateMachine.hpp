@@ -25,7 +25,6 @@ struct RadioEventData {
 enum class RadioState {
   Slave,
   Master,
-  // TODO: add Negotiate
 };
 
 class RadioStateMachine {
@@ -61,6 +60,9 @@ class RadioStateMachine {
   // Support functions
   /** Sets an event to fire delay milliseconds from now.  */
   void setTimer(uint16_t delay);
+
+  /** Performs master election based on the received heartbeat. */
+  void PerformMasterElection(RadioPacket *receivedPacket);
 
   NetworkManager *const networkManager;
 

@@ -66,11 +66,24 @@ void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
   }
 }
 
+void RadioStateMachine::PerformMasterElection(RadioPacket *receivedPacket) {
+  // Master election: generate a random number. If our number is greater
+  // than the packet's ID, become master. Otherwise, become slave.
+  const uint16_t ourId = random(1, 0xFFFF);
+  if (ourId > receivedPacket->packetId) {
+    packet.type = CLAIM_MASTER;
+    packet.dataLength = 0;
+    networkManager->send(packet);
+  } else {
+    nextState = RadioState::Slave;
+  }
+}
+
 void RadioStateMachine::handleMasterEvent(RadioEventData &data) {
   if (data.packet != nullptr) {
     switch (data.packet->type) {
       case HEARTBEAT:
-        // TODO: master election
+        PerformMasterElection(data.packet);
         break;
 
       case CLAIM_MASTER:

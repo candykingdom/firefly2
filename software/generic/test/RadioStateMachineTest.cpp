@@ -63,7 +63,7 @@ TEST(RadioStateMachine, doesntBecomeMasterIfReceivesPackets) {
   packet.type = HEARTBEAT;
   packet.dataLength = 0;
 
-  radio.setReceivePacket(&packet);
+  radio.setReceivedPacket(&packet);
   advanceMillis(RadioStateMachine::kSlaveNoPacketTimeout - 1);
   advanceMillis(2);
   stateMachine->Tick();
@@ -93,7 +93,51 @@ TEST(RadioStateMachine, respectsClaimMaster) {
   packet.packetId = 1;
   packet.type = CLAIM_MASTER;
   packet.dataLength = 0;
-  radio.setReceivePacket(&packet);
+  radio.setReceivedPacket(&packet);
   stateMachine->Tick();
   EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Slave);
+}
+
+TEST(RadioStateMachine, doesElectionAndBecomesSlave) {
+  setMillis(0);
+  FakeRadio radio;
+  NetworkManager *networkManager = new NetworkManager(&radio);
+  RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
+
+  setMillis(RadioStateMachine::kSlaveNoPacketTimeout + 1);
+  stateMachine->Tick();
+  EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Master);
+
+  RadioPacket packet;
+  // The random ID for master election is in the range [1, 0xFFFF)
+  packet.packetId = 0xFFFF;
+  packet.type = HEARTBEAT;
+  packet.dataLength = 0;
+  radio.setReceivedPacket(&packet);
+  stateMachine->Tick();
+  EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Slave);
+}
+
+TEST(RadioStateMachine, doesElectionAndBecomesMaster) {
+  setMillis(0);
+  FakeRadio radio;
+  NetworkManager *networkManager = new NetworkManager(&radio);
+  RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
+
+  setMillis(RadioStateMachine::kSlaveNoPacketTimeout + 1);
+  stateMachine->Tick();
+  EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Master);
+
+  RadioPacket packet;
+  // The random ID for master election is in the range [1, 0xFFFF)
+  packet.packetId = 0;
+  packet.type = HEARTBEAT;
+  packet.dataLength = 0;
+  radio.setReceivedPacket(&packet);
+  stateMachine->Tick();
+  EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Master);
+
+  RadioPacket *receivedPacket = radio.getSentPacket();
+  EXPECT_NE(receivedPacket, nullptr);
+  EXPECT_EQ(receivedPacket->type, CLAIM_MASTER);
 }

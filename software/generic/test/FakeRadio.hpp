@@ -12,7 +12,7 @@ class FakeRadio : public Radio {
   void sendPacket(RadioPacket &packet) override;
 
   // Test methods
-  void setReceivePacket(RadioPacket *packet);
+  void setReceivedPacket(RadioPacket *packet);
   RadioPacket *getSentPacket();
 
  private:
