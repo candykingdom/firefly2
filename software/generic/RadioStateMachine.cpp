@@ -3,6 +3,8 @@
 RadioStateMachine::RadioStateMachine(NetworkManager *networkManager)
     : networkManager(networkManager) {
   state = RadioState::Slave;
+  nextState = RadioState::Slave;
+  beginSlave();
 }
 
 RadioState RadioStateMachine::GetCurrentState() { return state; }
@@ -33,13 +35,40 @@ void RadioStateMachine::Tick() {
         break;
     }
   }
+
+  if (nextState != state) {
+    switch (nextState) {
+      case RadioState::Slave:
+        beginSlave();
+        break;
+
+      case RadioState::Master:
+        beginMaster();
+        break;
+    }
+    // 0 is disabled. Clear the timer - the state will probably set this
+    // anyway.
+    setTimer(0);
+  }
+
+  state = nextState;
 }
 
 void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
-  // TODO
+  // If the timer fired, then we haven't received a packet in a while and should
+  // become master
+  if (data.timerExpired) {
+    nextState = RadioState::Master;
+  }
 }
 
 void RadioStateMachine::handleMasterEvent(RadioEventData &data) {
+  // TODO
+}
+
+void RadioStateMachine::beginSlave() { setTimer(kSlaveNoPacketTimeout); }
+
+void RadioStateMachine::beginMaster() {
   // TODO
 }
 
