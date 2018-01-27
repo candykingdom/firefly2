@@ -21,3 +21,9 @@ so that it can be used by the tests. However, the Arduino code will not use
 CMake. It will simply `#include` the needed files in *generic*. This means
 that we will be able to use both the Arduino IDE and Makefiles to build and
 deploy the Arduino code.
+
+## Hardware-specific notes:
+
+When using the MattairTech Arduino core, the pin numbers aren't the physical
+pin numbers. They are the PortA number (e.g. physical pin 1 is PA05, so is
+Arduino pin 5).
