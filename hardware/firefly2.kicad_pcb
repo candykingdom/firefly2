@@ -1,9 +1,9 @@
-(kicad_pcb (version 4) (host pcbnew 4.0.2+dfsg1-stable)
+(kicad_pcb (version 4) (host pcbnew 4.0.6+dfsg1-1)
 
   (general
     (links 46)
     (no_connects 0)
-    (area 139.203688 42.683688 180.836312 84.316312)
+    (area 139.203688 38.443617 187.084459 84.316312)
     (thickness 1.6)
     (drawings 143)
     (tracks 271)
@@ -37,7 +37,7 @@
   )
 
   (setup
-    (last_trace_width 1)
+    (last_trace_width 0.25)
     (user_trace_width 0.25)
     (user_trace_width 0.5)
     (user_trace_width 0.75)
@@ -65,7 +65,7 @@
     (pad_size 1.524 1.524)
     (pad_drill 0.762)
     (pad_to_mask_clearance 0.2)
-    (aux_axis_origin 0 0)
+    (aux_axis_origin 139.4 84.6)
     (grid_origin 154.4 45.6)
     (visible_elements FFFFFF7F)
     (pcbplotparams
@@ -90,7 +90,7 @@
       (subtractmaskfromsilk false)
       (outputformat 1)
       (mirror false)
-      (drillshape 1)
+      (drillshape 0)
       (scaleselection 1)
       (outputdirectory ""))
   )
