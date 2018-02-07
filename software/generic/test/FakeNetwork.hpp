@@ -15,6 +15,11 @@ class FakeNetwork {
    */
   void Tick();
 
+  /**
+   * Re-initializes the state machine at index.
+   */
+  void reinitNode(int index);
+
   static const long kNumNodes = 5;
   RadioStateMachine *stateMachines[kNumNodes];
 

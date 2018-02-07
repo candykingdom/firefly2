@@ -43,3 +43,9 @@ void FakeNetwork::Tick() {
     debug_printf("\n");
   }
 }
+
+void FakeNetwork::reinitNode(int index) {
+  delete stateMachines[index];
+  stateMachines[index] =
+      new RadioStateMachine(new NetworkManager(&radios[index]));
+}
