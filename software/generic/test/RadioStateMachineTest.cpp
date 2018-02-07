@@ -5,6 +5,9 @@
 #include "../RadioStateMachine.hpp"
 #include "FakeRadio.hpp"
 
+const uint16_t kMaxSlaveTimeout = RadioStateMachine::kSlaveNoPacketTimeout +
+                                  RadioStateMachine::kSlaveNoPacketRandom + 1;
+
 TEST(RadioStateMachine, initializes) {
   setMillis(0);
   FakeRadio radio;
@@ -24,7 +27,7 @@ TEST(RadioStateMachine, becomesMasterAfterTimeout) {
   stateMachine->Tick();
   EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Slave);
 
-  setMillis(RadioStateMachine::kSlaveNoPacketTimeout + 1);
+  setMillis(kMaxSlaveTimeout);
   stateMachine->Tick();
   EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Master);
 }
@@ -35,7 +38,7 @@ TEST(RadioStateMachine, sendsHeartbeats) {
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
 
-  setMillis(RadioStateMachine::kSlaveNoPacketTimeout + 1);
+  setMillis(kMaxSlaveTimeout);
   stateMachine->Tick();
   EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Master);
   RadioPacket *packet = radio.getSentPacket();
@@ -66,7 +69,7 @@ TEST(RadioStateMachine, doesntBecomeMasterIfReceivesPackets) {
   packet.dataLength = 0;
 
   radio.setReceivedPacket(&packet);
-  advanceMillis(RadioStateMachine::kSlaveNoPacketTimeout - 1);
+  advanceMillis(kMaxSlaveTimeout);
   advanceMillis(2);
   stateMachine->Tick();
   EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Slave);
@@ -87,7 +90,7 @@ TEST(RadioStateMachine, respectsClaimMaster) {
   RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
 
   EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Slave);
-  setMillis(RadioStateMachine::kSlaveNoPacketTimeout + 1);
+  setMillis(kMaxSlaveTimeout);
   stateMachine->Tick();
   EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Master);
 
@@ -106,7 +109,7 @@ TEST(RadioStateMachine, doesElectionAndBecomesSlave) {
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
 
-  setMillis(RadioStateMachine::kSlaveNoPacketTimeout + 1);
+  setMillis(kMaxSlaveTimeout);
   stateMachine->Tick();
   EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Master);
 
@@ -126,7 +129,7 @@ TEST(RadioStateMachine, doesElectionAndBecomesMaster) {
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
 
-  setMillis(RadioStateMachine::kSlaveNoPacketTimeout + 1);
+  setMillis(kMaxSlaveTimeout);
   stateMachine->Tick();
   EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Master);
 

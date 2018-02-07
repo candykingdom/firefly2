@@ -39,9 +39,13 @@ class RadioStateMachine {
   // Tuning constants. Public for testing.
   /**
    * If a slave doesn't receive a heartbeat for this long, it'll become master.
-   * TODO: add a random factor.
    */
   static const uint16_t kSlaveNoPacketTimeout = 5000;
+
+  /**
+   * The maximum random delay added to kSlaveNoPacketTimeout.
+   */
+  static const uint16_t kSlaveNoPacketRandom = 2000;
 
   /**
    * When master, send a heartbeat this often.
