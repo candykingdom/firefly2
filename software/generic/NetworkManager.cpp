@@ -15,7 +15,7 @@ bool NetworkManager::receive(RadioPacket &packet) {
   // Rebroadcast the packet if we haven't seen it's ID recently.
   for (uint8_t i = 0; i < kRecentIdsCacheSize; i++) {
     if (recentIdsCache[i] == packet.packetId) {
-      return true;
+      return false;
     }
   }
 
@@ -26,7 +26,9 @@ bool NetworkManager::receive(RadioPacket &packet) {
 }
 
 void NetworkManager::send(RadioPacket &packet) {
-  packet.packetId = random(1, 0xFFFF);
+  // [2, 0xFFFF) allow us to use packet ID 1 in tests, so that the code under
+  // test always wins master election.
+  packet.packetId = random(2, 0xFFFF);
   radio->sendPacket(packet);
   AddToRecentIdsCache(packet.packetId);
 }

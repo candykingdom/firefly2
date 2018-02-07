@@ -63,7 +63,7 @@ TEST(NetworkManager, receive_rebroadasts) {
     EXPECT_EQ(networkManager->receive(packet), true);
     EXPECT_EQ(*radio.getSentPacket(), receivedPacket);
 
-    EXPECT_EQ(networkManager->receive(packet), true);
+    EXPECT_EQ(networkManager->receive(packet), false);
     EXPECT_EQ(radio.getSentPacket(), nullptr);
   }
 }
@@ -83,7 +83,7 @@ TEST(NetworkManager, receive_doesntRebroadcastSentId) {
   radio.setReceivedPacket(&receivedPacket);
 
   RadioPacket packet;
-  EXPECT_EQ(networkManager->receive(packet), true);
+  EXPECT_EQ(networkManager->receive(packet), false);
   EXPECT_EQ(radio.getSentPacket(), nullptr);
 }
 

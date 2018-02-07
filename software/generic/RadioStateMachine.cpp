@@ -1,5 +1,8 @@
 #include "RadioStateMachine.hpp"
 #include <cstdio>
+#include "Debug.hpp"
+
+//#define DEBUG
 
 RadioStateMachine::RadioStateMachine(NetworkManager *networkManager)
     : networkManager(networkManager) {
@@ -20,8 +23,10 @@ void RadioStateMachine::Tick() {
   // Note: only allow one event type per iteration. This makes the handler
   // functions simpler (and less error prone).
   if (networkManager->receive(packet)) {
+    debug_printf("Received packet\n");
     data.packet = &packet;
   } else if (timerExpiresAt && millis() > timerExpiresAt) {
+    debug_printf("Timer expired\n");
     data.timerExpired = true;
   }
 
@@ -38,6 +43,10 @@ void RadioStateMachine::Tick() {
   }
 
   if (nextState != state) {
+    // 0 is disabled. Clear the timer - the state will probably set this
+    // anyway.
+    setTimer(0);
+
     switch (nextState) {
       case RadioState::Slave:
         beginSlave();
@@ -47,10 +56,6 @@ void RadioStateMachine::Tick() {
         beginMaster();
         break;
     }
-    state = nextState;
-    // 0 is disabled. Clear the timer - the state will probably set this
-    // anyway.
-    setTimer(0);
   }
 
   state = nextState;
@@ -69,6 +74,8 @@ void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
 }
 
 void RadioStateMachine::PerformMasterElection(RadioPacket *receivedPacket) {
+  debug_printf("Performing master election\n");
+
   // Master election: generate a random number. If our number is greater
   // than the packet's ID, become master. Otherwise, become slave.
   const uint16_t ourId = random(1, 0xFFFF);
@@ -83,9 +90,7 @@ void RadioStateMachine::PerformMasterElection(RadioPacket *receivedPacket) {
 
 void RadioStateMachine::handleMasterEvent(RadioEventData &data) {
   if (data.packet != nullptr) {
-#ifdef DEBUG
-    printf("Received type %d\n", data.packet->type);
-#endif
+    debug_printf("Received type %d\n", data.packet->type);
     switch (data.packet->type) {
       case HEARTBEAT:
         PerformMasterElection(data.packet);
@@ -108,7 +113,11 @@ void RadioStateMachine::beginMaster() {
 }
 
 void RadioStateMachine::setTimer(uint16_t delay) {
-  timerExpiresAt = millis() + delay;
+  if (delay == 0) {
+    timerExpiresAt = 0;
+  } else {
+    timerExpiresAt = millis() + delay;
+  }
 }
 
 void RadioStateMachine::SendHeartbeat() {

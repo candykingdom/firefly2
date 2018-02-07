@@ -39,19 +39,19 @@ TEST(RadioStateMachine, sendsHeartbeats) {
   stateMachine->Tick();
   EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Master);
   RadioPacket *packet = radio.getSentPacket();
-  EXPECT_NE(packet, nullptr);
+  ASSERT_NE(packet, nullptr);
+  EXPECT_EQ(packet->type, HEARTBEAT);
+
+  advanceMillis(RadioStateMachine::kMasterHeartbeatInterval + 1);
+  stateMachine->Tick();
+  packet = radio.getSentPacket();
+  ASSERT_NE(packet, nullptr);
   EXPECT_EQ(packet->type, HEARTBEAT);
 
   advanceMillis(RadioStateMachine::kMasterHeartbeatInterval);
   stateMachine->Tick();
   packet = radio.getSentPacket();
-  EXPECT_NE(packet, nullptr);
-  EXPECT_EQ(packet->type, HEARTBEAT);
-
-  advanceMillis(RadioStateMachine::kMasterHeartbeatInterval);
-  stateMachine->Tick();
-  packet = radio.getSentPacket();
-  EXPECT_NE(packet, nullptr);
+  ASSERT_NE(packet, nullptr);
   EXPECT_EQ(packet->type, HEARTBEAT);
 }
 
@@ -111,7 +111,7 @@ TEST(RadioStateMachine, doesElectionAndBecomesSlave) {
   EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Master);
 
   RadioPacket packet;
-  // The random ID for master election is in the range [1, 0xFFFF)
+  // The random ID for master election is in the range [2, 0xFFFF)
   packet.packetId = 0xFFFF;
   packet.type = HEARTBEAT;
   packet.dataLength = 0;
@@ -131,8 +131,8 @@ TEST(RadioStateMachine, doesElectionAndBecomesMaster) {
   EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Master);
 
   RadioPacket packet;
-  // The random ID for master election is in the range [1, 0xFFFF)
-  packet.packetId = 0;
+  // The random ID for master election is in the range [2, 0xFFFF)
+  packet.packetId = 1;
   packet.type = HEARTBEAT;
   packet.dataLength = 0;
   radio.setReceivedPacket(&packet);

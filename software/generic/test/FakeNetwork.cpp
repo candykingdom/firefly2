@@ -1,8 +1,9 @@
-#include "../NetworkManager.hpp"
 #include "FakeNetwork.hpp"
 #include <cstdio>
+#include "../Debug.hpp"
+#include "../NetworkManager.hpp"
 
-#define DEBUG
+//#define DEBUG
 
 FakeNetwork::FakeNetwork() {
   setMillis(0);
@@ -23,28 +24,22 @@ void FakeNetwork::Tick() {
   }
   packet = nullptr;
 
-#ifdef DEBUG
-  printf("Running FakeNetwork::Tick at %u millis\n", millis());
-#endif
+  debug_printf("Running FakeNetwork::Tick at %u millis\n", millis());
 
   for (int i = 0; i < kNumNodes; i++) {
-#ifdef DEBUG
-    printf("Node %d state before: %d\n", i, stateMachines[i]->GetCurrentState());
-#endif
+    debug_printf("Node %d state before: %d\n", i,
+                 stateMachines[i]->GetCurrentState());
     stateMachines[i]->Tick();
-#ifdef DEBUG
-    printf("Node %d state after: %d\n", i, stateMachines[i]->GetCurrentState());
-#endif
+    debug_printf("Node %d state after: %d\n", i,
+                 stateMachines[i]->GetCurrentState());
 
     if (packet == nullptr) {
       packet = radios[i].getSentPacket();
       if (packet != nullptr) {
-        printf("Node %d sending type %d\n", i, packet->type);
+        debug_printf("Node %d sending type %d\n", i, packet->type);
       }
     }
 
-#ifdef DEBUG
-  printf("\n");
-#endif
+    debug_printf("\n");
   }
 }
