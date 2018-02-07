@@ -20,10 +20,16 @@ class FakeNetwork {
    */
   void reinitNode(int index);
 
+  /**
+   * Sets the packet loss to one in every n packets, on average. 0 disables.
+   */
+  void setPacketLoss(int n);
+
   static const long kNumNodes = 5;
   RadioStateMachine *stateMachines[kNumNodes];
 
  private:
+  int packetLoss = 0;
   FakeRadio radios[kNumNodes];
   RadioPacket *packet = nullptr;
 };

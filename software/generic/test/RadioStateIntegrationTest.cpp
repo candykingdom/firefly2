@@ -86,10 +86,11 @@ TEST(Network, stableWhenNodesDropOut) {
   }
 
   for (int i = 0; i < 10; i++) {
-    int currentTicksWithMoreThanOneMaster = 0;
-    int maxTicksWithMoreThanOneMaster = 0;
-    int totalTicksWithMoreThanOneMaster = 0;
-    bool moreThanOneMasterPrev = false;
+    // "Bad" ticks are ones where there isn't exactly one master.
+    int currentBadTicks = 0;
+    int maxBadTicks = 0;
+    int totalBadTicks = 0;
+    bool badPrev = false;
 
     for (int j = 0; j < RadioStateMachine::kSlaveNoPacketTimeout * 2 + 2; j++) {
       advanceMillis(1);
@@ -97,17 +98,16 @@ TEST(Network, stableWhenNodesDropOut) {
 
       int numMasters = getNumMasters(network);
       if (numMasters != 1) {
-        totalTicksWithMoreThanOneMaster++;
-        if (moreThanOneMasterPrev) {
-          currentTicksWithMoreThanOneMaster++;
-          if (currentTicksWithMoreThanOneMaster >
-              maxTicksWithMoreThanOneMaster) {
-            maxTicksWithMoreThanOneMaster = currentTicksWithMoreThanOneMaster;
+        totalBadTicks++;
+        if (badPrev) {
+          currentBadTicks++;
+          if (currentBadTicks > maxBadTicks) {
+            maxBadTicks = currentBadTicks;
           }
         }
-        moreThanOneMasterPrev = true;
+        badPrev = true;
       } else {
-        moreThanOneMasterPrev = false;
+        badPrev = false;
       }
     }
 
@@ -118,12 +118,98 @@ TEST(Network, stableWhenNodesDropOut) {
       EXPECT_EQ(getNumMasters(network), 1);
     }
 
-    EXPECT_LT(maxTicksWithMoreThanOneMaster, 10) << "On iteration " << i;
-    EXPECT_LT(totalTicksWithMoreThanOneMaster, 10) << "On iteration " << i;
+    EXPECT_LT(maxBadTicks, 10) << "On iteration " << i;
+    EXPECT_LT(totalBadTicks, 10) << "On iteration " << i;
     network.reinitNode(rand() % FakeNetwork::kNumNodes);
     network.reinitNode(rand() % FakeNetwork::kNumNodes);
 
     runTicks(network, RadioStateMachine::kSlaveNoPacketTimeout * 2);
     EXPECT_EQ(getNumMasters(network), 1);
+  }
+}
+
+TEST(Network, stableWithMildPacketLoss) {
+  // Using a fixed seed means that this test is deterministic
+  srand(100);
+  FakeNetwork network;
+  // 1% packet loss
+  network.setPacketLoss(100);
+
+  runTicks(network, RadioStateMachine::kSlaveNoPacketTimeout * 2);
+
+  int currentBadTicks = 0;
+  int maxBadTicks = 0;
+  int totalBadTicks = 0;
+  bool badPrev = false;
+  for (int i = 0; i < RadioStateMachine::kSlaveNoPacketTimeout * 10; i++) {
+    advanceMillis(1);
+    network.Tick();
+
+    int numMasters = getNumMasters(network);
+    if (numMasters != 1) {
+      totalBadTicks++;
+      if (badPrev) {
+        currentBadTicks++;
+        if (currentBadTicks > maxBadTicks) {
+          maxBadTicks = currentBadTicks;
+        }
+      }
+      badPrev = true;
+    } else {
+      badPrev = false;
+    }
+  }
+
+  EXPECT_LT(maxBadTicks, 50);
+  EXPECT_LT(totalBadTicks, 100);
+}
+
+TEST(Network, stableWithMildPacketLossAndNodesDropping) {
+  // Using a fixed seed means that this test is deterministic
+  srand(100);
+  FakeNetwork network;
+  // 1% packet loss
+  network.setPacketLoss(100);
+
+  runTicks(network,
+           RadioStateMachine::kSlaveNoPacketTimeout +
+               RadioStateMachine::kSlaveNoPacketRandom + 10);
+  for (int i = 0; i < RadioStateMachine::kSlaveNoPacketTimeout * 2 + 2; i++) {
+    advanceMillis(1);
+    network.Tick();
+    ASSERT_EQ(getNumMasters(network), 1);
+  }
+
+  for (int i = 0; i < 10; i++) {
+    int currentBadTicks = 0;
+    int maxBadTicks = 0;
+    int totalBadTicks = 0;
+    bool badPrev = false;
+
+    for (int j = 0; j < RadioStateMachine::kSlaveNoPacketTimeout * 2 + 2; j++) {
+      advanceMillis(1);
+      network.Tick();
+
+      int numMasters = getNumMasters(network);
+      if (numMasters != 1) {
+        totalBadTicks++;
+        if (badPrev) {
+          currentBadTicks++;
+          if (currentBadTicks > maxBadTicks) {
+            maxBadTicks = currentBadTicks;
+          }
+        }
+        badPrev = true;
+      } else {
+        badPrev = false;
+      }
+    }
+
+    EXPECT_LT(maxBadTicks, 500) << "On iteration " << i;
+    EXPECT_LT(totalBadTicks, 1000) << "On iteration " << i;
+    network.reinitNode(rand() % FakeNetwork::kNumNodes);
+    network.reinitNode(rand() % FakeNetwork::kNumNodes);
+
+    runTicks(network, RadioStateMachine::kSlaveNoPacketTimeout * 2);
   }
 }
