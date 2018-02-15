@@ -365,7 +365,7 @@ U 1 1 5A843A47
 P 6100 6700
 F 0 "H1" H 6100 6570 60  0000 C CNN
 F 1 "HOLE" H 6100 6820 60  0000 C CNN
-F 2 "Mounting_Holes:MountingHole_2.7mm_M2.5_Pad" H 6100 6700 60  0001 C CNN
+F 2 "homebrew:MountingHole_2.7mm_M2.5" H 6100 6700 60  0001 C CNN
 F 3 "" H 6100 6700 60  0001 C CNN
 	1    6100 6700
 	1    0    0    -1  
@@ -376,7 +376,7 @@ U 1 1 5A843ACA
 P 6100 7100
 F 0 "H2" H 6100 6970 60  0000 C CNN
 F 1 "HOLE" H 6100 7220 60  0000 C CNN
-F 2 "Mounting_Holes:MountingHole_2.7mm_M2.5_Pad" H 6100 7100 60  0001 C CNN
+F 2 "homebrew:MountingHole_2.7mm_M2.5" H 6100 7100 60  0001 C CNN
 F 3 "" H 6100 7100 60  0001 C CNN
 	1    6100 7100
 	1    0    0    -1  
@@ -387,7 +387,7 @@ U 1 1 5A843B2A
 P 6100 7500
 F 0 "H3" H 6100 7370 60  0000 C CNN
 F 1 "HOLE" H 6100 7620 60  0000 C CNN
-F 2 "Mounting_Holes:MountingHole_2.7mm_M2.5_Pad" H 6100 7500 60  0001 C CNN
+F 2 "homebrew:MountingHole_2.7mm_M2.5" H 6100 7500 60  0001 C CNN
 F 3 "" H 6100 7500 60  0001 C CNN
 	1    6100 7500
 	1    0    0    -1  
