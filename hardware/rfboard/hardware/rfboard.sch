@@ -686,4 +686,73 @@ F 3 "" H 10200 1950 50  0001 C CNN
 	1    10200 1950
 	0    1    1    0   
 $EndComp
+Text GLabel 10350 2050 0    60   Input ~ 0
+L1
+Text GLabel 10350 2150 0    60   Input ~ 0
+L2
+Text GLabel 10350 2250 0    60   Input ~ 0
+L3
+Text GLabel 10350 2350 0    60   Input ~ 0
+L4
+Text GLabel 10350 2450 0    60   Input ~ 0
+L5
+Text GLabel 10350 2550 0    60   Input ~ 0
+L6
+Text GLabel 10350 3250 0    60   Input ~ 0
+R1
+Text GLabel 10350 3350 0    60   Input ~ 0
+R2
+Text GLabel 10350 3450 0    60   Input ~ 0
+R3
+Text GLabel 10350 3550 0    60   Input ~ 0
+R4
+Text GLabel 10350 3650 0    60   Input ~ 0
+R5
+Text GLabel 10350 3750 0    60   Input ~ 0
+R6
+Text GLabel 10350 3850 0    60   Input ~ 0
+R7
+Text GLabel 10350 3950 0    60   Input ~ 0
+R8
+Text GLabel 2200 1500 2    60   Input ~ 0
+R8
+Text GLabel 2200 1400 2    60   Input ~ 0
+R7
+Text GLabel 2200 1300 2    60   Input ~ 0
+R6
+Text GLabel 2200 1200 2    60   Input ~ 0
+R5
+Text GLabel 2200 1100 2    60   Input ~ 0
+R4
+Text GLabel 2200 1000 2    60   Input ~ 0
+R3
+Text GLabel 2200 2900 2    60   Input ~ 0
+R2
+Text GLabel 2200 2800 2    60   Input ~ 0
+R1
+Text GLabel 2200 2700 2    60   Input ~ 0
+L1
+Text GLabel 2200 2600 2    60   Input ~ 0
+L2
+Text GLabel 2200 2500 2    60   Input ~ 0
+L3
+Text GLabel 2200 2400 2    60   Input ~ 0
+L4
+Text GLabel 2200 2300 2    60   Input ~ 0
+L5
+Text GLabel 2200 2200 2    60   Input ~ 0
+L6
+$Comp
+L +5V #PWR?
+U 1 1 5A867DF0
+P 9800 2650
+F 0 "#PWR?" H 9800 2500 50  0001 C CNN
+F 1 "+5V" H 9800 2790 50  0000 C CNN
+F 2 "" H 9800 2650 50  0001 C CNN
+F 3 "" H 9800 2650 50  0001 C CNN
+	1    9800 2650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9800 2650 10350 2650
 $EndSCHEMATC
