@@ -3,7 +3,7 @@
  *
  * \brief SAM System Controller.
  *
- * Copyright (C) 2015 - 2016 Atmel Corporation. All rights reserved.
+ * Copyright (C) 2015 - 2018 Atmel Corporation. All rights reserved.
  *
  * \asf_license_start
  *
@@ -69,7 +69,7 @@ void _sysctrl_init_sources(void)
 
 #if CONF_XOSC_CONFIG == 1
 	hri_sysctrl_write_XOSC_reg(hw,
-	                           SYSCTRL_XOSC_STARTUP(CONF_XOSC_STARTUP) | (CONF_XOSC_AMPGC << SYSCTRL_XOSC_AMPGC_Pos)
+	                           SYSCTRL_XOSC_STARTUP(CONF_XOSC_STARTUP) | (0 << SYSCTRL_XOSC_AMPGC_Pos)
 	                               | SYSCTRL_XOSC_GAIN(CONF_XOSC_GAIN)
 	                               | (CONF_XOSC_RUNSTDBY << SYSCTRL_XOSC_RUNSTDBY_Pos)
 	                               | (CONF_XOSC_XTALEN << SYSCTRL_XOSC_XTALEN_Pos)
@@ -136,6 +136,9 @@ void _sysctrl_init_sources(void)
 #if CONF_XOSC_ENABLE == 1
 	while (!hri_sysctrl_get_PCLKSR_XOSCRDY_bit(hw))
 		;
+#endif
+#if CONF_XOSC_AMPGC == 1
+	hri_sysctrl_set_XOSC_AMPGC_bit(hw);
 #endif
 #if CONF_XOSC_ONDEMAND == 1
 	hri_sysctrl_set_XOSC_ONDEMAND_bit(hw);

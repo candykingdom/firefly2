@@ -3,7 +3,7 @@
  *
  * \brief Generic Clock Controller v210 related functionality.
  *
- * Copyright (C) 2014 - 2017 Atmel Corporation. All rights reserved.
+ * Copyright (C) 2014 - 2018 Atmel Corporation. All rights reserved.
  *
  * \asf_license_start
  *
@@ -44,6 +44,11 @@
 #include <hpl_gclk_config.h>
 #include <hpl_init.h>
 #include <utils_assert.h>
+
+/* Make the macro name compatible to different header versions */
+#if !defined(GCLK_GENCTRL_SRC_FDPLL) && defined(GCLK_GENCTRL_SRC_DPLL96M)
+#define GCLK_GENCTRL_SRC_FDPLL GCLK_GENCTRL_SRC_DPLL96M
+#endif
 
 /**
  * \brief Initializes generators
