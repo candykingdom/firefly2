@@ -28,30 +28,6 @@ LIBS:opto
 LIBS:atmel
 LIBS:contrib
 LIBS:valves
-LIBS:homebrew
-LIBS:GeekAmmo
-LIBS:LilyPad-Wearables
-LIBS:SparkFun-Aesthetics
-LIBS:SparkFun-AnalogIC
-LIBS:SparkFun-Boards
-LIBS:SparkFun-Capacitors
-LIBS:SparkFun-Connectors
-LIBS:SparkFun-DigitalIC
-LIBS:SparkFun-DiscreteSemi
-LIBS:SparkFun-Displays
-LIBS:SparkFun-Electromechanical
-LIBS:SparkFun-FreqCtrl
-LIBS:SparkFun-LED
-LIBS:SparkFun-Passives
-LIBS:SparkFun-PowerIC
-LIBS:SparkFun-Resistors
-LIBS:SparkFun-Retired
-LIBS:SparkFun-RF
-LIBS:SparkFun-Sensors
-LIBS:Teensy_3_and_LC_Series_Boards_v1.1
-LIBS:User-Submitted
-LIBS:adafruit
-LIBS:10118194-0001LF
 LIBS:firefly2-cache
 EELAYER 25 0
 EELAYER END
@@ -179,7 +155,7 @@ U 1 1 5A542578
 P 4900 1700
 F 0 "U2" H 4500 2250 50  0000 L BNN
 F 1 "RFM69CW" H 4500 1075 50  0000 L BNN
-F 2 "homebrew:RFM69CW-XXXS2" H 4930 1850 20  0001 C CNN
+F 2 "homebrew:RFM69CW" H 4930 1850 20  0001 C CNN
 F 3 "" H 4900 1700 60  0000 C CNN
 	1    4900 1700
 	1    0    0    -1  
@@ -598,7 +574,7 @@ U 1 1 5A6CC736
 P 1500 6500
 F 0 "J2" H 1209 6721 50  0000 L BNN
 F 1 "614105150721" H 1199 6199 50  0000 L BNN
-F 2 "10118194-0001LF:FRAMATOME_10118194-0001LF" H 1500 6500 50  0001 L BNN
+F 2 "Connector_USB:USB_Micro-B_Wuerth-614105150721_Vertical" H 1500 6500 50  0001 L BNN
 F 3 "Amphenol" H 1500 6500 50  0001 L BNN
 F 4 "0.25 USD" H 1500 6500 50  0001 L BNN "Field4"
 F 5 "DIP-4 FCI" H 1500 6500 50  0001 L BNN "Field5"
