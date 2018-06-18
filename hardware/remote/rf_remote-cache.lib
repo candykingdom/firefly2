@@ -17,6 +17,7 @@ X +3V3 1 0 0 0 U 50 50 1 1 W N
 ENDDRAW
 ENDDEF
 #
+<<<<<<< HEAD
 # 1.0UF-0603-16V-10%
 #
 DEF 1.0UF-0603-16V-10% C 0 40 N N 1 L N
@@ -62,6 +63,8 @@ X 2 2 0 -100 100 U 40 40 1 1 P
 ENDDRAW
 ENDDEF
 #
+=======
+>>>>>>> 9644de782d79fb972b014289a21d9de949450619
 # Battery_Cell
 #
 DEF Battery_Cell BT 0 0 N N 1 F N
