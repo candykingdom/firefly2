@@ -299,7 +299,7 @@ Text Notes 1250 5200 0    60   ~ 0
 processor, radio, and a couple of tactile switches.\n\nUsing this as footprint for battery holder. Almost the same as the one recommended by polycase.\nhttp://www.keyelco.com/product.cfm/product_id/798\nhttps://www.polycase.com/batt-hdr-fb?file=2d
 Text GLabel 2200 2300 2    60   Input ~ 0
 SW1
-Text GLabel 9900 2100 2    60   Input ~ 0
+Text GLabel 10250 2100 2    60   Input ~ 0
 SW1
 Text GLabel 2200 2200 2    60   Input ~ 0
 SW2
@@ -307,15 +307,16 @@ Text GLabel 2200 2100 2    60   Input ~ 0
 SW3
 Text GLabel 2200 2000 2    60   Input ~ 0
 SW4
-Text GLabel 9900 3150 2    60   Input ~ 0
+Text GLabel 10250 3050 2    60   Input ~ 0
 SW2
-Text GLabel 9900 4050 2    60   Input ~ 0
+Text GLabel 10250 3950 2    60   Input ~ 0
 SW3
-Text GLabel 9900 5000 2    60   Input ~ 0
+Text GLabel 10250 4900 2    60   Input ~ 0
 SW4
 $Comp
 L GND #PWR09
 U 1 1 5ADD2C56
+<<<<<<< HEAD
 <<<<<<< HEAD
 P 9500 2100
 F 0 "#PWR09" H 9500 1850 50  0001 C CNN
@@ -325,6 +326,8 @@ F 3 "" H 9500 2100 50  0001 C CNN
 	1    9500 2100
 	0    1    1    0   
 =======
+=======
+>>>>>>> parent of 77bed08... removed pulldowns
 P 10150 2600
 F 0 "#PWR09" H 10150 2350 50  0001 C CNN
 F 1 "GND" H 10150 2450 50  0000 C CNN
@@ -430,11 +433,15 @@ F 3 "" H 10150 2400 60  0001 C CNN
 F 4 " " H 10150 2600 60  0000 C CNN "Field4"
 	1    10150 2400
 	0    -1   -1   0   
+<<<<<<< HEAD
 >>>>>>> 9644de782d79fb972b014289a21d9de949450619
+=======
+>>>>>>> parent of 77bed08... removed pulldowns
 $EndComp
 $Comp
 L GND #PWR014
 U 1 1 5ADD4016
+<<<<<<< HEAD
 <<<<<<< HEAD
 P 9500 3150
 F 0 "#PWR014" H 9500 2900 50  0001 C CNN
@@ -444,6 +451,8 @@ F 3 "" H 9500 3150 50  0001 C CNN
 	1    9500 3150
 	0    1    1    0   
 =======
+=======
+>>>>>>> parent of 77bed08... removed pulldowns
 P 10150 3550
 F 0 "#PWR014" H 10150 3300 50  0001 C CNN
 F 1 "GND" H 10150 3400 50  0000 C CNN
@@ -463,11 +472,15 @@ F 3 "" H 10150 3350 60  0001 C CNN
 F 4 " " H 10150 3550 60  0000 C CNN "Field4"
 	1    10150 3350
 	0    -1   -1   0   
+<<<<<<< HEAD
 >>>>>>> 9644de782d79fb972b014289a21d9de949450619
+=======
+>>>>>>> parent of 77bed08... removed pulldowns
 $EndComp
 $Comp
 L GND #PWR015
 U 1 1 5ADD418C
+<<<<<<< HEAD
 <<<<<<< HEAD
 P 9500 4050
 F 0 "#PWR015" H 9500 3800 50  0001 C CNN
@@ -477,6 +490,8 @@ F 3 "" H 9500 4050 50  0001 C CNN
 	1    9500 4050
 	0    1    1    0   
 =======
+=======
+>>>>>>> parent of 77bed08... removed pulldowns
 P 10150 4450
 F 0 "#PWR015" H 10150 4200 50  0001 C CNN
 F 1 "GND" H 10150 4300 50  0000 C CNN
@@ -496,11 +511,15 @@ F 3 "" H 10150 4250 60  0001 C CNN
 F 4 " " H 10150 4450 60  0000 C CNN "Field4"
 	1    10150 4250
 	0    -1   -1   0   
+<<<<<<< HEAD
 >>>>>>> 9644de782d79fb972b014289a21d9de949450619
+=======
+>>>>>>> parent of 77bed08... removed pulldowns
 $EndComp
 $Comp
 L GND #PWR016
 U 1 1 5ADD4235
+<<<<<<< HEAD
 <<<<<<< HEAD
 P 9500 5000
 F 0 "#PWR016" H 9500 4750 50  0001 C CNN
@@ -510,6 +529,8 @@ F 3 "" H 9500 5000 50  0001 C CNN
 	1    9500 5000
 	0    1    1    0   
 =======
+=======
+>>>>>>> parent of 77bed08... removed pulldowns
 P 10150 5400
 F 0 "#PWR016" H 10150 5150 50  0001 C CNN
 F 1 "GND" H 10150 5250 50  0000 C CNN
@@ -529,7 +550,10 @@ F 3 "" H 10150 5200 60  0001 C CNN
 F 4 " " H 10150 5400 60  0000 C CNN "Field4"
 	1    10150 5200
 	0    -1   -1   0   
+<<<<<<< HEAD
 >>>>>>> 9644de782d79fb972b014289a21d9de949450619
+=======
+>>>>>>> parent of 77bed08... removed pulldowns
 $EndComp
 $Comp
 L Battery_Cell BT1
@@ -613,6 +637,7 @@ F 3 "" H 850 5800 50  0001 C CNN
 <<<<<<< HEAD
 	1    0    0    -1  
 $EndComp
+<<<<<<< HEAD
 $Comp
 L 1.0UF-0603-16V-10% C1
 U 1 1 5B25ACEC
@@ -683,4 +708,6 @@ F 3 "" H 2350 6100 50  0001 C CNN
 >>>>>>> 9644de782d79fb972b014289a21d9de949450619
 	1    0    0    -1  
 $EndComp
+=======
+>>>>>>> parent of 77bed08... removed pulldowns
 $EndSCHEMATC
