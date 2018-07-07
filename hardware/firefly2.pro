@@ -1,4 +1,4 @@
-update=Tue 12 Jun 2018 10:46:54 PM MDT
+update=Sat 07 Jul 2018 12:37:45 PM MDT
 version=1
 last_client=kicad
 [pcbnew]
@@ -27,7 +27,7 @@ NetIExt=net
 version=1
 [eeschema]
 version=1
-LibDir=/home/achew22/Projects/hardware/homebrew
+LibDir=/home/adam/hardware/kicad/homebrew
 [eeschema/libraries]
 LibName1=power
 LibName2=device
