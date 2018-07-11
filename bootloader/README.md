@@ -36,3 +36,11 @@ Full documentation on [their Github page](https://github.com/mattairtech/Arduino
 Select the `Generic D11C14A` board. You may need to change the USB config to `USB_DISABLED` (but note that if you don't include CDC, the board may not auto-reset when you program it). Choose theboard in the `Port` menu - it should show up as an ACM device (e.g. `/dev/ACM0`).
 
 The bootloader is a bit flaky. When programming, if you get an error during programming, or it says the serial port is busy, wait a few seconds, then try again. Same thing for the serial monitor - it seems to take 15-20s after resetting for it to work.
+
+## Programmnig flakiness
+
+See the comment [here](https://learn.adafruit.com/adafruit-feather-m0-basic-proto/using-with-arduino-ide#ubuntu-and-linux-issue-fix) for why programming can be flaky. To fix, install the Adafruit udev rules, and add this line:
+
+```
+ATTRS{idVendor}=="0e3b", ENV{ID_MM_DEVICE_IGNORE}="1"
+```
