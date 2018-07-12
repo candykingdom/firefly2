@@ -37,10 +37,12 @@ Select the `Generic D11C14A` board. You may need to change the USB config to `US
 
 The bootloader is a bit flaky. When programming, if you get an error during programming, or it says the serial port is busy, wait a few seconds, then try again. Same thing for the serial monitor - it seems to take 15-20s after resetting for it to work.
 
-## Programmnig flakiness
+## Programming flakiness
 
-See the comment [here](https://learn.adafruit.com/adafruit-feather-m0-basic-proto/using-with-arduino-ide#ubuntu-and-linux-issue-fix) for why programming can be flaky. To fix, install the Adafruit udev rules, and add this line:
+See the comment [here](https://learn.adafruit.com/adafruit-feather-m0-basic-proto/using-with-arduino-ide#ubuntu-and-linux-issue-fix) for why programming can be flaky. To fix, copy the included udev rule file to the udev directory and reload udev. You'll also need to unplug and replug the device.
 
-```
-ATTRS{idVendor}=="0e3b", ENV{ID_MM_DEVICE_IGNORE}="1"
+```sh
+sudo cp 99-candy-kingdom.rules /etc/udev/rules.d/
+sudo udevadm control --reload-rules
+sudo udevadm trigger
 ```

@@ -1,0 +1,13 @@
+# udev rules for Candy Kingdom boards
+#
+# Copy this file to the location of your distribution's udev rules, for example on Ubuntu:
+#   sudo cp adafruit-trinket.rules /etc/udev/rules.d/
+# Then reload udev configuration by executing:
+#   sudo reload udev
+# Or if that doesn't work try:
+#   sudo udevadm control --reload-rules
+#   sudo udevadm trigger
+
+# Rule to blacklist USB CDC boards from being manipulated by ModemManager.
+# Fixes issue with hanging references to /dev/ttyACM* devices on Ubuntu 15.04.
+ATTRS{idVendor}=="03eb", ENV{ID_MM_DEVICE_IGNORE}="1"
