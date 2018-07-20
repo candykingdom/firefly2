@@ -1,4 +1,4 @@
-update=Mon 21 May 2018 01:44:51 PM PDT
+update=Thu 19 Jul 2018 10:18:45 PM PDT
 version=1
 last_client=kicad
 [pcbnew]
@@ -90,3 +90,4 @@ LibName58=SparkFun-KiCad-Libraries/Libraries/SparkFun-Sensors
 LibName59=SparkFun-KiCad-Libraries/Libraries/SparkFun-Switches
 LibName60=snapeda/10118194-0001LF
 LibName61=snapeda/MIC5504-3.3YM5-T5
+LibName62=homebrew_button
