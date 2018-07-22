@@ -230,13 +230,13 @@ F 3 "" H 1100 1800 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	1100 1800 1100 1700
-Text GLabel 2200 2900 2    60   Input ~ 0
+Text GLabel 2200 1800 2    60   Input ~ 0
 RADIO_MOSI
-Text GLabel 2200 3000 2    60   Input ~ 0
+Text GLabel 2200 1900 2    60   Input ~ 0
 RADIO_SCK
-Text GLabel 2200 2700 2    60   Input ~ 0
+Text GLabel 2200 2000 2    60   Input ~ 0
 RADIO_MISO
-Text GLabel 2200 3100 2    60   Input ~ 0
+Text GLabel 2200 2100 2    60   Input ~ 0
 RADIO_NSS
 Text GLabel 2200 3200 2    60   Input ~ 0
 SIMPLE_LED
@@ -275,7 +275,7 @@ F 3 "" H 7150 1900 50  0001 C CNN
 	1    7150 1900
 	0    1    1    0   
 $EndComp
-Text GLabel 2200 2800 2    60   Input ~ 0
+Text GLabel 2200 3300 2    60   Input ~ 0
 RADIO_DIO0
 Text GLabel 2200 3500 2    60   Input ~ 0
 ARM_SWDIO
@@ -287,15 +287,15 @@ Text Notes 1250 4400 0    60   ~ 0
 You can probably ditch the WS2812 that's on there, and of course the\n headers. A wire antenna should work - we can experiment with coiling it\n inside the enclosure (the Moteino folks use the same radio and have a\n variant with a PCB trace antenna - you could go for that too. RF design is a\n little trickier, but I have a friend I can ask about doing the calculations for\n that if you'd like).\n
 Text Notes 1250 5200 0    60   ~ 0
 processor, radio, and a couple of tactile switches.\n\nUsing this as footprint for battery holder. Almost the same as the one recommended by polycase.\nhttp://www.keyelco.com/product.cfm/product_id/798\nhttps://www.polycase.com/batt-hdr-fb?file=2d
-Text GLabel 2200 2300 2    60   Input ~ 0
+Text GLabel 2200 2700 2    60   Input ~ 0
 SW1
 Text GLabel 9900 2100 2    60   Input ~ 0
 SW1
-Text GLabel 2200 2200 2    60   Input ~ 0
+Text GLabel 2200 2600 2    60   Input ~ 0
 SW2
-Text GLabel 2200 2100 2    60   Input ~ 0
+Text GLabel 2200 2500 2    60   Input ~ 0
 SW3
-Text GLabel 2200 2000 2    60   Input ~ 0
+Text GLabel 2200 2400 2    60   Input ~ 0
 SW4
 Text GLabel 9900 3150 2    60   Input ~ 0
 SW2
@@ -451,47 +451,36 @@ $EndComp
 $Comp
 L 10118194-0001LF J1
 U 1 1 5B515E1C
-P 6500 4000
-F 0 "J1" H 6210 4220 50  0000 L BNN
-F 1 "10118194-0001LF" H 6199 3699 50  0000 L BNN
-F 2 "10118194-0001LF:FRAMATOME_10118194-0001LF" H 6500 4000 50  0001 L BNN
-F 3 "None" H 6500 4000 50  0001 L BNN
-F 4 "Amphenol" H 6500 4000 50  0001 L BNN "Field4"
-F 5 "Warning" H 6500 4000 50  0001 L BNN "Field5"
-F 6 "Micro Usb, 2.0 Type b, Rcpt, Smt" H 6500 4000 50  0001 L BNN "Field6"
-F 7 "10118194-0001LF" H 6500 4000 50  0001 L BNN "Field7"
-F 8 "0.26 USD" H 6500 4000 50  0001 L BNN "Field8"
-	1    6500 4000
+P 5350 5900
+F 0 "J1" H 5060 6120 50  0000 L BNN
+F 1 "10118194-0001LF" H 5049 5599 50  0000 L BNN
+F 2 "10118194-0001LF:FRAMATOME_10118194-0001LF" H 5350 5900 50  0001 L BNN
+F 3 "None" H 5350 5900 50  0001 L BNN
+F 4 "Amphenol" H 5350 5900 50  0001 L BNN "Field4"
+F 5 "Warning" H 5350 5900 50  0001 L BNN "Field5"
+F 6 "Micro Usb, 2.0 Type b, Rcpt, Smt" H 5350 5900 50  0001 L BNN "Field6"
+F 7 "10118194-0001LF" H 5350 5900 50  0001 L BNN "Field7"
+F 8 "0.26 USD" H 5350 5900 50  0001 L BNN "Field8"
+	1    5350 5900
 	1    0    0    -1  
 $EndComp
-Text GLabel 6000 3900 0    60   Input ~ 0
+Text GLabel 4850 5800 0    60   Input ~ 0
 USB_D+
-Text GLabel 6000 4000 0    60   Input ~ 0
+Text GLabel 4850 5900 0    60   Input ~ 0
 USB_D-
-Text GLabel 2200 2500 2    60   Input ~ 0
+Text GLabel 2200 3100 2    60   Input ~ 0
 USB_D+
-Text GLabel 2200 2400 2    60   Input ~ 0
+Text GLabel 2200 3000 2    60   Input ~ 0
 USB_D-
 $Comp
 L GND #PWR018
 U 1 1 5B516002
-P 7000 4100
-F 0 "#PWR018" H 7000 3850 50  0001 C CNN
-F 1 "GND" H 7000 3950 50  0000 C CNN
-F 2 "" H 7000 4100 50  0001 C CNN
-F 3 "" H 7000 4100 50  0001 C CNN
-	1    7000 4100
-	1    0    0    -1  
-$EndComp
-$Comp
-L +3V3 #PWR019
-U 1 1 5B5162B0
-P 3550 7250
-F 0 "#PWR019" H 3550 7100 50  0001 C CNN
-F 1 "+3V3" H 3550 7390 50  0000 C CNN
-F 2 "" H 3550 7250 50  0001 C CNN
-F 3 "" H 3550 7250 50  0001 C CNN
-	1    3550 7250
+P 5850 6000
+F 0 "#PWR018" H 5850 5750 50  0001 C CNN
+F 1 "GND" H 5850 5850 50  0000 C CNN
+F 2 "" H 5850 6000 50  0001 C CNN
+F 3 "" H 5850 6000 50  0001 C CNN
+	1    5850 6000
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -530,8 +519,8 @@ F 4 "SWCH-PTS645" H 9700 5250 60  0000 C CNN "Field4"
 	1    9700 5000
 	1    0    0    -1  
 $EndComp
-NoConn ~ 6000 4100
-NoConn ~ 7000 3900
+NoConn ~ 4850 6000
+NoConn ~ 5850 5800
 $Comp
 L MOMENTARY-SWITCH-6x6x4.5mm S1
 U 1 1 5B518565
