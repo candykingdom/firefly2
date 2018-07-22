@@ -46,3 +46,9 @@ sudo cp 99-candy-kingdom.rules /etc/udev/rules.d/
 sudo udevadm control --reload-rules
 sudo udevadm trigger
 ```
+
+You'll also need to be in the `dialout` group to have permission to open the serial port:
+
+```sh
+sudo useradd $USER dialout
+```
