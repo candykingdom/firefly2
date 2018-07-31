@@ -14,12 +14,11 @@ SAMD_CFG=`dpkg -L openocd | grep at91samdXX.cfg`
 sudo openocd -f ft232h_swd.cfg -f $SAMD_CFG
 ```
 
-Download the bootloader, connect to openocd and write the bootloader image
+Connect to openocd and write the bootloader image
 ```
-wget https://github.com/mattairtech/ArduinoCore-samd/raw/master/bootloaders/zero/binaries/sam_ba_Generic_D11C14A_SAMD11C14A.bin
 telnet localhost 4444
 reset halt
-flash write_image erase sam_ba_Generic_D11C14A_SAMD11C14A.bin
+flash write_image erase bootloader-firefly_v2-b84c61f-dirty.bin
 reset run
 ```
 
