@@ -28,7 +28,7 @@ enum class RadioState {
 };
 
 class RadioStateMachine {
- public:
+public:
   RadioStateMachine(NetworkManager *networkManager);
 
   RadioState GetCurrentState();
@@ -40,19 +40,19 @@ class RadioStateMachine {
   /**
    * If a slave doesn't receive a heartbeat for this long, it'll become master.
    */
-  static const uint16_t kSlaveNoPacketTimeout = 5000;
+  static const uint32_t kSlaveNoPacketTimeout = 5000;
 
   /**
    * The maximum random delay added to kSlaveNoPacketTimeout.
    */
-  static const uint16_t kSlaveNoPacketRandom = 2000;
+  static const uint32_t kSlaveNoPacketRandom = 2000;
 
   /**
    * When master, send a heartbeat this often.
    */
-  static const uint16_t kMasterHeartbeatInterval = 1000;
+  static const uint32_t kMasterHeartbeatInterval = 1000;
 
- private:
+private:
   // Handler functions
   void handleSlaveEvent(RadioEventData &data);
   void handleMasterEvent(RadioEventData &data);
@@ -63,7 +63,7 @@ class RadioStateMachine {
 
   // Support functions
   /** Sets an event to fire delay milliseconds from now.  */
-  void setTimer(uint16_t delay);
+  void setTimer(uint32_t delay);
 
   /** Performs master election based on the received heartbeat. */
   void PerformMasterElection(RadioPacket *receivedPacket);
@@ -80,7 +80,7 @@ class RadioStateMachine {
   RadioState nextState;
 
   /** The milliseconds when the timer expires and fires an event. */
-  uint16_t timerExpiresAt = 0;
+  uint32_t timerExpiresAt = 0;
 
   RadioPacket packet;
 };

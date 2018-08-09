@@ -1,6 +1,6 @@
 #include "RadioStateMachine.hpp"
-#include <cstdio>
 #include "Debug.hpp"
+#include <cstdio>
 
 //#define DEBUG
 
@@ -32,13 +32,13 @@ void RadioStateMachine::Tick() {
 
   if (data.packet != nullptr || data.timerExpired) {
     switch (state) {
-      case RadioState::Slave:
-        handleSlaveEvent(data);
-        break;
+    case RadioState::Slave:
+      handleSlaveEvent(data);
+      break;
 
-      case RadioState::Master:
-        handleMasterEvent(data);
-        break;
+    case RadioState::Master:
+      handleMasterEvent(data);
+      break;
     }
   }
 
@@ -48,13 +48,13 @@ void RadioStateMachine::Tick() {
     setTimer(0);
 
     switch (nextState) {
-      case RadioState::Slave:
-        beginSlave();
-        break;
+    case RadioState::Slave:
+      beginSlave();
+      break;
 
-      case RadioState::Master:
-        beginMaster();
-        break;
+    case RadioState::Master:
+      beginMaster();
+      break;
     }
   }
 
@@ -66,10 +66,10 @@ void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
   // become master
   if (data.packet != nullptr) {
     switch (data.packet->type) {
-      case HEARTBEAT:
-      case CLAIM_MASTER:
-        setTimer(kSlaveNoPacketTimeout + rand() % kSlaveNoPacketRandom);
-        break;
+    case HEARTBEAT:
+    case CLAIM_MASTER:
+      setTimer(kSlaveNoPacketTimeout + rand() % kSlaveNoPacketRandom);
+      break;
     }
   } else if (data.timerExpired) {
     nextState = RadioState::Master;
@@ -95,13 +95,13 @@ void RadioStateMachine::handleMasterEvent(RadioEventData &data) {
   if (data.packet != nullptr) {
     debug_printf("Received type %d\n", data.packet->type);
     switch (data.packet->type) {
-      case HEARTBEAT:
-        PerformMasterElection(data.packet);
-        break;
+    case HEARTBEAT:
+      PerformMasterElection(data.packet);
+      break;
 
-      case CLAIM_MASTER:
-        nextState = RadioState::Slave;
-        break;
+    case CLAIM_MASTER:
+      nextState = RadioState::Slave;
+      break;
     }
   } else if (data.timerExpired) {
     SendHeartbeat();
@@ -117,7 +117,7 @@ void RadioStateMachine::beginMaster() {
   setTimer(kMasterHeartbeatInterval);
 }
 
-void RadioStateMachine::setTimer(uint16_t delay) {
+void RadioStateMachine::setTimer(uint32_t delay) {
   if (delay == 0) {
     timerExpiresAt = 0;
   } else {
