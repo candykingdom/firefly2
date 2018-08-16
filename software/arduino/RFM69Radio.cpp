@@ -30,7 +30,7 @@ bool RFM69Radio::readPacket(RadioPacket &packet) {
 }
 
 void RFM69Radio::sendPacket(RadioPacket &packet) {
-  static uint8_t *buffer[kMaxPacketSize];
+  static uint8_t buffer[kMaxPacketSize];
 
   buffer[0] = packet.packetId >> 8;     // Take the top 8 bits.
   buffer[1] = packet.packetId & 0x00ff; // Mask off the top 8 bits.

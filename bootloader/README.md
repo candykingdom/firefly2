@@ -10,8 +10,7 @@ sudo apt install openocd
 
 Figure out where the cfg file for our proc is and start the openocd server.
 ```
-SAMD_CFG=`dpkg -L openocd | grep at91samdXX.cfg`
-sudo openocd -f ft232h_swd.cfg -f $SAMD_CFG
+sudo openocd -f ft232h_swd.cfg -f $(dpkg -L openocd | grep at91samdXX.cfg)
 ```
 
 Connect to openocd and write the bootloader image

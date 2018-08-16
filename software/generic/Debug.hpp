@@ -1,8 +1,8 @@
 #ifndef __DEBUG_HPP__
 #define __DEBUG_HPP__
 
-// Make this 1 to enable debug printing.
-#define DEBUG 0
+// Uncomment this line to enable debug printing.
+//#define DEBUG 1
 
 void debug_printf(const char *fmt, ...);
 
