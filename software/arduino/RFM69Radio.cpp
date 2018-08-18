@@ -21,7 +21,7 @@ bool RFM69Radio::readPacket(RadioPacket &packet) {
     // should stray from because it will make everything incompatible? Yep --
     // memcopy is incompatible. If you wanna copy data off of the volatile
     // section then you have to hand roll it yourself.
-    for (byte i = 0; i < radio->DATALEN; i++) {
+    for (byte i = kFrontPacketPadding; i < radio->DATALEN; i++) {
       packet.data[i] = radio->DATA[i + kFrontPacketPadding];
     }
     return true;
@@ -38,7 +38,9 @@ void RFM69Radio::sendPacket(RadioPacket &packet) {
 
   // Now that we have consumed the first 3 bytes of data, memcpy past the
   // consumed part and write into the rest of the buffer.
-  memcpy(buffer + kFrontPacketPadding, packet.data, packet.dataLength);
+  if (packet.dataLength > 0) {
+    memcpy(buffer + kFrontPacketPadding, packet.data, packet.dataLength);
+  }
 
-  radio->send(kNodeId, buffer, packet.dataLength);
+  radio->send(kNodeId, buffer, kFrontPacketPadding + packet.dataLength);
 }

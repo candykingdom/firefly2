@@ -1,3 +1,4 @@
+#include "Debug.hpp"
 #include "NetworkManager.hpp"
 
 NetworkManager::NetworkManager(Radio *const radio) : radio(radio) {

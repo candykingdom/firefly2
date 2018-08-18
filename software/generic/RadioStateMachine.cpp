@@ -105,6 +105,7 @@ void RadioStateMachine::handleMasterEvent(RadioEventData &data) {
     }
   } else if (data.timerExpired) {
     SendHeartbeat();
+    setTimer(kMasterHeartbeatInterval);
   }
 }
 
