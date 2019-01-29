@@ -22,7 +22,7 @@ bool RFM69Radio::readPacket(RadioPacket &packet) {
     // memcopy is incompatible. If you wanna copy data off of the volatile
     // section then you have to hand roll it yourself.
     for (byte i = kFrontPacketPadding; i < radio->DATALEN; i++) {
-      packet.data[i] = radio->DATA[i + kFrontPacketPadding];
+      packet.data[i - kFrontPacketPadding] = radio->DATA[i];
     }
     return true;
   }
