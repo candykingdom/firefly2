@@ -1,6 +1,6 @@
 #include "RFM69Radio.hpp"
-#include "Debug.hpp"
 #include <RFM69.h>
+#include "Debug.hpp"
 
 RFM69Radio::RFM69Radio() {
   radio = new RFM69(SS, /* DIO */ 5, /* is HW */ false, /* SPIClass */ &SPI);
@@ -32,8 +32,8 @@ bool RFM69Radio::readPacket(RadioPacket &packet) {
 void RFM69Radio::sendPacket(RadioPacket &packet) {
   static uint8_t buffer[kMaxPacketSize];
 
-  buffer[0] = packet.packetId >> 8;     // Take the top 8 bits.
-  buffer[1] = packet.packetId & 0x00ff; // Mask off the top 8 bits.
+  buffer[0] = packet.packetId >> 8;      // Take the top 8 bits.
+  buffer[1] = packet.packetId & 0x00ff;  // Mask off the top 8 bits.
   buffer[2] = packet.type;
 
   // Now that we have consumed the first 3 bytes of data, memcpy past the
