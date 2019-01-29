@@ -28,13 +28,16 @@ enum class RadioState {
 };
 
 class RadioStateMachine {
-public:
+ public:
   RadioStateMachine(NetworkManager *networkManager);
 
   RadioState GetCurrentState();
 
   /** Runs the state machine. Should be called frequently. */
   void Tick();
+
+  /** Returns the synchronized milliseconds time from the network. */
+  uint32_t GetNetworkMillis();
 
   // Tuning constants. Public for testing.
   /**
@@ -52,7 +55,7 @@ public:
    */
   static const uint32_t kMasterHeartbeatInterval = 1000;
 
-private:
+ private:
   // Handler functions
   void handleSlaveEvent(RadioEventData &data);
   void handleMasterEvent(RadioEventData &data);
@@ -81,6 +84,8 @@ private:
 
   /** The milliseconds when the timer expires and fires an event. */
   uint32_t timerExpiresAt = 0;
+
+  int32_t millisOffset = 0;
 
   RadioPacket packet;
 };

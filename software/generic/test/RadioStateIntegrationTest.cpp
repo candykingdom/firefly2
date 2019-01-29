@@ -51,9 +51,8 @@ TEST(Network, relectsMasterIfMasterDisappears) {
     }
   }
 
-  runTicks(network,
-           RadioStateMachine::kSlaveNoPacketTimeout +
-               RadioStateMachine::kSlaveNoPacketRandom + 10);
+  runTicks(network, RadioStateMachine::kSlaveNoPacketTimeout +
+                        RadioStateMachine::kSlaveNoPacketRandom + 10);
 
   EXPECT_EQ(getNumMasters(network), 1);
 }
@@ -76,9 +75,8 @@ TEST(Network, stableWhenNodesDropOut) {
   srand(100);
   FakeNetwork network;
 
-  runTicks(network,
-           RadioStateMachine::kSlaveNoPacketTimeout +
-               RadioStateMachine::kSlaveNoPacketRandom + 10);
+  runTicks(network, RadioStateMachine::kSlaveNoPacketTimeout +
+                        RadioStateMachine::kSlaveNoPacketRandom + 10);
   for (int i = 0; i < RadioStateMachine::kSlaveNoPacketTimeout * 2 + 2; i++) {
     advanceMillis(1);
     network.Tick();
@@ -171,9 +169,8 @@ TEST(Network, stableWithMildPacketLossAndNodesDropping) {
   // 1% packet loss
   network.setPacketLoss(100);
 
-  runTicks(network,
-           RadioStateMachine::kSlaveNoPacketTimeout +
-               RadioStateMachine::kSlaveNoPacketRandom + 10);
+  runTicks(network, RadioStateMachine::kSlaveNoPacketTimeout +
+                        RadioStateMachine::kSlaveNoPacketRandom + 10);
   for (int i = 0; i < RadioStateMachine::kSlaveNoPacketTimeout * 2 + 2; i++) {
     advanceMillis(1);
     network.Tick();

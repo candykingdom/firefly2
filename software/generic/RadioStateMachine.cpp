@@ -1,6 +1,6 @@
 #include "RadioStateMachine.hpp"
-#include "Debug.hpp"
 #include <cstdio>
+#include "Debug.hpp"
 
 //#define DEBUG
 
@@ -32,13 +32,13 @@ void RadioStateMachine::Tick() {
 
   if (data.packet != nullptr || data.timerExpired) {
     switch (state) {
-    case RadioState::Slave:
-      handleSlaveEvent(data);
-      break;
+      case RadioState::Slave:
+        handleSlaveEvent(data);
+        break;
 
-    case RadioState::Master:
-      handleMasterEvent(data);
-      break;
+      case RadioState::Master:
+        handleMasterEvent(data);
+        break;
     }
   }
 
@@ -48,17 +48,22 @@ void RadioStateMachine::Tick() {
     setTimer(0);
 
     switch (nextState) {
-    case RadioState::Slave:
-      beginSlave();
-      break;
+      case RadioState::Slave:
+        beginSlave();
+        break;
 
-    case RadioState::Master:
-      beginMaster();
-      break;
+      case RadioState::Master:
+        beginMaster();
+        break;
     }
   }
 
   state = nextState;
+}
+
+uint32_t RadioStateMachine::GetNetworkMillis() {
+  // DANGER: adding unsigned and signed types!
+  return millis() + millisOffset;
 }
 
 void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
@@ -66,10 +71,15 @@ void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
   // become master
   if (data.packet != nullptr) {
     switch (data.packet->type) {
-    case HEARTBEAT:
-    case CLAIM_MASTER:
-      setTimer(kSlaveNoPacketTimeout + rand() % kSlaveNoPacketRandom);
-      break;
+      case HEARTBEAT:
+        // DANGER: unsigned + signed math!
+        this->millisOffset =
+            data.packet->readTimeFromHeartbeat() - (int32_t)millis();
+
+        // Fall through
+      case CLAIM_MASTER:
+        setTimer(kSlaveNoPacketTimeout + rand() % kSlaveNoPacketRandom);
+        break;
     }
   } else if (data.timerExpired) {
     nextState = RadioState::Master;
@@ -95,13 +105,13 @@ void RadioStateMachine::handleMasterEvent(RadioEventData &data) {
   if (data.packet != nullptr) {
     debug_printf("Received type %d\n", data.packet->type);
     switch (data.packet->type) {
-    case HEARTBEAT:
-      PerformMasterElection(data.packet);
-      break;
+      case HEARTBEAT:
+        PerformMasterElection(data.packet);
+        break;
 
-    case CLAIM_MASTER:
-      nextState = RadioState::Slave;
-      break;
+      case CLAIM_MASTER:
+        nextState = RadioState::Slave;
+        break;
     }
   } else if (data.timerExpired) {
     SendHeartbeat();
@@ -127,7 +137,7 @@ void RadioStateMachine::setTimer(uint32_t delay) {
 }
 
 void RadioStateMachine::SendHeartbeat() {
-  packet.type = HEARTBEAT;
-  packet.dataLength = 0;
+  packet.writeHeartbeat(GetNetworkMillis());
+
   networkManager->send(packet);
 }

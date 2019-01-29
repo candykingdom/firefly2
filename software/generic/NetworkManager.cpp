@@ -1,5 +1,5 @@
-#include "Debug.hpp"
 #include "NetworkManager.hpp"
+#include "Debug.hpp"
 
 NetworkManager::NetworkManager(Radio *const radio) : radio(radio) {
   for (uint8_t i = 0; i < kRecentIdsCacheSize; i++) {

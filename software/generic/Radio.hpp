@@ -37,6 +37,12 @@ struct RadioPacket {
    * minus the size of the packet ID and type (3 bytes).
    */
   uint8_t data[PACKET_DATA_LENGTH];
+
+  /** Writes data for a heartbeat packet. */
+  void writeHeartbeat(uint32_t time);
+
+  /** Reads the time from a heartbeat packet. */
+  uint32_t readTimeFromHeartbeat();
 };
 
 inline bool operator==(const RadioPacket& lhs, const RadioPacket& rhs) {
