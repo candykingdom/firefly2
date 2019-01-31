@@ -51,7 +51,7 @@ TEST(RadioStateMachine, sendsHeartbeats) {
   ASSERT_NE(packet, nullptr);
   EXPECT_EQ(packet->type, HEARTBEAT);
 
-  advanceMillis(RadioStateMachine::kMasterHeartbeatInterval);
+  advanceMillis(RadioStateMachine::kMasterHeartbeatInterval + 1);
   stateMachine->Tick();
   packet = radio.getSentPacket();
   ASSERT_NE(packet, nullptr);
