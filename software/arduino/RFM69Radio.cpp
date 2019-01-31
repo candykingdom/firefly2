@@ -8,6 +8,9 @@ RFM69Radio::RFM69Radio() {
     // TODO(achew): Actually do this.
     debug_printf("Unable to initialize RFM69. Make this be better");
   }
+  // TODO: set this higher when hardware issues are resolved. When this is set
+  // above 5dBm, voltage regulator is unstable?
+  radio->setPowerLevel(20);
 
   radio->promiscuous(true);
 }
