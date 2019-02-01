@@ -23,6 +23,15 @@ void FakeRadio::sendPacket(RadioPacket &packet) {
 
 void FakeRadio::setReceivedPacket(RadioPacket *packet) {
   receivedPacket = packet;
+  if (packet == nullptr) {
+    return;
+  }
+
+  // Manually clear the rest of the data buffer, in case code under test is
+  // mis-sizing packets.
+  for (int i = receivedPacket->dataLength; i < PACKET_DATA_LENGTH; i++) {
+    receivedPacket->data[i] = 0;
+  }
 }
 
 RadioPacket *FakeRadio::getSentPacket() {

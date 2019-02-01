@@ -184,11 +184,53 @@ TEST(RadioStateMachine, slaveGetsTimeFromNetwork_negativeOffset) {
 
   RadioPacket packet;
   packet.writeHeartbeat(0);
-  // The random ID for master election is in the range [2, 0xFFFF)
   radio.setReceivedPacket(&packet);
   stateMachine->Tick();
   EXPECT_EQ(stateMachine->GetNetworkMillis(), 0);
 
   setMillis(2000000);
   EXPECT_EQ(stateMachine->GetNetworkMillis(), 1990000);
+}
+
+TEST(RadioStateMachine, masterSendsSetEffect) {
+  setMillis(0);
+  FakeRadio radio;
+  NetworkManager *networkManager = new NetworkManager(&radio);
+  RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
+
+  setMillis(kMaxSlaveTimeout);
+  stateMachine->Tick();
+  EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Master);
+
+  RadioPacket *receivedPacket = radio.getSentPacket();
+  ASSERT_NE(receivedPacket, nullptr);
+  EXPECT_EQ(receivedPacket->type, HEARTBEAT);
+
+  setMillis(kMaxSlaveTimeout + RadioStateMachine::kSetEffectInterval + 1);
+  // First we'll get a heartbeat
+  stateMachine->Tick();
+  receivedPacket = radio.getSentPacket();
+  ASSERT_NE(receivedPacket, nullptr);
+  EXPECT_EQ(receivedPacket->type, HEARTBEAT);
+
+  // Then the set effect
+  stateMachine->Tick();
+  receivedPacket = radio.getSentPacket();
+  ASSERT_NE(receivedPacket, nullptr);
+  EXPECT_EQ(receivedPacket->type, SET_EFFECT);
+  EXPECT_EQ(receivedPacket->readEffectIndexFromSetEffect(), 1);
+}
+
+TEST(RadioStateMachine, slaveReturnsEffectIndexFromNetwork) {
+  setMillis(0);
+  FakeRadio radio;
+  NetworkManager *networkManager = new NetworkManager(&radio);
+  RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
+  EXPECT_EQ(stateMachine->GetEffectIndex(), 0);
+
+  RadioPacket packet;
+  packet.writeSetEffect(42);
+  radio.setReceivedPacket(&packet);
+  stateMachine->Tick();
+  EXPECT_EQ(stateMachine->GetEffectIndex(), 42);
 }

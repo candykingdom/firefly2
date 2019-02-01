@@ -210,3 +210,18 @@ TEST(Network, stableWithMildPacketLossAndNodesDropping) {
     runTicks(network, RadioStateMachine::kSlaveNoPacketTimeout * 2);
   }
 }
+
+TEST(Network, setEffectIndex) {
+  FakeNetwork network;
+  runTicks(network, 1);
+  for (int i = 0; i < FakeNetwork::kNumNodes; i++) {
+    EXPECT_EQ(network.stateMachines[i]->GetEffectIndex(), 0)
+        << "Node " << i << " has wrong effect index";
+  }
+
+  runTicks(network, RadioStateMachine::kSetEffectInterval * 2);
+  for (int i = 0; i < FakeNetwork::kNumNodes; i++) {
+    EXPECT_EQ(network.stateMachines[i]->GetEffectIndex(), 1)
+        << "Node " << i << " has wrong effect index";
+  }
+}

@@ -19,3 +19,11 @@ uint32_t RadioPacket::readTimeFromHeartbeat() {
   time |= this->data[0] << 24;
   return time;
 }
+
+void RadioPacket::writeSetEffect(uint8_t effectIndex) {
+  this->type = SET_EFFECT;
+  this->dataLength = 1;
+  this->data[0] = effectIndex;
+}
+
+uint8_t RadioPacket::readEffectIndexFromSetEffect() { return this->data[0]; }

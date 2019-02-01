@@ -8,15 +8,14 @@
  * The data passed to a state when an event occurs.
  */
 struct RadioEventData {
-  /**
-   * The packet that was received, or null if no packet was received.
-   */
+  /** The packet that was received, or null if no packet was received. */
   RadioPacket *packet;
 
-  /**
-   * Whether a timer expired.
-   */
-  bool timerExpired;
+  /** Whether the heartbeat timer expired. */
+  bool heartbeatTimerExpired;
+
+  /** When master, this is used to occasionally update the current effect. */
+  bool effectTimerExpired;
 };
 
 /**
@@ -36,8 +35,13 @@ class RadioStateMachine {
   /** Runs the state machine. Should be called frequently. */
   void Tick();
 
+  // Network properties - these are used to coordinate effectrs
+
   /** Returns the synchronized milliseconds time from the network. */
   uint32_t GetNetworkMillis();
+
+  /** Returns the index of the current effect. */
+  uint8_t GetEffectIndex();
 
   // Tuning constants. Public for testing.
   /**
@@ -55,6 +59,9 @@ class RadioStateMachine {
    */
   static const uint32_t kMasterHeartbeatInterval = 1000;
 
+  /** When master, change the effect this often. */
+  static const uint32_t kSetEffectInterval = 10000;
+
  private:
   // Handler functions
   void handleSlaveEvent(RadioEventData &data);
@@ -66,7 +73,10 @@ class RadioStateMachine {
 
   // Support functions
   /** Sets an event to fire delay milliseconds from now.  */
-  void setTimer(uint32_t delay);
+  void SetHeartbeatTimer(uint32_t delay);
+
+  /** Sets the effect event to fire delay milliseconds from now.  */
+  void SetEffectTimer(uint32_t delay);
 
   /** Performs master election based on the received heartbeat. */
   void PerformMasterElection(RadioPacket *receivedPacket);
@@ -82,10 +92,20 @@ class RadioStateMachine {
   /** If not equal to state, the next state. */
   RadioState nextState;
 
-  /** The milliseconds when the timer expires and fires an event. */
-  uint32_t timerExpiresAt = 0;
+  /** The milliseconds when the heartbeat timer expires and fires an event. */
+  uint32_t heartbeatTimerExpiresAt = 0;
 
+  /** The milliseconds when the effect timer expires and fires an event. */
+  uint32_t effectTimerExpiresAt = 0;
+
+  /**
+   * The offset between the local millis() and the network time, such that
+   * millis + millisOffset = network time.
+   */
   int32_t millisOffset = 0;
+
+  /** The current effect index. */
+  int8_t effectIndex = 0;
 
   RadioPacket packet;
 };

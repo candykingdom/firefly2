@@ -16,7 +16,8 @@ RadioState RadioStateMachine::GetCurrentState() { return state; }
 void RadioStateMachine::Tick() {
   RadioEventData data;
   data.packet = nullptr;
-  data.timerExpired = false;
+  data.heartbeatTimerExpired = false;
+  data.effectTimerExpired = false;
 
   RadioPacket packet;
 
@@ -25,12 +26,16 @@ void RadioStateMachine::Tick() {
   if (networkManager->receive(packet)) {
     debug_printf("Received packet\n");
     data.packet = &packet;
-  } else if (timerExpiresAt && millis() > timerExpiresAt) {
-    debug_printf("Timer expired\n");
-    data.timerExpired = true;
+  } else if (heartbeatTimerExpiresAt && millis() > heartbeatTimerExpiresAt) {
+    debug_printf("Heartbeat timer expired\n");
+    data.heartbeatTimerExpired = true;
+  } else if (effectTimerExpiresAt && millis() > effectTimerExpiresAt) {
+    debug_printf("SetEffect timer expired\n");
+    data.effectTimerExpired = true;
   }
 
-  if (data.packet != nullptr || data.timerExpired) {
+  if (data.packet != nullptr || data.heartbeatTimerExpired ||
+      data.effectTimerExpired) {
     switch (state) {
       case RadioState::Slave:
         handleSlaveEvent(data);
@@ -45,7 +50,7 @@ void RadioStateMachine::Tick() {
   if (nextState != state) {
     // 0 is disabled. Clear the timer - the state will probably set this
     // anyway.
-    setTimer(0);
+    SetHeartbeatTimer(0);
 
     switch (nextState) {
       case RadioState::Slave:
@@ -66,6 +71,8 @@ uint32_t RadioStateMachine::GetNetworkMillis() {
   return millis() + millisOffset;
 }
 
+uint8_t RadioStateMachine::GetEffectIndex() { return effectIndex; }
+
 void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
   // If the timer fired, then we haven't received a packet in a while and should
   // become master
@@ -78,10 +85,15 @@ void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
 
         // Fall through
       case CLAIM_MASTER:
-        setTimer(kSlaveNoPacketTimeout + rand() % kSlaveNoPacketRandom);
+        SetHeartbeatTimer(kSlaveNoPacketTimeout +
+                          rand() % kSlaveNoPacketRandom);
+        break;
+
+      case SET_EFFECT:
+        this->effectIndex = data.packet->readEffectIndexFromSetEffect();
         break;
     }
-  } else if (data.timerExpired) {
+  } else if (data.heartbeatTimerExpired) {
     nextState = RadioState::Master;
   }
 }
@@ -112,27 +124,46 @@ void RadioStateMachine::handleMasterEvent(RadioEventData &data) {
       case CLAIM_MASTER:
         nextState = RadioState::Slave;
         break;
+
+      case SET_EFFECT:
+        this->effectIndex = data.packet->readEffectIndexFromSetEffect();
+        SetEffectTimer(kSetEffectInterval);
+        break;
     }
-  } else if (data.timerExpired) {
+  } else if (data.heartbeatTimerExpired) {
     SendHeartbeat();
-    setTimer(kMasterHeartbeatInterval);
+    SetHeartbeatTimer(kMasterHeartbeatInterval);
+  } else if (data.effectTimerExpired) {
+    packet.writeSetEffect(1);
+    networkManager->send(packet);
+    effectIndex = 1;
+    SetEffectTimer(kSetEffectInterval);
   }
 }
 
 void RadioStateMachine::beginSlave() {
-  setTimer(kSlaveNoPacketTimeout + rand() % kSlaveNoPacketRandom);
+  SetHeartbeatTimer(kSlaveNoPacketTimeout + rand() % kSlaveNoPacketRandom);
 }
 
 void RadioStateMachine::beginMaster() {
   SendHeartbeat();
-  setTimer(kMasterHeartbeatInterval);
+  SetHeartbeatTimer(kMasterHeartbeatInterval);
+  SetEffectTimer(kSetEffectInterval);
 }
 
-void RadioStateMachine::setTimer(uint32_t delay) {
+void RadioStateMachine::SetHeartbeatTimer(uint32_t delay) {
   if (delay == 0) {
-    timerExpiresAt = 0;
+    heartbeatTimerExpiresAt = 0;
   } else {
-    timerExpiresAt = millis() + delay;
+    heartbeatTimerExpiresAt = millis() + delay;
+  }
+}
+
+void RadioStateMachine::SetEffectTimer(uint32_t delay) {
+  if (delay == 0) {
+    effectTimerExpiresAt = 0;
+  } else {
+    effectTimerExpiresAt = millis() + delay;
   }
 }
 

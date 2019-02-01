@@ -10,6 +10,12 @@ enum PacketType {
   // Sent by a master to claim mastership and tell all other masters to become
   // slaves. Usually sent as part of master negotiation.
   CLAIM_MASTER,
+
+  // Used to set the pattern for the network. Contains which effect and
+  // parameters for that effect. Typically sent by the master. Other devices
+  // (e.g. the car remote) can also send this, and may include a flag for the
+  // master to not change the pattern for a certain amount of time.
+  SET_EFFECT,
 };
 
 static const uint8_t PACKET_DATA_LENGTH = 58;
@@ -38,11 +44,15 @@ struct RadioPacket {
    */
   uint8_t data[PACKET_DATA_LENGTH];
 
-  /** Writes data for a heartbeat packet. */
-  void writeHeartbeat(uint32_t time);
+  // Member functions to create and read specific packet types.
 
-  /** Reads the time from a heartbeat packet. */
+  // For HEARTBEAT
+  void writeHeartbeat(uint32_t time);
   uint32_t readTimeFromHeartbeat();
+
+  // For SET_EFFECT
+  void writeSetEffect(uint8_t effectIndex);
+  uint8_t readEffectIndexFromSetEffect();
 };
 
 inline bool operator==(const RadioPacket& lhs, const RadioPacket& rhs) {
@@ -57,7 +67,6 @@ inline bool operator==(const RadioPacket& lhs, const RadioPacket& rhs) {
          !memcmp(lhs.data, rhs.data, lhs.dataLength);
 }
 
-/** TODO: create an interface for the radio. */
 class Radio {
  public:
   /**

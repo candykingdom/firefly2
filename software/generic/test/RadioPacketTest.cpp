@@ -24,3 +24,24 @@ TEST(RadioPacket, serializesHeartbeatBig) {
   packet.writeHeartbeat(test);
   EXPECT_EQ(test, packet.readTimeFromHeartbeat());
 }
+
+TEST(RadioPacket, serializesSetEffect0) {
+  RadioPacket packet;
+
+  packet.writeSetEffect(0);
+  EXPECT_EQ(0, packet.readEffectIndexFromSetEffect());
+}
+
+TEST(RadioPacket, serializesSetEffect1) {
+  RadioPacket packet;
+
+  packet.writeSetEffect(1);
+  EXPECT_EQ(1, packet.readEffectIndexFromSetEffect());
+}
+
+TEST(RadioPacket, serializesSetEffectBig) {
+  RadioPacket packet;
+
+  packet.writeSetEffect(250);
+  EXPECT_EQ(250, packet.readEffectIndexFromSetEffect());
+}
