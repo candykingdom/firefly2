@@ -20,10 +20,13 @@ uint32_t RadioPacket::readTimeFromHeartbeat() {
   return time;
 }
 
-void RadioPacket::writeSetEffect(uint8_t effectIndex) {
+void RadioPacket::writeSetEffect(uint8_t effectIndex, uint8_t delay) {
   this->type = SET_EFFECT;
-  this->dataLength = 1;
+  this->dataLength = 2;
   this->data[0] = effectIndex;
+  this->data[1] = delay;
 }
 
 uint8_t RadioPacket::readEffectIndexFromSetEffect() { return this->data[0]; }
+
+uint8_t RadioPacket::readDelayFromSetEffect() { return this->data[1]; }

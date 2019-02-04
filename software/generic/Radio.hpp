@@ -51,8 +51,10 @@ struct RadioPacket {
   uint32_t readTimeFromHeartbeat();
 
   // For SET_EFFECT
-  void writeSetEffect(uint8_t effectIndex);
+  // delay: time for the master to not change the effect, in seconds
+  void writeSetEffect(uint8_t effectIndex, uint8_t delay);
   uint8_t readEffectIndexFromSetEffect();
+  uint8_t readDelayFromSetEffect();
 };
 
 inline bool operator==(const RadioPacket& lhs, const RadioPacket& rhs) {

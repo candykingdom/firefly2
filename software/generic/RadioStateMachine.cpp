@@ -127,14 +127,16 @@ void RadioStateMachine::handleMasterEvent(RadioEventData &data) {
 
       case SET_EFFECT:
         this->effectIndex = data.packet->readEffectIndexFromSetEffect();
-        SetEffectTimer(kSetEffectInterval);
+        uint32_t changeEffectTime =
+            (uint32_t)(data.packet->readDelayFromSetEffect()) * 1000;
+        SetEffectTimer(changeEffectTime);
         break;
     }
   } else if (data.heartbeatTimerExpired) {
     SendHeartbeat();
     SetHeartbeatTimer(kMasterHeartbeatInterval);
   } else if (data.effectTimerExpired) {
-    packet.writeSetEffect(1);
+    packet.writeSetEffect(/* effectIndex= */ 1, /* delay= */ 0);
     networkManager->send(packet);
     effectIndex = 1;
     SetEffectTimer(kSetEffectInterval);

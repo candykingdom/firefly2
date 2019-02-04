@@ -8,6 +8,16 @@
 const uint16_t kMaxSlaveTimeout = RadioStateMachine::kSlaveNoPacketTimeout +
                                   RadioStateMachine::kSlaveNoPacketRandom + 1;
 
+TEST(RadioStateMachine, fakeWorks) {
+  FakeRadio radio;
+  NetworkManager *networkManager = new NetworkManager(&radio);
+  RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
+
+  EXPECT_EQ(radio.getSentPacket(), nullptr);
+  stateMachine->Tick();
+  EXPECT_EQ(radio.getSentPacket(), nullptr);
+}
+
 TEST(RadioStateMachine, initializes) {
   setMillis(0);
   FakeRadio radio;
@@ -56,6 +66,8 @@ TEST(RadioStateMachine, sendsHeartbeats) {
   packet = radio.getSentPacket();
   ASSERT_NE(packet, nullptr);
   EXPECT_EQ(packet->type, HEARTBEAT);
+
+  EXPECT_EQ(radio.getSentPacket(), nullptr);
 }
 
 TEST(RadioStateMachine, doesntBecomeMasterIfReceivesPackets) {
@@ -219,6 +231,54 @@ TEST(RadioStateMachine, masterSendsSetEffect) {
   ASSERT_NE(receivedPacket, nullptr);
   EXPECT_EQ(receivedPacket->type, SET_EFFECT);
   EXPECT_EQ(receivedPacket->readEffectIndexFromSetEffect(), 1);
+  EXPECT_EQ(receivedPacket->readDelayFromSetEffect(), 0);
+}
+
+TEST(RadioStateMachine, masterRespectsSetEffectDelay) {
+  setMillis(0);
+  FakeRadio radio;
+  NetworkManager *networkManager = new NetworkManager(&radio);
+  RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
+
+  setMillis(kMaxSlaveTimeout);
+  stateMachine->Tick();
+  EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Master);
+
+  RadioPacket *receivedPacket = radio.getSentPacket();
+  ASSERT_NE(receivedPacket, nullptr);
+  EXPECT_EQ(receivedPacket->type, HEARTBEAT);
+
+  RadioPacket setEffectPacket;
+  setEffectPacket.writeSetEffect(2, 30);
+  radio.setReceivedPacket(&setEffectPacket);
+  stateMachine->Tick();
+  stateMachine->Tick();
+
+  setMillis(kMaxSlaveTimeout + RadioStateMachine::kSetEffectInterval + 1);
+  // Heartbeat
+  stateMachine->Tick();
+  receivedPacket = radio.getSentPacket();
+  ASSERT_NE(receivedPacket, nullptr);
+  EXPECT_EQ(receivedPacket->type, HEARTBEAT);
+
+  // No more packets yet
+  stateMachine->Tick();
+  receivedPacket = radio.getSentPacket();
+  ASSERT_EQ(receivedPacket, nullptr);
+
+  setMillis(kMaxSlaveTimeout + 30 * 1000 + 1);
+  // First we'll get a heartbeat
+  stateMachine->Tick();
+  receivedPacket = radio.getSentPacket();
+  ASSERT_NE(receivedPacket, nullptr);
+  EXPECT_EQ(receivedPacket->type, HEARTBEAT);
+
+  // Then the set effect
+  stateMachine->Tick();
+  receivedPacket = radio.getSentPacket();
+  ASSERT_NE(receivedPacket, nullptr);
+  EXPECT_EQ(receivedPacket->type, SET_EFFECT);
+  EXPECT_EQ(receivedPacket->readEffectIndexFromSetEffect(), 1);
 }
 
 TEST(RadioStateMachine, slaveReturnsEffectIndexFromNetwork) {
@@ -229,7 +289,7 @@ TEST(RadioStateMachine, slaveReturnsEffectIndexFromNetwork) {
   EXPECT_EQ(stateMachine->GetEffectIndex(), 0);
 
   RadioPacket packet;
-  packet.writeSetEffect(42);
+  packet.writeSetEffect(42, 0);
   radio.setReceivedPacket(&packet);
   stateMachine->Tick();
   EXPECT_EQ(stateMachine->GetEffectIndex(), 42);
