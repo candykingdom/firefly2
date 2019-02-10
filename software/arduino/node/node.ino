@@ -39,7 +39,11 @@ void loop() {
   stateMachine->Tick();
 
   if (stateMachine->GetNetworkMillis() % 1000 < 300) {
-    FastLED.showColor(CRGB(32, 0, 0));
+    if (stateMachine->GetEffectIndex() == 0) {
+      FastLED.showColor(CRGB(32, 0, 0));
+    } else {
+      FastLED.showColor(CRGB(16, 0, 16));
+    }
   } else {
     if (stateMachine->GetCurrentState() == RadioState::Master) {
       FastLED.showColor(CRGB(0, 8, 0));
