@@ -39,7 +39,7 @@ void loop() {
   stateMachine->Tick();
 
   if (stateMachine->GetNetworkMillis() % 1000 < 300) {
-    if (stateMachine->GetEffectIndex() == 0) {
+    if (stateMachine->GetEffectIndex() < 2) {
       FastLED.showColor(CRGB(32, 0, 0));
     } else {
       FastLED.showColor(CRGB(16, 0, 16));
