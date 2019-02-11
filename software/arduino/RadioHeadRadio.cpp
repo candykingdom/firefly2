@@ -51,3 +51,5 @@ void RadioHeadRadio::sendPacket(RadioPacket &packet) {
 
   radio.send((uint8_t *)buffer, packet.dataLength + kFrontPacketPadding);
 }
+
+void RadioHeadRadio::sleep() { radio.sleep(); }

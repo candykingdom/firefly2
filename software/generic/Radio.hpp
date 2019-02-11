@@ -81,6 +81,12 @@ class Radio {
    * Sends the packet.
    */
   virtual void sendPacket(RadioPacket& packet) = 0;
+
+  /**
+   * Puts the radio into a low-power sleep mode. Wake up the radio by calling
+   * readPacket or sendPacket.
+   */
+  virtual void sleep() = 0;
 };
 
 #endif

@@ -16,6 +16,7 @@ class RadioHeadRadio : public Radio {
   // Overrides
   bool readPacket(RadioPacket &packet) override;
   void sendPacket(RadioPacket &packet) override;
+  void sleep() override;
 
  private:
   RH_RF69 radio = RH_RF69(4, 5);

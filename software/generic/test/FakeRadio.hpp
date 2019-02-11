@@ -10,6 +10,7 @@ class FakeRadio : public Radio {
   // Overrides
   bool readPacket(RadioPacket &packet) override;
   void sendPacket(RadioPacket &packet) override;
+  void sleep() {}
 
   // Test methods
   void setReceivedPacket(RadioPacket *packet);
