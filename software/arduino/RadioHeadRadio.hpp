@@ -19,7 +19,7 @@ class RadioHeadRadio : public Radio {
   void sleep() override;
 
  private:
-  RH_RF69 radio = RH_RF69(4, 5);
+  RH_RF69 radio = RH_RF69(RADIO_SS, RADIO_DIO);
 };
 
 #endif

@@ -4,8 +4,7 @@
 #include <RadioStateMachine.hpp>
 
 const int kLedPin = 0;
-#define kNumLeds 4
-#define WS2812_PIN 6
+const int kNumLeds = 4;
 
 CRGB leds[kNumLeds];
 
