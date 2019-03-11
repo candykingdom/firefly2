@@ -249,7 +249,7 @@ TEST(RadioStateMachine, masterRespectsSetEffectDelay) {
   EXPECT_EQ(receivedPacket->type, HEARTBEAT);
 
   RadioPacket setEffectPacket;
-  setEffectPacket.writeSetEffect(2, 30);
+  setEffectPacket.writeSetEffect(2, 30, 0);
   radio.setReceivedPacket(&setEffectPacket);
   stateMachine->Tick();
   stateMachine->Tick();
@@ -289,8 +289,26 @@ TEST(RadioStateMachine, slaveReturnsEffectIndexFromNetwork) {
   EXPECT_EQ(stateMachine->GetEffectIndex(), 0);
 
   RadioPacket packet;
-  packet.writeSetEffect(42, 0);
+  packet.writeSetEffect(42, 0, 0);
   radio.setReceivedPacket(&packet);
   stateMachine->Tick();
   EXPECT_EQ(stateMachine->GetEffectIndex(), 42);
+}
+
+TEST(RadioStateMachine, slaveReturnsSetEffectPacketFromNetwork) {
+  setMillis(0);
+  FakeRadio radio;
+  NetworkManager *networkManager = new NetworkManager(&radio);
+  RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
+  RadioPacket *setEffect = stateMachine->GetSetEffect();
+  // Default SetEffect packet
+  EXPECT_EQ(setEffect->readEffectIndexFromSetEffect(), 1);
+  EXPECT_EQ(setEffect->readDelayFromSetEffect(), 0);
+  EXPECT_EQ(setEffect->readHueFromSetEffect(), 0);
+
+  RadioPacket packet;
+  packet.writeSetEffect(42, 0, 0);
+  radio.setReceivedPacket(&packet);
+  stateMachine->Tick();
+  EXPECT_EQ(*stateMachine->GetSetEffect(), packet);
 }

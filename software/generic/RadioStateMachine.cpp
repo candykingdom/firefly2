@@ -9,6 +9,7 @@ RadioStateMachine::RadioStateMachine(NetworkManager *networkManager)
   state = RadioState::Slave;
   nextState = RadioState::Slave;
   beginSlave();
+  setEffectPacket.writeSetEffect(1, 0, 0);
 }
 
 RadioState RadioStateMachine::GetCurrentState() { return state; }
@@ -73,6 +74,10 @@ uint32_t RadioStateMachine::GetNetworkMillis() {
 
 uint8_t RadioStateMachine::GetEffectIndex() { return effectIndex; }
 
+RadioPacket *const RadioStateMachine::GetSetEffect() {
+  return &setEffectPacket;
+}
+
 void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
   // If the timer fired, then we haven't received a packet in a while and should
   // become master
@@ -90,6 +95,7 @@ void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
         break;
 
       case SET_EFFECT:
+        this->setEffectPacket = *data.packet;
         this->effectIndex = data.packet->readEffectIndexFromSetEffect();
         break;
     }
@@ -126,6 +132,7 @@ void RadioStateMachine::handleMasterEvent(RadioEventData &data) {
         break;
 
       case SET_EFFECT:
+        this->setEffectPacket = *data.packet;
         this->effectIndex = data.packet->readEffectIndexFromSetEffect();
         uint32_t changeEffectTime =
             (uint32_t)(data.packet->readDelayFromSetEffect()) * 1000;
@@ -136,7 +143,8 @@ void RadioStateMachine::handleMasterEvent(RadioEventData &data) {
     SendHeartbeat();
     SetHeartbeatTimer(kMasterHeartbeatInterval);
   } else if (data.effectTimerExpired) {
-    packet.writeSetEffect(/* effectIndex= */ 1, /* delay= */ 0);
+    packet.writeSetEffect(/* effectIndex= */ 1, /* delay= */ 0, /* hue= */ 0);
+    this->setEffectPacket = packet;
     networkManager->send(packet);
     effectIndex = 1;
     SetEffectTimer(kSetEffectInterval);

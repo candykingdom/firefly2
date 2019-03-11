@@ -43,6 +43,9 @@ class RadioStateMachine {
   /** Returns the index of the current effect. */
   uint8_t GetEffectIndex();
 
+  /** Returns the most recent SetEffect packet. */
+  RadioPacket *const GetSetEffect();
+
   // Tuning constants. Public for testing.
   /**
    * If a slave doesn't receive a heartbeat for this long, it'll become master.
@@ -108,6 +111,7 @@ class RadioStateMachine {
   int8_t effectIndex = 0;
 
   RadioPacket packet;
+  RadioPacket setEffectPacket;
 };
 
 #endif

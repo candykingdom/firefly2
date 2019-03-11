@@ -28,15 +28,23 @@ TEST(RadioPacket, serializesHeartbeatBig) {
 TEST(RadioPacket, serializesSetEffect0) {
   RadioPacket packet;
 
-  packet.writeSetEffect(0, 1);
+  packet.writeSetEffect(0, 1, 0);
   EXPECT_EQ(0, packet.readEffectIndexFromSetEffect());
   EXPECT_EQ(1, packet.readDelayFromSetEffect());
+  EXPECT_EQ(0, packet.readHueFromSetEffect());
 
-  packet.writeSetEffect(1, 0);
+  packet.writeSetEffect(1, 0, 0);
   EXPECT_EQ(1, packet.readEffectIndexFromSetEffect());
   EXPECT_EQ(0, packet.readDelayFromSetEffect());
+  EXPECT_EQ(0, packet.readHueFromSetEffect());
 
-  packet.writeSetEffect(250, 199);
+  packet.writeSetEffect(0, 0, 1);
+  EXPECT_EQ(0, packet.readEffectIndexFromSetEffect());
+  EXPECT_EQ(0, packet.readDelayFromSetEffect());
+  EXPECT_EQ(1, packet.readHueFromSetEffect());
+
+  packet.writeSetEffect(250, 199, 54);
   EXPECT_EQ(250, packet.readEffectIndexFromSetEffect());
   EXPECT_EQ(199, packet.readDelayFromSetEffect());
+  EXPECT_EQ(54, packet.readHueFromSetEffect());
 }
