@@ -46,6 +46,9 @@ class RadioStateMachine {
   /** Returns the most recent SetEffect packet. */
   RadioPacket *const GetSetEffect();
 
+  /** Sets and broadcasts the current effect. */
+  void SetEffect(RadioPacket *const setEffect);
+
   // Tuning constants. Public for testing.
   /**
    * If a slave doesn't receive a heartbeat for this long, it'll become master.

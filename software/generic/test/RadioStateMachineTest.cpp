@@ -8,6 +8,13 @@
 const uint16_t kMaxSlaveTimeout = RadioStateMachine::kSlaveNoPacketTimeout +
                                   RadioStateMachine::kSlaveNoPacketRandom + 1;
 
+void expectPacketsEqual(RadioPacket *const p1, RadioPacket *const p2) {
+  EXPECT_EQ(p1->dataLength, p2->dataLength);
+  for (uint8_t i = 0; i < p1->dataLength; i++) {
+    EXPECT_EQ(p1->data[i], p2->data[i]) << "byte " << i;
+  }
+}
+
 TEST(RadioStateMachine, fakeWorks) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
@@ -311,4 +318,46 @@ TEST(RadioStateMachine, slaveReturnsSetEffectPacketFromNetwork) {
   radio.setReceivedPacket(&packet);
   stateMachine->Tick();
   EXPECT_EQ(*stateMachine->GetSetEffect(), packet);
+}
+
+TEST(RadioStateMachine, SetEffect_Delay) {
+  setMillis(0);
+  FakeRadio radio;
+  NetworkManager *networkManager = new NetworkManager(&radio);
+  RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
+
+  RadioPacket *defaultSetEffect = stateMachine->GetSetEffect();
+
+  RadioPacket setEffect;
+  setEffect.writeSetEffect(1, /* delay= */ 5, 2);
+  stateMachine->SetEffect(&setEffect);
+  stateMachine->Tick();
+
+  expectPacketsEqual(stateMachine->GetSetEffect(), &setEffect);
+  expectPacketsEqual(radio.getSentPacket(), &setEffect);
+
+  setMillis(5 * 1000 + 1);
+  stateMachine->Tick();
+  expectPacketsEqual(stateMachine->GetSetEffect(), defaultSetEffect);
+}
+
+TEST(RadioStateMachine, SetEffect_NoDelay) {
+  setMillis(0);
+  FakeRadio radio;
+  NetworkManager *networkManager = new NetworkManager(&radio);
+  RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
+
+  RadioPacket *defaultSetEffect = stateMachine->GetSetEffect();
+
+  RadioPacket setEffect;
+  setEffect.writeSetEffect(1, /* delay= */ 0, 2);
+  stateMachine->SetEffect(&setEffect);
+  stateMachine->Tick();
+
+  expectPacketsEqual(stateMachine->GetSetEffect(), &setEffect);
+  expectPacketsEqual(radio.getSentPacket(), &setEffect);
+
+  setMillis(RadioStateMachine::kSetEffectInterval + 1);
+  stateMachine->Tick();
+  expectPacketsEqual(stateMachine->GetSetEffect(), defaultSetEffect);
 }

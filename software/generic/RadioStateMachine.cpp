@@ -78,6 +78,16 @@ RadioPacket *const RadioStateMachine::GetSetEffect() {
   return &setEffectPacket;
 }
 
+void RadioStateMachine::SetEffect(RadioPacket *const setEffect) {
+  this->setEffectPacket = *setEffect;
+  this->networkManager->send(this->setEffectPacket);
+  if (this->setEffectPacket.readDelayFromSetEffect()) {
+    SetEffectTimer(this->setEffectPacket.readDelayFromSetEffect() * 1000);
+  } else {
+    SetEffectTimer(kSetEffectInterval);
+  }
+}
+
 void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
   // If the timer fired, then we haven't received a packet in a while and should
   // become master
