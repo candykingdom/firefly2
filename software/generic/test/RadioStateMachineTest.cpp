@@ -311,7 +311,7 @@ TEST(RadioStateMachine, slaveReturnsSetEffectPacketFromNetwork) {
   // Default SetEffect packet
   EXPECT_EQ(setEffect->readEffectIndexFromSetEffect(), 1);
   EXPECT_EQ(setEffect->readDelayFromSetEffect(), 0);
-  EXPECT_EQ(setEffect->readHueFromSetEffect(), 0);
+  EXPECT_EQ(setEffect->readPaletteIndexFromSetEffect(), 0);
 
   RadioPacket packet;
   packet.writeSetEffect(42, 0, 0);

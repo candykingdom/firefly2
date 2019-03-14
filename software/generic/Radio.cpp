@@ -33,4 +33,4 @@ uint8_t RadioPacket::readEffectIndexFromSetEffect() { return this->data[0]; }
 
 uint8_t RadioPacket::readDelayFromSetEffect() { return this->data[1]; }
 
-uint8_t RadioPacket::readHueFromSetEffect() { return this->data[2]; }
+uint8_t RadioPacket::readPaletteIndexFromSetEffect() { return this->data[2]; }

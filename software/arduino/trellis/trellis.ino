@@ -13,7 +13,7 @@ Adafruit_NeoTrellis trellis;
 
 const int kLedPin = 0;
 const int kNumLeds = 1;
-const uint8_t kNumKeys = 16;
+const uint8_t kNumKeys = 12;
 
 CRGB leds[kNumLeds];
 
@@ -46,8 +46,10 @@ void loop() {
   // Normal state machine code: this is the same as regular nodes
   if (stateMachine->GetNetworkMillis() % 1000 < 300) {
     if (stateMachine->GetEffectIndex() < 2) {
+      // TODO: actually use a palette
       FastLED.showColor(
-          CHSV(stateMachine->GetSetEffect()->readHueFromSetEffect(), 255, 32));
+          CHSV(stateMachine->GetSetEffect()->readPaletteIndexFromSetEffect(),
+               255, 32));
     } else {
       FastLED.showColor(CRGB(16, 0, 16));
     }

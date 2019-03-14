@@ -40,7 +40,8 @@ void loop() {
   if (stateMachine->GetNetworkMillis() % 1000 < 300) {
     if (stateMachine->GetEffectIndex() < 2) {
       FastLED.showColor(
-          CHSV(stateMachine->GetSetEffect()->readHueFromSetEffect(), 255, 32));
+          CHSV(stateMachine->GetSetEffect()->readPaletteIndexFromSetEffect(),
+               255, 32));
     } else {
       FastLED.showColor(CRGB(16, 0, 16));
     }

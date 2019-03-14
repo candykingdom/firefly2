@@ -52,10 +52,10 @@ struct RadioPacket {
 
   // For SET_EFFECT
   // delay: time for the master to not change the effect, in seconds
-  void writeSetEffect(uint8_t effectIndex, uint8_t delay, uint8_t hue);
+  void writeSetEffect(uint8_t effectIndex, uint8_t delay, uint8_t paletteIndex);
   uint8_t readEffectIndexFromSetEffect();
   uint8_t readDelayFromSetEffect();
-  uint8_t readHueFromSetEffect();
+  uint8_t readPaletteIndexFromSetEffect();
 };
 
 inline bool operator==(const RadioPacket& lhs, const RadioPacket& rhs) {
