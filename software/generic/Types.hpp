@@ -24,6 +24,7 @@ void advanceMillis(uint32_t time);
 #else
 // Arduino
 #include "Arduino.h"
+#include "FastLED.h"
 #include "string.h"
 #endif
 

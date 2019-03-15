@@ -1,4 +1,10 @@
 #include <FastLED.h>
+
+// Arduino.h, included by FastLED, defines min and max macros (which it
+// shouldn't)
+#undef max
+#undef min
+#include <FastLedManager.hpp>
 #include <NetworkManager.hpp>
 #include <RadioHeadRadio.hpp>
 #include <RadioStateMachine.hpp>
