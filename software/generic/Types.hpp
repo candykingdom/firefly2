@@ -9,6 +9,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
+#include "FakeFastLED/pixeltypes.h"
 
 // Provide the arduino random function
 uint16_t random(uint16_t max);

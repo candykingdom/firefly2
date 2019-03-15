@@ -1,6 +1,7 @@
 #include "RadioStateMachine.hpp"
 #include <cstdio>
 #include "Debug.hpp"
+#include "Effect.hpp"
 
 //#define DEBUG
 
