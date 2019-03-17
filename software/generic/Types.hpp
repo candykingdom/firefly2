@@ -9,6 +9,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
+#include "FakeFastLED/hsv2rgb.h"
 #include "FakeFastLED/pixeltypes.h"
 
 // Provide the arduino random function
@@ -24,6 +25,9 @@ void advanceMillis(uint32_t time);
 #else
 // Arduino
 #include "Arduino.h"
+#undef min
+#undef max
+
 #include "FastLED.h"
 #include "string.h"
 #endif

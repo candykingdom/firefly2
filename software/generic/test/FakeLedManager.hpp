@@ -10,8 +10,12 @@ class FakeLedManager : public LedManager {
  public:
   FakeLedManager(const uint8_t numLeds);
 
+  CRGB GetLed(uint8_t ledIndex);
+
+  void SetGlobalColor(CRGB rgb) override;
+
  protected:
-  void SetLed(uint8_t ledIndex, CRGB &rgb) override;
+  void SetLed(uint8_t ledIndex, CRGB *const rgb) override;
 
   void WriteOutLeds() override;
 

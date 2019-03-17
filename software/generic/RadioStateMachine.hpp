@@ -1,6 +1,7 @@
 #ifndef __RADIO_STATE_MACHINE_H__
 #define __RADIO_STATE_MACHINE_H__
 
+#include "LedManager.hpp"
 #include "NetworkManager.hpp"
 #include "Types.hpp"
 
@@ -28,12 +29,16 @@ enum class RadioState {
 
 class RadioStateMachine {
  public:
-  RadioStateMachine(NetworkManager *networkManager);
+  RadioStateMachine(NetworkManager *networkManager, LedManager *ledManager);
 
   RadioState GetCurrentState();
 
-  /** Runs the state machine. Should be called frequently. */
+  /** Runs the state machine and updates the LEDS. Should be called frequently.
+   */
   void Tick();
+
+  /** Runs the radio state machine. Typically you want to use just Tick. */
+  void RadioTick();
 
   // Network properties - these are used to coordinate effectrs
 
@@ -91,6 +96,7 @@ class RadioStateMachine {
   void SendHeartbeat();
 
   NetworkManager *const networkManager;
+  LedManager *const ledManager;
 
   /** The current state. */
   RadioState state;

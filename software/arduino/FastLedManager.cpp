@@ -6,8 +6,10 @@ FastLedManager::FastLedManager(const uint8_t numLeds) : LedManager(numLeds) {
   FastLED.showColor(CRGB(0, 0, 0));
 }
 
-void FastLedManager::SetLed(uint8_t ledIndex, CRGB &rgb) {
-  leds[ledIndex] = rgb;
+void FastLedManager::SetGlobalColor(CRGB rgb) { FastLED.showColor(rgb); }
+
+void FastLedManager::SetLed(uint8_t ledIndex, CRGB *const rgb) {
+  leds[ledIndex] = *rgb;
 }
 
 void FastLedManager::WriteOutLeds() { FastLED.show(); }

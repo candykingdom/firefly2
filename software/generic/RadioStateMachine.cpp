@@ -5,8 +5,9 @@
 
 //#define DEBUG
 
-RadioStateMachine::RadioStateMachine(NetworkManager *networkManager)
-    : networkManager(networkManager) {
+RadioStateMachine::RadioStateMachine(NetworkManager *networkManager,
+                                     LedManager *ledManager)
+    : networkManager(networkManager), ledManager(ledManager) {
   state = RadioState::Slave;
   nextState = RadioState::Slave;
   beginSlave();
@@ -16,6 +17,36 @@ RadioStateMachine::RadioStateMachine(NetworkManager *networkManager)
 RadioState RadioStateMachine::GetCurrentState() { return state; }
 
 void RadioStateMachine::Tick() {
+  // Run the radio state machine twice, since writing out LEDs may take several
+  // ms.
+  RadioTick();
+  RadioTick();
+
+  ledManager->RunEffect(GetNetworkMillis());
+}
+
+uint32_t RadioStateMachine::GetNetworkMillis() {
+  // DANGER: adding unsigned and signed types!
+  return millis() + millisOffset;
+}
+
+uint8_t RadioStateMachine::GetEffectIndex() { return effectIndex; }
+
+RadioPacket *const RadioStateMachine::GetSetEffect() {
+  return &setEffectPacket;
+}
+
+void RadioStateMachine::SetEffect(RadioPacket *const setEffect) {
+  this->setEffectPacket = *setEffect;
+  this->networkManager->send(this->setEffectPacket);
+  if (this->setEffectPacket.readDelayFromSetEffect()) {
+    SetEffectTimer(this->setEffectPacket.readDelayFromSetEffect() * 1000);
+  } else {
+    SetEffectTimer(kSetEffectInterval);
+  }
+}
+
+void RadioStateMachine::RadioTick() {
   RadioEventData data;
   data.packet = nullptr;
   data.heartbeatTimerExpired = false;
@@ -66,27 +97,6 @@ void RadioStateMachine::Tick() {
   }
 
   state = nextState;
-}
-
-uint32_t RadioStateMachine::GetNetworkMillis() {
-  // DANGER: adding unsigned and signed types!
-  return millis() + millisOffset;
-}
-
-uint8_t RadioStateMachine::GetEffectIndex() { return effectIndex; }
-
-RadioPacket *const RadioStateMachine::GetSetEffect() {
-  return &setEffectPacket;
-}
-
-void RadioStateMachine::SetEffect(RadioPacket *const setEffect) {
-  this->setEffectPacket = *setEffect;
-  this->networkManager->send(this->setEffectPacket);
-  if (this->setEffectPacket.readDelayFromSetEffect()) {
-    SetEffectTimer(this->setEffectPacket.readDelayFromSetEffect() * 1000);
-  } else {
-    SetEffectTimer(kSetEffectInterval);
-  }
 }
 
 void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {

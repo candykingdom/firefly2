@@ -1,14 +1,20 @@
 #include "LedManager.hpp"
+#include "RainbowEffect.hpp"
 
-LedManager::LedManager(const uint8_t numLeds) : numLeds(numLeds) {}
+LedManager::LedManager(const uint8_t numLeds) : numLeds(numLeds) {
+  CRGB color = CRGB::Red;
+  effects.push_back(new RainbowEffect(numLeds, color));
+}
 
 void LedManager::RunEffect(uint32_t timeMillis) {
   for (uint8_t ledIndex = 0; ledIndex < numLeds; ledIndex++) {
-    CRGB rgb = effects[effectIndex].GetRGB(ledIndex, timeMillis);
-    SetLed(ledIndex, rgb);
+    CRGB rgb = effects[effectIndex]->GetRGB(ledIndex, timeMillis);
+    SetLed(ledIndex, &rgb);
   }
+  WriteOutLeds();
 }
 
 void LedManager::SetEffect(uint8_t effectIndex) {
-  this->effectIndex = effectIndex;
+  // TODO: add a (#define-guarded?) check that effectIndex is in range?
+  this->effectIndex = effectIndex % effects.size();
 }

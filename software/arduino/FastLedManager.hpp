@@ -10,8 +10,10 @@ class FastLedManager : public LedManager {
  public:
   FastLedManager(const uint8_t numLeds);
 
+  void SetGlobalColor(CRGB rgb);
+
  protected:
-  void SetLed(uint8_t ledIndex, CRGB &rgb) override;
+  void SetLed(uint8_t ledIndex, CRGB *const rgb) override;
 
   void WriteOutLeds() override;
 

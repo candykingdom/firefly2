@@ -13,8 +13,11 @@ class LedManager {
 
   void SetEffect(uint8_t effectIndex);
 
+  /** Sets all LEDs to the given color. */
+  virtual void SetGlobalColor(CRGB rgb) = 0;
+
  protected:
-  virtual void SetLed(uint8_t ledIndex, CRGB &rgb) = 0;
+  virtual void SetLed(uint8_t ledIndex, CRGB *const rgb) = 0;
 
   // Note: these need to be defined, or else calls to this classes' constructor
   // don't work.
@@ -22,7 +25,7 @@ class LedManager {
   const uint8_t numLeds;
 
  private:
-  std::vector<Effect> effects;
+  std::vector<Effect *> effects;
   uint8_t effectIndex = 0;
 };
 #endif

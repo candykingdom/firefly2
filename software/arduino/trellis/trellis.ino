@@ -4,7 +4,12 @@
  */
 
 #include <Adafruit_NeoTrellis.h>
-#include <FastLED.h>
+
+// Arduino.h, automatically included by the IDE, defines min and max macros
+// (which it shouldn't)
+#undef max
+#undef min
+#include <FastLedManager.hpp>
 #include <NetworkManager.hpp>
 #include <RadioHeadRadio.hpp>
 #include <RadioStateMachine.hpp>
@@ -15,10 +20,9 @@ const int kLedPin = 0;
 const int kNumLeds = 1;
 const uint8_t kNumKeys = 12;
 
-CRGB leds[kNumLeds];
-
 RadioHeadRadio* radio;
 NetworkManager* nm;
+FastLedManager* ledManager;
 RadioStateMachine* stateMachine;
 
 void setup() {
@@ -26,40 +30,22 @@ void setup() {
   // Delay makes it easier to reset the board in case of failure
   delay(2000);
 
-  FastLED.addLeds<NEOPIXEL, WS2812_PIN>(leds, kNumLeds);
   pinMode(kLedPin, OUTPUT);
-
+  ledManager = new FastLedManager(kNumLeds);
   // Yellow LED on boot indicates a problem initializing the radio
-  FastLED.showColor(CRGB(16, 16, 0));
+  ledManager->SetGlobalColor(CHSV(HUE_YELLOW, 255, 128));
+
   radio = new RadioHeadRadio();
   nm = new NetworkManager(radio);
-  stateMachine = new RadioStateMachine(nm);
+  stateMachine = new RadioStateMachine(nm, ledManager);
 
   initTrellis();
 
-  FastLED.showColor(CRGB(0, 0, 0));
+  ledManager->SetGlobalColor(CRGB(CRGB::Black));
 }
 
 void loop() {
   stateMachine->Tick();
-
-  // Normal state machine code: this is the same as regular nodes
-  if (stateMachine->GetNetworkMillis() % 1000 < 300) {
-    if (stateMachine->GetEffectIndex() < 2) {
-      // TODO: actually use a palette
-      FastLED.showColor(
-          CHSV(stateMachine->GetSetEffect()->readPaletteIndexFromSetEffect(),
-               255, 32));
-    } else {
-      FastLED.showColor(CRGB(16, 0, 16));
-    }
-  } else {
-    if (stateMachine->GetCurrentState() == RadioState::Master) {
-      FastLED.showColor(CRGB(0, 8, 0));
-    } else {
-      FastLED.showColor(CRGB(0, 0, 8));
-    }
-  }
 
   // Poll the trellis and fire callbacks
   trellis.read();

@@ -8,9 +8,9 @@ class Effect {
   Effect(uint8_t numLeds);
 
   /** Gets the value of a specific LED at a specific time. */
-  CRGB GetRGB(uint8_t ledIndex, uint32_t timeMs);
+  virtual CRGB GetRGB(uint8_t ledIndex, uint32_t timeMs) = 0;
 
- private:
+ protected:
   const uint8_t numLeds;
 };
 #endif
