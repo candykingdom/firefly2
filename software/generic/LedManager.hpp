@@ -3,15 +3,18 @@
 
 #include <vector>
 #include "Effect.hpp"
+#include "Radio.hpp"
 #include "Types.hpp"
 
 class LedManager {
  public:
   LedManager(const uint8_t numLeds);
 
-  void RunEffect(uint32_t timeMillis);
+  void RunEffect(uint32_t timeMillis, RadioPacket *setEffectPacket);
 
   void SetEffect(uint8_t effectIndex);
+
+  Effect *GetCurrentEffect();
 
   /** Sets all LEDs to the given color. */
   virtual void SetGlobalColor(CRGB rgb) = 0;

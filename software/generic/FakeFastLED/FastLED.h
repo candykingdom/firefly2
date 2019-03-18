@@ -7,4 +7,6 @@
 #define FASTLED_NAMESPACE_BEGIN
 #define FASTLED_NAMESPACE_END
 
+#include "pixeltypes.h"
+
 #endif

@@ -2,7 +2,8 @@
 
 FastLedManager::FastLedManager(const uint8_t numLeds) : LedManager(numLeds) {
   leds = new CRGB[numLeds];
-  FastLED.addLeds<NEOPIXEL, WS2812_PIN>(leds, numLeds);
+  FastLED.addLeds<NEOPIXEL, WS2812_PIN>(leds, numLeds)
+      .setCorrection(TypicalLEDStrip);
   FastLED.showColor(CRGB(0, 0, 0));
 }
 

@@ -8,7 +8,7 @@
 #include <RadioStateMachine.hpp>
 
 const int kLedPin = 0;
-const int kNumLeds = 4;
+const int kNumLeds = 60;
 
 RadioHeadRadio* radio;
 NetworkManager* nm;

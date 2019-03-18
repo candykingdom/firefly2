@@ -2,7 +2,6 @@
 #include <stdint.h>
 
 #include "FastLED.h"
-#include "pixeltypes.h"
 
 FASTLED_NAMESPACE_BEGIN
 

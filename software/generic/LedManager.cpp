@@ -6,9 +6,12 @@ LedManager::LedManager(const uint8_t numLeds) : numLeds(numLeds) {
   effects.push_back(new RainbowEffect(numLeds, color));
 }
 
-void LedManager::RunEffect(uint32_t timeMillis) {
+Effect *LedManager::GetCurrentEffect() { return effects[effectIndex]; }
+
+void LedManager::RunEffect(uint32_t timeMillis, RadioPacket *setEffectPacket) {
   for (uint8_t ledIndex = 0; ledIndex < numLeds; ledIndex++) {
-    CRGB rgb = effects[effectIndex]->GetRGB(ledIndex, timeMillis);
+    CRGB rgb =
+        effects[effectIndex]->GetRGB(ledIndex, timeMillis, setEffectPacket);
     SetLed(ledIndex, &rgb);
   }
   WriteOutLeds();

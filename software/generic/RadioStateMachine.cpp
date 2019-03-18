@@ -22,7 +22,7 @@ void RadioStateMachine::Tick() {
   RadioTick();
   RadioTick();
 
-  ledManager->RunEffect(GetNetworkMillis());
+  ledManager->RunEffect(GetNetworkMillis(), &setEffectPacket);
 }
 
 uint32_t RadioStateMachine::GetNetworkMillis() {
