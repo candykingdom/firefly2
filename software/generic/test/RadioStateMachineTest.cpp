@@ -20,7 +20,7 @@ TEST(RadioStateMachine, fakeWorks) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine =
-      new RadioStateMachine(networkManager, new FakeLedManager(1));
+      new RadioStateMachine(networkManager);
 
   EXPECT_EQ(radio.getSentPacket(), nullptr);
   stateMachine->RadioTick();
@@ -32,7 +32,7 @@ TEST(RadioStateMachine, initializes) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine =
-      new RadioStateMachine(networkManager, new FakeLedManager(1));
+      new RadioStateMachine(networkManager);
 
   EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Slave);
 }
@@ -42,7 +42,7 @@ TEST(RadioStateMachine, becomesMasterAfterTimeout) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine =
-      new RadioStateMachine(networkManager, new FakeLedManager(1));
+      new RadioStateMachine(networkManager);
 
   EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Slave);
   stateMachine->RadioTick();
@@ -58,7 +58,7 @@ TEST(RadioStateMachine, sendsHeartbeats) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine =
-      new RadioStateMachine(networkManager, new FakeLedManager(1));
+      new RadioStateMachine(networkManager);
 
   setMillis(kMaxSlaveTimeout);
   stateMachine->RadioTick();
@@ -87,7 +87,7 @@ TEST(RadioStateMachine, doesntBecomeMasterIfReceivesPackets) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine =
-      new RadioStateMachine(networkManager, new FakeLedManager(1));
+      new RadioStateMachine(networkManager);
   RadioPacket packet;
   packet.packetId = 1;
   packet.type = HEARTBEAT;
@@ -113,7 +113,7 @@ TEST(RadioStateMachine, respectsClaimMaster) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine =
-      new RadioStateMachine(networkManager, new FakeLedManager(1));
+      new RadioStateMachine(networkManager);
 
   EXPECT_EQ(stateMachine->GetCurrentState(), RadioState::Slave);
   setMillis(kMaxSlaveTimeout);
@@ -134,7 +134,7 @@ TEST(RadioStateMachine, doesElectionAndBecomesSlave) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine =
-      new RadioStateMachine(networkManager, new FakeLedManager(1));
+      new RadioStateMachine(networkManager);
 
   setMillis(kMaxSlaveTimeout);
   stateMachine->RadioTick();
@@ -155,7 +155,7 @@ TEST(RadioStateMachine, doesElectionAndBecomesMaster) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine =
-      new RadioStateMachine(networkManager, new FakeLedManager(1));
+      new RadioStateMachine(networkManager);
 
   setMillis(kMaxSlaveTimeout);
   stateMachine->RadioTick();
@@ -179,7 +179,7 @@ TEST(RadioStateMachine, returnNetworkMillisForNoOffset) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine =
-      new RadioStateMachine(networkManager, new FakeLedManager(1));
+      new RadioStateMachine(networkManager);
 
   setMillis(0);
   EXPECT_EQ(stateMachine->GetNetworkMillis(), 0);
@@ -193,7 +193,7 @@ TEST(RadioStateMachine, slaveGetsTimeFromNetwork) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine =
-      new RadioStateMachine(networkManager, new FakeLedManager(1));
+      new RadioStateMachine(networkManager);
 
   RadioPacket packet;
   packet.writeHeartbeat(10000);
@@ -211,7 +211,7 @@ TEST(RadioStateMachine, slaveGetsTimeFromNetwork_negativeOffset) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine =
-      new RadioStateMachine(networkManager, new FakeLedManager(1));
+      new RadioStateMachine(networkManager);
 
   RadioPacket packet;
   packet.writeHeartbeat(0);
@@ -228,7 +228,7 @@ TEST(RadioStateMachine, masterSendsSetEffect) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine =
-      new RadioStateMachine(networkManager, new FakeLedManager(1));
+      new RadioStateMachine(networkManager);
 
   setMillis(kMaxSlaveTimeout);
   stateMachine->RadioTick();
@@ -259,7 +259,7 @@ TEST(RadioStateMachine, masterRespectsSetEffectDelay) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine =
-      new RadioStateMachine(networkManager, new FakeLedManager(1));
+      new RadioStateMachine(networkManager);
 
   setMillis(kMaxSlaveTimeout);
   stateMachine->RadioTick();
@@ -307,7 +307,7 @@ TEST(RadioStateMachine, slaveReturnsEffectIndexFromNetwork) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine =
-      new RadioStateMachine(networkManager, new FakeLedManager(1));
+      new RadioStateMachine(networkManager);
   EXPECT_EQ(stateMachine->GetEffectIndex(), 0);
 
   RadioPacket packet;
@@ -322,7 +322,7 @@ TEST(RadioStateMachine, slaveReturnsSetEffectPacketFromNetwork) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine =
-      new RadioStateMachine(networkManager, new FakeLedManager(1));
+      new RadioStateMachine(networkManager);
   RadioPacket *setEffect = stateMachine->GetSetEffect();
   // Default SetEffect packet
   EXPECT_EQ(setEffect->readEffectIndexFromSetEffect(), 1);
@@ -341,7 +341,7 @@ TEST(RadioStateMachine, SetEffect_Delay) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine =
-      new RadioStateMachine(networkManager, new FakeLedManager(1));
+      new RadioStateMachine(networkManager);
 
   RadioPacket *defaultSetEffect = stateMachine->GetSetEffect();
 
@@ -363,7 +363,7 @@ TEST(RadioStateMachine, SetEffect_NoDelay) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine =
-      new RadioStateMachine(networkManager, new FakeLedManager(1));
+      new RadioStateMachine(networkManager);
 
   RadioPacket *defaultSetEffect = stateMachine->GetSetEffect();
 
@@ -378,17 +378,4 @@ TEST(RadioStateMachine, SetEffect_NoDelay) {
   setMillis(RadioStateMachine::kSetEffectInterval + 1);
   stateMachine->RadioTick();
   expectPacketsEqual(stateMachine->GetSetEffect(), defaultSetEffect);
-}
-
-TEST(RadioStateMachine, UpdatesLeds) {
-  setMillis(0);
-  FakeRadio radio;
-  NetworkManager *networkManager = new NetworkManager(&radio);
-  FakeLedManager *ledManager = new FakeLedManager(1);
-  RadioStateMachine *stateMachine =
-      new RadioStateMachine(networkManager, ledManager);
-
-  EXPECT_EQ(ledManager->GetLed(0), CRGB(0, 0, 0));
-  stateMachine->Tick();
-  EXPECT_NE(ledManager->GetLed(0), CRGB(0, 0, 0));
 }

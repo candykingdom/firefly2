@@ -5,9 +5,8 @@
 
 //#define DEBUG
 
-RadioStateMachine::RadioStateMachine(NetworkManager *networkManager,
-                                     LedManager *ledManager)
-    : networkManager(networkManager), ledManager(ledManager) {
+RadioStateMachine::RadioStateMachine(NetworkManager *networkManager)
+    : networkManager(networkManager) {
   state = RadioState::Slave;
   nextState = RadioState::Slave;
   beginSlave();
@@ -21,8 +20,6 @@ void RadioStateMachine::Tick() {
   // ms.
   RadioTick();
   RadioTick();
-
-  ledManager->RunEffect(GetNetworkMillis(), &setEffectPacket);
 }
 
 uint32_t RadioStateMachine::GetNetworkMillis() {

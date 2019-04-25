@@ -4,15 +4,14 @@
 #include <vector>
 #include "Effect.hpp"
 #include "Radio.hpp"
+#include "RadioStateMachine.hpp"
 #include "Types.hpp"
 
 class LedManager {
  public:
-  LedManager(const uint8_t numLeds);
+  LedManager(const uint8_t numLeds, RadioStateMachine *radioState);
 
-  void RunEffect(uint32_t timeMillis, RadioPacket *setEffectPacket);
-
-  void SetEffect(uint8_t effectIndex);
+  void RunEffect();
 
   Effect *GetCurrentEffect();
 
@@ -28,9 +27,9 @@ class LedManager {
   // don't work.
   virtual void WriteOutLeds() = 0;
   const uint8_t numLeds;
+  RadioStateMachine *const radioState;
 
  private:
   std::vector<Effect *> effects;
-  uint8_t effectIndex = 0;
 };
 #endif

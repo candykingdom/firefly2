@@ -1,7 +1,6 @@
 #ifndef __RADIO_STATE_MACHINE_H__
 #define __RADIO_STATE_MACHINE_H__
 
-#include "LedManager.hpp"
 #include "NetworkManager.hpp"
 #include "Types.hpp"
 
@@ -29,7 +28,7 @@ enum class RadioState {
 
 class RadioStateMachine {
  public:
-  RadioStateMachine(NetworkManager *networkManager, LedManager *ledManager);
+  RadioStateMachine(NetworkManager *networkManager);
 
   RadioState GetCurrentState();
 
@@ -96,7 +95,6 @@ class RadioStateMachine {
   void SendHeartbeat();
 
   NetworkManager *const networkManager;
-  LedManager *const ledManager;
 
   /** The current state. */
   RadioState state;

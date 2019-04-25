@@ -21,13 +21,14 @@ void setup() {
   delay(2000);
 
   pinMode(kLedPin, OUTPUT);
-  ledManager = new FastLedManager(kNumLeds);
-  // Yellow LED on boot indicates a problem initializing the radio
-  ledManager->SetGlobalColor(CHSV(HUE_YELLOW, 255, 128));
 
   radio = new RadioHeadRadio();
   nm = new NetworkManager(radio);
-  stateMachine = new RadioStateMachine(nm, ledManager);
+  stateMachine = new RadioStateMachine(nm);
+  
+  ledManager = new FastLedManager(kNumLeds, stateMachine);
+  ledManager->SetGlobalColor(CHSV(HUE_YELLOW, 255, 128));
+  delay(10);
   ledManager->SetGlobalColor(CRGB(CRGB::Black));
 }
 
@@ -35,6 +36,7 @@ unsigned long printAliveAt = 0;
 
 void loop() {
   stateMachine->Tick();
+  ledManager->RunEffect();
 
   if (millis() > printAliveAt) {
     Serial.println(stateMachine->GetNetworkMillis());

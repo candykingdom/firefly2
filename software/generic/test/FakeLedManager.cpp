@@ -1,7 +1,7 @@
 #include "FakeLedManager.hpp"
 #include <cassert>
 
-FakeLedManager::FakeLedManager(const uint8_t numLeds) : LedManager(numLeds) {
+FakeLedManager::FakeLedManager(const uint8_t numLeds, RadioStateMachine *stateMachine) : LedManager(numLeds, stateMachine) {
   leds = new CRGB[numLeds];
 }
 

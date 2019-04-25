@@ -2,7 +2,6 @@
 #include <cstdio>
 #include "../Debug.hpp"
 #include "../NetworkManager.hpp"
-#include "FakeLedManager.hpp"
 
 //#define DEBUG
 
@@ -11,8 +10,7 @@ FakeNetwork::FakeNetwork() {
 
   for (int i = 0; i < kNumNodes; i++) {
     advanceMillis(1);
-    stateMachines[i] = new RadioStateMachine(new NetworkManager(&radios[i]),
-                                             new FakeLedManager(1));
+    stateMachines[i] = new RadioStateMachine(new NetworkManager(&radios[i]));
     stateMachines[i]->Tick();
   }
 }
@@ -53,7 +51,7 @@ void FakeNetwork::Tick() {
 void FakeNetwork::reinitNode(int index) {
   delete stateMachines[index];
   stateMachines[index] = new RadioStateMachine(
-      new NetworkManager(&radios[index]), new FakeLedManager(1));
+      new NetworkManager(&radios[index]));
 }
 
 void FakeNetwork::setPacketLoss(int n) { packetLoss = n; }
