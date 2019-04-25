@@ -16,6 +16,8 @@ class LedManager {
 
   Effect *GetCurrentEffect();
 
+  uint8_t GetNumEffects();
+
   /** Sets all LEDs to the given color. */
   virtual void SetGlobalColor(CRGB rgb) = 0;
 

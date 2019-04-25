@@ -1,4 +1,5 @@
 #include "FakeLedManager.hpp"
+#include <cassert>
 
 FakeLedManager::FakeLedManager(const uint8_t numLeds) : LedManager(numLeds) {
   leds = new CRGB[numLeds];
@@ -10,9 +11,13 @@ void FakeLedManager::SetGlobalColor(CRGB rgb) {
   }
 }
 
-CRGB FakeLedManager::GetLed(uint8_t ledIndex) { return leds[ledIndex]; }
+CRGB FakeLedManager::GetLed(uint8_t ledIndex) {
+  assert(ledIndex < numLeds);
+  return leds[ledIndex];
+}
 
 void FakeLedManager::SetLed(uint8_t ledIndex, CRGB *const rgb) {
+  assert(ledIndex < numLeds);
   leds[ledIndex] = *rgb;
 }
 

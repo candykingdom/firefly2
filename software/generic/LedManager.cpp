@@ -21,3 +21,5 @@ void LedManager::SetEffect(uint8_t effectIndex) {
   // TODO: add a (#define-guarded?) check that effectIndex is in range?
   this->effectIndex = effectIndex % effects.size();
 }
+
+uint8_t LedManager::GetNumEffects() { return effects.size(); }
