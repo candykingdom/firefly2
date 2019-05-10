@@ -1,6 +1,65 @@
-EESchema Schematic File Version 4
+EESchema Schematic File Version 2
+LIBS:rfboard-rescue
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:homebrew
+LIBS:SparkFun-Aesthetics
+LIBS:SparkFun-Batteries
+LIBS:SparkFun-Boards
+LIBS:SparkFun-Capacitors
+LIBS:SparkFun-Clocks
+LIBS:SparkFun-Coils
+LIBS:SparkFun-Connectors
+LIBS:SparkFun-DiscreteSemi
+LIBS:SparkFun-Displays
+LIBS:SparkFun-Electromechanical
+LIBS:SparkFun-Fuses
+LIBS:SparkFun-GPS
+LIBS:SparkFun-Hardware
+LIBS:SparkFun-IC-Amplifiers
+LIBS:SparkFun-IC-Comms
+LIBS:SparkFun-IC-Conversion
+LIBS:SparkFun-IC-Logic
+LIBS:SparkFun-IC-Memory
+LIBS:SparkFun-IC-Microcontroller
+LIBS:SparkFun-IC-Power
+LIBS:SparkFun-IC-Special-Function
+LIBS:SparkFun-Jumpers
+LIBS:SparkFun-LED
+LIBS:SparkFun-PowerSymbols
+LIBS:SparkFun-Resistors
+LIBS:SparkFun-RF
+LIBS:SparkFun-Sensors
+LIBS:SparkFun-Switches
 LIBS:rfboard-cache
-EELAYER 29 0
+EELAYER 25 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -21,7 +80,7 @@ Text Notes 8150 7650 0    60   ~ 0
 Text Notes 10550 7650 0    60   ~ 0
 1	
 $Comp
-L rfboard-rescue:CONN_01X03 P2
+L CONN_01X03 P2
 U 1 1 5A5420CD
 P 2850 7450
 F 0 "P2" H 2850 7650 50  0000 C CNN
@@ -34,7 +93,7 @@ $EndComp
 Text Notes 2400 6650 0    60   ~ 0
 Off board LED
 $Comp
-L power:+5V #PWR01
+L +5V #PWR01
 U 1 1 5A54225C
 P 2650 7350
 F 0 "#PWR01" H 2650 7200 50  0001 C CNN
@@ -45,7 +104,7 @@ F 3 "" H 2650 7350 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR02
+L GND #PWR02
 U 1 1 5A542285
 P 2650 7550
 F 0 "#PWR02" H 2650 7300 50  0001 C CNN
@@ -58,7 +117,7 @@ $EndComp
 Text GLabel 2450 7450 1    60   Input ~ 0
 LED_EXTERNAL
 $Comp
-L rfboard-rescue:CONN_01X04 P3
+L CONN_01X04 P3
 U 1 1 5A5423D1
 P 3750 7400
 F 0 "P3" H 3750 7650 50  0000 C CNN
@@ -71,7 +130,7 @@ $EndComp
 Text Notes 3150 6750 0    60   ~ 0
 ARM\nSerial Wire Debug
 $Comp
-L power:GND #PWR03
+L GND #PWR03
 U 1 1 5A542459
 P 3550 7550
 F 0 "#PWR03" H 3550 7300 50  0001 C CNN
@@ -86,7 +145,7 @@ ARM_SWDIO
 Text GLabel 3250 7450 1    60   Input ~ 0
 ARM_SWCLK
 $Comp
-L power:+5V #PWR04
+L +5V #PWR04
 U 1 1 5A5424FD
 P 2000 7250
 F 0 "#PWR04" H 2000 7100 50  0001 C CNN
@@ -97,7 +156,7 @@ F 3 "" H 2000 7250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR05
+L GND #PWR05
 U 1 1 5A542519
 P 2000 7450
 F 0 "#PWR05" H 2000 7200 50  0001 C CNN
@@ -112,7 +171,7 @@ USB_D-
 Text GLabel 1000 7250 1    60   Input ~ 0
 USB_D+
 $Comp
-L power:GND #PWR06
+L GND #PWR06
 U 1 1 5A542675
 P 5400 1900
 F 0 "#PWR06" H 5400 1650 50  0001 C CNN
@@ -123,7 +182,7 @@ F 3 "" H 5400 1900 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L power:GND #PWR07
+L GND #PWR07
 U 1 1 5A542695
 P 5400 2100
 F 0 "#PWR07" H 5400 1850 50  0001 C CNN
@@ -150,7 +209,7 @@ RADIO_SCK
 Text GLabel 4400 1800 0    60   Input ~ 0
 RADIO_NSS
 $Comp
-L rfboard-rescue:WS2812B-RESCUE-rfboard D1
+L WS2812B-RESCUE-rfboard D1
 U 1 1 5A54355C
 P 4150 4600
 F 0 "D1" H 4060 4930 50  0000 L BNN
@@ -161,7 +220,7 @@ F 3 "" H 4150 4600 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+5V #PWR08
+L +5V #PWR08
 U 1 1 5A543862
 P 3600 4400
 F 0 "#PWR08" H 3600 4250 50  0001 C CNN
@@ -172,7 +231,7 @@ F 3 "" H 3600 4400 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR09
+L GND #PWR09
 U 1 1 5A54397F
 P 3600 4700
 F 0 "#PWR09" H 3600 4450 50  0001 C CNN
@@ -187,7 +246,7 @@ LED_EXTERNAL
 Text GLabel 5950 3700 2    60   Input ~ 0
 LED_INTERNAL
 $Comp
-L power:GND #PWR010
+L GND #PWR010
 U 1 1 5A5473E5
 P 10250 1150
 F 0 "#PWR010" H 10250 900 50  0001 C CNN
@@ -198,7 +257,7 @@ F 3 "" H 10250 1150 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+5V #PWR011
+L +5V #PWR011
 U 1 1 5A547413
 P 9450 750
 F 0 "#PWR011" H 9450 600 50  0001 C CNN
@@ -209,7 +268,7 @@ F 3 "" H 9450 750 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+3V3 #PWR012
+L +3V3 #PWR012
 U 1 1 5A547441
 P 10250 950
 F 0 "#PWR012" H 10250 800 50  0001 C CNN
@@ -220,18 +279,18 @@ F 3 "" H 10250 950 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+3V3 #PWR013
+L +3V3 #PWR013
 U 1 1 5A54A758
-P 4400 850
-F 0 "#PWR013" H 4400 700 50  0001 C CNN
-F 1 "+3V3" H 4400 990 50  0000 C CNN
-F 2 "" H 4400 850 50  0000 C CNN
-F 3 "" H 4400 850 50  0000 C CNN
-	1    4400 850 
+P 4400 1300
+F 0 "#PWR013" H 4400 1150 50  0001 C CNN
+F 1 "+3V3" H 4400 1440 50  0000 C CNN
+F 2 "" H 4400 1300 50  0000 C CNN
+F 3 "" H 4400 1300 50  0000 C CNN
+	1    4400 1300
 	1    0    0    -1  
 $EndComp
 $Comp
-L 10118194-0001LF:10118194-0001LF J1
+L 10118194-0001LF J1
 U 1 1 5A59670D
 P 1500 7350
 F 0 "J1" H 1209 7571 50  0000 L BNN
@@ -250,12 +309,12 @@ NoConn ~ 1000 7450
 Text Notes 600  6750 0    60   ~ 0
 USB connector\n(Power/programming)
 $Comp
-L SparkFun-RF:RFM69CW-915MHZ U2
+L RFM69CW-915MHZ U2
 U 1 1 5A83E74A
 P 4900 1700
 F 0 "U2" H 4500 2250 45  0000 L BNN
 F 1 "RFM69CW-915MHZ" H 4500 1100 45  0000 L BNN
-F 2 "homebrew:RFM69CW-minimalpads" H 4900 2300 20  0001 C CNN
+F 2 "homebrew:RFM69CW" H 4900 2300 20  0001 C CNN
 F 3 "" H 4900 1700 60  0001 C CNN
 F 4 "IC-11996" H 4900 2350 60  0000 C CNN "Field4"
 	1    4900 1700
@@ -267,7 +326,7 @@ NoConn ~ 5400 1600
 NoConn ~ 5400 1700
 NoConn ~ 4400 2100
 $Comp
-L Homebrew:HOLE H1
+L HOLE H1
 U 1 1 5A843A47
 P 6100 6700
 F 0 "H1" H 6100 6570 60  0000 C CNN
@@ -278,7 +337,7 @@ F 3 "" H 6100 6700 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Homebrew:HOLE H2
+L HOLE H2
 U 1 1 5A843ACA
 P 6100 7100
 F 0 "H2" H 6100 6970 60  0000 C CNN
@@ -289,7 +348,7 @@ F 3 "" H 6100 7100 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Homebrew:HOLE H3
+L HOLE H3
 U 1 1 5A843B2A
 P 6100 7500
 F 0 "H3" H 6100 7370 60  0000 C CNN
@@ -300,7 +359,7 @@ F 3 "" H 6100 7500 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L MIC5504-3.3YM5-T5:MIC5504-3.3YM5-T5 U3
+L MIC5504-3.3YM5-T5 U3
 U 1 1 5A84F7ED
 P 9850 950
 F 0 "U3" H 9549 1271 50  0000 L BNN
@@ -316,7 +375,7 @@ F 8 "0.13 USD" H 9850 950 50  0001 L BNN "Field8"
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+5V #PWR014
+L +5V #PWR014
 U 1 1 5A84FAAB
 P 10250 750
 F 0 "#PWR014" H 10250 600 50  0001 C CNN
@@ -327,7 +386,7 @@ F 3 "" H 10250 750 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L rfboard-rescue:C C1
+L C C1
 U 1 1 5A84FB7B
 P 10500 1000
 F 0 "C1" H 10525 1100 50  0000 L CNN
@@ -338,7 +397,7 @@ F 3 "" H 10500 1000 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L rfboard-rescue:C C2
+L C C2
 U 1 1 5A84FBD8
 P 10750 1000
 F 0 "C2" H 10775 1100 50  0000 L CNN
@@ -349,7 +408,7 @@ F 3 "" H 10750 1000 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L rfboard-rescue:C C3
+L C C3
 U 1 1 5A84FC13
 P 11000 1000
 F 0 "C3" H 11025 1100 50  0000 L CNN
@@ -360,7 +419,7 @@ F 3 "" H 11000 1000 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Homebrew:SAMD21E18 U1
+L SAMD21E18 U1
 U 1 1 5A8519D5
 P 1750 2150
 F 0 "U1" H 1650 700 60  0000 C CNN
@@ -371,18 +430,18 @@ F 3 "" H 1750 2150 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+3V3 #PWR015
+L +3V3 #PWR015
 U 1 1 5A851BC3
-P 1100 650
-F 0 "#PWR015" H 1100 500 50  0001 C CNN
-F 1 "+3V3" H 1100 790 50  0000 C CNN
-F 2 "" H 1100 650 50  0001 C CNN
-F 3 "" H 1100 650 50  0001 C CNN
-	1    1100 650 
+P 1100 1000
+F 0 "#PWR015" H 1100 850 50  0001 C CNN
+F 1 "+3V3" H 1100 1140 50  0000 C CNN
+F 2 "" H 1100 1000 50  0001 C CNN
+F 3 "" H 1100 1000 50  0001 C CNN
+	1    1100 1000
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR016
+L GND #PWR016
 U 1 1 5A851C44
 P 1100 1800
 F 0 "#PWR016" H 1100 1550 50  0001 C CNN
@@ -407,7 +466,7 @@ RADIO_NSS
 Text GLabel 2200 3200 2    60   Input ~ 0
 SIMPLE_LED
 $Comp
-L rfboard-rescue:LED D2
+L LED D2
 U 1 1 5A8531E4
 P 7450 1900
 F 0 "D2" H 7450 2000 50  0000 C CNN
@@ -420,7 +479,7 @@ $EndComp
 Text GLabel 7000 1900 0    60   Input ~ 0
 SIMPLE_LED
 $Comp
-L power:GND #PWR017
+L GND #PWR017
 U 1 1 5A853737
 P 7600 1900
 F 0 "#PWR017" H 7600 1650 50  0001 C CNN
@@ -431,7 +490,7 @@ F 3 "" H 7600 1900 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L rfboard-rescue:R R2
+L R R2
 U 1 1 5A8538CF
 P 7150 1900
 F 0 "R2" V 7230 1900 50  0000 C CNN
@@ -451,7 +510,7 @@ Text GLabel 2200 1700 2    60   Input ~ 0
 LED_INTERNAL
 NoConn ~ 1100 1500
 $Comp
-L power:GND #PWR018
+L GND #PWR018
 U 1 1 5A857326
 P 10350 4850
 F 0 "#PWR018" H 10350 4600 50  0001 C CNN
@@ -462,7 +521,7 @@ F 3 "" H 10350 4850 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR019
+L GND #PWR019
 U 1 1 5A857360
 P 10350 2950
 F 0 "#PWR019" H 10350 2700 50  0001 C CNN
@@ -473,7 +532,7 @@ F 3 "" H 10350 2950 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+3V3 #PWR020
+L +3V3 #PWR020
 U 1 1 5A85739A
 P 9550 4650
 F 0 "#PWR020" H 9550 4500 50  0001 C CNN
@@ -484,7 +543,7 @@ F 3 "" H 9550 4650 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+3V3 #PWR021
+L +3V3 #PWR021
 U 1 1 5A8574DE
 P 9500 2850
 F 0 "#PWR021" H 9500 2700 50  0001 C CNN
@@ -495,7 +554,7 @@ F 3 "" H 9500 2850 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+5V #PWR022
+L +5V #PWR022
 U 1 1 5A85766A
 P 9700 4550
 F 0 "#PWR022" H 9700 4400 50  0001 C CNN
@@ -506,7 +565,7 @@ F 3 "" H 9700 4550 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+5V #PWR023
+L +5V #PWR023
 U 1 1 5A857833
 P 9650 2750
 F 0 "#PWR023" H 9650 2600 50  0001 C CNN
@@ -565,7 +624,7 @@ L5
 Text GLabel 2200 2200 2    60   Input ~ 0
 L6
 $Comp
-L power:+5V #PWR024
+L +5V #PWR024
 U 1 1 5A867DF0
 P 9800 2650
 F 0 "#PWR024" H 9800 2500 50  0001 C CNN
@@ -576,7 +635,7 @@ F 3 "" H 9800 2650 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+5V #PWR025
+L +5V #PWR025
 U 1 1 5B416298
 P 3550 7250
 F 0 "#PWR025" H 3550 7100 50  0001 C CNN
@@ -587,7 +646,7 @@ F 3 "" H 3550 7250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L rfboard-rescue:74LVC1G125 U4
+L 74LVC1G125 U4
 U 1 1 5B416651
 P 5550 3750
 F 0 "U4" H 5600 3250 60  0000 C CNN
@@ -598,7 +657,18 @@ F 3 "" H 5550 3750 60  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L power:+5V #PWR027
+L GND #PWR026
+U 1 1 5B416C4A
+P 5050 4050
+F 0 "#PWR026" H 5050 3800 50  0001 C CNN
+F 1 "GND" H 5050 3900 50  0000 C CNN
+F 2 "" H 5050 4050 50  0000 C CNN
+F 3 "" H 5050 4050 50  0000 C CNN
+	1    5050 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L +5V #PWR027
 U 1 1 5B416DA9
 P 5050 3900
 F 0 "#PWR027" H 5050 3750 50  0001 C CNN
@@ -609,7 +679,7 @@ F 3 "" H 5050 3900 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR028
+L GND #PWR028
 U 1 1 5B416EE0
 P 5950 3950
 F 0 "#PWR028" H 5950 3700 50  0001 C CNN
@@ -622,7 +692,7 @@ $EndComp
 NoConn ~ 2200 1000
 NoConn ~ 2200 1100
 $Comp
-L power:GND #PWR029
+L GND #PWR029
 U 1 1 5B418141
 P 1300 5550
 F 0 "#PWR029" H 1300 5300 50  0001 C CNN
@@ -649,7 +719,7 @@ Wire Wire Line
 Wire Wire Line
 	10400 950  10250 950 
 Wire Wire Line
-	10250 1150 10500 1150
+	10250 1150 11000 1150
 Connection ~ 10500 1150
 Connection ~ 10750 1150
 Wire Wire Line
@@ -687,7 +757,7 @@ Text GLabel 1100 1300 0    60   Input ~ 0
 RESET_SW
 NoConn ~ 2200 1600
 $Comp
-L rfboard-rescue:Conn_01x10 J2
+L Conn_01x10 J2
 U 1 1 5B41A3B1
 P 10550 2450
 F 0 "J2" H 10550 2950 50  0000 C CNN
@@ -698,7 +768,7 @@ F 3 "" H 10550 2450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L rfboard-rescue:Conn_01x10 J3
+L Conn_01x10 J3
 U 1 1 5B41AA32
 P 10550 4350
 F 0 "J3" H 10550 4850 50  0000 C CNN
@@ -711,7 +781,7 @@ $EndComp
 Wire Wire Line
 	10350 4750 10350 4850
 $Comp
-L SparkFun-Switches:MOMENTARY-SWITCH-SPST-SMD-4.6X2.8MM S1
+L MOMENTARY-SWITCH-SPST-SMD-4.6X2.8MM S1
 U 1 1 5B41BBBA
 P 1600 5450
 F 0 "S1" H 1400 5550 45  0000 L BNN
@@ -723,11 +793,11 @@ F 4 "SWCH-13065" H 1600 5700 60  0000 C CNN "Field4"
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	10200 3950 10250 3950
+	10200 3950 10350 3950
 Wire Wire Line
 	10300 4050 10350 4050
 $Comp
-L power:+3V3 #PWR030
+L +3V3 #PWR030
 U 1 1 5C7E03DA
 P 10350 3550
 F 0 "#PWR030" H 10350 3400 50  0001 C CNN
@@ -738,7 +808,7 @@ F 3 "" H 10350 3550 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L rfboard-rescue:R R3
+L R R3
 U 1 1 5C7E05DB
 P 10350 3750
 F 0 "R3" V 10430 3750 50  0000 C CNN
@@ -749,7 +819,7 @@ F 3 "" H 10350 3750 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L rfboard-rescue:R R1
+L R R1
 U 1 1 5C7E0719
 P 10250 3750
 F 0 "R1" V 10330 3750 50  0000 C CNN
@@ -772,92 +842,16 @@ Wire Wire Line
 	10250 3900 10250 3950
 Connection ~ 10250 3950
 $Comp
-L rfboard-rescue:Antenna AE1
+L Antenna AE1
 U 1 1 5C7E14EE
 P 5150 7400
 F 0 "AE1" H 5075 7475 50  0000 R CNN
 F 1 "Antenna" H 5075 7400 50  0000 R CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical" H 5150 7400 50  0001 C CNN
+F 2 "homebrew:helical_antenna_915mhz_hole" H 5150 7400 50  0001 C CNN
 F 3 "" H 5150 7400 50  0001 C CNN
 	1    5150 7400
 	0    1    1    0   
 $EndComp
 Wire Wire Line
 	4950 7400 4800 7400
-Wire Wire Line
-	10500 1150 10750 1150
-Wire Wire Line
-	10750 1150 11000 1150
-Wire Wire Line
-	10250 3950 10350 3950
-$Comp
-L Device:C C4
-U 1 1 5CD5C45B
-P 750 850
-F 0 "C4" H 865 896 50  0000 L CNN
-F 1 "1uF" H 865 805 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 788 700 50  0001 C CNN
-F 3 "~" H 750 850 50  0001 C CNN
-	1    750  850 
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR031
-U 1 1 5CD5C8C0
-P 750 1000
-F 0 "#PWR031" H 750 750 50  0001 C CNN
-F 1 "GND" H 750 850 50  0000 C CNN
-F 2 "" H 750 1000 50  0001 C CNN
-F 3 "" H 750 1000 50  0001 C CNN
-	1    750  1000
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	1100 650  1100 700 
-Connection ~ 1100 1000
-Wire Wire Line
-	1100 700  750  700 
-Connection ~ 1100 700 
-Wire Wire Line
-	1100 700  1100 1000
-$Comp
-L Device:C C5
-U 1 1 5CD5F376
-P 4000 1050
-F 0 "C5" H 4115 1096 50  0000 L CNN
-F 1 "1uF" H 4115 1005 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 4038 900 50  0001 C CNN
-F 3 "~" H 4000 1050 50  0001 C CNN
-	1    4000 1050
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	4400 850  4400 1300
-Wire Wire Line
-	4400 850  4000 850 
-Wire Wire Line
-	4000 850  4000 900 
-Connection ~ 4400 850 
-$Comp
-L power:GND #PWR032
-U 1 1 5CD63EB1
-P 4000 1200
-F 0 "#PWR032" H 4000 950 50  0001 C CNN
-F 1 "GND" H 4000 1050 50  0000 C CNN
-F 2 "" H 4000 1200 50  0001 C CNN
-F 3 "" H 4000 1200 50  0001 C CNN
-	1    4000 1200
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR026
-U 1 1 5B416C4A
-P 5050 4050
-F 0 "#PWR026" H 5050 3800 50  0001 C CNN
-F 1 "GND" H 5050 3900 50  0000 C CNN
-F 2 "" H 5050 4050 50  0000 C CNN
-F 3 "" H 5050 4050 50  0000 C CNN
-	1    5050 4050
-	1    0    0    -1  
-$EndComp
 $EndSCHEMATC
