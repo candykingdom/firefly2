@@ -50,8 +50,8 @@ void FakeNetwork::Tick() {
 
 void FakeNetwork::reinitNode(int index) {
   delete stateMachines[index];
-  stateMachines[index] = new RadioStateMachine(
-      new NetworkManager(&radios[index]));
+  stateMachines[index] =
+      new RadioStateMachine(new NetworkManager(&radios[index]));
 }
 
 void FakeNetwork::setPacketLoss(int n) { packetLoss = n; }

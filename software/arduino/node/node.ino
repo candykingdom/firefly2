@@ -25,7 +25,7 @@ void setup() {
   radio = new RadioHeadRadio();
   nm = new NetworkManager(radio);
   stateMachine = new RadioStateMachine(nm);
-  
+
   ledManager = new FastLedManager(kNumLeds, stateMachine);
   ledManager->SetGlobalColor(CHSV(HUE_YELLOW, 255, 128));
   delay(10);

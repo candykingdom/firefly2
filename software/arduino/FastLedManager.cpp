@@ -1,6 +1,8 @@
 #include "FastLedManager.hpp"
 
-FastLedManager::FastLedManager(const uint8_t numLeds, RadioStateMachine *radioState) : LedManager(numLeds, radioState) {
+FastLedManager::FastLedManager(const uint8_t numLeds,
+                               RadioStateMachine *radioState)
+    : LedManager(numLeds, radioState) {
   leds = new CRGB[numLeds];
   FastLED.addLeds<NEOPIXEL, WS2812_PIN>(leds, numLeds)
       .setCorrection(TypicalLEDStrip);
