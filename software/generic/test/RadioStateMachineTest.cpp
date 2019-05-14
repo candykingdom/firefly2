@@ -217,6 +217,8 @@ TEST(RadioStateMachine, masterSendsSetEffect) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
+  stateMachine->SetNumEffects(255);
+  stateMachine->SetNumPalettes(255);
 
   setMillis(kMaxSlaveTimeout);
   stateMachine->RadioTick();
@@ -238,8 +240,9 @@ TEST(RadioStateMachine, masterSendsSetEffect) {
   receivedPacket = radio.getSentPacket();
   ASSERT_NE(receivedPacket, nullptr);
   EXPECT_EQ(receivedPacket->type, SET_EFFECT);
-  EXPECT_EQ(receivedPacket->readEffectIndexFromSetEffect(), 1);
+  EXPECT_NE(receivedPacket->readEffectIndexFromSetEffect(), 0);
   EXPECT_EQ(receivedPacket->readDelayFromSetEffect(), 0);
+  EXPECT_NE(receivedPacket->readPaletteIndexFromSetEffect(), 0);
 }
 
 TEST(RadioStateMachine, masterRespectsSetEffectDelay) {
@@ -247,6 +250,7 @@ TEST(RadioStateMachine, masterRespectsSetEffectDelay) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
+  stateMachine->SetNumEffects(255);
 
   setMillis(kMaxSlaveTimeout);
   stateMachine->RadioTick();
@@ -257,7 +261,7 @@ TEST(RadioStateMachine, masterRespectsSetEffectDelay) {
   EXPECT_EQ(receivedPacket->type, HEARTBEAT);
 
   RadioPacket setEffectPacket;
-  setEffectPacket.writeSetEffect(2, 30, 0);
+  setEffectPacket.writeSetEffect(2, 120, 0);
   radio.setReceivedPacket(&setEffectPacket);
   stateMachine->RadioTick();
   stateMachine->RadioTick();
@@ -274,7 +278,7 @@ TEST(RadioStateMachine, masterRespectsSetEffectDelay) {
   receivedPacket = radio.getSentPacket();
   ASSERT_EQ(receivedPacket, nullptr);
 
-  setMillis(kMaxSlaveTimeout + 30 * 1000 + 1);
+  setMillis(kMaxSlaveTimeout + 120 * 1000 + 1);
   // First we'll get a heartbeat
   stateMachine->RadioTick();
   receivedPacket = radio.getSentPacket();
@@ -286,7 +290,7 @@ TEST(RadioStateMachine, masterRespectsSetEffectDelay) {
   receivedPacket = radio.getSentPacket();
   ASSERT_NE(receivedPacket, nullptr);
   EXPECT_EQ(receivedPacket->type, SET_EFFECT);
-  EXPECT_EQ(receivedPacket->readEffectIndexFromSetEffect(), 1);
+  EXPECT_NE(receivedPacket->readEffectIndexFromSetEffect(), 0);
 }
 
 TEST(RadioStateMachine, slaveReturnsEffectIndexFromNetwork) {

@@ -43,6 +43,14 @@ void RadioStateMachine::SetEffect(RadioPacket *const setEffect) {
   }
 }
 
+void RadioStateMachine::SetNumPalettes(uint8_t numPalettes) {
+  this->numPalettes = numPalettes;
+}
+
+void RadioStateMachine::SetNumEffects(uint8_t numEffects) {
+  this->numEffects = numEffects;
+}
+
 void RadioStateMachine::RadioTick() {
   RadioEventData data;
   data.packet = nullptr;
@@ -161,10 +169,11 @@ void RadioStateMachine::handleMasterEvent(RadioEventData &data) {
     SendHeartbeat();
     SetHeartbeatTimer(kMasterHeartbeatInterval);
   } else if (data.effectTimerExpired) {
-    packet.writeSetEffect(/* effectIndex= */ 1, /* delay= */ 0, /* hue= */ 0);
+    effectIndex = random(0, numEffects);
+    const uint8_t paletteIndex = random(0, numPalettes);
+    packet.writeSetEffect(effectIndex, /* delay= */ 0, paletteIndex);
     this->setEffectPacket = packet;
     networkManager->send(packet);
-    effectIndex = 1;
     SetEffectTimer(kSetEffectInterval);
   }
 }

@@ -53,6 +53,10 @@ class RadioStateMachine {
   /** Sets and broadcasts the current effect. */
   void SetEffect(RadioPacket *const setEffect);
 
+  // See comment on numPalettes and numEffects below.
+  void SetNumPalettes(uint8_t numPalettes);
+  void SetNumEffects(uint8_t numEffects);
+
   // Tuning constants. Public for testing.
   /**
    * If a slave doesn't receive a heartbeat for this long, it'll become master.
@@ -70,7 +74,7 @@ class RadioStateMachine {
   static const uint32_t kMasterHeartbeatInterval = 1000;
 
   /** When master, change the effect this often. */
-  static const uint32_t kSetEffectInterval = 10000;
+  static const uint32_t kSetEffectInterval = 30000;
 
  private:
   // Handler functions
@@ -116,6 +120,12 @@ class RadioStateMachine {
 
   /** The current effect index. */
   int8_t effectIndex = 0;
+
+  // The state machine needs to know how many effects and palettes there are, so
+  // that it can set them in the SetEffect packets. These are set by LedManager
+  // calling the corresponding setters.
+  uint8_t numPalettes = 1;
+  uint8_t numEffects = 1;
 
   RadioPacket packet;
   RadioPacket setEffectPacket;

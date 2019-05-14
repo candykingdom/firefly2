@@ -219,7 +219,10 @@ TEST(Network, setEffectIndex) {
         << "Node " << i << " has wrong effect index";
   }
 
-  runTicks(network, RadioStateMachine::kSetEffectInterval * 2);
+  // Note: multiplier of 3 here is a magic number, so that the random SetEffect
+  // is 1 (i.e. different from the default). Since we choose a fixed random
+  // seed, this is stable.
+  runTicks(network, RadioStateMachine::kSetEffectInterval * 3);
   for (int i = 0; i < FakeNetwork::kNumNodes; i++) {
     EXPECT_EQ(network.stateMachines[i]->GetEffectIndex(), 1)
         << "Node " << i << " has wrong effect index";

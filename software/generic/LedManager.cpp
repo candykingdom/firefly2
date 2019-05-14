@@ -8,6 +8,8 @@ LedManager::LedManager(const uint8_t numLeds, RadioStateMachine *radioState)
   CRGB color = CRGB::Red;
   effects.push_back(new RainbowEffect(numLeds, color));
   effects.push_back(new FireflyEffect(numLeds, color));
+  radioState->SetNumEffects(effects.size());
+  radioState->SetNumPalettes(effects[0]->palettes.size());
 }
 
 Effect *LedManager::GetCurrentEffect() {
