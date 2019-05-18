@@ -62,13 +62,10 @@ void RadioStateMachine::RadioTick() {
   // Note: only allow one event type per iteration. This makes the handler
   // functions simpler (and less error prone).
   if (networkManager->receive(packet)) {
-    debug_printf("Received packet\n");
     data.packet = &packet;
   } else if (heartbeatTimerExpiresAt && millis() > heartbeatTimerExpiresAt) {
-    debug_printf("Heartbeat timer expired\n");
     data.heartbeatTimerExpired = true;
   } else if (effectTimerExpiresAt && millis() > effectTimerExpiresAt) {
-    debug_printf("SetEffect timer expired\n");
     data.effectTimerExpired = true;
   }
 
@@ -131,8 +128,6 @@ void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
 }
 
 void RadioStateMachine::PerformMasterElection(RadioPacket *receivedPacket) {
-  debug_printf("Performing master election\n");
-
   // Master election: generate a random number. If our number is greater
   // than the packet's ID, become master. Otherwise, become slave.
   const uint16_t ourId = random(1, 0xFFFF);
@@ -147,7 +142,6 @@ void RadioStateMachine::PerformMasterElection(RadioPacket *receivedPacket) {
 
 void RadioStateMachine::handleMasterEvent(RadioEventData &data) {
   if (data.packet != nullptr) {
-    debug_printf("Received type %d\n", data.packet->type);
     switch (data.packet->type) {
       case HEARTBEAT:
         PerformMasterElection(data.packet);
