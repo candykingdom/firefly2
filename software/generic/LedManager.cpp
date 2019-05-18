@@ -1,11 +1,13 @@
 #include "LedManager.hpp"
 #include <cassert>
+#include "FireflyEffect.hpp"
 #include "RainbowEffect.hpp"
 
 LedManager::LedManager(const uint8_t numLeds, RadioStateMachine *radioState)
     : numLeds(numLeds), radioState(radioState) {
   CRGB color = CRGB::Red;
   effects.push_back(new RainbowEffect(numLeds, color));
+  effects.push_back(new FireflyEffect(numLeds, color));
 }
 
 Effect *LedManager::GetCurrentEffect() {
