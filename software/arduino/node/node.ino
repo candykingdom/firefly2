@@ -9,6 +9,8 @@
 
 const int kLedPin = 0;
 const int kNumLeds = 60;
+// const int kNumLeds = 5; // Lantern
+// const int kNumLeds = 47; // Scarf
 
 RadioHeadRadio* radio;
 NetworkManager* nm;

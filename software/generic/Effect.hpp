@@ -36,6 +36,17 @@ class Effect {
       // Yellow-green
       CHSVPalette16(CHSV(HUE_YELLOW, 255, 255), CHSV(HUE_AQUA, 255, 255),
                     CHSV(HUE_YELLOW, 255, 255)),
+      // 80s Miami
+      CHSVPalette16(CHSV(HUE_YELLOW, 255, 255), CHSV(HUE_ORANGE, 255, 255),
+                    CHSV(HUE_PURPLE, 255, 255)),
+      // Vaporwave
+      // https://i.redd.it/aepphltiqy911.png
+      CHSVPalette16(
+          CHSV(47, 255, 255),
+          CHSV(349, 255, 255),
+          CHSV(284, 255, 255)),
+      // Popo
+      CHSVPalette16(CHSV(HUE_RED, 255, 255), CHSV(HUE_BLUE, 255, 255)),
   };
 
  protected:

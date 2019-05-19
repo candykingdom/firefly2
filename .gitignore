@@ -2,3 +2,4 @@ software/generic/build
 assembly/*.zip
 *.d
 *.o
+.vscode
