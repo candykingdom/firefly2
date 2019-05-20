@@ -5,7 +5,7 @@ static const uint16_t MAX_UNSIGNED = 65535;
 
 static const uint16_t SPREAD = MAX_UNSIGNED * 0.2;
 
-SwingingLights::SwingingLights(uint8_t numLeds): Effect(numLeds) {
+SwingingLights::SwingingLights(uint8_t numLeds) : Effect(numLeds) {
   // This effect looks bad on less than 10 LEDs. Instead of creating another
   // effect we can just make the LEDs flash when a light pulse hits the end of a
   // "long" strip which looks pretty cool.
@@ -24,13 +24,13 @@ static void addInPlace(const CHSV& value, CRGB& result) {
 }
 
 CRGB SwingingLights::GetRGB(uint8_t ledIndex, uint32_t timeMs,
-                           RadioPacket *setEffectPacket) {
+                            RadioPacket* setEffectPacket) {
   // Map [0, period) to [0, MAX_UNSIGNED)
-  const int16_t angle = (timeMs % period) * ((float) MAX_UNSIGNED / period);
+  const int16_t angle = (timeMs % period) * ((float)MAX_UNSIGNED / period);
 
   // Map [0, numLeds) to [-MAX_SIGNED, MAX_SIGNED)
   const int16_t light_pos =
-      (ledIndex - numLeds / 2) * ((float) MAX_SIGNED / (numLeds / 2));
+      (ledIndex - numLeds / 2) * ((float)MAX_SIGNED / (numLeds / 2));
 
   const int16_t first_pos = sin16(angle);
   const int16_t second_pos = -first_pos;

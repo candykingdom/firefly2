@@ -41,10 +41,8 @@ class Effect {
                     CHSV(HUE_PURPLE, 255, 255)),
       // Vaporwave
       // https://i.redd.it/aepphltiqy911.png
-      CHSVPalette16(
-          CHSV(47, 255, 255),
-          CHSV(349, 255, 255),
-          CHSV(284, 255, 255)),
+      CHSVPalette16(CHSV(47, 255, 255), CHSV(349, 255, 255),
+                    CHSV(284, 255, 255)),
       // Popo
       CHSVPalette16(CHSV(HUE_RED, 255, 255), CHSV(HUE_BLUE, 255, 255)),
   };

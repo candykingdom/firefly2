@@ -3,12 +3,12 @@
 PoliceEffect::PoliceEffect(uint8_t numLeds) : Effect(numLeds) {}
 
 CRGB PoliceEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
-                           RadioPacket *setEffectPacket) {
+                          RadioPacket *setEffectPacket) {
   const bool red_cycle = (timeMs / redSpeed & 0b100000) == 0;
   const bool blue_cycle = (timeMs / blueSpeed & 0b100000) == 0;
   const bool red_flash = (timeMs / redSpeed & 0b100) == 0;
   const bool blue_flash = (timeMs / blueSpeed & 0b100) == 0;
-  
+
   if (numLeds < lightWidth * 2) {
     if (red_flash) {
       if (red_cycle) {

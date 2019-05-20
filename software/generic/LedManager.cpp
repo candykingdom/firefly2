@@ -1,6 +1,7 @@
 #include "LedManager.hpp"
 #include <cassert>
 #include "ColorCycleEffect.hpp"
+#include "FireEffect.hpp"
 #include "FireflyEffect.hpp"
 #include "PoliceEffect.hpp"
 #include "RainbowEffect.hpp"
@@ -14,6 +15,7 @@ LedManager::LedManager(const uint8_t numLeds, RadioStateMachine *radioState)
   effects.push_back(new PoliceEffect(numLeds));
   effects.push_back(new RainbowEffect(numLeds, color));
   effects.push_back(new SwingingLights(numLeds));
+  effects.push_back(new FireEffect(numLeds));
   radioState->SetNumEffects(effects.size());
   radioState->SetNumPalettes(effects[0]->palettes.size());
 }
