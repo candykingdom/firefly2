@@ -11,8 +11,8 @@ FakeNetwork::FakeNetwork() {
   for (int i = 0; i < kNumNodes; i++) {
     advanceMillis(1);
     stateMachines[i] = new RadioStateMachine(new NetworkManager(&radios[i]));
-    stateMachines[i]->SetNumEffects(2);
-    stateMachines[i]->SetNumPalettes(2);
+    stateMachines[i]->SetNumEffects(255);
+    stateMachines[i]->SetNumPalettes(255);
     stateMachines[i]->Tick();
   }
 }
