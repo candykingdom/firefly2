@@ -39,7 +39,9 @@ CRGB FireflyEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   if (curve < 0) {
     curve = 0;
   }
-  return ColorFromPalette(
-      palettes[setEffectPacket->readPaletteIndexFromSetEffect()],
-      /* index */ timeMs / kBlinkPeriod, /* brightness */ curve / 256);
+  ColorPalette palette =
+      palettes[setEffectPacket->readPaletteIndexFromSetEffect()];
+  CHSV color = palette.GetGradient((timeMs / kBlinkPeriod) << 8);
+  color.v = curve / 256;
+  return color;
 }

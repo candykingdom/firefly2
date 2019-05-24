@@ -36,4 +36,7 @@ uint16_t XY(uint8_t x, uint8_t y);
 #include "string.h"
 #endif
 
+const uint8_t MAX_UINT8 = 255;
+const uint16_t MAX_UINT16 = 65535;
+
 #endif

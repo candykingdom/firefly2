@@ -1,4 +1,5 @@
 #include "SwingingLights.hpp"
+#include "ColorPalette.hpp"
 
 static const int16_t MAX_SIGNED = 32767;
 static const uint16_t MAX_UNSIGNED = 65535;
@@ -40,17 +41,17 @@ CRGB SwingingLights::GetRGB(uint8_t ledIndex, uint32_t timeMs,
 
   CRGB color(0, 0, 0);
 
-  CHSVPalette16 palette =
+  ColorPalette palette =
       palettes[setEffectPacket->readPaletteIndexFromSetEffect()];
 
   if (first_dist < 0) {
-    CHSV modifier = palette[0];
+    CHSV modifier = palette.GetColor(0);
     modifier.v = -first_dist * modifier.v / SPREAD;
     addInPlace(modifier, color);
   }
 
   if (second_dist < 0) {
-    CHSV modifier = palette[15];
+    CHSV modifier = palette.GetColor(1);
     modifier.v = -second_dist * modifier.v / SPREAD;
     addInPlace(modifier, color);
   }

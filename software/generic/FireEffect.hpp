@@ -13,8 +13,8 @@ class FireEffect : public Effect {
 
  private:
   // Fire color palette.
-  CRGBPalette256 palette = CRGBPalette256(CRGB(0x000000), CRGB(0x2d0c01),
-                                          CRGB(0x714004), CRGB(0xfd780c));
+  ColorPalette palette = {
+      {0, 0, 0}, {11, 249, 45}, {23, 246, 113}, {35, 125, 255}};
 
   // Random time offset per device.
   uint16_t offset = 0;
