@@ -34,7 +34,7 @@ class Effect {
       // Yellow-green
       {{HUE_YELLOW, 255, 255}, {HUE_AQUA, 255, 255}},
       // 80s Miami
-      {{HUE_YELLOW, 255, 255}, {HUE_ORANGE, 255, 255}, {HUE_PURPLE, 255, 255}},
+      {{HUE_PURPLE, 255, 255}, {HUE_ORANGE, 255, 255}},
       // Vaporwave
       // https://i.redd.it/aepphltiqy911.png
       {{33, 241, 249}, {247, 188, 255}, {201, 225, 160}, {153, 251, 150}},
