@@ -1,10 +1,7 @@
 #include "SwingingLights.hpp"
 #include "ColorPalette.hpp"
 
-static const int16_t MAX_SIGNED = 32767;
-static const uint16_t MAX_UNSIGNED = 65535;
-
-static const uint16_t SPREAD = MAX_UNSIGNED * 0.2;
+static const uint16_t SPREAD = MAX_UINT16 * 0.2;
 
 SwingingLights::SwingingLights(uint8_t numLeds) : Effect(numLeds) {
   // This effect looks bad on less than 10 LEDs. Instead of creating another
@@ -26,34 +23,28 @@ static void addInPlace(const CHSV& value, CRGB& result) {
 
 CRGB SwingingLights::GetRGB(uint8_t ledIndex, uint32_t timeMs,
                             RadioPacket* setEffectPacket) {
-  // Map [0, period) to [0, MAX_UNSIGNED)
-  const int16_t angle = (timeMs % period) * ((float)MAX_UNSIGNED / period);
+  // Map [0, period) to [0, MAX_UINT16)
+  const fract16 angle = (timeMs % period) * MAX_UINT16 / period;
 
-  // Map [0, numLeds) to [-MAX_SIGNED, MAX_SIGNED)
-  const int16_t light_pos =
-      (ledIndex - numLeds / 2) * ((float)MAX_SIGNED / (numLeds / 2));
-
-  const int16_t first_pos = sin16(angle);
-  const int16_t second_pos = -first_pos;
-
-  const int32_t first_dist = abs(first_pos - light_pos) - SPREAD;
-  const int32_t second_dist = abs(second_pos - light_pos) - SPREAD;
-
-  CRGB color(0, 0, 0);
+  // Map [0, numLeds) to [0, MAX_UINT16)
+  const fract16 led_pos = (uint32_t)ledIndex * MAX_UINT16 / numLeds;
 
   ColorPalette palette =
       palettes[setEffectPacket->readPaletteIndexFromSetEffect()];
 
-  if (first_dist < 0) {
-    CHSV modifier = palette.GetColor(0);
-    modifier.v = -first_dist * modifier.v / SPREAD;
-    addInPlace(modifier, color);
-  }
+  CRGB color(0, 0, 0);
 
-  if (second_dist < 0) {
-    CHSV modifier = palette.GetColor(1);
-    modifier.v = -second_dist * modifier.v / SPREAD;
-    addInPlace(modifier, color);
+  for (uint32_t i = 0; i < palette.Size(); ++i) {
+    const fract16 light_offset = i * MAX_UINT16 / palette.Size();
+    const fract16 light_pos = sin16(light_offset + angle) + MAX_UINT16 / 2;
+
+    int32_t dist = abs((int32_t)light_pos - led_pos) - SPREAD;
+
+    if (dist < 0) {
+      CHSV modifier = palette.GetColor(i);
+      modifier.v = -dist * modifier.v / SPREAD;
+      addInPlace(modifier, color);
+    }
   }
 
   return color;

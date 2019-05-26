@@ -35,9 +35,9 @@ CHSV ColorPalette::GetGradient(fract16 position, bool wrap) const {
   } else {
     uint16_t hue;
     if (start.h < finish.h) {
-      hue = lerp16by16(((uint16_t) start.h) + MAX_UINT8, finish.h, t);
+      hue = lerp16by16(((uint16_t)start.h) + MAX_UINT8, finish.h, t);
     } else {
-      hue = lerp16by16(start.h, ((uint16_t) finish.h) + MAX_UINT8, t);
+      hue = lerp16by16(start.h, ((uint16_t)finish.h) + MAX_UINT8, t);
     }
     if (hue > MAX_UINT8) {
       hue -= MAX_UINT8;
