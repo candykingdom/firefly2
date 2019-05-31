@@ -24,12 +24,24 @@ CRGB StopLightEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
 
   if (led_pos < segment) {
     return {0, 0, 0};
-  } else if (led_pos > segment && led_pos < segment * 2 && is_red) {
-    return red;
-  } else if (led_pos > segment * 2 && led_pos < segment * 3 && is_amber) {
-    return amber;
-  } else if (led_pos > segment * 3 && is_green) {
-    return green;
+  } else if (led_pos > segment && led_pos < segment * 2) {
+    if (is_red) {
+      return red;
+    } else {
+      return dimRed;
+    }
+  } else if (led_pos > segment * 2 && led_pos < segment * 3) {
+    if (is_amber) {
+      return amber;
+    } else {
+      return dimAmber;
+    }
+  } else if (led_pos > segment * 3) {
+    if (is_green) {
+      return green;
+    } else {
+      return dimGreen;
+    }
   } else {
     return {0, 0, 0};
   }
