@@ -6,6 +6,7 @@
 #include "PoliceEffect.hpp"
 #include "RainbowEffect.hpp"
 #include "RorschachEffect.hpp"
+#include "SimpleBlinkEffect.hpp"
 #include "StopLightEffect.hpp"
 #include "SwingingLights.hpp"
 
@@ -18,6 +19,7 @@ LedManager::LedManager(const uint8_t numLeds, RadioStateMachine *radioState)
   effects.push_back(new PoliceEffect(numLeds));
   effects.push_back(new RainbowEffect(numLeds, color));
   effects.push_back(new RorschachEffect(numLeds));
+  effects.push_back(new SimpleBlinkEffect(numLeds));
   effects.push_back(new StopLightEffect(numLeds));
   effects.push_back(new SwingingLights(numLeds));
   radioState->SetNumEffects(effects.size());
