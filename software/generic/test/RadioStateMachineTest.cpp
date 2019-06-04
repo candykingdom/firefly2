@@ -228,7 +228,7 @@ TEST(RadioStateMachine, masterSendsSetEffect) {
   ASSERT_NE(receivedPacket, nullptr);
   EXPECT_EQ(receivedPacket->type, HEARTBEAT);
 
-  setMillis(kMaxSlaveTimeout + RadioStateMachine::kSetEffectInterval + 1);
+  setMillis(kMaxSlaveTimeout + RadioStateMachine::kChangeEffectInterval + 1);
   // First we'll get a heartbeat
   stateMachine->RadioTick();
   receivedPacket = radio.getSentPacket();
@@ -236,6 +236,23 @@ TEST(RadioStateMachine, masterSendsSetEffect) {
   EXPECT_EQ(receivedPacket->type, HEARTBEAT);
 
   // Then the set effect
+  stateMachine->RadioTick();
+  receivedPacket = radio.getSentPacket();
+  ASSERT_NE(receivedPacket, nullptr);
+  EXPECT_EQ(receivedPacket->type, SET_EFFECT);
+  EXPECT_NE(receivedPacket->readEffectIndexFromSetEffect(), 0);
+  EXPECT_EQ(receivedPacket->readDelayFromSetEffect(), 0);
+  EXPECT_NE(receivedPacket->readPaletteIndexFromSetEffect(), 0);
+
+  setMillis(kMaxSlaveTimeout + RadioStateMachine::kChangeEffectInterval +
+            RadioStateMachine::kBroadcastEffectInterval + 1);
+  // Another heartbeat
+  stateMachine->RadioTick();
+  receivedPacket = radio.getSentPacket();
+  ASSERT_NE(receivedPacket, nullptr);
+  EXPECT_EQ(receivedPacket->type, HEARTBEAT);
+
+  // And now the same SetEffect
   stateMachine->RadioTick();
   receivedPacket = radio.getSentPacket();
   ASSERT_NE(receivedPacket, nullptr);
@@ -266,17 +283,18 @@ TEST(RadioStateMachine, masterRespectsSetEffectDelay) {
   stateMachine->RadioTick();
   stateMachine->RadioTick();
 
-  setMillis(kMaxSlaveTimeout + RadioStateMachine::kSetEffectInterval + 1);
+  setMillis(kMaxSlaveTimeout + RadioStateMachine::kChangeEffectInterval + 1);
   // Heartbeat
   stateMachine->RadioTick();
   receivedPacket = radio.getSentPacket();
   ASSERT_NE(receivedPacket, nullptr);
   EXPECT_EQ(receivedPacket->type, HEARTBEAT);
 
-  // No more packets yet
+  // Re-broadcasts the same set effect packet
   stateMachine->RadioTick();
   receivedPacket = radio.getSentPacket();
-  ASSERT_EQ(receivedPacket, nullptr);
+  receivedPacket->packetId = setEffectPacket.packetId;
+  ASSERT_EQ(*receivedPacket, setEffectPacket);
 
   setMillis(kMaxSlaveTimeout + 120 * 1000 + 1);
   // First we'll get a heartbeat
@@ -362,7 +380,7 @@ TEST(RadioStateMachine, SetEffect_NoDelay) {
   expectPacketsEqual(stateMachine->GetSetEffect(), &setEffect);
   expectPacketsEqual(radio.getSentPacket(), &setEffect);
 
-  setMillis(RadioStateMachine::kSetEffectInterval + 1);
+  setMillis(RadioStateMachine::kChangeEffectInterval + 1);
   stateMachine->RadioTick();
   expectPacketsEqual(stateMachine->GetSetEffect(), defaultSetEffect);
 }

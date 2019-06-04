@@ -222,7 +222,7 @@ TEST(Network, setEffectIndex) {
   // Note: multiplier of 3 here is a magic number, so that the random SetEffect
   // is 1 (i.e. different from the default). Since we choose a fixed random
   // seed, this is stable.
-  runTicks(network, RadioStateMachine::kSetEffectInterval * 3);
+  runTicks(network, RadioStateMachine::kChangeEffectInterval * 3);
   // All nodes should have the same, non-zero (i.e. default) effect index
   uint8_t expectedEffectIndex = network.stateMachines[0]->GetEffectIndex();
   EXPECT_NE(expectedEffectIndex, 1);
