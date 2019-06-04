@@ -40,6 +40,10 @@ class Effect {
       {{33, 241, 249}, {247, 188, 255}, {201, 225, 160}, {153, 251, 150}},
       // Popo
       {{HUE_RED, 255, 255}, {HUE_BLUE, 255, 255}},
+      // Candy-cane
+      {{HUE_RED, 255, 255}, {HUE_RED, 0, 255}},
+      // Winter-mint candy-cane
+      {{HUE_AQUA, 255, 255}, {HUE_AQUA, 0, 255}},
   };
 
  protected:

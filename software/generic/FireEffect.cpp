@@ -13,8 +13,8 @@ CRGB FireEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   timeMs += offset;
   // Create 2 octave Perlin noise by averaging multiple samples.
   uint8_t noise =
-      (perlinNoise(ledIndex * 20, timeMs / 4) >> 1) +
-      (perlinNoise(ledIndex * 10 + 1234, timeMs / 2 + 1234567) >> 1);
+      (perlinNoise(ledIndex * 20, timeMs / 8) / 4 * 3) +
+      (perlinNoise(ledIndex * 10 + 1234, timeMs / 2 + 1234567) / 4 * 1);
 
   return palette.GetGradient(noise << 8, false);
 }
