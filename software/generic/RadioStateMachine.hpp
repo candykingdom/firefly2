@@ -82,7 +82,7 @@ class RadioStateMachine {
   static const uint32_t kMasterHeartbeatInterval = 1000;
 
   /** When master, change the effect this often. */
-  static const uint32_t kChangeEffectInterval = 30000;
+  static const uint32_t kChangeEffectInterval = 60000;
 
   /** When master, re-broadcast the current effect this often. */
   static const uint32_t kBroadcastEffectInterval = 2000;
