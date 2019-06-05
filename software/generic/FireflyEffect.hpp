@@ -14,7 +14,7 @@ class FireflyEffect : public Effect {
 
  private:
   // The time it takes for the lights to go from randomly distributed to in-sync
-  const uint32_t kPeriodMs = 30000;
+  const uint32_t kPeriodMs = 20000;
 
   // Smaller number means longer blinks
   const uint32_t kSinMultiplier = 64;
