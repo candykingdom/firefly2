@@ -8,9 +8,8 @@
 #include <RadioStateMachine.hpp>
 
 const int kLedPin = 0;
-const int kNumLeds = 60;
-// const int kNumLeds = 6; // Lantern
-// const int kNumLeds = 47; // Scarf
+const int kNumLeds = 46;  // Scarf
+// const int kNumLeds = 5; // Lantern
 
 RadioHeadRadio* radio;
 NetworkManager* nm;
@@ -20,7 +19,7 @@ RadioStateMachine* stateMachine;
 void setup() {
   Serial.begin(115200);
   // Delay makes it easier to reset the board in case of failure
-  delay(2000);
+  delay(500);
 
   pinMode(kLedPin, OUTPUT);
 
@@ -29,8 +28,6 @@ void setup() {
   stateMachine = new RadioStateMachine(nm);
 
   ledManager = new FastLedManager(kNumLeds, stateMachine);
-  ledManager->SetGlobalColor(CHSV(HUE_YELLOW, 255, 128));
-  delay(10);
   ledManager->SetGlobalColor(CRGB(CRGB::Black));
 }
 
