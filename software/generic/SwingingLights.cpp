@@ -3,14 +3,11 @@
 
 static const uint16_t SPREAD = MAX_UINT16 * 0.2;
 
-SwingingLights::SwingingLights(uint8_t numLeds) : Effect(numLeds) {
-  // This effect looks bad on less than 10 LEDs. Instead of creating another
-  // effect we can just make the LEDs flash when a light pulse hits the end of a
-  // "long" strip which looks pretty cool.
-  if (numLeds < 10) {
-    numLeds = 50;
-  }
-}
+// This effect looks bad on less than 10 LEDs. Instead of creating another
+// effect we can just make the LEDs flash when a light pulse hits the end of a
+// "long" strip which looks pretty cool.
+SwingingLights::SwingingLights(uint8_t numLeds) :
+    Effect(numLeds < 10 ? 50 : numLeds) {}
 
 // Add a CHSV value to a CRGB in place.
 static void addInPlace(const CHSV& value, CRGB& result) {
