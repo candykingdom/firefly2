@@ -1,8 +1,19 @@
 #ifndef __RADIO_STATE_MACHINE_H__
 #define __RADIO_STATE_MACHINE_H__
 
+#include <map>
 #include "NetworkManager.hpp"
 #include "Types.hpp"
+
+enum TimerType {
+  TimerNone,
+  TimerHeartbeat,
+  TimerChangeEffect,
+  TimerBroadcastEffect,
+};
+// This is used to define the length of the array of timers - update it if
+// adding new enum values.
+#define TIMER_TYPE_LAST TimerBroadcastEffect
 
 /**
  * The data passed to a state when an event occurs.
@@ -11,11 +22,8 @@ struct RadioEventData {
   /** The packet that was received, or null if no packet was received. */
   RadioPacket *packet;
 
-  /** Whether the heartbeat timer expired. */
-  bool heartbeatTimerExpired;
-
-  /** When master, this is used to occasionally update the current effect. */
-  bool effectTimerExpired;
+  /** The timer that expired, or none if no timer expired. */
+  TimerType timerExpired;
 };
 
 /**
@@ -74,7 +82,10 @@ class RadioStateMachine {
   static const uint32_t kMasterHeartbeatInterval = 1000;
 
   /** When master, change the effect this often. */
-  static const uint32_t kSetEffectInterval = 30000;
+  static const uint32_t kChangeEffectInterval = 30000;
+
+  /** When master, re-broadcast the current effect this often. */
+  static const uint32_t kBroadcastEffectInterval = 2000;
 
  private:
   // Handler functions
@@ -86,11 +97,11 @@ class RadioStateMachine {
   void beginMaster();
 
   // Support functions
-  /** Sets an event to fire delay milliseconds from now.  */
-  void SetHeartbeatTimer(uint32_t delay);
+  /** Sets a timer to go off delay millis from now. */
+  void SetTimer(TimerType timer, uint32_t delay);
 
-  /** Sets the effect event to fire delay milliseconds from now.  */
-  void SetEffectTimer(uint32_t delay);
+  /** Whether a time expired, or None. */
+  TimerType TimerExpired();
 
   /** Performs master election based on the received heartbeat. */
   void PerformMasterElection(RadioPacket *receivedPacket);
@@ -105,6 +116,8 @@ class RadioStateMachine {
 
   /** If not equal to state, the next state. */
   RadioState nextState;
+
+  uint32_t timers[TIMER_TYPE_LAST + 1];
 
   /** The milliseconds when the heartbeat timer expires and fires an event. */
   uint32_t heartbeatTimerExpiresAt = 0;

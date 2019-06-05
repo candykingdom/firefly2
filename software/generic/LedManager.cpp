@@ -48,7 +48,7 @@ void LedManager::RunEffect() {
 
 uint8_t LedManager::GetNumEffects() { return effects.size(); }
 
-void LedManager::AddEffect(Effect* effect, uint8_t proportion) {
+void LedManager::AddEffect(Effect *effect, uint8_t proportion) {
   for (uint8_t i = 0; i < proportion; ++i) {
     effects.push_back(effect);
   }
