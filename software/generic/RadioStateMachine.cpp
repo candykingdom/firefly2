@@ -120,8 +120,15 @@ void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
         break;
 
       case SET_EFFECT:
+        uint8_t newEffectIndex = data.packet->readEffectIndexFromSetEffect();
+        uint8_t newPaletteIndex = data.packet->readPaletteIndexFromSetEffect();
+        if (effectIndex != this->effectIndex ||
+            newPaletteIndex !=
+                this->setEffectPacket.readPaletteIndexFromSetEffect()) {
+          effectChangeSeenAt = millis();
+        }
         this->setEffectPacket = *data.packet;
-        this->effectIndex = data.packet->readEffectIndexFromSetEffect();
+        this->effectIndex = newEffectIndex;
         break;
     }
   } else if (data.timerExpired == TimerHeartbeat) {
@@ -198,8 +205,15 @@ void RadioStateMachine::beginSlave() {
 void RadioStateMachine::beginMaster() {
   SendHeartbeat();
   SetTimer(TimerHeartbeat, kMasterHeartbeatInterval);
-  SetTimer(TimerChangeEffect, kChangeEffectInterval);
   SetTimer(TimerBroadcastEffect, kBroadcastEffectInterval);
+
+  if (millis() - effectChangeSeenAt > kChangeEffectInterval) {
+    // Change the effect on the next tick
+    SetTimer(TimerChangeEffect, 1);
+  } else {
+    SetTimer(TimerChangeEffect,
+             kChangeEffectInterval - (millis() - effectChangeSeenAt));
+  }
 }
 
 void RadioStateMachine::SetTimer(TimerType timer, uint32_t delay) {

@@ -126,6 +126,12 @@ class RadioStateMachine {
   uint32_t effectTimerExpiresAt = 0;
 
   /**
+   * The last time we saw the effect change. This is so that we can preserve the
+   * cadence of changing effects, even if the master changes.
+   */
+  uint32_t effectChangeSeenAt = 0;
+
+  /**
    * The offset between the local millis() and the network time, such that
    * millis + millisOffset = network time.
    */

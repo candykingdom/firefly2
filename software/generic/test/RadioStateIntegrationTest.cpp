@@ -23,6 +23,15 @@ void runTicks(FakeNetwork &network, int ticks) {
   }
 }
 
+void resetMaster(FakeNetwork &network) {
+  for (int i = 0; i < FakeNetwork::kNumNodes; i++) {
+    if (network.stateMachines[0]->GetCurrentState() == RadioState::Master) {
+      network.reinitNode(i);
+      EXPECT_EQ(network.stateMachines[i]->GetCurrentState(), RadioState::Slave);
+    }
+  }
+}
+
 TEST(Network, electsOneMaster) {
   FakeNetwork network;
   network.Tick();
@@ -44,12 +53,7 @@ TEST(Network, relectsMasterIfMasterDisappears) {
   runTicks(network, RadioStateMachine::kSlaveNoPacketRandom + 10);
 
   EXPECT_EQ(getNumMasters(network), 1);
-  for (int i = 0; i < FakeNetwork::kNumNodes; i++) {
-    if (network.stateMachines[0]->GetCurrentState() == RadioState::Master) {
-      network.reinitNode(i);
-      EXPECT_EQ(network.stateMachines[i]->GetCurrentState(), RadioState::Slave);
-    }
-  }
+  resetMaster(network);
 
   runTicks(network, RadioStateMachine::kSlaveNoPacketTimeout +
                         RadioStateMachine::kSlaveNoPacketRandom + 10);
@@ -230,4 +234,17 @@ TEST(Network, setEffectIndex) {
     EXPECT_EQ(network.stateMachines[i]->GetEffectIndex(), expectedEffectIndex)
         << "Node " << i << " has wrong effect index";
   }
+}
+
+TEST(Network, changesEffectWhenMasterNotStable) {
+  FakeNetwork network;
+  runTicks(network, RadioStateMachine::kChangeEffectInterval - 10);
+
+  uint8_t originalEffect = network.stateMachines[0]->GetEffectIndex();
+
+  resetMaster(network);
+  runTicks(network, 100);
+
+  uint8_t newEffect = network.stateMachines[0]->GetEffectIndex();
+  EXPECT_NE(originalEffect, newEffect);
 }
