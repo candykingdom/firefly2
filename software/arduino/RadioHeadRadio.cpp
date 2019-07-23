@@ -4,7 +4,7 @@
 
 RadioHeadRadio::RadioHeadRadio() {
   radio.init();
-  radio.setTxPower(13, false);
+  radio.setTxPower(0, false);
   radio.setFrequency(915.0);
   radio.available();
 }

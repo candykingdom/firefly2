@@ -9,6 +9,7 @@
 // (which it shouldn't)
 #undef max
 #undef min
+#include <DisplayColorPaletteEffect.hpp>
 #include <FastLedManager.hpp>
 #include <NetworkManager.hpp>
 #include <RadioHeadRadio.hpp>
@@ -24,25 +25,30 @@ RadioHeadRadio* radio;
 NetworkManager* nm;
 FastLedManager* ledManager;
 RadioStateMachine* stateMachine;
+DisplayColorPaletteEffect* colorPaletteEffect;
 
 void setup() {
   Serial.begin(115200);
   // Delay makes it easier to reset the board in case of failure
-  delay(2000);
+  delay(500);
 
   pinMode(kLedPin, OUTPUT);
-  ledManager = new FastLedManager(kNumLeds);
-  // Yellow LED on boot indicates a problem initializing the radio
-  ledManager->SetGlobalColor(CHSV(HUE_YELLOW, 255, 128));
 
   radio = new RadioHeadRadio();
   nm = new NetworkManager(radio);
-  stateMachine = new RadioStateMachine(nm, ledManager);
+  stateMachine = new RadioStateMachine(nm);
+
+  ledManager = new FastLedManager(kNumLeds, stateMachine);
+  ledManager->SetGlobalColor(CRGB(CRGB::Black));
 
   initTrellis();
 
   ledManager->SetGlobalColor(CRGB(CRGB::Black));
+  colorPaletteEffect = new DisplayColorPaletteEffect(1);
 }
+
+unsigned long printAliveAt = 0;
+RadioPacket fakeSetEffect;
 
 void loop() {
   stateMachine->Tick();
@@ -53,14 +59,18 @@ void loop() {
   const uint8_t kNumPalettes = ledManager->GetCurrentEffect()->palettes.size();
   for (uint8_t i = 0; i < kNumPalettes && i < kNumKeys; i++) {
     // Use a fake SetEffect packet to change the palette index
-    RadioPacket fakeSetEffect;
     fakeSetEffect.writeSetEffect(0, 0, /* paletteIndex= */ i);
-    CRGB rgb = ledManager->GetCurrentEffect()->GetRGB(
-        i, stateMachine->GetNetworkMillis(), &fakeSetEffect);
-    uint32_t trellisColor = rgbToTrellisColor(rgb);
+    CRGB rgb = colorPaletteEffect->GetRGB(0, stateMachine->GetNetworkMillis(),
+                                          &fakeSetEffect);
+    uint32_t trellisColor = rgbToTrellisColor(rgb, 128);
     trellis.pixels.setPixelColor(i, trellisColor);
   }
   trellis.pixels.show();
+
+  if (millis() > printAliveAt) {
+    Serial.println(stateMachine->GetNetworkMillis());
+    printAliveAt = millis() + 1000;
+  }
 }
 
 /** Converts a key number to FastLED hue, 0-255. */
@@ -71,11 +81,12 @@ uint8_t keyIndexToHue(uint16_t keyIndex) {
 /** Converts a hue to a Trellis color bytestring, 0x00RRGGBB. */
 uint32_t hueToTrellisColor(uint8_t hue, uint8_t value) {
   CRGB rgb = CHSV(hue, 255, value);
-  rgbToTrellisColor(rgb);
+  rgbToTrellisColor(rgb, 255);
 }
 
-uint32_t rgbToTrellisColor(CRGB rgb) {
-  return (rgb.r << 16) | (rgb.g << 8) | rgb.b;
+uint32_t rgbToTrellisColor(CRGB rgb, uint8_t value) {
+  return ((rgb.r * value / 255) << 16) | ((rgb.g * value / 255) << 8) |
+         (rgb.b * value / 255);
 }
 
 void initTrellis() {
