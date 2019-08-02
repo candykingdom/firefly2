@@ -203,7 +203,15 @@ TrellisCallback trellisHandler(keyEvent evt) {
   if (evt.bit.EDGE == SEESAW_KEYPAD_EDGE_RISING) {
     if (evt.bit.NUM == kColorKey) {
       trellis.pixels.setPixelColor(kColorKey, 128, 128, 128);
+      // Pressing the color button in color mode turns off the lights
+      if (mode == ChooserMode::Color) {
+        const uint8_t darkEffectIndex = kNumEffects - 1;
+        setEffect.writeSetEffect(
+            ledManager->UniqueEffectNumberToIndex(darkEffectIndex), 10, 0);
+        stateMachine->SetEffect(&setEffect);
+      }
       mode = ChooserMode::Color;
+
     } else if (evt.bit.NUM == kEffectKey) {
       trellis.pixels.setPixelColor(kEffectKey, 128, 128, 128);
       mode = ChooserMode::Effect;
@@ -239,9 +247,17 @@ TrellisCallback trellisHandler(keyEvent evt) {
           const uint8_t paletteIndex = keyIndexToPaletteIndex(evt.bit.NUM);
           if (paletteIndex < kNumPalettes) {
             RadioPacket* currentEffect = stateMachine->GetSetEffect();
-            setEffect.writeSetEffect(
-                currentEffect->readEffectIndexFromSetEffect(), 10,
-                paletteIndex);
+            uint8_t currentEffectIndex =
+                currentEffect->readEffectIndexFromSetEffect();
+            // If the current effect is DarkEffect (which displays only black),
+            // bump it down to the DisplayColorPaletteEffect so that the chosen
+            // color is actually displayed.
+            if (currentEffectIndex == ledManager->GetNumEffects() +
+                                          ledManager->GetNumNonRandomEffects() -
+                                          1) {
+              currentEffectIndex--;
+            }
+            setEffect.writeSetEffect(currentEffectIndex, 10, paletteIndex);
             stateMachine->SetEffect(&setEffect);
           }
         } break;
@@ -254,12 +270,7 @@ TrellisCallback trellisHandler(keyEvent evt) {
             setEffect.writeSetEffect(
                 ledManager->UniqueEffectNumberToIndex(uniqueEffectIndex), 10,
                 currentEffect->readPaletteIndexFromSetEffect());
-            Serial.print("effectIndex: ");
-            Serial.println(uniqueEffectIndex);
             stateMachine->SetEffect(&setEffect);
-            Serial.print("current effect: ");
-            Serial.println(
-                stateMachine->GetSetEffect()->readEffectIndexFromSetEffect());
           }
         } break;
       }

@@ -1,6 +1,7 @@
 #include "LedManager.hpp"
 #include <cassert>
 #include "ColorCycleEffect.hpp"
+#include "DarkEffect.hpp"
 #include "DisplayColorPaletteEffect.hpp"
 #include "FireEffect.hpp"
 #include "FireflyEffect.hpp"
@@ -25,7 +26,11 @@ LedManager::LedManager(const uint8_t numLeds, RadioStateMachine *radioState)
   // Non-random effects
   AddEffect(new PoliceEffect(numLeds), 0);
   AddEffect(new StopLightEffect(numLeds), 0);
+
+  // These two must be last
   AddEffect(new DisplayColorPaletteEffect(numLeds), 0);
+  AddEffect(new DarkEffect(numLeds), 0);
+
   radioState->SetNumEffects(GetNumEffects());
   radioState->SetNumPalettes(effects[0]->palettes.size());
 }
@@ -65,6 +70,8 @@ uint8_t LedManager::GetNumEffects() { return effects.size(); }
 uint8_t LedManager::GetNumUniqueEffects() {
   return uniqueEffectIndices.size() + nonRandomEffects.size();
 }
+
+uint8_t LedManager::GetNumNonRandomEffects() { return nonRandomEffects.size(); }
 
 uint8_t LedManager::UniqueEffectNumberToIndex(uint8_t uniqueEffectNumber) {
   if (uniqueEffectNumber < uniqueEffectIndices.size()) {

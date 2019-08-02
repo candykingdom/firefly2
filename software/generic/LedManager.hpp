@@ -23,6 +23,8 @@ class LedManager {
 
   uint8_t GetNumUniqueEffects();
 
+  uint8_t GetNumNonRandomEffects();
+
   /**
    * Converts from a unique effect index (between 0 and GetNumUniqueEffects())
    * to the effect index used for SetEffect packets.
