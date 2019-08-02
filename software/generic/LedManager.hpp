@@ -15,8 +15,18 @@ class LedManager {
 
   Effect *GetCurrentEffect();
 
+  /**
+   * Returns the total number of effects (including the many copies in effects
+   * and the non-random effects).
+   */
   uint8_t GetNumEffects();
+
   uint8_t GetNumUniqueEffects();
+
+  /**
+   * Converts from a unique effect index (between 0 and GetNumUniqueEffects())
+   * to the effect index used for SetEffect packets.
+   */
   uint8_t UniqueEffectNumberToIndex(uint8_t uniqueEffectNumber);
 
   Effect *GetEffect(uint8_t index);
@@ -33,8 +43,15 @@ class LedManager {
   const uint8_t numLeds;
   RadioStateMachine *const radioState;
 
- private:
+  // The effects that will be chosen randomly. This contains many entries for
+  // each effect, so that we can control the occurence of each effect.
   std::vector<Effect *> effects;
+
+  // Effects that can only be chosen manuall. These are "harsh" or otherwise
+  // unsuitable for general use.
+  std::vector<Effect *> nonRandomEffects;
+
+  // Map of the start of each unique effect in effects.
   std::vector<uint8_t> uniqueEffectIndices;
 
   void AddEffect(Effect *Effect, uint8_t proportion);

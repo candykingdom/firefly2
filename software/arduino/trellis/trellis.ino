@@ -238,7 +238,10 @@ TrellisCallback trellisHandler(keyEvent evt) {
         case ChooserMode::Color: {
           const uint8_t paletteIndex = keyIndexToPaletteIndex(evt.bit.NUM);
           if (paletteIndex < kNumPalettes) {
-            setEffect.writeSetEffect(1, 10, paletteIndex);
+            RadioPacket* currentEffect = stateMachine->GetSetEffect();
+            setEffect.writeSetEffect(
+                currentEffect->readEffectIndexFromSetEffect(), 10,
+                paletteIndex);
             stateMachine->SetEffect(&setEffect);
           }
         } break;
