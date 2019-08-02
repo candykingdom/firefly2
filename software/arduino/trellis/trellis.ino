@@ -15,10 +15,17 @@
 #include <RadioHeadRadio.hpp>
 #include <RadioStateMachine.hpp>
 
+enum class ChooserMode {
+  Color,
+  Effect,
+};
+
 const int kLedPin = 0;
 const int kNumLeds = 1;
 const uint8_t kNumKeys = 16;
 const uint8_t kLeftKey = 12;
+const uint8_t kColorKey = 13;
+const uint8_t kEffectKey = 14;
 const uint8_t kRightKey = 15;
 
 Adafruit_NeoTrellis trellis;
@@ -52,22 +59,68 @@ void setup() {
 unsigned long printAliveAt = 0;
 RadioPacket fakeSetEffect;
 uint8_t palettePage = 0;
-const uint8_t kPalettePageSize = 12;
+uint8_t effectPage = 0;
+const uint8_t kChooserPageSize = 12;
+ChooserMode mode = ChooserMode::Effect;
 
 void loop() {
-  const uint8_t kNumPalettes = ledManager->GetCurrentEffect()->palettes.size();
-  const uint8_t kNumPalettePages =
-      (kNumPalettes / kPalettePageSize) + (kNumPalettes % kPalettePageSize > 0)
-          ? 1
-          : 0;
-
   stateMachine->Tick();
   ledManager->RunEffect();
+
+  switch (mode) {
+    case ChooserMode::Effect:
+      runChooseEffect();
+      break;
+
+    case ChooserMode::Color:
+      runChooseColor();
+      break;
+  }
+
+  if (millis() > printAliveAt) {
+    Serial.println(stateMachine->GetNetworkMillis());
+    printAliveAt = millis() + 1000;
+  }
+}
+
+void runChooseEffect() {
+  const uint8_t kNumEffects = ledManager->GetNumUniqueEffects();
+  const uint8_t kNumEffectPages =
+      (kNumEffects / kChooserPageSize) + (kNumEffects % kChooserPageSize > 0)
+          ? 1
+          : 0;
 
   // Poll the trellis and fire callbacks
   trellis.read();
 
-  for (uint8_t i = 0; i < kPalettePageSize; i++) {
+  for (uint8_t i = 0; i < kChooserPageSize; i++) {
+    const uint8_t effectIndex = keyIndexToEffectIndex(i);
+    if (effectIndex >= kNumEffects) {
+      trellis.pixels.setPixelColor(i, 0);
+    } else {
+      RadioPacket* currentSetEffect = stateMachine->GetSetEffect();
+      CRGB rgb =
+          ledManager
+              ->GetEffect(ledManager->UniqueEffectNumberToIndex(effectIndex))
+              ->GetRGB(0, stateMachine->GetNetworkMillis(), currentSetEffect);
+      uint32_t trellisColor = rgbToTrellisColor(rgb, 128);
+      trellis.pixels.setPixelColor(i, trellisColor);
+    }
+  }
+  trellis.pixels.show();
+}
+
+void runChooseColor() {
+  const uint8_t kNumPalettes = ledManager->GetCurrentEffect()->palettes.size();
+  const uint8_t kNumPalettePages =
+      (kNumPalettes / kChooserPageSize) + (kNumPalettes % kChooserPageSize > 0)
+          ? 1
+          : 0;
+
+  // Poll the trellis and fire callbacks
+  trellis.read();
+
+  for (uint8_t i = 0; i < kChooserPageSize; i++) {
     const uint8_t paletteIndex = keyIndexToPaletteIndex(i);
     if (paletteIndex >= kNumPalettes) {
       trellis.pixels.setPixelColor(i, 0);
@@ -81,17 +134,18 @@ void loop() {
     }
   }
   trellis.pixels.show();
+}
 
-  if (millis() > printAliveAt) {
-    Serial.println(stateMachine->GetNetworkMillis());
-    printAliveAt = millis() + 1000;
-  }
+// TODO: bounds checking?
+uint8_t keyIndexToEffectIndex(uint16_t keyIndex) {
+  const uint8_t kNumEffects = ledManager->GetNumUniqueEffects();
+  return effectPage * kChooserPageSize + keyIndex;
 }
 
 // TODO: bounds checking?
 uint8_t keyIndexToPaletteIndex(uint16_t keyIndex) {
   const uint8_t kNumPalettes = ledManager->GetCurrentEffect()->palettes.size();
-  return palettePage * kPalettePageSize + keyIndex;
+  return palettePage * kChooserPageSize + keyIndex;
 }
 
 /** Converts a key number to FastLED hue, 0-255. */
@@ -138,38 +192,97 @@ RadioPacket setEffect;
 TrellisCallback trellisHandler(keyEvent evt) {
   const uint8_t kNumPalettes = ledManager->GetCurrentEffect()->palettes.size();
   const uint8_t kNumPalettePages =
-      (kNumPalettes / kPalettePageSize) +
-      ((kNumPalettes % kPalettePageSize > 0) ? 1 : 0);
+      (kNumPalettes / kChooserPageSize) +
+      ((kNumPalettes % kChooserPageSize > 0) ? 1 : 0);
+  const uint8_t kNumEffects = ledManager->GetNumUniqueEffects();
+  const uint8_t kNumEffectPages =
+      (kNumEffects / kChooserPageSize) + ((kNumEffects % kChooserPageSize > 0)
+          ? 1
+          : 0);
 
   if (evt.bit.EDGE == SEESAW_KEYPAD_EDGE_RISING) {
-    if (evt.bit.NUM == kLeftKey) {
+    if (evt.bit.NUM == kColorKey) {
+      trellis.pixels.setPixelColor(kColorKey, 128, 128, 128);
+      mode = ChooserMode::Color;
+    } else if (evt.bit.NUM == kEffectKey) {
+      trellis.pixels.setPixelColor(kEffectKey, 128, 128, 128);
+      mode = ChooserMode::Effect;
+    } else if (evt.bit.NUM == kLeftKey) {
       trellis.pixels.setPixelColor(kLeftKey, 128, 0, 0);
-      // Get a positive modulus
-      palettePage = ((palettePage - 1) % kNumPalettePages + kNumPalettePages) %
-                    kNumPalettePages;
+
+      switch (mode) {
+        case ChooserMode::Color:
+          // Get a positive modulus
+          palettePage = positive_mod8(palettePage - 1, kNumPalettePages);
+          break;
+
+        case ChooserMode::Effect:
+          effectPage = positive_mod8(effectPage - 1, kNumEffectPages);
+          break;
+      }
     } else if (evt.bit.NUM == kRightKey) {
       trellis.pixels.setPixelColor(kRightKey, 0, 128, 0);
-      palettePage = (palettePage + 1) % kNumPalettePages;
+      switch (mode) {
+        case ChooserMode::Color:
+          palettePage = (palettePage + 1) % kNumPalettePages;
+          break;
+
+        case ChooserMode::Effect:
+          effectPage = (effectPage + 1) % kNumEffectPages;
+          break;
+      }
     } else {
       trellis.pixels.setPixelColor(evt.bit.NUM, 128, 128, 128);
 
-      const uint8_t paletteIndex = keyIndexToPaletteIndex(evt.bit.NUM);
-      if (paletteIndex < kNumPalettes) {
-        setEffect.writeSetEffect(1, 10, keyIndexToPaletteIndex(evt.bit.NUM));
-        stateMachine->SetEffect(&setEffect);
+      switch (mode) {
+        case ChooserMode::Color: {
+          const uint8_t paletteIndex = keyIndexToPaletteIndex(evt.bit.NUM);
+          if (paletteIndex < kNumPalettes) {
+            setEffect.writeSetEffect(1, 10, paletteIndex);
+            stateMachine->SetEffect(&setEffect);
+          }
+        } break;
+
+        case ChooserMode::Effect: {
+          const uint8_t uniqueEffectIndex = keyIndexToEffectIndex(evt.bit.NUM);
+
+          if (uniqueEffectIndex < kNumEffects) {
+            RadioPacket* currentEffect = stateMachine->GetSetEffect();
+            setEffect.writeSetEffect(
+                ledManager->UniqueEffectNumberToIndex(uniqueEffectIndex), 10,
+                currentEffect->readPaletteIndexFromSetEffect());
+            Serial.print("effectIndex: ");
+            Serial.println(uniqueEffectIndex);
+            stateMachine->SetEffect(&setEffect);
+            Serial.print("current effect: ");
+            Serial.println(
+                stateMachine->GetSetEffect()->readEffectIndexFromSetEffect());
+          }
+        } break;
       }
     }
   } else if (evt.bit.EDGE == SEESAW_KEYPAD_EDGE_FALLING) {
-    if (evt.bit.NUM == kLeftKey) {
-      trellis.pixels.setPixelColor(kLeftKey, 8, 0, 0);
-    } else if (evt.bit.NUM == kRightKey) {
-      trellis.pixels.setPixelColor(kRightKey, 0, 8, 0);
-    } else {
-      // trellis.pixels.setPixelColor(evt.bit.NUM, 0);
+    switch (evt.bit.NUM) {
+      case kLeftKey:
+        trellis.pixels.setPixelColor(kLeftKey, 8, 0, 0);
+        break;
+
+      case kRightKey:
+        trellis.pixels.setPixelColor(kRightKey, 0, 8, 0);
+        break;
+
+      case kEffectKey:
+      case kColorKey:
+        trellis.pixels.setPixelColor(evt.bit.NUM, 0);
+        break;
     }
   }
 
   trellis.pixels.show();
 
   return 0;
+}
+
+uint8_t positive_mod8(uint8_t n, uint8_t d) {
+  return (n % d + d) % d;
 }

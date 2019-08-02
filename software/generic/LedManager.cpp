@@ -37,6 +37,15 @@ Effect *LedManager::GetCurrentEffect() {
   return effects[effectIndex];
 }
 
+Effect *LedManager::GetEffect(uint8_t index) {
+#ifdef ARDUINO
+  index = index % effects.size();
+#else
+  assert(index < effects.size());
+#endif
+  return effects[index];
+}
+
 void LedManager::RunEffect() {
   for (uint8_t ledIndex = 0; ledIndex < numLeds; ledIndex++) {
     CRGB rgb = GetCurrentEffect()->GetRGB(
@@ -48,7 +57,16 @@ void LedManager::RunEffect() {
 
 uint8_t LedManager::GetNumEffects() { return effects.size(); }
 
+uint8_t LedManager::GetNumUniqueEffects() { return uniqueEffectIndices.size(); }
+
+uint8_t LedManager::UniqueEffectNumberToIndex(uint8_t uniqueEffectNumber) {
+  return uniqueEffectIndices[uniqueEffectNumber];
+}
+
 void LedManager::AddEffect(Effect *effect, uint8_t proportion) {
+  if (proportion > 0) {
+    uniqueEffectIndices.push_back(effects.size());
+  }
   for (uint8_t i = 0; i < proportion; ++i) {
     effects.push_back(effect);
   }

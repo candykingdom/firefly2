@@ -16,6 +16,10 @@ class LedManager {
   Effect *GetCurrentEffect();
 
   uint8_t GetNumEffects();
+  uint8_t GetNumUniqueEffects();
+  uint8_t UniqueEffectNumberToIndex(uint8_t uniqueEffectNumber);
+
+  Effect *GetEffect(uint8_t index);
 
   /** Sets all LEDs to the given color. */
   virtual void SetGlobalColor(CRGB rgb) = 0;
@@ -31,6 +35,7 @@ class LedManager {
 
  private:
   std::vector<Effect *> effects;
+  std::vector<uint8_t> uniqueEffectIndices;
 
   void AddEffect(Effect *Effect, uint8_t proportion);
 };
