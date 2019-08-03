@@ -8,7 +8,8 @@
 #include <RadioStateMachine.hpp>
 
 const int kLedPin = 0;
-const int kNumLeds = 46;  // Scarf
+const int kNumLeds = 30;  // Bike
+// const int kNumLeds = 46;  // Scarf
 // const int kNumLeds = 5; // Lantern
 
 RadioHeadRadio* radio;
