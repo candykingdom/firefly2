@@ -23,10 +23,8 @@ CRGB RorschachEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
                   (timeMs >> 3) + (led_pos << 2));  // Skew coordinates to avoid
                                                     // moire patterns.
 
-  // If the palette is only one color change the value instead of the hue.
+  // If the palette is only one color, change the value instead of the hue.
   if (palette.Size() < 2) {
-    // Increase noise for a more pronounced effect.
-    noise *= 2;
     if (noise > MAX_UINT8) {
       noise = MAX_UINT8;
     }
@@ -36,6 +34,7 @@ CRGB RorschachEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
     return color;
   } else {
     CHSV color = palette.GetGradient(noise << 8, false);
+    color.v /= 2;
     return color;
   }
 }
