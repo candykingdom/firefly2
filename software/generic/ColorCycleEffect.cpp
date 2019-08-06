@@ -1,8 +1,7 @@
 #include "ColorCycleEffect.hpp"
 #include "ColorPalette.hpp"
 
-ColorCycleEffect::ColorCycleEffect(uint8_t numLeds, CRGB &color)
-    : Effect(numLeds), color(color) {}
+ColorCycleEffect::ColorCycleEffect(uint8_t numLeds) : Effect(numLeds) {}
 
 CRGB ColorCycleEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
                               RadioPacket *setEffectPacket) {

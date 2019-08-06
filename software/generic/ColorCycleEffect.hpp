@@ -7,13 +7,10 @@
 /** Cycles all of the LEDs through the color palette at once. */
 class ColorCycleEffect : public Effect {
  public:
-  ColorCycleEffect(uint8_t numLeds, CRGB &color);
+  ColorCycleEffect(uint8_t numLeds);
 
   /** Gets the value of a specific LED at a specific time. */
   CRGB GetRGB(uint8_t ledIndex, uint32_t timeMs,
               RadioPacket *setEffectPacket) override;
-
- private:
-  CRGB color;
 };
 #endif

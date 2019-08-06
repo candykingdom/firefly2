@@ -15,7 +15,7 @@
 LedManager::LedManager(const uint8_t numLeds, RadioStateMachine *radioState)
     : numLeds(numLeds), radioState(radioState) {
   CRGB color = CRGB::Red;
-  AddEffect(new ColorCycleEffect(numLeds, color), 16);
+  AddEffect(new ColorCycleEffect(numLeds), 16);
   AddEffect(new FireEffect(numLeds), 4);
   AddEffect(new FireflyEffect(numLeds, color), 16);
   AddEffect(new RainbowEffect(numLeds, color), 16);
