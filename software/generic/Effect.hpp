@@ -44,6 +44,22 @@ class Effect {
       {{HUE_RED, 255, 255}, {HUE_RED, 0, 255}},
       // Winter-mint candy-cane
       {{HUE_AQUA, 255, 255}, {HUE_AQUA, 0, 255}},
+      // Fire
+      {{HUE_RED, 255, 255}, {HUE_ORANGE, 255, 255}, {HUE_YELLOW, 255, 255}},
+      // Pastel rainbow
+      {{HUE_RED, 127, 192}, {HUE_GREEN, 127, 192}, {HUE_BLUE, 127, 192}},
+      // Jazz cup - teal, purple, white
+      {{132, 255, 255}, {192, 255, 255}, {0, 0, 200}},
+      // Yellow and double purp
+      {{HUE_PURPLE, 255, 255}, {HUE_YELLOW, 255, 255}, {HUE_PURPLE, 255, 255}},
+      // Double rainbow (makes effects that depend on the number of colors, like
+      // swinging lights, do cool things)
+      {{HUE_RED, 255, 255},
+       {HUE_GREEN, 255, 255},
+       {HUE_BLUE, 255, 255},
+       {HUE_RED, 255, 255},
+       {HUE_GREEN, 255, 255},
+       {HUE_BLUE, 255, 255}},
   };
 
  protected:
