@@ -13,7 +13,7 @@ TEST(LedManager, hasNonRandomEffects) {
   RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
   FakeLedManager *manager = new FakeLedManager(1, stateMachine);
   manager->ClearEffects();
-  manager->PublicAddEffect(new SimpleBlinkEffect(1), 4);
+  manager->PublicAddEffect(new SimpleBlinkEffect(1, 10), 4);
   manager->PublicAddEffect(new PoliceEffect(1), 0);
   manager->PublicAddEffect(new FireEffect(1), 2);
 

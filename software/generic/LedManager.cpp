@@ -22,12 +22,16 @@ LedManager::LedManager(const uint8_t numLeds, RadioStateMachine *radioState)
   AddEffect(new RainbowBumpsEffect(numLeds, color), 4);
   AddEffect(new RainbowEffect(numLeds, color), 4);
   AddEffect(new RorschachEffect(numLeds), 2);
-  AddEffect(new SimpleBlinkEffect(numLeds), 2);
+  AddEffect(new SimpleBlinkEffect(numLeds, 300), 2);
   AddEffect(new SwingingLights(numLeds), 4);
 
   // Non-random effects
   AddEffect(new PoliceEffect(numLeds), 0);
   AddEffect(new StopLightEffect(numLeds), 0);
+  // Strobes
+  AddEffect(new SimpleBlinkEffect(numLeds, 60), 0);
+  AddEffect(new SimpleBlinkEffect(numLeds, 30), 0);
+  AddEffect(new SimpleBlinkEffect(numLeds, 12), 0);
 
   // These two must be last
   AddEffect(new DisplayColorPaletteEffect(numLeds), 0);

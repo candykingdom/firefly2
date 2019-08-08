@@ -1,12 +1,12 @@
 #include "SimpleBlinkEffect.hpp"
 
-SimpleBlinkEffect::SimpleBlinkEffect(uint8_t numLeds) : Effect(numLeds) {}
+SimpleBlinkEffect::SimpleBlinkEffect(uint8_t numLeds, uint16_t speed)
+    : Effect(numLeds), speed(speed) {}
 
 CRGB SimpleBlinkEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
                                RadioPacket *setEffectPacket) {
-  // 1s period, divided into 100ms chunks
-  const uint32_t chunk = (timeMs / 100) % 10;
-  if (chunk < 3) {
+  const uint32_t chunk = (timeMs / (speed)) % 3;
+  if (chunk == 0) {
     ColorPalette palette =
         palettes[setEffectPacket->readPaletteIndexFromSetEffect()];
     CHSV color = palette.GetGradient((timeMs / 4) * 23);
