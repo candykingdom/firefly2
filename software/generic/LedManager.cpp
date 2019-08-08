@@ -6,6 +6,7 @@
 #include "FireEffect.hpp"
 #include "FireflyEffect.hpp"
 #include "PoliceEffect.hpp"
+#include "RainbowBumpsEffect.hpp"
 #include "RainbowEffect.hpp"
 #include "RorschachEffect.hpp"
 #include "SimpleBlinkEffect.hpp"
@@ -18,6 +19,7 @@ LedManager::LedManager(const uint8_t numLeds, RadioStateMachine *radioState)
   AddEffect(new ColorCycleEffect(numLeds), 16);
   AddEffect(new FireEffect(numLeds), 4);
   AddEffect(new FireflyEffect(numLeds, color), 16);
+  AddEffect(new RainbowBumpsEffect(numLeds, color), 16);
   AddEffect(new RainbowEffect(numLeds, color), 16);
   AddEffect(new RorschachEffect(numLeds), 16);
   AddEffect(new SimpleBlinkEffect(numLeds), 16);
