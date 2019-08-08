@@ -14,6 +14,9 @@ class FakeLedManager : public LedManager {
 
   void SetGlobalColor(CRGB rgb) override;
 
+  void ClearEffects();
+  void PublicAddEffect(Effect *effect, uint8_t proportion);
+
  protected:
   void SetLed(uint8_t ledIndex, CRGB *const rgb) override;
 
