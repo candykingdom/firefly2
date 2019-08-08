@@ -1,7 +1,7 @@
 #include "FireflyEffect.hpp"
 #include "Debug.hpp"
 
-FireflyEffect::FireflyEffect(uint8_t numLeds, CRGB &color) : Effect(numLeds) {
+FireflyEffect::FireflyEffect(uint8_t numLeds) : Effect(numLeds) {
 #ifdef ARDUINO
   randomSeed((analogRead(A0) << 10) | analogRead(A0));
 #endif
