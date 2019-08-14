@@ -28,6 +28,9 @@ const uint8_t kColorKey = 13;
 const uint8_t kEffectKey = 14;
 const uint8_t kRightKey = 15;
 
+// This is the SetEffect delay sent - this controls the timeout before the master resumes randomly choosing the effect.
+const uint8_t kEffectDelay = 60;
+
 Adafruit_NeoTrellis trellis;
 
 RadioHeadRadio* radio;
@@ -61,7 +64,7 @@ RadioPacket fakeSetEffect;
 uint8_t palettePage = 0;
 uint8_t effectPage = 0;
 const uint8_t kChooserPageSize = 12;
-ChooserMode mode = ChooserMode::Effect;
+ChooserMode mode = ChooserMode::Color;
 
 void loop() {
   stateMachine->Tick();
@@ -81,6 +84,8 @@ void loop() {
     Serial.println(stateMachine->GetNetworkMillis());
     printAliveAt = millis() + 1000;
   }
+
+  delay(20);
 }
 
 void runChooseEffect() {
@@ -207,7 +212,7 @@ TrellisCallback trellisHandler(keyEvent evt) {
       if (mode == ChooserMode::Color) {
         const uint8_t darkEffectIndex = kNumEffects - 1;
         setEffect.writeSetEffect(
-            ledManager->UniqueEffectNumberToIndex(darkEffectIndex), 10, 0);
+            ledManager->UniqueEffectNumberToIndex(darkEffectIndex), kEffectDelay, 0);
         stateMachine->SetEffect(&setEffect);
       }
       mode = ChooserMode::Color;
@@ -257,7 +262,7 @@ TrellisCallback trellisHandler(keyEvent evt) {
                                           1) {
               currentEffectIndex--;
             }
-            setEffect.writeSetEffect(currentEffectIndex, 10, paletteIndex);
+            setEffect.writeSetEffect(currentEffectIndex, kEffectDelay, paletteIndex);
             stateMachine->SetEffect(&setEffect);
           }
         } break;
@@ -268,7 +273,7 @@ TrellisCallback trellisHandler(keyEvent evt) {
           if (uniqueEffectIndex < kNumEffects) {
             RadioPacket* currentEffect = stateMachine->GetSetEffect();
             setEffect.writeSetEffect(
-                ledManager->UniqueEffectNumberToIndex(uniqueEffectIndex), 10,
+                ledManager->UniqueEffectNumberToIndex(uniqueEffectIndex), kEffectDelay,
                 currentEffect->readPaletteIndexFromSetEffect());
             stateMachine->SetEffect(&setEffect);
           }
