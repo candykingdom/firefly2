@@ -19,9 +19,6 @@ RadioStateMachine* stateMachine;
 
 void setup() {
   Serial.begin(115200);
-  // Delay makes it easier to reset the board in case of failure
-  delay(500);
-
   pinMode(kLedPin, OUTPUT);
 
   radio = new RadioHeadRadio();
