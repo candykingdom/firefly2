@@ -23,7 +23,9 @@ void RadioStateMachine::Tick() {
   // Run the radio state machine twice, since writing out LEDs may take several
   // ms.
   RadioTick();
-  RadioTick();
+  if (millis() > 2000) {
+    RadioTick();
+  }
 }
 
 uint32_t RadioStateMachine::GetNetworkMillis() {
@@ -225,6 +227,10 @@ void RadioStateMachine::SetTimer(TimerType timer, uint32_t delay) {
 }
 
 TimerType RadioStateMachine::TimerExpired() {
+  // TODO: Trellis hangs here if RadioTick is called twice the first time -
+  // possibly a hardware/compiler bug. This only happens when the device is
+  // first powered on (i.e. resetting using the button after it's on works
+  // fine).
   for (int i = 0; i <= TIMER_TYPE_LAST; i++) {
     if (timers[i] != 0 && timers[i] < millis()) {
       return (TimerType)i;

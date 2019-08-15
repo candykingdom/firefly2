@@ -41,9 +41,6 @@ DisplayColorPaletteEffect* colorPaletteEffect;
 
 void setup() {
   Serial.begin(115200);
-  // Delay makes it easier to reset the board in case of failure
-  delay(500);
-
   pinMode(kLedPin, OUTPUT);
 
   radio = new RadioHeadRadio();
@@ -51,7 +48,6 @@ void setup() {
   stateMachine = new RadioStateMachine(nm);
 
   ledManager = new FastLedManager(kNumLeds, stateMachine);
-  ledManager->SetGlobalColor(CRGB(CRGB::Black));
 
   initTrellis();
 
@@ -68,7 +64,6 @@ ChooserMode mode = ChooserMode::Color;
 
 void loop() {
   stateMachine->Tick();
-  ledManager->RunEffect();
 
   switch (mode) {
     case ChooserMode::Effect:
@@ -84,8 +79,6 @@ void loop() {
     Serial.println(stateMachine->GetNetworkMillis());
     printAliveAt = millis() + 1000;
   }
-
-  delay(20);
 }
 
 void runChooseEffect() {
@@ -263,6 +256,9 @@ TrellisCallback trellisHandler(keyEvent evt) {
               currentEffectIndex--;
             }
             setEffect.writeSetEffect(currentEffectIndex, kEffectDelay, paletteIndex);
+            // Send the packet twice, to make sure the network picks it up
+            stateMachine->SetEffect(&setEffect);
+            delay(1);
             stateMachine->SetEffect(&setEffect);
           }
         } break;
@@ -275,6 +271,9 @@ TrellisCallback trellisHandler(keyEvent evt) {
             setEffect.writeSetEffect(
                 ledManager->UniqueEffectNumberToIndex(uniqueEffectIndex), kEffectDelay,
                 currentEffect->readPaletteIndexFromSetEffect());
+            // Send the packet twice, to make sure the network picks it up
+            stateMachine->SetEffect(&setEffect);
+            delay(1);
             stateMachine->SetEffect(&setEffect);
           }
         } break;
