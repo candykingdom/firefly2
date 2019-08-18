@@ -16,17 +16,18 @@
 #include "StopLightEffect.hpp"
 #include "SwingingLights.hpp"
 
-LedManager::LedManager(const uint8_t numLeds, RadioStateMachine *radioState)
+LedManager::LedManager(const uint8_t numLeds, DeviceType deviceType,
+                       RadioStateMachine *radioState)
     : numLeds(numLeds), radioState(radioState) {
-  AddEffect(new ColorCycleEffect(numLeds), 4);
+  AddEffect(new ColorCycleEffect(numLeds, deviceType), 4);
   AddEffect(new ContrastBumpsEffect(numLeds), 2);
   AddEffect(new FireEffect(numLeds), 1);
   AddEffect(new FireflyEffect(numLeds), 2);
   AddEffect(new LightningEffect(numLeds), 1);
   AddEffect(new RainbowBumpsEffect(numLeds), 4);
-  AddEffect(new RainbowEffect(numLeds), 4);
-  AddEffect(new RorschachEffect(numLeds), 2);
-  AddEffect(new SimpleBlinkEffect(numLeds, 300), 2);
+  AddEffect(new RainbowEffect(numLeds, deviceType), 4);
+  AddEffect(new RorschachEffect(numLeds, deviceType), 2);
+  AddEffect(new SimpleBlinkEffect(numLeds, deviceType, 300), 2);
   AddEffect(new SparkEffect(numLeds), 4);
   AddEffect(new SwingingLights(numLeds), 4);
 
@@ -34,12 +35,12 @@ LedManager::LedManager(const uint8_t numLeds, RadioStateMachine *radioState)
   AddEffect(new PoliceEffect(numLeds), 0);
   AddEffect(new StopLightEffect(numLeds), 0);
   // Strobes
-  AddEffect(new SimpleBlinkEffect(numLeds, 60), 0);
-  AddEffect(new SimpleBlinkEffect(numLeds, 30), 0);
-  AddEffect(new SimpleBlinkEffect(numLeds, 12), 0);
+  AddEffect(new SimpleBlinkEffect(numLeds, deviceType, 60), 0);
+  AddEffect(new SimpleBlinkEffect(numLeds, deviceType, 30), 0);
+  AddEffect(new SimpleBlinkEffect(numLeds, deviceType, 12), 0);
 
   // These two must be last
-  AddEffect(new DisplayColorPaletteEffect(numLeds), 0);
+  AddEffect(new DisplayColorPaletteEffect(numLeds, deviceType), 0);
   AddEffect(new DarkEffect(numLeds), 0);
 
   radioState->SetNumEffects(GetNumEffects());

@@ -3,7 +3,7 @@
 
 FakeLedManager::FakeLedManager(const uint8_t numLeds,
                                RadioStateMachine *stateMachine)
-    : LedManager(numLeds, stateMachine) {
+    : LedManager(numLeds, DeviceType::Wearable, stateMachine) {
   leds = new CRGB[numLeds];
 }
 

@@ -28,7 +28,8 @@ const uint8_t kColorKey = 13;
 const uint8_t kEffectKey = 14;
 const uint8_t kRightKey = 15;
 
-// This is the SetEffect delay sent - this controls the timeout before the master resumes randomly choosing the effect.
+// This is the SetEffect delay sent - this controls the timeout before the
+// master resumes randomly choosing the effect.
 const uint8_t kEffectDelay = 60;
 
 Adafruit_NeoTrellis trellis;
@@ -47,12 +48,12 @@ void setup() {
   nm = new NetworkManager(radio);
   stateMachine = new RadioStateMachine(nm);
 
-  ledManager = new FastLedManager(kNumLeds, stateMachine);
+  ledManager = new FastLedManager(kNumLeds, DeviceType::Wearable, stateMachine);
 
   initTrellis();
 
   ledManager->SetGlobalColor(CRGB(CRGB::Black));
-  colorPaletteEffect = new DisplayColorPaletteEffect(1);
+  colorPaletteEffect = new DisplayColorPaletteEffect(1, DeviceType::Wearable);
 }
 
 unsigned long printAliveAt = 0;
@@ -194,9 +195,8 @@ TrellisCallback trellisHandler(keyEvent evt) {
       ((kNumPalettes % kChooserPageSize > 0) ? 1 : 0);
   const uint8_t kNumEffects = ledManager->GetNumUniqueEffects();
   const uint8_t kNumEffectPages =
-      (kNumEffects / kChooserPageSize) + ((kNumEffects % kChooserPageSize > 0)
-          ? 1
-          : 0);
+      (kNumEffects / kChooserPageSize) +
+      ((kNumEffects % kChooserPageSize > 0) ? 1 : 0);
 
   if (evt.bit.EDGE == SEESAW_KEYPAD_EDGE_RISING) {
     if (evt.bit.NUM == kColorKey) {
@@ -205,7 +205,8 @@ TrellisCallback trellisHandler(keyEvent evt) {
       if (mode == ChooserMode::Color) {
         const uint8_t darkEffectIndex = kNumEffects - 1;
         setEffect.writeSetEffect(
-            ledManager->UniqueEffectNumberToIndex(darkEffectIndex), kEffectDelay, 0);
+            ledManager->UniqueEffectNumberToIndex(darkEffectIndex),
+            kEffectDelay, 0);
         stateMachine->SetEffect(&setEffect);
       }
       mode = ChooserMode::Color;
@@ -255,7 +256,8 @@ TrellisCallback trellisHandler(keyEvent evt) {
                                           1) {
               currentEffectIndex--;
             }
-            setEffect.writeSetEffect(currentEffectIndex, kEffectDelay, paletteIndex);
+            setEffect.writeSetEffect(currentEffectIndex, kEffectDelay,
+                                     paletteIndex);
             // Send the packet twice, to make sure the network picks it up
             stateMachine->SetEffect(&setEffect);
             delay(1);
@@ -269,8 +271,8 @@ TrellisCallback trellisHandler(keyEvent evt) {
           if (uniqueEffectIndex < kNumEffects) {
             RadioPacket* currentEffect = stateMachine->GetSetEffect();
             setEffect.writeSetEffect(
-                ledManager->UniqueEffectNumberToIndex(uniqueEffectIndex), kEffectDelay,
-                currentEffect->readPaletteIndexFromSetEffect());
+                ledManager->UniqueEffectNumberToIndex(uniqueEffectIndex),
+                kEffectDelay, currentEffect->readPaletteIndexFromSetEffect());
             // Send the packet twice, to make sure the network picks it up
             stateMachine->SetEffect(&setEffect);
             delay(1);

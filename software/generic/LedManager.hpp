@@ -9,7 +9,8 @@
 
 class LedManager {
  public:
-  LedManager(const uint8_t numLeds, RadioStateMachine *radioState);
+  LedManager(const uint8_t numLeds, DeviceType deviceType,
+             RadioStateMachine *radioState);
 
   void RunEffect();
 

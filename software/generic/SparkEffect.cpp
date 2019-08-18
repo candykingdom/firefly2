@@ -7,7 +7,8 @@ CRGB SparkEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   const uint8_t pulse_size = brightnesses.size();
   const uint8_t paletteIndex = setEffectPacket->readPaletteIndexFromSetEffect();
   ColorPalette palette = palettes[paletteIndex];
-  int16_t pos = ((timeMs * (numLeds + pulse_size)) / 3000) % ((numLeds + pulse_size) * 2);
+  int16_t pos =
+      ((timeMs * (numLeds + pulse_size)) / 3000) % ((numLeds + pulse_size) * 2);
 
   bool reverse = false;
   if (pos > (numLeds + pulse_size)) {

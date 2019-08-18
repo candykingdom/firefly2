@@ -1,7 +1,8 @@
 #include "SimpleBlinkEffect.hpp"
 
-SimpleBlinkEffect::SimpleBlinkEffect(uint8_t numLeds, uint16_t speed)
-    : Effect(numLeds), speed(speed) {}
+SimpleBlinkEffect::SimpleBlinkEffect(uint8_t numLeds, DeviceType deviceType,
+                                     uint16_t speed)
+    : Effect(numLeds, deviceType), speed(speed) {}
 
 CRGB SimpleBlinkEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
                                RadioPacket *setEffectPacket) {
@@ -10,7 +11,9 @@ CRGB SimpleBlinkEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
     ColorPalette palette =
         palettes[setEffectPacket->readPaletteIndexFromSetEffect()];
     CHSV color = palette.GetGradient((timeMs / 4) * 23);
-    color.v /= 2;
+    if (deviceType == DeviceType::Wearable) {
+      color.v /= 2;
+    }
     return color;
   } else {
     return {0, 0, 0};

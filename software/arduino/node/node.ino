@@ -12,6 +12,8 @@ const int kNumLeds = 30;  // Bike
 // const int kNumLeds = 46;  // Scarf
 // const int kNumLeds = 5; // Lantern
 
+const DeviceType deviceType = DeviceType::Bike;
+
 RadioHeadRadio* radio;
 NetworkManager* nm;
 FastLedManager* ledManager;
@@ -25,7 +27,7 @@ void setup() {
   nm = new NetworkManager(radio);
   stateMachine = new RadioStateMachine(nm);
 
-  ledManager = new FastLedManager(kNumLeds, stateMachine);
+  ledManager = new FastLedManager(kNumLeds, deviceType, stateMachine);
   ledManager->SetGlobalColor(CRGB(CRGB::Black));
 }
 

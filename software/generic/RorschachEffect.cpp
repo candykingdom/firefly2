@@ -2,7 +2,8 @@
 #include "ColorPalette.hpp"
 #include "Perlin.hpp"
 
-RorschachEffect::RorschachEffect(uint8_t numLeds) : Effect(numLeds) {
+RorschachEffect::RorschachEffect(uint8_t numLeds, DeviceType deviceType)
+    : Effect(numLeds, deviceType) {
 #ifdef ARDUINO
   random16_set_seed((analogRead(A0) << 10) | analogRead(A0));
 #endif
@@ -34,7 +35,9 @@ CRGB RorschachEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
     return color;
   } else {
     CHSV color = palette.GetGradient(noise << 8, false);
-    color.v /= 2;
+    if (deviceType == DeviceType::Wearable) {
+      color.v /= 2;
+    }
     return color;
   }
 }

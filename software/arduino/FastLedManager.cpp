@@ -1,8 +1,8 @@
 #include "FastLedManager.hpp"
 
-FastLedManager::FastLedManager(const uint8_t numLeds,
+FastLedManager::FastLedManager(const uint8_t numLeds, DeviceType deviceType,
                                RadioStateMachine *radioState)
-    : LedManager(numLeds, radioState) {
+    : LedManager(numLeds, deviceType, radioState) {
   // The first LED is on-board, and should mirror the first LED of the strip.
   leds = new CRGB[numLeds + 1];
   FastLED.addLeds<NEOPIXEL, WS2812_PIN>(leds, numLeds + 1)
