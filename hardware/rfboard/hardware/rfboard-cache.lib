@@ -44,6 +44,29 @@ X ~ 2 0 -150 110 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
+# Device_L
+#
+DEF Device_L L 0 40 N N 1 F N
+F0 "L" -50 0 50 V V C CNN
+F1 "Device_L" 75 0 50 V V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ Choke_*
+ *Coil*
+ Inductor_*
+ L_*
+$ENDFPLIST
+DRAW
+A 0 -75 25 -899 899 0 1 0 N 0 -100 0 -50
+A 0 -25 25 -899 899 0 1 0 N 0 -50 0 0
+A 0 25 25 -899 899 0 1 0 N 0 0 0 50
+A 0 75 25 -899 899 0 1 0 N 0 50 0 100
+X 1 1 0 150 50 D 50 50 1 1 P
+X 2 2 0 -150 50 U 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
 # Homebrew_HOLE
 #
 DEF Homebrew_HOLE H 0 40 Y Y 1 F N
@@ -240,20 +263,6 @@ X VCC 5 500 -150 200 L 50 50 1 1 W
 ENDDRAW
 ENDDEF
 #
-# rfboard-rescue_Antenna
-#
-DEF rfboard-rescue_Antenna AE 0 40 N N 1 F N
-F0 "AE" -75 75 50 H V R CNN
-F1 "rfboard-rescue_Antenna" -75 0 50 H V R CNN
-F2 "" 0 0 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-DRAW
-P 2 0 1 10 0 100 0 -150 N
-P 3 0 1 10 50 100 0 -100 -50 100 N
-X A 1 0 -200 100 U 50 50 1 1 I
-ENDDRAW
-ENDDEF
-#
 # rfboard-rescue_C
 #
 DEF rfboard-rescue_C C 0 10 N Y 1 F N
@@ -319,46 +328,6 @@ X P1 1 -200 150 150 R 50 50 1 1 P
 X P2 2 -200 50 150 R 50 50 1 1 P
 X P3 3 -200 -50 150 R 50 50 1 1 P
 X P4 4 -200 -150 150 R 50 50 1 1 P
-ENDDRAW
-ENDDEF
-#
-# rfboard-rescue_Conn_01x10
-#
-DEF rfboard-rescue_Conn_01x10 J 0 40 Y N 1 F N
-F0 "J" 0 500 50 H V C CNN
-F1 "rfboard-rescue_Conn_01x10" 0 -600 50 H V C CNN
-F2 "" 0 0 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-$FPLIST
- Connector*:*_??x*mm*
- Connector*:*1x??x*mm*
- Pin?Header?Straight?1X*
- Pin?Header?Angled?1X*
- Socket?Strip?Straight?1X*
- Socket?Strip?Angled?1X*
-$ENDFPLIST
-DRAW
-S -50 -495 0 -505 1 1 6 N
-S -50 -395 0 -405 1 1 6 N
-S -50 -295 0 -305 1 1 6 N
-S -50 -195 0 -205 1 1 6 N
-S -50 -95 0 -105 1 1 6 N
-S -50 5 0 -5 1 1 6 N
-S -50 105 0 95 1 1 6 N
-S -50 205 0 195 1 1 6 N
-S -50 305 0 295 1 1 6 N
-S -50 405 0 395 1 1 6 N
-S -50 450 50 -550 1 1 10 f
-X Pin_1 1 -200 400 150 R 50 50 1 1 P
-X Pin_10 10 -200 -500 150 R 50 50 1 1 P
-X Pin_2 2 -200 300 150 R 50 50 1 1 P
-X Pin_3 3 -200 200 150 R 50 50 1 1 P
-X Pin_4 4 -200 100 150 R 50 50 1 1 P
-X Pin_5 5 -200 0 150 R 50 50 1 1 P
-X Pin_6 6 -200 -100 150 R 50 50 1 1 P
-X Pin_7 7 -200 -200 150 R 50 50 1 1 P
-X Pin_8 8 -200 -300 150 R 50 50 1 1 P
-X Pin_9 9 -200 -400 150 R 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
