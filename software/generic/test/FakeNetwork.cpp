@@ -11,8 +11,7 @@ FakeNetwork::FakeNetwork() {
   for (int i = 0; i < kNumNodes; i++) {
     advanceMillis(1);
     stateMachines[i] = new RadioStateMachine(new NetworkManager(&radios[i]));
-    stateMachines[i]->SetNumEffects(255);
-    stateMachines[i]->SetNumPalettes(255);
+    ledManagers[i] = new FakeLedManager(5, stateMachines[i]);
     stateMachines[i]->Tick();
   }
 }
@@ -45,6 +44,8 @@ void FakeNetwork::Tick() {
         debug_printf("Node %d sending type %d\n", i, packet->type);
       }
     }
+
+    ledManagers[i]->RunEffect();
 
     debug_printf("\n");
   }

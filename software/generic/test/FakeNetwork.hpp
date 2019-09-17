@@ -3,6 +3,7 @@
 
 #include "../Radio.hpp"
 #include "../RadioStateMachine.hpp"
+#include "FakeLedManager.hpp"
 #include "FakeRadio.hpp"
 
 class FakeNetwork {
@@ -27,6 +28,7 @@ class FakeNetwork {
 
   static const long kNumNodes = 5;
   RadioStateMachine *stateMachines[kNumNodes];
+  FakeLedManager *ledManagers[kNumNodes];
 
  private:
   int packetLoss = 0;
