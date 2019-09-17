@@ -31,3 +31,34 @@ Arduino pin 5).
 ## START code
 
 start_config is a configuration file for [Atmel SMART](http://start.atmel.com). This is a code generation utility where you configure the peripherals, drivers, and middleware, and it generates initialization code. This code supports Makefiles (hurray!). Included are two exports from this tool - `start` and `start_nousb`. `start` has USB CDC included - it's quite large (the binary size is ~12kB). The `start_nousb` is the same, but with no USB support.
+
+## arduino-cli
+
+### Installation
+
+You can build this project using the [arduino-cli](https://github.com/arduino/arduino-cli) command line interface, instead of the Arduino IDE. To do this, first install the arduino-cli tool:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | BINDIR=~/bin sh
+```
+
+Now, install the board definition (if you haven't already):
+
+```sh
+arduino-cli core update-index
+arduino-cli core install "Candy Kingdom Firefly:samd"
+--additional-urls "https://candykingdom.github.io/firefly-v2-board/package_candykingdom_index.json"
+```
+
+### Usage
+
+To compile code:
+
+```sh
+arduino-cli compile --fqbn "Candy Kingdom Firefly:samd:rfboard" arduino/node/node.ino
+```
+
+To upload code:
+```sh
+arduino-cli compile -u -t --port /dev/ttyACM0 -o rfboard.bin --fqbn "Candy Kingdom Firefly:samd:rfboard" arduino/node/node.ino
+```
