@@ -10,6 +10,7 @@
 #include "RainbowEffect.hpp"
 #include "RorschachEffect.hpp"
 #include "SimpleBlinkEffect.hpp"
+#include "SparkEffect.hpp"
 #include "StopLightEffect.hpp"
 #include "SwingingLights.hpp"
 
@@ -22,6 +23,7 @@ LedManager::LedManager(const uint8_t numLeds, RadioStateMachine *radioState)
   AddEffect(new RainbowEffect(numLeds), 4);
   AddEffect(new RorschachEffect(numLeds), 2);
   AddEffect(new SimpleBlinkEffect(numLeds, 300), 2);
+  AddEffect(new SparkEffect(numLeds), 4);
   AddEffect(new SwingingLights(numLeds), 4);
 
   // Non-random effects
