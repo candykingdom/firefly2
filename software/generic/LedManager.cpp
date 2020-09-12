@@ -15,12 +15,11 @@
 
 LedManager::LedManager(const uint8_t numLeds, RadioStateMachine *radioState)
     : numLeds(numLeds), radioState(radioState) {
-  CRGB color = CRGB::Red;
   AddEffect(new ColorCycleEffect(numLeds), 4);
   AddEffect(new FireEffect(numLeds), 1);
-  AddEffect(new FireflyEffect(numLeds, color), 2);
-  AddEffect(new RainbowBumpsEffect(numLeds, color), 4);
-  AddEffect(new RainbowEffect(numLeds, color), 4);
+  AddEffect(new FireflyEffect(numLeds), 2);
+  AddEffect(new RainbowBumpsEffect(numLeds), 4);
+  AddEffect(new RainbowEffect(numLeds), 4);
   AddEffect(new RorschachEffect(numLeds), 2);
   AddEffect(new SimpleBlinkEffect(numLeds, 300), 2);
   AddEffect(new SwingingLights(numLeds), 4);

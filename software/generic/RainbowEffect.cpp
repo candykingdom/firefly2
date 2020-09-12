@@ -1,7 +1,6 @@
 #include "RainbowEffect.hpp"
 
-RainbowEffect::RainbowEffect(uint8_t numLeds, CRGB &color)
-    : Effect(numLeds), color(color) {}
+RainbowEffect::RainbowEffect(uint8_t numLeds) : Effect(numLeds) {}
 
 CRGB RainbowEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
                            RadioPacket *setEffectPacket) {
