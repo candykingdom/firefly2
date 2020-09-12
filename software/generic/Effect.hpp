@@ -63,6 +63,15 @@ class Effect {
   };
 
  protected:
+  /**
+   * Gets a sin wave, only considering the part above threshold, scaled to be
+   * 0-255.
+   *
+   * Note that this means that the second (negative) half of the sine is always
+   * 0.
+   */
+  uint8_t GetThresholdSin(int16_t x, uint8_t threshold);
+
   const uint8_t numLeds;
 };
 #endif

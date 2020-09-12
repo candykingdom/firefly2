@@ -6,6 +6,7 @@
 #include "FireEffect.hpp"
 #include "FireflyEffect.hpp"
 #include "PoliceEffect.hpp"
+#include "RainbowBumpsEffect.hpp"
 #include "RainbowEffect.hpp"
 #include "RorschachEffect.hpp"
 #include "SimpleBlinkEffect.hpp"
@@ -15,17 +16,22 @@
 LedManager::LedManager(const uint8_t numLeds, RadioStateMachine *radioState)
     : numLeds(numLeds), radioState(radioState) {
   CRGB color = CRGB::Red;
-  AddEffect(new ColorCycleEffect(numLeds), 16);
-  AddEffect(new FireEffect(numLeds), 4);
-  AddEffect(new FireflyEffect(numLeds, color), 16);
-  AddEffect(new RainbowEffect(numLeds, color), 16);
-  AddEffect(new RorschachEffect(numLeds), 16);
-  AddEffect(new SimpleBlinkEffect(numLeds), 16);
-  AddEffect(new SwingingLights(numLeds), 16);
+  AddEffect(new ColorCycleEffect(numLeds), 4);
+  AddEffect(new FireEffect(numLeds), 1);
+  AddEffect(new FireflyEffect(numLeds, color), 2);
+  AddEffect(new RainbowBumpsEffect(numLeds, color), 4);
+  AddEffect(new RainbowEffect(numLeds, color), 4);
+  AddEffect(new RorschachEffect(numLeds), 2);
+  AddEffect(new SimpleBlinkEffect(numLeds, 300), 2);
+  AddEffect(new SwingingLights(numLeds), 4);
 
   // Non-random effects
   AddEffect(new PoliceEffect(numLeds), 0);
   AddEffect(new StopLightEffect(numLeds), 0);
+  // Strobes
+  AddEffect(new SimpleBlinkEffect(numLeds, 60), 0);
+  AddEffect(new SimpleBlinkEffect(numLeds, 30), 0);
+  AddEffect(new SimpleBlinkEffect(numLeds, 12), 0);
 
   // These two must be last
   AddEffect(new DisplayColorPaletteEffect(numLeds), 0);
@@ -90,4 +96,9 @@ void LedManager::AddEffect(Effect *effect, uint8_t proportion) {
   for (uint8_t i = 0; i < proportion; ++i) {
     effects.push_back(effect);
   }
+#ifndef ARDUINO
+  // The effect index is 8 bits, so make sure the total number of effects is in
+  // range.
+  assert(effects.size() + nonRandomEffects.size() < 256);
+#endif
 }
