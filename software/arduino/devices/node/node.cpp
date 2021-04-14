@@ -2,10 +2,10 @@
 // (which it shouldn't)
 #undef max
 #undef min
-#include "../../generic/NetworkManager.hpp"
-#include "../../generic/RadioStateMachine.hpp"
-#include "../FastLedManager.hpp"
-#include "../RadioHeadRadio.hpp"
+#include "../../FastLedManager.hpp"
+#include "../../../generic/NetworkManager.hpp"
+#include "../../RadioHeadRadio.hpp"
+#include "../../../generic/RadioStateMachine.hpp"
 
 const int kLedPin = 0;
 const int kNumLeds = 30;  // Bike
