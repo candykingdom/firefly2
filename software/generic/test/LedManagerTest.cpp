@@ -1,11 +1,10 @@
-#include "gtest/gtest.h"
-
 #include "../LedManager.hpp"
 #include "FakeLedManager.hpp"
 #include "FakeRadio.hpp"
 #include "FireEffect.hpp"
 #include "PoliceEffect.hpp"
 #include "SimpleBlinkEffect.hpp"
+#include "gtest/gtest.h"
 
 TEST(LedManager, hasNonRandomEffects) {
   FakeRadio radio;

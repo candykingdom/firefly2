@@ -303,6 +303,4 @@ TrellisCallback trellisHandler(keyEvent evt) {
   return 0;
 }
 
-uint8_t positive_mod8(uint8_t n, uint8_t d) {
-  return (n % d + d) % d;
-}
+uint8_t positive_mod8(uint8_t n, uint8_t d) { return (n % d + d) % d; }

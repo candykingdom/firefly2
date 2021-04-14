@@ -1,4 +1,5 @@
 #include "LightningEffect.hpp"
+
 #include "Perlin.hpp"
 
 LightningEffect::LightningEffect(uint8_t numLeds) : Effect(numLeds) {}

@@ -1,6 +1,5 @@
-#include "gtest/gtest.h"
-
 #include "../ColorPalette.hpp"
+#include "gtest/gtest.h"
 
 TEST(ColorPalette, indexColors) {
   ColorPalette p{

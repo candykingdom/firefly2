@@ -1,5 +1,7 @@
 #include "LedManager.hpp"
+
 #include <cassert>
+
 #include "ColorCycleEffect.hpp"
 #include "ContrastBumpsEffect.hpp"
 #include "DarkEffect.hpp"

@@ -1,5 +1,7 @@
 #include "RadioHeadRadio.hpp"
+
 #include <RH_RF69.h>
+
 #include "Debug.hpp"
 
 RadioHeadRadio::RadioHeadRadio() {

@@ -1,11 +1,12 @@
 #define FASTLED_INTERNAL
 #define __PROG_TYPES_COMPAT__
 
+#include "colorutils.h"
+
 #include <math.h>
 #include <stdint.h>
 
 #include "FastLED.h"
-#include "colorutils.h"
 
 FASTLED_NAMESPACE_BEGIN
 

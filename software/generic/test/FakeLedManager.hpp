@@ -2,6 +2,7 @@
 #define __FAKE_LED_MANAGER_HPP__
 
 #include <vector>
+
 #include "Effect.hpp"
 #include "LedManager.hpp"
 #include "Types.hpp"
