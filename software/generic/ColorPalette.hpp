@@ -1,10 +1,10 @@
 #ifndef __COLOR_PALETTE_HPP__
 #define __COLOR_PALETTE_HPP__
 
-#include "Types.hpp"
-
 #include <initializer_list>
 #include <vector>
+
+#include "Types.hpp"
 
 class ColorPalette {
  public:

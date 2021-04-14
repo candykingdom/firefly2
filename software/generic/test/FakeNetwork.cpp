@@ -1,5 +1,7 @@
 #include "FakeNetwork.hpp"
+
 #include <cstdio>
+
 #include "../Debug.hpp"
 #include "../NetworkManager.hpp"
 

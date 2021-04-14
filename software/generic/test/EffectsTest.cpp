@@ -1,11 +1,10 @@
-#include "gtest/gtest.h"
+#include <algorithm>
+#include <vector>
 
 #include "../LedManager.hpp"
 #include "FakeLedManager.hpp"
 #include "FakeRadio.hpp"
-
-#include <algorithm>
-#include <vector>
+#include "gtest/gtest.h"
 
 // Make sure that all of the effects can run for a while without crashing
 void runEffectsTest(uint8_t numLeds, uint32_t maxTime) {

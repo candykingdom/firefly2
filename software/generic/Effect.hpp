@@ -2,6 +2,7 @@
 #define __EFFECT_HPP__
 
 #include <vector>
+
 #include "ColorPalette.hpp"
 #include "Radio.hpp"
 #include "Types.hpp"

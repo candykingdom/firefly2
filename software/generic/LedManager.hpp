@@ -2,6 +2,7 @@
 #define __LED_MANAGER_HPP__
 
 #include <vector>
+
 #include "Effect.hpp"
 #include "Radio.hpp"
 #include "RadioStateMachine.hpp"

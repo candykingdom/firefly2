@@ -1,4 +1,5 @@
 #include "FakeLedManager.hpp"
+
 #include <cassert>
 
 FakeLedManager::FakeLedManager(const uint8_t numLeds,

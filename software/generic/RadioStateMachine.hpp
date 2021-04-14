@@ -2,6 +2,7 @@
 #define __RADIO_STATE_MACHINE_H__
 
 #include <map>
+
 #include "NetworkManager.hpp"
 #include "Types.hpp"
 

@@ -1,6 +1,5 @@
-#include "gtest/gtest.h"
-
 #include "../Debug.hpp"
+#include "gtest/gtest.h"
 
 TEST(Debug, shouldNotBeEnabled) {
 #if DEBUG

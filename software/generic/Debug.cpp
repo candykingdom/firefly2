@@ -1,4 +1,5 @@
 #include "Debug.hpp"
+
 #include <cstdarg>
 #include <cstdio>
 

@@ -1,5 +1,7 @@
 #include "Radio.hpp"
+
 #include <cstdio>
+
 #include "Debug.hpp"
 
 void RadioPacket::writeHeartbeat(uint32_t time) {

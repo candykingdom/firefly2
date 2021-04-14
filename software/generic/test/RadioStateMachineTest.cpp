@@ -1,10 +1,9 @@
-#include "gtest/gtest.h"
-
 #include "../NetworkManager.hpp"
 #include "../Radio.hpp"
 #include "../RadioStateMachine.hpp"
 #include "FakeLedManager.hpp"
 #include "FakeRadio.hpp"
+#include "gtest/gtest.h"
 
 const uint16_t kMaxSlaveTimeout = RadioStateMachine::kSlaveNoPacketTimeout +
                                   RadioStateMachine::kSlaveNoPacketRandom + 1;

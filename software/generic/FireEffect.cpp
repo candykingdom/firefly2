@@ -1,4 +1,5 @@
 #include "FireEffect.hpp"
+
 #include "Perlin.hpp"
 
 FireEffect::FireEffect(uint8_t numLeds) : Effect(numLeds) {

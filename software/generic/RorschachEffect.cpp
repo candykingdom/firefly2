@@ -1,4 +1,5 @@
 #include "RorschachEffect.hpp"
+
 #include "ColorPalette.hpp"
 #include "Perlin.hpp"
 

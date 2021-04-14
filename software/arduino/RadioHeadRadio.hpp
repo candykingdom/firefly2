@@ -2,6 +2,7 @@
 #define __RADIO_HEAD_RADIO_H__
 
 #include <RH_RF69.h>
+
 #include "Radio.hpp"
 
 const int kMaxFifoSizePacketSize = 64;
