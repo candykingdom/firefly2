@@ -9,11 +9,11 @@
 // (which it shouldn't)
 #undef max
 #undef min
-#include <DisplayColorPaletteEffect.hpp>
-#include <FastLedManager.hpp>
-#include <NetworkManager.hpp>
-#include <RadioHeadRadio.hpp>
-#include <RadioStateMachine.hpp>
+#include "../../generic/DisplayColorPaletteEffect.hpp"
+#include "../../arduino/FastLedManager.hpp"
+#include "../../generic/NetworkManager.hpp"
+#include "../../arduino/RadioHeadRadio.hpp"
+#include "../../generic/RadioStateMachine.hpp"
 
 enum class ChooserMode {
   Color,
