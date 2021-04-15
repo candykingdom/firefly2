@@ -3,7 +3,7 @@
 
 #include <RH_RF69.h>
 
-#include "Radio.hpp"
+#include "../generic/Radio.hpp"
 
 const int kMaxFifoSizePacketSize = 64;
 const int kRadioOverhead = 3;
