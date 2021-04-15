@@ -33,13 +33,10 @@ void loop() {
   if (!digitalRead(kButton0) && !debounce) {
     debounce = true;
     Serial.println("Sending...");
-    packet.writeSetEffect(2, 5, (millis() >> 3) % 256);
+    packet.writeSetEffect(2,                       // Effect Index
+                          5,                       // Delay
+                          (millis() >> 3) % 256);  // Hue
     radio->sendPacket(packet);
-
-    // Note: need to sleep just a little after sending a packet before sleeping
-    delay(5);
-    radio->sleep();
-    delay(100);
   } else if (digitalRead(kButton0)) {
     debounce = false;
   }
