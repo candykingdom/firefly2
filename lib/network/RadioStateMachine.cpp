@@ -2,8 +2,8 @@
 
 #include <cstdio>
 
-#include "../effect/Effect.hpp"
-#include "Debug.hpp"
+#include <Effect.hpp>
+#include <Debug.hpp>
 
 //#define DEBUG
 

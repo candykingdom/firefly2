@@ -4,7 +4,7 @@
 #include <initializer_list>
 #include <vector>
 
-#include "../types/Types.hpp"
+#include <Types.hpp>
 
 class ColorPalette {
  public:

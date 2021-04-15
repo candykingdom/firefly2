@@ -2,7 +2,7 @@
 
 #include <RH_RF69.h>
 
-#include "../debug/Debug.hpp"
+#include <Debug.hpp>
 
 RadioHeadRadio::RadioHeadRadio() {
   radio.init();

@@ -1,6 +1,6 @@
 #include "ColorCycleEffect.hpp"
 
-#include "../ColorPalette.hpp"
+#include <ColorPalette.hpp>
 
 ColorCycleEffect::ColorCycleEffect(uint8_t numLeds, DeviceType deviceType)
     : Effect(numLeds, deviceType) {}

@@ -3,7 +3,7 @@
 
 #include <map>
 
-#include "../types/Types.hpp"
+#include <Types.hpp>
 #include "NetworkManager.hpp"
 
 enum TimerType {

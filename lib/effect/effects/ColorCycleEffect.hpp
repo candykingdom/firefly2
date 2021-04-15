@@ -1,8 +1,8 @@
 #ifndef __COLOR_CYCLE_EFFECT_HPP__
 #define __COLOR_CYCLE_EFFECT_HPP__
 
-#include "../../types/Types.hpp"
-#include "../Effect.hpp"
+#include <Types.hpp>
+#include <Effect.hpp>
 
 /** Cycles all of the LEDs through the color palette at once. */
 class ColorCycleEffect : public Effect {

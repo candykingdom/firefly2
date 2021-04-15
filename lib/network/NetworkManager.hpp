@@ -1,7 +1,7 @@
 #ifndef __NETWORK_MANAGER_H__
 #define __NETWORK_MANAGER_H__
 
-#include "../types/Types.hpp"
+#include <Types.hpp>
 #include "Radio.hpp"
 
 class NetworkManager {

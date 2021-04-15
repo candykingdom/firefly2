@@ -3,9 +3,9 @@
 
 #include <vector>
 
-#include "../network/Radio.hpp"
-#include "../types/Types.hpp"
-#include "./ColorPalette.hpp"
+#include <Radio.hpp>
+#include <Types.hpp>
+#include "ColorPalette.hpp"
 
 enum class DeviceType {
   Wearable,
