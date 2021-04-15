@@ -1,8 +1,8 @@
 #undef max
 #undef min
 #include "../../arduino/FastLedManager.hpp"
-#include "../../generic/NetworkManager.hpp"
 #include "../../arduino/RadioHeadRadio.hpp"
+#include "../../generic/NetworkManager.hpp"
 #include "../../generic/RadioStateMachine.hpp"
 
 const int kNumLeds = 60;
