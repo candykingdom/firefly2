@@ -3,9 +3,9 @@
 
 #include <vector>
 
-#include "Effect.hpp"
-#include "LedManager.hpp"
-#include "Types.hpp"
+#include "../generic/Effect.hpp"
+#include "../generic/LedManager.hpp"
+#include "../generic/Types.hpp"
 
 class FastLedManager : public LedManager {
  public:
