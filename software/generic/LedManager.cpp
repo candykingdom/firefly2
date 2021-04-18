@@ -52,7 +52,7 @@ LedManager::LedManager(const uint8_t numLeds, DeviceType deviceType,
 }
 
 Effect *LedManager::GetCurrentEffect() {
-  RadioPacket* packet = radioState->GetSetEffect();
+  RadioPacket *packet = radioState->GetSetEffect();
   if (packet->type == SET_CONTROL) {
     return controlEffect;
   }

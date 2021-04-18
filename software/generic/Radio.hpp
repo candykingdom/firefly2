@@ -60,11 +60,12 @@ struct RadioPacket {
   uint8_t readDelayFromSetEffect();
   uint8_t readPaletteIndexFromSetEffect();
 
-  void writeControl(uint8_t delay, uint8_t r, uint8_t g, uint8_t b);
+  // For SET_CONTROL
+  // delay: time for the master to not change the effect, in seconds
+  // rgb: the color to set the node to
+  void writeControl(uint8_t delay, CRGB rgb);
   uint8_t readDelayFromSetControl();
-  uint8_t readRFromSetControl();
-  uint8_t readGFromSetControl();
-  uint8_t readBFromSetControl();
+  CRGB readRgbFromSetControl();
 };
 
 inline bool operator==(const RadioPacket& lhs, const RadioPacket& rhs) {

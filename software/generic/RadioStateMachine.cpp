@@ -2,9 +2,9 @@
 
 #include <cstdio>
 
+#include "ControlEffect.hpp"
 #include "Debug.hpp"
 #include "Effect.hpp"
-#include "../generic/ControlEffect.hpp"
 
 //#define DEBUG
 
@@ -124,8 +124,7 @@ void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
                  kSlaveNoPacketTimeout + rand() % kSlaveNoPacketRandom);
         break;
 
-      case SET_EFFECT:
-      {
+      case SET_EFFECT: {
         uint8_t newEffectIndex = data.packet->readEffectIndexFromSetEffect();
         uint8_t newPaletteIndex = data.packet->readPaletteIndexFromSetEffect();
         if (effectIndex != this->effectIndex ||
@@ -172,13 +171,12 @@ void RadioStateMachine::handleMasterEvent(RadioEventData &data) {
         nextState = RadioState::Slave;
         break;
 
-      case SET_EFFECT:
-      {
+      case SET_EFFECT: {
         this->setEffectPacket = *data.packet;
         this->effectIndex = data.packet->readEffectIndexFromSetEffect();
-        uint32_t setEfectTime =
+        uint32_t setEffectTime =
             (uint32_t)(data.packet->readDelayFromSetEffect()) * 1000;
-        SetTimer(TimerChangeEffect, setEfectTime);
+        SetTimer(TimerChangeEffect, setEffectTime);
         break;
       }
 

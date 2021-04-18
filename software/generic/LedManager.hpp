@@ -3,10 +3,10 @@
 
 #include <vector>
 
+#include "ControlEffect.hpp"
 #include "Effect.hpp"
 #include "Radio.hpp"
 #include "RadioStateMachine.hpp"
-#include "ControlEffect.hpp"
 #include "Types.hpp"
 
 class LedManager {
@@ -61,6 +61,6 @@ class LedManager {
 
   void AddEffect(Effect *Effect, uint8_t proportion);
 
-  ControlEffect* controlEffect;
+  ControlEffect *controlEffect;
 };
 #endif

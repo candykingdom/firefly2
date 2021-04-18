@@ -13,9 +13,9 @@ class ControlEffect : public Effect {
   CRGB GetRGB(uint8_t ledIndex, uint32_t timeMs,
               RadioPacket *setEffectPacket) override;
 
-  private:
-    uint8_t r = 0;
-    uint8_t g = 0;
-    uint8_t b = 0;
+ private:
+  uint8_t r = 0;
+  uint8_t g = 0;
+  uint8_t b = 0;
 };
 #endif
