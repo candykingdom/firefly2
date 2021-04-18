@@ -2,6 +2,7 @@
 
 #include <cstdio>
 
+#include "ControlEffect.hpp"
 #include "Debug.hpp"
 #include "Effect.hpp"
 
@@ -123,7 +124,7 @@ void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
                  kSlaveNoPacketTimeout + rand() % kSlaveNoPacketRandom);
         break;
 
-      case SET_EFFECT:
+      case SET_EFFECT: {
         uint8_t newEffectIndex = data.packet->readEffectIndexFromSetEffect();
         uint8_t newPaletteIndex = data.packet->readPaletteIndexFromSetEffect();
         if (effectIndex != this->effectIndex ||
@@ -133,6 +134,12 @@ void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
         }
         this->setEffectPacket = *data.packet;
         this->effectIndex = newEffectIndex;
+        break;
+      }
+
+      case SET_CONTROL:
+        effectChangeSeenAt = millis();
+        this->setEffectPacket = *data.packet;
         break;
     }
   } else if (data.timerExpired == TimerHeartbeat) {
@@ -164,12 +171,20 @@ void RadioStateMachine::handleMasterEvent(RadioEventData &data) {
         nextState = RadioState::Slave;
         break;
 
-      case SET_EFFECT:
+      case SET_EFFECT: {
         this->setEffectPacket = *data.packet;
         this->effectIndex = data.packet->readEffectIndexFromSetEffect();
-        uint32_t changeEffectTime =
+        uint32_t setEffectTime =
             (uint32_t)(data.packet->readDelayFromSetEffect()) * 1000;
-        SetTimer(TimerChangeEffect, changeEffectTime);
+        SetTimer(TimerChangeEffect, setEffectTime);
+        break;
+      }
+
+      case SET_CONTROL:
+        this->setEffectPacket = *data.packet;
+        uint32_t setControlTime =
+            (uint32_t)(data.packet->readDelayFromSetControl()) * 1000;
+        SetTimer(TimerChangeEffect, setControlTime);
         break;
     }
   } else if (data.timerExpired != TimerNone) {

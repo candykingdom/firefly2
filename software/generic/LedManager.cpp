@@ -45,11 +45,17 @@ LedManager::LedManager(const uint8_t numLeds, DeviceType deviceType,
   AddEffect(new DisplayColorPaletteEffect(numLeds, deviceType), 0);
   AddEffect(new DarkEffect(numLeds), 0);
 
+  controlEffect = new ControlEffect(numLeds, deviceType);
+
   radioState->SetNumEffects(GetNumEffects());
   radioState->SetNumPalettes(effects[0]->palettes.size());
 }
 
 Effect *LedManager::GetCurrentEffect() {
+  RadioPacket *packet = radioState->GetSetEffect();
+  if (packet->type == SET_CONTROL) {
+    return controlEffect;
+  }
   uint8_t effectIndex =
       radioState->GetSetEffect()->readEffectIndexFromSetEffect();
   return GetEffect(effectIndex);

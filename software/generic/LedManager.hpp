@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "ControlEffect.hpp"
 #include "Effect.hpp"
 #include "Radio.hpp"
 #include "RadioStateMachine.hpp"
@@ -59,5 +60,7 @@ class LedManager {
   std::vector<uint8_t> uniqueEffectIndices;
 
   void AddEffect(Effect *Effect, uint8_t proportion);
+
+  ControlEffect *controlEffect;
 };
 #endif

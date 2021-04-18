@@ -36,3 +36,18 @@ uint8_t RadioPacket::readEffectIndexFromSetEffect() { return this->data[0]; }
 uint8_t RadioPacket::readDelayFromSetEffect() { return this->data[1]; }
 
 uint8_t RadioPacket::readPaletteIndexFromSetEffect() { return this->data[2]; }
+
+void RadioPacket::writeControl(uint8_t delay, CRGB rgb) {
+  this->type = SET_CONTROL;
+  this->dataLength = 4;
+  this->data[0] = delay;
+  this->data[1] = rgb.r;
+  this->data[2] = rgb.g;
+  this->data[3] = rgb.b;
+}
+
+uint8_t RadioPacket::readDelayFromSetControl() { return this->data[0]; }
+
+CRGB RadioPacket::readRgbFromSetControl() {
+  return CRGB(this->data[1], this->data[2], this->data[3]);
+}
