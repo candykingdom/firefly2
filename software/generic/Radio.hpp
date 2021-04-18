@@ -16,6 +16,9 @@ enum PacketType {
   // (e.g. the car remote) can also send this, and may include a flag for the
   // master to not change the pattern for a certain amount of time.
   SET_EFFECT,
+
+  // Used to set the exact RGB values that the device should display.
+  SET_CONTROL,
 };
 
 static const uint8_t PACKET_DATA_LENGTH = 58;
@@ -56,6 +59,12 @@ struct RadioPacket {
   uint8_t readEffectIndexFromSetEffect();
   uint8_t readDelayFromSetEffect();
   uint8_t readPaletteIndexFromSetEffect();
+
+  void writeControl(uint8_t delay, uint8_t r, uint8_t g, uint8_t b);
+  uint8_t readDelayFromSetControl();
+  uint8_t readRFromSetControl();
+  uint8_t readGFromSetControl();
+  uint8_t readBFromSetControl();
 };
 
 inline bool operator==(const RadioPacket& lhs, const RadioPacket& rhs) {

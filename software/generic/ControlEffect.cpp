@@ -13,9 +13,9 @@ ControlEffect::ControlEffect(uint8_t numLeds, DeviceType deviceType)
 
 CRGB ControlEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
                               RadioPacket *setEffectPacket) {
-  uint8_t r = setEffectPacket->readRFromSetRgb();
-  uint8_t g = setEffectPacket->readGFromSetRgb();
-  uint8_t b = setEffectPacket->readBFromSetRgb();
+  uint8_t r = setEffectPacket->readRFromSetControl();
+  uint8_t g = setEffectPacket->readGFromSetControl();
+  uint8_t b = setEffectPacket->readBFromSetControl();
 
   return CRGB(r, g ,b);
 }
