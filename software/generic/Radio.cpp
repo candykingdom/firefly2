@@ -2,7 +2,7 @@
 
 #include <cstdio>
 
-#include "Debug.hpp"
+#include <Debug.hpp>
 
 void RadioPacket::writeHeartbeat(uint32_t time) {
   this->type = HEARTBEAT;

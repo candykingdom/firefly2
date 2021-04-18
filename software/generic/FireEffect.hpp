@@ -2,7 +2,7 @@
 #define __FIRE_EFFECT_HPP__
 
 #include "Effect.hpp"
-#include "Types.hpp"
+#include <Types.hpp>
 
 class FireEffect : public Effect {
  public:

@@ -5,7 +5,7 @@
 
 #include "ColorPalette.hpp"
 #include "Radio.hpp"
-#include "Types.hpp"
+#include <Types.hpp>
 
 enum class DeviceType {
   Wearable,

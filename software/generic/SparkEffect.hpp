@@ -2,7 +2,7 @@
 #define __SPARK_EFFECT_HPP__
 
 #include "Effect.hpp"
-#include "Types.hpp"
+#include <Types.hpp>
 
 // Makes a bright light trace back and forth, with a tail.
 class SparkEffect : public Effect {

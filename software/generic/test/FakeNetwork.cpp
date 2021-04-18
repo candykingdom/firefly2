@@ -1,8 +1,8 @@
 #include "FakeNetwork.hpp"
 
+#include <Debug.hpp>
 #include <cstdio>
 
-#include "../Debug.hpp"
 #include "../NetworkManager.hpp"
 
 //#define DEBUG

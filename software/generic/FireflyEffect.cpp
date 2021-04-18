@@ -1,6 +1,6 @@
 #include "FireflyEffect.hpp"
 
-#include "Debug.hpp"
+#include <Debug.hpp>
 
 FireflyEffect::FireflyEffect(uint8_t numLeds) : Effect(numLeds) {
 #ifdef ARDUINO
