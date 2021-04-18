@@ -3,10 +3,10 @@
 #include "../../arduino/RadioHeadRadio.hpp"
 #include "../../generic/NetworkManager.hpp"
 
-#define DMX_CHANNELS 192
+const uint8_t DMX_CHANNELS = 192;
 
-#define RESERVATION_SECONDS 5
-#define UPDATE_TIMEOUT_SECONDS 1
+const uint8_t RESERVATION_SECONDS = 5;
+const uint8_t UPDATE_TIMEOUT_SECONDS = 1;
 
 RadioHeadRadio* radio;
 
@@ -61,16 +61,7 @@ void loop() {
     packet.packetId = packetId++;
     radio->sendPacket(packet);
 
-    Serial.print("Sent r: ");
-    Serial.print(r);
-    Serial.print("\tg: ");
-    Serial.print(g);
-    Serial.print("\tb: ");
-    Serial.println(b);
-
-    // Note: need to sleep just a little after sending a packet before sleeping
-    delay(5);
-    radio->sleep();
+    Serial.printf("Sent r: %u\tg: %u\tb: %u\n", r, g, b);
 
     digitalWrite(LED_BUILTIN, LOW);
   }
