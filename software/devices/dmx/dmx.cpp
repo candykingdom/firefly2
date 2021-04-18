@@ -1,48 +1,79 @@
-#include "../../arduino/RadioHeadRadio.hpp"
+#include <SparkFunDMX.h>
 
-const int kLedPin = 13;
-const int kButton0 = 0;
+#include "../../arduino/RadioHeadRadio.hpp"
+#include "../../generic/NetworkManager.hpp"
+
+#define DMX_CHANNELS 192
+
+#define RESERVATION_SECONDS 5
+#define UPDATE_TIMEOUT_SECONDS 1
 
 RadioHeadRadio* radio;
-RadioPacket packet;
+
+SparkFunDMX dmx;
 
 void setup() {
   Serial.begin(115200);
 
-  pinMode(kLedPin, OUTPUT);
-  pinMode(kButton0, INPUT_PULLUP);
+  Serial.println("Initializing...");
+
+  Serial.print("Number of channels in universe: ");
+  Serial.println(DMX_CHANNELS);
+  dmx.initRead(DMX_CHANNELS);
+
+  pinMode(LED_BUILTIN, OUTPUT);
 
   radio = new RadioHeadRadio();
   radio->sleep();
-}
 
-const int kBufLen = 10;
-char buf[kBufLen];
+  Serial.println("Starting...");
+}
 
 unsigned long printAliveAt = 0;
 
-bool debounce = false;
+RadioPacket packet;
+uint16_t packetId;
+
+uint32_t last_sent = 0;
+uint8_t last_r;
+uint8_t last_g;
+uint8_t last_b;
 
 void loop() {
-  if (!digitalRead(kButton0)) {
-    digitalWrite(kLedPin, HIGH);
-  } else {
-    digitalWrite(kLedPin, LOW);
-  }
+  dmx.update();
+  // TODO (will): Figure out why the channels don't start at 0
+  uint8_t r = dmx.read(3);
+  uint8_t g = dmx.read(4);
+  uint8_t b = dmx.read(5);
 
-  if (!digitalRead(kButton0) && !debounce) {
-    debounce = true;
-    Serial.println("Sending...");
-    packet.writeSetEffect(2,                       // Effect Index
-                          5,                       // Delay
-                          (millis() >> 3) % 256);  // Hue
+  uint32_t time = millis();
+
+  if (r != last_r || g != last_g || b != last_b ||
+      time > last_sent + UPDATE_TIMEOUT_SECONDS * 1000) {
+    digitalWrite(LED_BUILTIN, HIGH);
+
+    last_r = r;
+    last_g = g;
+    last_b = b;
+    last_sent = time;
+
+    packet.writeControl(RESERVATION_SECONDS, CRGB(r, g, b));
+    packet.packetId = packetId++;
     radio->sendPacket(packet);
-  } else if (digitalRead(kButton0)) {
-    debounce = false;
+
+    Serial.print("Sent r: ");
+    Serial.print(r);
+    Serial.print("\tg: ");
+    Serial.print(g);
+    Serial.print("\tb: ");
+    Serial.println(b);
+
+    // Note: need to sleep just a little after sending a packet before sleeping
+    delay(5);
+    radio->sleep();
+
+    digitalWrite(LED_BUILTIN, LOW);
   }
 
-  if (millis() > printAliveAt) {
-    Serial.println(millis());
-    printAliveAt = millis() + 1000;
-  }
+  delay(50);
 }
