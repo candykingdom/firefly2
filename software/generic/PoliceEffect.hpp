@@ -2,7 +2,7 @@
 #define __POLICE_EFFECT_HPP__
 
 #include "Effect.hpp"
-#include "Types.hpp"
+#include <Types.hpp>
 
 class PoliceEffect : public Effect {
  public:

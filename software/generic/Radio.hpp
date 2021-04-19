@@ -1,7 +1,7 @@
 #ifndef __RADIO_H__
 #define __RADIO_H__
 
-#include "Types.hpp"
+#include <Types.hpp>
 
 enum PacketType {
   // Tells the slaves that they should blink the light.

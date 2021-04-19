@@ -2,7 +2,7 @@
 #define __NETWORK_MANAGER_H__
 
 #include "Radio.hpp"
-#include "Types.hpp"
+#include <Types.hpp>
 
 class NetworkManager {
  public:

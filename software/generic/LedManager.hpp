@@ -7,7 +7,7 @@
 #include "Effect.hpp"
 #include "Radio.hpp"
 #include "RadioStateMachine.hpp"
-#include "Types.hpp"
+#include <Types.hpp>
 
 class LedManager {
  public:

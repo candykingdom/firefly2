@@ -5,7 +5,7 @@
 
 #include "../../generic/Effect.hpp"
 #include "../../generic/LedManager.hpp"
-#include "../../generic/Types.hpp"
+#include <Types.hpp>
 
 class FakeLedManager : public LedManager {
  public:

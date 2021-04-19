@@ -1,9 +1,9 @@
 #include "RadioStateMachine.hpp"
 
+#include <Debug.hpp>
 #include <cstdio>
 
 #include "ControlEffect.hpp"
-#include "Debug.hpp"
 #include "Effect.hpp"
 
 //#define DEBUG

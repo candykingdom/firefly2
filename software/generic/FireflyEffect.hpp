@@ -2,7 +2,7 @@
 #define __FIREFLY_EFFECT_HPP__
 
 #include "Effect.hpp"
-#include "Types.hpp"
+#include <Types.hpp>
 
 /** Lights blink - they smoothly change between in- and out-of-sync. */
 class FireflyEffect : public Effect {
