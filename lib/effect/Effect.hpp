@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "ColorPalette.hpp"
-#include "Radio.hpp"
+#include <Radio.hpp>
 #include <Types.hpp>
 
 enum class DeviceType {

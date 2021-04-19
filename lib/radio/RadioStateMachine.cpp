@@ -3,8 +3,8 @@
 #include <Debug.hpp>
 #include <cstdio>
 
-#include "ControlEffect.hpp"
-#include "Effect.hpp"
+#include <ControlEffect.hpp>
+#include <Effect.hpp>
 
 //#define DEBUG
 

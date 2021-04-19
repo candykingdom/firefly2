@@ -3,7 +3,7 @@
 
 #include "../LedManager.hpp"
 #include "FakeLedManager.hpp"
-#include "FakeRadio.hpp"
+#include <Radio.hpp>
 #include "gtest/gtest.h"
 
 // Make sure that all of the effects can run for a while without crashing

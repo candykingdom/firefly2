@@ -1,7 +1,7 @@
 #ifndef __FIREFLY_EFFECT_HPP__
 #define __FIREFLY_EFFECT_HPP__
 
-#include "Effect.hpp"
+#include <Effect.hpp>
 #include <Types.hpp>
 
 /** Lights blink - they smoothly change between in- and out-of-sync. */

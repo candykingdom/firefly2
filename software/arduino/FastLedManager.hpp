@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "../generic/Effect.hpp"
+#include <Effect.hpp>
 #include "../generic/LedManager.hpp"
 #include <Types.hpp>
 

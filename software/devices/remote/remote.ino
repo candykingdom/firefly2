@@ -1,4 +1,4 @@
-#include "../../arduino/RadioHeadRadio.hpp"
+#include <Radio.hpp>
 
 const int kLedPin = 0;
 const int kButton0 = 8;

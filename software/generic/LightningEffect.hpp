@@ -1,7 +1,7 @@
 #ifndef __LIGHTNING_EFFECT_HPP__
 #define __LIGHTNING_EFFECT_HPP__
 
-#include "Effect.hpp"
+#include <Effect.hpp>
 #include <Types.hpp>
 
 // Blinks groups of LEDS in a vaguely lightning-light pattern.

@@ -1,7 +1,7 @@
 #ifndef __FIRE_EFFECT_HPP__
 #define __FIRE_EFFECT_HPP__
 
-#include "Effect.hpp"
+#include <Effect.hpp>
 #include <Types.hpp>
 
 class FireEffect : public Effect {

@@ -4,9 +4,9 @@
 #include <vector>
 
 #include "ControlEffect.hpp"
-#include "Effect.hpp"
-#include "Radio.hpp"
-#include "RadioStateMachine.hpp"
+#include <Effect.hpp>
+#include <Radio.hpp>
+#include <RadioStateMachine.hpp>
 #include <Types.hpp>
 
 class LedManager {

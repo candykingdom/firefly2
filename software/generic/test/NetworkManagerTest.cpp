@@ -1,6 +1,6 @@
-#include "../NetworkManager.hpp"
-#include "../Radio.hpp"
-#include "FakeRadio.hpp"
+#include <NetworkManager.hpp>
+#include <Radio.hpp>
+#include <Radio.hpp>
 #include "gtest/gtest.h"
 
 TEST(NetworkManager, receive_noPackets) {

@@ -1,8 +1,8 @@
-#include "../NetworkManager.hpp"
-#include "../Radio.hpp"
-#include "../RadioStateMachine.hpp"
+#include <NetworkManager.hpp>
+#include <Radio.hpp>
+#include <RadioStateMachine.hpp>
 #include "FakeLedManager.hpp"
-#include "FakeRadio.hpp"
+#include <Radio.hpp>
 #include "gtest/gtest.h"
 
 const uint16_t kMaxSlaveTimeout = RadioStateMachine::kSlaveNoPacketTimeout +

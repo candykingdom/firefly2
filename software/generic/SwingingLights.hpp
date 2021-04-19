@@ -1,7 +1,7 @@
 #ifndef __SWINGING_LIGHTS_EFFECT_HPP__
 #define __SWINGING_LIGHTS_EFFECT_HPP__
 
-#include "Effect.hpp"
+#include <Effect.hpp>
 #include <Types.hpp>
 
 class SwingingLights : public Effect {

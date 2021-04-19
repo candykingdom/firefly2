@@ -1,8 +1,8 @@
-#include "../NetworkManager.hpp"
-#include "../Radio.hpp"
-#include "../RadioStateMachine.hpp"
+#include <NetworkManager.hpp>
+#include <Radio.hpp>
+#include <RadioStateMachine.hpp>
 #include "FakeNetwork.hpp"
-#include "FakeRadio.hpp"
+#include <Radio.hpp>
 #include "gtest/gtest.h"
 
 int getNumMasters(FakeNetwork &network) {
