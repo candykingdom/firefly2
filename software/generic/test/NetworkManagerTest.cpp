@@ -3,9 +3,16 @@
 #include "FakeRadio.hpp"
 #include "gtest/gtest.h"
 
-TEST(NetworkManager, receive_noPackets) {
+class NetworkManagerTest : public ::testing::Test {
+  protected:
+  void SetUp() override {
+  }
+
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
+};
+
+TEST_F(NetworkManagerTest, receive_noPackets) {
   RadioPacket packet;
   packet.packetId = 12345;
   packet.type = HEARTBEAT;
@@ -17,9 +24,7 @@ TEST(NetworkManager, receive_noPackets) {
   EXPECT_EQ(packet, originalPacket);
 }
 
-TEST(NetworkManager, receive_setsPacket) {
-  FakeRadio radio;
-  NetworkManager *networkManager = new NetworkManager(&radio);
+TEST_F(NetworkManagerTest, receive_setsPacket) {
   RadioPacket packet;
 
   RadioPacket receivedPacket;
@@ -31,9 +36,7 @@ TEST(NetworkManager, receive_setsPacket) {
   EXPECT_EQ(packet, receivedPacket);
 }
 
-TEST(NetworkManager, receive_rebroadcasts) {
-  FakeRadio radio;
-  NetworkManager *networkManager = new NetworkManager(&radio);
+TEST_F(NetworkManagerTest, receive_rebroadcasts) {
   RadioPacket packet;
 
   RadioPacket receivedPacket;
@@ -67,9 +70,7 @@ TEST(NetworkManager, receive_rebroadcasts) {
   }
 }
 
-TEST(NetworkManager, receive_doesntRebroadcastSentId) {
-  FakeRadio radio;
-  NetworkManager *networkManager = new NetworkManager(&radio);
+TEST_F(NetworkManagerTest, receive_doesntRebroadcastSentId) {
   RadioPacket sentPacket;
   sentPacket.dataLength = 1;
   networkManager->send(sentPacket);
@@ -86,9 +87,7 @@ TEST(NetworkManager, receive_doesntRebroadcastSentId) {
   EXPECT_EQ(radio.getSentPacket(), nullptr);
 }
 
-TEST(NetworkManager, send_sendsPacket) {
-  FakeRadio radio;
-  NetworkManager *networkManager = new NetworkManager(&radio);
+TEST_F(NetworkManagerTest, send_sendsPacket) {
   RadioPacket packet;
   packet.packetId = 0;
   packet.dataLength = 1;
