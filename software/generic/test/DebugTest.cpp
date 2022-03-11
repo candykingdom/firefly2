@@ -1,4 +1,4 @@
-#include "../Debug.hpp"
+#include "Debug.hpp"
 #include "gtest/gtest.h"
 
 TEST(Debug, shouldNotBeEnabled) {

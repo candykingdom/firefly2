@@ -10,9 +10,13 @@
 #include <cstdlib>
 #include <cstring>
 
-#include "FakeFastLED/colorutils.h"
-#include "FakeFastLED/hsv2rgb.h"
-#include "FakeFastLED/pixeltypes.h"
+#pragma GCC diagnostic push
+
+#pragma GCC diagnostic ignored "-Wpedantic"
+
+#include <FastLED.h>
+
+#pragma GCC diagnostic pop
 
 // Provide the arduino random function
 uint16_t random(uint16_t max);

@@ -9,7 +9,15 @@ download_project(PROJ                googletest
                  UPDATE_DISCONNECTED 1
 )
 
+include(DownloadProject.cmake)
+download_project(PROJ                fake-fast-led
+                 GIT_REPOSITORY      https://github.com/ademuri/FakeFastLED.git
+                 GIT_TAG             master
+                 UPDATE_DISCONNECTED 1
+)
+
 add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
+add_subdirectory(${fake-fast-led_SOURCE_DIR} ${fake-fast-led_BINARY_DIR})
 
 # Set appropriate warning levels and include debug symbols.
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -std=c++11 -g")
@@ -17,13 +25,19 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -std=c++11 -g")
 # Generate the file needed for YCM integration
 set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
 
-file(GLOB LIBRARY_SOURCES "*.cpp" "FakeFastLED/*.cpp")
+file(GLOB LIBRARY_SOURCES "*.cpp" "FakeFastLED/*.cpp" "../../lib/types/*.cpp" "../../lib/debug/*.cpp")
 add_library(generic ${LIBRARY_SOURCES})
 target_include_directories(generic PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FakeFastLED>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/types>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/debug>
   $<INSTALL_INTERFACE:.>
-  $<INSTALL_INTERFACE:./FakeFastLED>)
+  $<INSTALL_INTERFACE:./FakeFastLED>
+  $<INSTALL_INTERFACE:../../lib/types>
+  $<INSTALL_INTERFACE:../../lib/debug>)
+
+target_link_libraries(generic fake-fast-led)
 
 enable_testing()
 
@@ -31,5 +45,5 @@ file(GLOB TEST_SOURCES "test/*.cpp" "test/*.hpp")
 
 add_executable(generictest ${TEST_SOURCES})
 
-target_link_libraries(generictest generic gmock_main gtest)
+target_link_libraries(generictest generic gmock_main gtest fake-fast-led)
 add_test(generictest generictest)
