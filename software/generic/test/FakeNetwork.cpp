@@ -60,3 +60,9 @@ void FakeNetwork::reinitNode(int index) {
 }
 
 void FakeNetwork::setPacketLoss(int n) { packetLoss = n; }
+
+void FakeNetwork::TransmitPacket(RadioPacket &packet) {
+  for (int i = 0; i < kNumNodes; i++) {
+    radios[i].setReceivedPacket(&packet);
+  }
+}

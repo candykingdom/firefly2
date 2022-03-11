@@ -4,44 +4,9 @@
 #include "FakeNetwork.hpp"
 #include "FakeRadio.hpp"
 #include "gtest/gtest.h"
+#include "RadioIntegrationTest.hpp"
 
-class RadioStateIntegrationTest : public ::testing::Test {
-  protected:
-    void SetUp() override {
-      // Using a fixed seed makes tests deterministic
-      srand(100);
-    }
-
-    int getNumMasters() {
-      int numMasters = 0;
-      for (int i = 0; i < FakeNetwork::kNumNodes; i++) {
-        if (network.stateMachines[i]->GetCurrentState() == RadioState::Master) {
-          numMasters++;
-        }
-      }
-      return numMasters;
-    }
-
-    void runTicks(int ticks) {
-      for (int i = 0; i < ticks; i++) {
-        advanceMillis(1);
-        network.Tick();
-      }
-    }
-
-    void resetMaster() {
-      for (int i = 0; i < FakeNetwork::kNumNodes; i++) {
-        if (network.stateMachines[0]->GetCurrentState() == RadioState::Master) {
-          network.reinitNode(i);
-          EXPECT_EQ(network.stateMachines[i]->GetCurrentState(), RadioState::Slave);
-        }
-      }
-    }
-
-  FakeNetwork network;
-
-};
-
+class RadioStateIntegrationTest : public RadioIntegrationTest {};
 
 TEST_F(RadioStateIntegrationTest, electsOneMaster) {
   network.Tick();
@@ -241,4 +206,12 @@ TEST_F(RadioStateIntegrationTest, changesEffectWhenMasterNotStable) {
 
   uint8_t newEffect = network.stateMachines[0]->GetEffectIndex();
   EXPECT_NE(originalEffect, newEffect);
+}
+
+TEST_F(RadioStateIntegrationTest, invalidPacket) {
+  runTicks(RadioStateMachine::kSlaveNoPacketTimeout + RadioStateMachine::kMasterHeartbeatInterval * 3);
+  // Invalid type
+  RadioPacket packet = {packetId: 1, type: (PacketType) 5, dataLength: 2, data: {5, 6}};
+  network.TransmitPacket(packet);
+  runTicks(100);
 }

@@ -26,6 +26,11 @@ class FakeNetwork {
    */
   void setPacketLoss(int n);
 
+  /**
+   * Transmits a packet to all nodes on the network.
+   */
+  void TransmitPacket(RadioPacket &packet);
+
   static const long kNumNodes = 5;
   RadioStateMachine *stateMachines[kNumNodes];
   FakeLedManager *ledManagers[kNumNodes];
