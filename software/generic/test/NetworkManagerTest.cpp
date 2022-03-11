@@ -31,7 +31,7 @@ TEST(NetworkManager, receive_setsPacket) {
   EXPECT_EQ(packet, receivedPacket);
 }
 
-TEST(NetworkManager, receive_rebroadasts) {
+TEST(NetworkManager, receive_rebroadcasts) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioPacket packet;
