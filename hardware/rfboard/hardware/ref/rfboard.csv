@@ -1,0 +1,18 @@
+"Id";"Designator";"Package";"Quantity";"Designation";"Supplier and ref";
+1;"G***";"OSHW_LOGO_4mm";1;"OSHW_LOGO_4mm";;;
+2;"C1,C2,C4,C5";"C_0603_1608Metric";4;"1uF";;;
+3;"C7";"C_0603_1608Metric";1;"1pF";;;
+4;"D1";"WS2812B";1;"WS2812B";;;
+5;"H3";"3_pin_2.54mm_pitch_strain_relief";1;"STRAIN_RELIEF";;;
+6;"J1";"FRAMATOME_10118194-0001LF_fixed_bridges";1;"10118194-0001LF";;;
+7;"L1";"L_0603_1608Metric";1;"10nH";;;
+8;"R2";"R_0603_1608Metric";1;"1k";;;
+9;"U1";"TQFP32-08";1;"SAMD21E18";;;
+10;"U2";"RFM69CW-minimalpads";1;"RFM69CW-915MHZ";;;
+11;"U3";"SOT23-5P95_280X145XL45X37N";1;"MIC5504-3.3YM5-T5";;;
+12;"D2";"LED_0603_1608Metric";1;"LED";;;
+13;"P2";"PinHeader_1x03_P2.54mm_Vertical";1;"CONN_01X03";;;
+14;"P3";"PinHeader_1x04_P2.54mm_Vertical";1;"CONN_01X04";;;
+15;"S1";"TACTILE_SWITCH_SMD_4.6X2.8MM";1;"MOMENTARY-SWITCH-SPST-SMD-4.6X2.8MM";;;
+16;"U4";"SOT-353_SC-70-5";1;"74LVC1G125";;;
+17;"C3";"C_0805_2012Metric";1;"10uF";;;
