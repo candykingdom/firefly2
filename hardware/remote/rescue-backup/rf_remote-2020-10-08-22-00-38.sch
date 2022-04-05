@@ -1,5 +1,68 @@
-EESchema Schematic File Version 4
-EELAYER 30 0
+EESchema Schematic File Version 2
+LIBS:rfboard-rescue
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:homebrew
+LIBS:SparkFun-Aesthetics
+LIBS:SparkFun-Batteries
+LIBS:SparkFun-Boards
+LIBS:SparkFun-Capacitors
+LIBS:SparkFun-Clocks
+LIBS:SparkFun-Coils
+LIBS:SparkFun-Connectors
+LIBS:SparkFun-DiscreteSemi
+LIBS:SparkFun-Displays
+LIBS:SparkFun-Electromechanical
+LIBS:SparkFun-Fuses
+LIBS:SparkFun-GPS
+LIBS:SparkFun-Hardware
+LIBS:SparkFun-IC-Amplifiers
+LIBS:SparkFun-IC-Comms
+LIBS:SparkFun-IC-Conversion
+LIBS:SparkFun-IC-Logic
+LIBS:SparkFun-IC-Memory
+LIBS:SparkFun-IC-Microcontroller
+LIBS:SparkFun-IC-Power
+LIBS:SparkFun-IC-Special-Function
+LIBS:SparkFun-Jumpers
+LIBS:SparkFun-LED
+LIBS:SparkFun-PowerSymbols
+LIBS:SparkFun-Resistors
+LIBS:SparkFun-RF
+LIBS:SparkFun-Sensors
+LIBS:SparkFun-Switches
+LIBS:10118194-0001LF
+LIBS:MIC5504-3.3YM5-T5
+LIBS:homebrew_button
+LIBS:rf_remote-cache
+EELAYER 25 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -20,7 +83,7 @@ Text Notes 8150 7650 0    60   ~ 0
 Text Notes 10550 7650 0    60   ~ 0
 1	
 $Comp
-L rf_remote-rescue:Conn_01x04 P1
+L Conn_01x04 P1
 U 1 1 5A5423D1
 P 3750 7350
 F 0 "P1" H 3750 7600 50  0000 C CNN
@@ -33,7 +96,7 @@ $EndComp
 Text Notes 3150 6750 0    60   ~ 0
 ARM\nSerial Wire Debug
 $Comp
-L power:GND #PWR01
+L GND #PWR01
 U 1 1 5A542459
 P 3550 7550
 F 0 "#PWR01" H 3550 7300 50  0001 C CNN
@@ -48,7 +111,7 @@ ARM_SWDIO
 Text GLabel 3250 7450 1    60   Input ~ 0
 ARM_SWCLK
 $Comp
-L power:GND #PWR02
+L GND #PWR02
 U 1 1 5A542675
 P 5400 1900
 F 0 "#PWR02" H 5400 1650 50  0001 C CNN
@@ -59,7 +122,7 @@ F 3 "" H 5400 1900 50  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L power:GND #PWR03
+L GND #PWR03
 U 1 1 5A542695
 P 5400 2100
 F 0 "#PWR03" H 5400 1850 50  0001 C CNN
@@ -70,7 +133,7 @@ F 3 "" H 5400 2100 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L rf_remote-rescue:Conn_01x01 P2
+L Conn_01x01 P2
 U 1 1 5A542715
 P 5000 7400
 F 0 "P2" H 5000 7500 50  0000 C CNN
@@ -97,7 +160,7 @@ RADIO_SCK
 Text GLabel 4400 1800 0    60   Input ~ 0
 RADIO_NSS
 $Comp
-L power:+3V3 #PWR04
+L +3V3 #PWR04
 U 1 1 5A54A758
 P 4400 1300
 F 0 "#PWR04" H 4400 1150 50  0001 C CNN
@@ -108,7 +171,7 @@ F 3 "" H 4400 1300 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L rf_remote-rescue:RFM69CW-915MHZ U2
+L RFM69CW-915MHZ U2
 U 1 1 5A83E74A
 P 4900 1700
 F 0 "U2" H 4850 2500 45  0000 L BNN
@@ -125,7 +188,7 @@ NoConn ~ 5400 1600
 NoConn ~ 5400 1700
 NoConn ~ 4400 2100
 $Comp
-L homebrew_button:SAMD21E18 U1
+L SAMD21E18 U1
 U 1 1 5A8519D5
 P 1750 2150
 F 0 "U1" H 1650 700 60  0000 C CNN
@@ -136,7 +199,7 @@ F 3 "" H 1750 2150 60  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+3V3 #PWR05
+L +3V3 #PWR05
 U 1 1 5A851BC3
 P 1100 1000
 F 0 "#PWR05" H 1100 850 50  0001 C CNN
@@ -155,7 +218,7 @@ Wire Wire Line
 Wire Wire Line
 	1100 1100 1100 1000
 $Comp
-L power:GND #PWR06
+L GND #PWR06
 U 1 1 5A851C44
 P 1100 1800
 F 0 "#PWR06" H 1100 1550 50  0001 C CNN
@@ -178,7 +241,7 @@ RADIO_NSS
 Text GLabel 2200 3200 2    60   Input ~ 0
 SIMPLE_LED
 $Comp
-L rf_remote-rescue:LED D1
+L LED D1
 U 1 1 5A8531E4
 P 7450 1900
 F 0 "D1" H 7450 2000 50  0000 C CNN
@@ -191,7 +254,7 @@ $EndComp
 Text GLabel 7000 1900 0    60   Input ~ 0
 SIMPLE_LED
 $Comp
-L power:GND #PWR07
+L GND #PWR07
 U 1 1 5A853737
 P 7600 1900
 F 0 "#PWR07" H 7600 1650 50  0001 C CNN
@@ -202,7 +265,7 @@ F 3 "" H 7600 1900 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L rf_remote-rescue:R R1
+L R R1
 U 1 1 5A8538CF
 P 7150 1900
 F 0 "R1" V 7230 1900 50  0000 C CNN
@@ -241,7 +304,7 @@ SW3
 Text GLabel 9900 5000 2    60   Input ~ 0
 SW4
 $Comp
-L power:GND #PWR08
+L GND #PWR08
 U 1 1 5ADD2C56
 P 9500 2100
 F 0 "#PWR08" H 9500 1850 50  0001 C CNN
@@ -252,7 +315,7 @@ F 3 "" H 9500 2100 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L power:GND #PWR09
+L GND #PWR09
 U 1 1 5ADD4016
 P 9500 3150
 F 0 "#PWR09" H 9500 2900 50  0001 C CNN
@@ -263,7 +326,7 @@ F 3 "" H 9500 3150 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L power:GND #PWR010
+L GND #PWR010
 U 1 1 5ADD418C
 P 9500 4050
 F 0 "#PWR010" H 9500 3800 50  0001 C CNN
@@ -274,7 +337,7 @@ F 3 "" H 9500 4050 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L power:GND #PWR011
+L GND #PWR011
 U 1 1 5ADD4235
 P 9500 5000
 F 0 "#PWR011" H 9500 4750 50  0001 C CNN
@@ -285,7 +348,7 @@ F 3 "" H 9500 5000 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L rf_remote-rescue:Battery_Cell BT1
+L Battery_Cell BT1
 U 1 1 5ADD440D
 P 850 6000
 F 0 "BT1" H 950 6100 50  0000 L CNN
@@ -296,7 +359,7 @@ F 3 "" V 850 6060 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR012
+L GND #PWR012
 U 1 1 5ADD460D
 P 850 6100
 F 0 "#PWR012" H 850 5850 50  0001 C CNN
@@ -307,7 +370,7 @@ F 3 "" H 850 6100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+3V3 #PWR013
+L +3V3 #PWR013
 U 1 1 5B0A37CE
 P 850 5800
 F 0 "#PWR013" H 850 5650 50  0001 C CNN
@@ -318,7 +381,7 @@ F 3 "" H 850 5800 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L rf_remote-rescue:1.0UF-0603-16V-10% C1
+L 1.0UF-0603-16V-10% C1
 U 1 1 5B25ACEC
 P 1600 6000
 F 0 "C1" H 1660 6115 45  0000 L BNN
@@ -330,7 +393,7 @@ F 4 "CAP-00868" H 1550 5550 60  0000 C CNN "Field4"
 	1    0    0    -1  
 $EndComp
 $Comp
-L rf_remote-rescue:10UF-0603-6.3V-20% C2
+L 10UF-0603-6.3V-20% C2
 U 1 1 5B25AEA2
 P 2350 6000
 F 0 "C2" H 2410 6115 45  0000 L BNN
@@ -342,7 +405,7 @@ F 4 "CAP-11015" H 2450 5600 60  0000 C CNN "Field4"
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+3V3 #PWR014
+L +3V3 #PWR014
 U 1 1 5B25B2B9
 P 1600 5800
 F 0 "#PWR014" H 1600 5650 50  0001 C CNN
@@ -353,7 +416,7 @@ F 3 "" H 1600 5800 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+3V3 #PWR015
+L +3V3 #PWR015
 U 1 1 5B25B308
 P 2350 5800
 F 0 "#PWR015" H 2350 5650 50  0001 C CNN
@@ -364,7 +427,7 @@ F 3 "" H 2350 5800 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR016
+L GND #PWR016
 U 1 1 5B25B346
 P 1600 6100
 F 0 "#PWR016" H 1600 5850 50  0001 C CNN
@@ -375,7 +438,7 @@ F 3 "" H 1600 6100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR017
+L GND #PWR017
 U 1 1 5B25B384
 P 2350 6100
 F 0 "#PWR017" H 2350 5850 50  0001 C CNN
@@ -386,7 +449,7 @@ F 3 "" H 2350 6100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L rf_remote-rescue:10118194-0001LF J1
+L 10118194-0001LF J1
 U 1 1 5B515E1C
 P 5350 5900
 F 0 "J1" H 5060 6120 50  0000 L BNN
@@ -410,7 +473,7 @@ USB_D+
 Text GLabel 2200 3000 2    60   Input ~ 0
 USB_D-
 $Comp
-L power:GND #PWR018
+L GND #PWR018
 U 1 1 5B516002
 P 5850 6000
 F 0 "#PWR018" H 5850 5750 50  0001 C CNN
@@ -421,7 +484,7 @@ F 3 "" H 5850 6000 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L homebrew_button:MOMENTARY-SWITCH-6x6x4.5mm S2
+L MOMENTARY-SWITCH-6x6x4.5mm S2
 U 1 1 5B5176C0
 P 9700 3150
 F 0 "S2" H 9500 3250 45  0000 L BNN
@@ -433,7 +496,7 @@ F 4 "SWCH-PTS645" H 9700 3400 60  0000 C CNN "Field4"
 	1    0    0    -1  
 $EndComp
 $Comp
-L homebrew_button:MOMENTARY-SWITCH-6x6x4.5mm S3
+L MOMENTARY-SWITCH-6x6x4.5mm S3
 U 1 1 5B51772C
 P 9700 4050
 F 0 "S3" H 9500 4150 45  0000 L BNN
@@ -445,7 +508,7 @@ F 4 "SWCH-PTS645" H 9700 4300 60  0000 C CNN "Field4"
 	1    0    0    -1  
 $EndComp
 $Comp
-L homebrew_button:MOMENTARY-SWITCH-6x6x4.5mm S4
+L MOMENTARY-SWITCH-6x6x4.5mm S4
 U 1 1 5B517785
 P 9700 5000
 F 0 "S4" H 9500 5100 45  0000 L BNN
@@ -459,7 +522,7 @@ $EndComp
 NoConn ~ 4850 6000
 NoConn ~ 5850 5800
 $Comp
-L homebrew_button:MOMENTARY-SWITCH-6x6x4.5mm S1
+L MOMENTARY-SWITCH-6x6x4.5mm S1
 U 1 1 5B518565
 P 9700 2100
 F 0 "S1" H 9500 2200 45  0000 L BNN

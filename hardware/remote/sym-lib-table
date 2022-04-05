@@ -1,0 +1,5 @@
+(sym_lib_table
+  (lib (name rf_remote-rescue)(type Legacy)(uri ${KIPRJMOD}/rf_remote-rescue.lib)(options "")(descr ""))
+  (lib (name rfboard-rescue)(type Legacy)(uri ${KIPRJMOD}/rfboard-rescue.lib)(options "")(descr ""))
+  (lib (name homebrew_button)(type Legacy)(uri ${KIPRJMOD}/homebrew_button.lib)(options "")(descr ""))
+)
