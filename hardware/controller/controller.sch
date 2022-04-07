@@ -14,7 +14,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L snapeda-STM32G031F8P6:STM32G031F8P6 U2
+L controller-rescue:STM32G031F8P6-snapeda-STM32G031F8P6 U2
 U 1 1 624BA5CF
 P 2350 2050
 F 0 "U2" H 2350 3220 50  0000 C CNN
@@ -822,7 +822,7 @@ F 3 "" H 6350 15150 50  0001 C CNN
 $EndComp
 Connection ~ 6350 15150
 $Comp
-L SparkFun-RF:RFM69CW-915MHZ U6
+L controller-rescue:RFM69CW-915MHZ-SparkFun-RF U6
 U 1 1 62516233
 P 13450 7350
 F 0 "U6" H 13450 8110 45  0000 C CNN
@@ -1118,7 +1118,7 @@ F 3 "" H 6350 14550 50  0001 C CNN
 $EndComp
 Connection ~ 6350 14550
 $Comp
-L snapeda-TP4056:TP4056 U7
+L controller-rescue:TP4056-snapeda-TP4056 U7
 U 1 1 62620201
 P 14100 1600
 F 0 "U7" H 14100 2267 50  0000 C CNN
@@ -1446,7 +1446,7 @@ Wire Wire Line
 Wire Wire Line
 	1100 2750 1150 2750
 $Comp
-L Homebrew:ILS_TA180_50 SW1
+L controller-rescue:ILS_TA180_50-Homebrew SW1
 U 1 1 6255A351
 P 2500 5350
 F 0 "SW1" H 2500 5715 50  0000 C CNN
@@ -1458,7 +1458,7 @@ F 4 "ILS TA180 50" H 2500 5350 50  0001 C CNN "MPN"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Homebrew:WS2811 U1
+L controller-rescue:WS2811-Homebrew U1
 U 1 1 6257E8A0
 P 1900 12150
 F 0 "U1" H 1700 12400 50  0000 C CNN
@@ -1584,7 +1584,7 @@ BLED_2
 Text Label 1200 12050 2    50   ~ 0
 LED_OUT
 $Comp
-L Homebrew:WS2811 U3
+L controller-rescue:WS2811-Homebrew U3
 U 1 1 625ECF8B
 P 2450 13550
 F 0 "U3" H 2250 13800 50  0000 C CNN
@@ -1708,7 +1708,7 @@ Wire Wire Line
 Text Label 4450 13650 0    50   ~ 0
 BLED_5
 $Comp
-L Homebrew:WS2811 U4
+L controller-rescue:WS2811-Homebrew U4
 U 1 1 626193EA
 P 3000 14950
 F 0 "U4" H 2800 15200 50  0000 C CNN
@@ -1929,7 +1929,7 @@ Wire Notes Line
 Wire Notes Line
 	10100 3900 10100 3000
 $Comp
-L Homebrew:ILS_TA180_50 SW2
+L controller-rescue:ILS_TA180_50-Homebrew SW2
 U 1 1 62A31548
 P 2500 6350
 F 0 "SW2" H 2500 6715 50  0000 C CNN
@@ -1960,7 +1960,7 @@ Wire Wire Line
 NoConn ~ 2200 6550
 NoConn ~ 2800 6550
 $Comp
-L Homebrew:ILS_TA180_50 SW3
+L controller-rescue:ILS_TA180_50-Homebrew SW3
 U 1 1 62A55D33
 P 2500 7350
 F 0 "SW3" H 2500 7715 50  0000 C CNN
@@ -2244,7 +2244,7 @@ Wire Notes Line
 Text Notes 2250 8000 0    50   ~ 0
 Left buttons
 $Comp
-L Homebrew:ILS_TA180_50 SW4
+L controller-rescue:ILS_TA180_50-Homebrew SW4
 U 1 1 62E327B7
 P 4850 5400
 F 0 "SW4" H 4850 5765 50  0000 C CNN
@@ -2286,7 +2286,7 @@ Wire Wire Line
 NoConn ~ 4550 5600
 NoConn ~ 5150 5600
 $Comp
-L Homebrew:ILS_TA180_50 SW5
+L controller-rescue:ILS_TA180_50-Homebrew SW5
 U 1 1 62E32F54
 P 4850 6400
 F 0 "SW5" H 4850 6765 50  0000 C CNN
@@ -2317,7 +2317,7 @@ Wire Wire Line
 NoConn ~ 4550 6600
 NoConn ~ 5150 6600
 $Comp
-L Homebrew:ILS_TA180_50 SW6
+L controller-rescue:ILS_TA180_50-Homebrew SW6
 U 1 1 62E32F6D
 P 4850 7400
 F 0 "SW6" H 4850 7765 50  0000 C CNN
@@ -2468,7 +2468,7 @@ SW_RIGHT
 Text Label 3550 1650 0    50   ~ 0
 SW_ACTION
 $Comp
-L Homebrew:ILS_TA180_50 SW7
+L controller-rescue:ILS_TA180_50-Homebrew SW7
 U 1 1 62E58EFF
 P 7200 5400
 F 0 "SW7" H 7200 5765 50  0000 C CNN
@@ -2510,7 +2510,7 @@ Wire Wire Line
 NoConn ~ 6900 5600
 NoConn ~ 7500 5600
 $Comp
-L Homebrew:ILS_TA180_50 SW8
+L controller-rescue:ILS_TA180_50-Homebrew SW8
 U 1 1 62E594BA
 P 7200 6400
 F 0 "SW8" H 7200 6765 50  0000 C CNN
@@ -2541,7 +2541,7 @@ Wire Wire Line
 NoConn ~ 6900 6600
 NoConn ~ 7500 6600
 $Comp
-L Homebrew:ILS_TA180_50 SW9
+L controller-rescue:ILS_TA180_50-Homebrew SW9
 U 1 1 62E594D3
 P 7200 7400
 F 0 "SW9" H 7200 7765 50  0000 C CNN
@@ -2688,7 +2688,7 @@ $EndComp
 Text Notes 6950 8050 0    50   ~ 0
 Action buttons
 $Comp
-L snapeda-OS103011MS8QP1:OS103011MS8QP1 S1
+L controller-rescue:OS103011MS8QP1-snapeda-OS103011MS8QP1 S1
 U 1 1 62E839EF
 P 1100 9150
 F 0 "S1" H 1250 9471 50  0000 C CNN
