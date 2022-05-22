@@ -4,16 +4,18 @@
 #include <cstdio>
 
 #include "../NetworkManager.hpp"
+#include "../DeviceDescription.hpp"
 
 //#define DEBUG
 
 FakeNetwork::FakeNetwork() {
+  LinearDescription device = LinearDescription(5, DeviceType::Wearable);
   setMillis(0);
 
   for (int i = 0; i < kNumNodes; i++) {
     advanceMillis(1);
     stateMachines[i] = new RadioStateMachine(new NetworkManager(&radios[i]));
-    ledManagers[i] = new FakeLedManager(5, stateMachines[i]);
+    ledManagers[i] = new FakeLedManager(&device, stateMachines[i]);
     stateMachines[i]->Tick();
   }
 }

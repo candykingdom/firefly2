@@ -1,6 +1,6 @@
 #include "SimpleBlinkEffect.hpp"
 
-SimpleBlinkEffect::SimpleBlinkEffect(DeviceDescription *const device,
+SimpleBlinkEffect::SimpleBlinkEffect(DeviceDescription *device,
                                      uint16_t speed)
     : Effect(device), speed(speed) {}
 

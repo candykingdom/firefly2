@@ -2,16 +2,17 @@
 #include <vector>
 
 #include "../LedManager.hpp"
+#include "DeviceDescription.hpp"
 #include "FakeLedManager.hpp"
 #include "FakeRadio.hpp"
 #include "gtest/gtest.h"
 
 // Make sure that all of the effects can run for a while without crashing
-void runEffectsTest(uint8_t numLeds, uint32_t maxTime) {
+void runEffectsTest(DeviceDescription *device, uint32_t maxTime) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
-  FakeLedManager *manager = new FakeLedManager(numLeds, stateMachine);
+  FakeLedManager *manager = new FakeLedManager(device, stateMachine);
   RadioPacket packet;
   std::vector<Effect *> ran_effects;
   for (uint8_t i = 0; i < manager->GetNumEffects(); i++) {
@@ -32,12 +33,19 @@ void runEffectsTest(uint8_t numLeds, uint32_t maxTime) {
   }
 }
 
-TEST(Effects, oneLed) { runEffectsTest(1, 60 * 1000); }
+TEST(Effects, oneLed) {
+  LinearDescription device = LinearDescription(1, DeviceType::Wearable);
+  runEffectsTest(&device, 60 * 1000);
+}
 
-TEST(Effects, hundredLeds) { runEffectsTest(100, 60 * 1000); }
+TEST(Effects, hundredLeds) {
+  LinearDescription device = LinearDescription(1, DeviceType::Wearable);
+  runEffectsTest(&device, 60 * 1000);
+}
 
 TEST(Effects, allLedValues) {
+  LinearDescription device = LinearDescription(1, DeviceType::Wearable);
   for (uint16_t numLeds = 0; numLeds < 256; numLeds++) {
-    runEffectsTest(1, 5 * 1000);
+    runEffectsTest(&device, 5 * 1000);
   }
 }
