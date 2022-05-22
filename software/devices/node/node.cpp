@@ -15,7 +15,7 @@ DeviceDescription *scarf = new LinearDescription(46, DeviceType::Wearable);
 DeviceDescription *lantern = new LinearDescription(5, DeviceType::Wearable);
 DeviceDescription *puck = new LinearDescription(12, DeviceType::Wearable);
 
-DeviceDescription *device = bike;
+DeviceDescription *device = puck;
 
 RadioHeadRadio* radio;
 NetworkManager* nm;

@@ -17,8 +17,7 @@ class DeviceDescription {
   virtual const uint8_t PhysicalToVirtual(uint8_t pIndex) = 0;
 
  protected:
-  DeviceDescription(DeviceType type, uint8_t physicalLeds, uint8_t virtualLeds)
-    : type(type), physicalLeds(physicalLeds), virtualLeds(virtualLeds) {}
+  DeviceDescription(DeviceType type, uint8_t physicalLeds, uint8_t virtualLeds);
 };
 
 class LinearDescription: public DeviceDescription {
