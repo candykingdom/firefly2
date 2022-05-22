@@ -6,7 +6,7 @@
 
 class RorschachEffect : public Effect {
  public:
-  RorschachEffect(uint8_t numLeds, DeviceType deviceType);
+  RorschachEffect(DeviceDescription *const device);
 
   /** Gets the value of a specific LED at a specific time. */
   CRGB GetRGB(uint8_t ledIndex, uint32_t timeMs,

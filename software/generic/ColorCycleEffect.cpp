@@ -2,8 +2,8 @@
 
 #include "ColorPalette.hpp"
 
-ColorCycleEffect::ColorCycleEffect(uint8_t numLeds, DeviceType deviceType)
-    : Effect(numLeds, deviceType) {}
+ColorCycleEffect::ColorCycleEffect(DeviceDescription *const device)
+    : Effect(device) {};
 
 CRGB ColorCycleEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
                               RadioPacket *setEffectPacket) {
@@ -14,7 +14,7 @@ CRGB ColorCycleEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   if (palette.Size() < 2) {
     // Solid color palette
     CHSV color = palette.GetColor(0);
-    switch (deviceType) {
+    switch (device->type) {
       case DeviceType::Wearable:
         color.v = ((uint16_t)cubicwave8(timeMs / 16)) * 2 / 3;
         break;
@@ -25,7 +25,7 @@ CRGB ColorCycleEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
     return color;
   } else {
     CHSV color = palette.GetGradient((timeMs / 16) << 8);
-    if (deviceType == DeviceType::Wearable) {
+    if (device->type == DeviceType::Wearable) {
       color.v /= 2;
     }
     return color;

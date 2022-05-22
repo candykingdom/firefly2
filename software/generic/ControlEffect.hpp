@@ -7,7 +7,7 @@
 /** A generic effect that can be used by external controllers. */
 class ControlEffect : public Effect {
  public:
-  ControlEffect(uint8_t numLeds, DeviceType deviceType);
+  ControlEffect(DeviceDescription *const device);
 
   /** Gets the value of a specific LED at a specific time. */
   CRGB GetRGB(uint8_t ledIndex, uint32_t timeMs,

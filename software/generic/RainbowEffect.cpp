@@ -1,8 +1,8 @@
 #include "RainbowEffect.hpp"
 
-RainbowEffect::RainbowEffect(uint8_t numLeds, DeviceType deviceType)
-    : Effect(numLeds, deviceType) {
-  switch (deviceType) {
+RainbowEffect::RainbowEffect(DeviceDescription *const device)
+    : Effect(device) {
+  switch (device->type) {
     // Wearable gets reduced brightness, since we're lighting the whole strip.
     case DeviceType::Wearable:
       v = 128;
@@ -21,11 +21,11 @@ CRGB RainbowEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   // brightness rather than the hue.
   if (palette.Size() < 2) {
     // Solid color palette
-    if (numLeds < 8) {
+    if (device->virtualLeds < 8) {
       return palette.GetGradient((cubicwave8(timeMs / 16)) << 8);
     } else {
       CHSV color = palette.GetColor(0);
-      switch (deviceType) {
+      switch (device->type) {
         case DeviceType::Wearable:
           color.v = (cubicwave8(timeMs / 16 + ledIndex * 8) * (uint16_t)2) / 3;
           break;
@@ -37,7 +37,7 @@ CRGB RainbowEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
     }
   } else {
     // Varying color palette
-    if (numLeds < 8) {
+    if (device->virtualLeds < 8) {
       CHSV color = palette.GetGradient((timeMs / 16) << 8);
       color.v = v;
       return color;

@@ -18,34 +18,34 @@
 #include "StopLightEffect.hpp"
 #include "SwingingLights.hpp"
 
-LedManager::LedManager(const uint8_t numLeds, DeviceType deviceType,
+LedManager::LedManager(DeviceDescription *device,
                        RadioStateMachine *radioState)
-    : numLeds(numLeds), radioState(radioState) {
-  AddEffect(new ColorCycleEffect(numLeds, deviceType), 4);
-  AddEffect(new ContrastBumpsEffect(numLeds), 2);
-  AddEffect(new FireEffect(numLeds), 1);
-  AddEffect(new FireflyEffect(numLeds), 2);
-  AddEffect(new LightningEffect(numLeds), 1);
-  AddEffect(new RainbowBumpsEffect(numLeds), 4);
-  AddEffect(new RainbowEffect(numLeds, deviceType), 4);
-  AddEffect(new RorschachEffect(numLeds, deviceType), 2);
-  AddEffect(new SimpleBlinkEffect(numLeds, deviceType, 300), 2);
-  AddEffect(new SparkEffect(numLeds), 4);
-  AddEffect(new SwingingLights(numLeds), 4);
+    : device(device), radioState(radioState) {
+  AddEffect(new ColorCycleEffect(device), 4);
+  AddEffect(new ContrastBumpsEffect(device), 2);
+  AddEffect(new FireEffect(device), 1);
+  AddEffect(new FireflyEffect(device), 2);
+  AddEffect(new LightningEffect(device), 1);
+  AddEffect(new RainbowBumpsEffect(device), 4);
+  AddEffect(new RainbowEffect(device), 4);
+  AddEffect(new RorschachEffect(device), 2);
+  AddEffect(new SimpleBlinkEffect(device, 300), 2);
+  AddEffect(new SparkEffect(device), 4);
+  AddEffect(new SwingingLights(device), 4);
 
   // Non-random effects
-  AddEffect(new PoliceEffect(numLeds), 0);
-  AddEffect(new StopLightEffect(numLeds), 0);
+  AddEffect(new PoliceEffect(device), 0);
+  AddEffect(new StopLightEffect(device), 0);
   // Strobes
-  AddEffect(new SimpleBlinkEffect(numLeds, deviceType, 60), 0);
-  AddEffect(new SimpleBlinkEffect(numLeds, deviceType, 30), 0);
-  AddEffect(new SimpleBlinkEffect(numLeds, deviceType, 12), 0);
+  AddEffect(new SimpleBlinkEffect(device, 60), 0);
+  AddEffect(new SimpleBlinkEffect(device, 30), 0);
+  AddEffect(new SimpleBlinkEffect(device, 12), 0);
 
   // These two must be last
-  AddEffect(new DisplayColorPaletteEffect(numLeds, deviceType), 0);
-  AddEffect(new DarkEffect(numLeds), 0);
+  AddEffect(new DisplayColorPaletteEffect(device), 0);
+  AddEffect(new DarkEffect(device), 0);
 
-  controlEffect = new ControlEffect(numLeds, deviceType);
+  controlEffect = new ControlEffect(device);
 
   radioState->SetNumEffects(GetNumEffects());
   radioState->SetNumPalettes(effects[0]->palettes.size());
@@ -77,9 +77,11 @@ Effect *LedManager::GetEffect(uint8_t index) {
 }
 
 void LedManager::RunEffect() {
-  for (uint8_t ledIndex = 0; ledIndex < numLeds; ledIndex++) {
+  for (uint8_t ledIndex = 0; ledIndex < device->physicalLeds; ledIndex++) {
     CRGB rgb = GetCurrentEffect()->GetRGB(
-        ledIndex, radioState->GetNetworkMillis(), radioState->GetSetEffect());
+        device->PhysicalToVirtual(ledIndex),
+        radioState->GetNetworkMillis(),
+        radioState->GetSetEffect());
     SetLed(ledIndex, &rgb);
   }
   WriteOutLeds();

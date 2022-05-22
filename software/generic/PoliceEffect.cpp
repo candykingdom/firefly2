@@ -1,6 +1,6 @@
 #include "PoliceEffect.hpp"
 
-PoliceEffect::PoliceEffect(uint8_t numLeds) : Effect(numLeds) {}
+PoliceEffect::PoliceEffect(DeviceDescription *const device) : Effect(device) {}
 
 CRGB PoliceEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
                           RadioPacket *setEffectPacket) {
@@ -9,7 +9,7 @@ CRGB PoliceEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   const bool red_flash = (timeMs / redSpeed & 0b100) == 0;
   const bool blue_flash = (timeMs / blueSpeed & 0b100) == 0;
 
-  if (numLeds < lightWidth * 2) {
+  if (device->virtualLeds < lightWidth * 2) {
     if (red_flash) {
       if (red_cycle) {
         return red;
@@ -38,13 +38,13 @@ CRGB PoliceEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   }
 
   if (blue_flash) {
-    if (ledIndex > numLeds - lightWidth / 2) {
+    if (ledIndex > device->virtualLeds - lightWidth / 2) {
       if (blue_cycle) {
         return blue;
       } else {
         return off;
       }
-    } else if (ledIndex > numLeds - lightWidth) {
+    } else if (ledIndex > device->virtualLeds - lightWidth) {
       if (blue_cycle) {
         return off;
       } else {

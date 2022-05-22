@@ -9,7 +9,7 @@
 
 class FastLedManager : public LedManager {
  public:
-  FastLedManager(const uint8_t numLeds, DeviceType deviceType,
+  FastLedManager(DeviceDescription *device,
                  RadioStateMachine *radioState);
 
   void SetGlobalColor(CRGB rgb);

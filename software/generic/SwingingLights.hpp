@@ -6,7 +6,7 @@
 
 class SwingingLights : public Effect {
  public:
-  SwingingLights(uint8_t numLeds);
+  SwingingLights(DeviceDescription *device);
 
   /** Gets the value of a specific LED at a specific time. */
   CRGB GetRGB(uint8_t ledIndex, uint32_t timeMs,

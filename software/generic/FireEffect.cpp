@@ -2,7 +2,7 @@
 
 #include "Perlin.hpp"
 
-FireEffect::FireEffect(uint8_t numLeds) : Effect(numLeds) {
+FireEffect::FireEffect(DeviceDescription *const device) : Effect(device) {
 #ifdef ARDUINO
   random16_set_seed((analogRead(A0) << 10) | analogRead(A0));
 #endif

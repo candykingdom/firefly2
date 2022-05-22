@@ -6,7 +6,7 @@
 
 class StopLightEffect : public Effect {
  public:
-  StopLightEffect(uint8_t numLeds);
+  StopLightEffect(DeviceDescription *const device);
 
   /** Gets the value of a specific LED at a specific time. */
   CRGB GetRGB(uint8_t ledIndex, uint32_t timeMs,
