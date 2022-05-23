@@ -1,10 +1,10 @@
 #include "DeviceDescription.hpp"
 
-DeviceDescription::DeviceDescription(DeviceType type, uint8_t physicalLeds, uint8_t virtualLeds):type(type),physicalLeds(physicalLeds),virtualLeds(virtualLeds) {}
+DeviceDescription::DeviceDescription(DeviceType type, uint8_t physical_leds, uint8_t virtual_leds):type(type),physical_leds(physical_leds),virtual_leds(virtual_leds) {}
 
-LinearDescription::LinearDescription(uint8_t physicalLeds, DeviceType deviceType)
-  : DeviceDescription(type, physicalLeds, physicalLeds) {}
+LinearDescription::LinearDescription(uint8_t physical_leds, DeviceType deviceType)
+  : DeviceDescription(type, physical_leds, physical_leds) {}
 
-const uint8_t LinearDescription::PhysicalToVirtual(uint8_t pIndex) {
+uint8_t LinearDescription::PhysicalToVirtual(uint8_t pIndex) const {
   return pIndex;
 }

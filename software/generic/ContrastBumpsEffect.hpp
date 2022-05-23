@@ -8,7 +8,7 @@
 // halfway around) color in the palette.
 class ContrastBumpsEffect : public Effect {
  public:
-  ContrastBumpsEffect(DeviceDescription *const device);
+  ContrastBumpsEffect(const DeviceDescription *device);
 
   /** Gets the value of a specific LED at a specific time. */
   CRGB GetRGB(uint8_t ledIndex, uint32_t timeMs,

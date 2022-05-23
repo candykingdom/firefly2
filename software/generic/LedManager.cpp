@@ -18,7 +18,7 @@
 #include "StopLightEffect.hpp"
 #include "SwingingLights.hpp"
 
-LedManager::LedManager(DeviceDescription *device,
+LedManager::LedManager(const DeviceDescription *device,
                        RadioStateMachine *radioState)
     : device(device), radioState(radioState) {
   AddEffect(new ColorCycleEffect(device), 4);
@@ -77,7 +77,7 @@ Effect *LedManager::GetEffect(uint8_t index) {
 }
 
 void LedManager::RunEffect() {
-  for (uint8_t ledIndex = 0; ledIndex < device->physicalLeds; ledIndex++) {
+  for (uint8_t ledIndex = 0; ledIndex < device->physical_leds; ledIndex++) {
     CRGB rgb = GetCurrentEffect()->GetRGB(
         device->PhysicalToVirtual(ledIndex),
         radioState->GetNetworkMillis(),

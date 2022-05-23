@@ -6,7 +6,7 @@
 
 class PoliceEffect : public Effect {
  public:
-  PoliceEffect(DeviceDescription *const device);
+  PoliceEffect(const DeviceDescription *device);
 
   /** Gets the value of a specific LED at a specific time. */
   CRGB GetRGB(uint8_t ledIndex, uint32_t timeMs,

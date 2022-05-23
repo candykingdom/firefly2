@@ -1,6 +1,6 @@
 #include "Effect.hpp"
 
-Effect::Effect(DeviceDescription *const device): device(device) {}
+Effect::Effect(const DeviceDescription *device): device(device) {}
 
 uint8_t Effect::GetThresholdSin(int16_t x, uint8_t threshold) {
   int16_t val = sin16(x);

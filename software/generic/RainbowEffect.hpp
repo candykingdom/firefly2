@@ -6,7 +6,7 @@
 
 class RainbowEffect : public Effect {
  public:
-  RainbowEffect(DeviceDescription *const device);
+  RainbowEffect(const DeviceDescription *device);
 
   /** Gets the value of a specific LED at a specific time. */
   CRGB GetRGB(uint8_t ledIndex, uint32_t timeMs,

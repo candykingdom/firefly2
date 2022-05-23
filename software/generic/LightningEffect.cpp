@@ -2,7 +2,7 @@
 
 #include "Perlin.hpp"
 
-LightningEffect::LightningEffect(DeviceDescription *const device) : Effect(device) {}
+LightningEffect::LightningEffect(const DeviceDescription *device) : Effect(device) {}
 
 CRGB LightningEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
                              RadioPacket *setEffectPacket) {

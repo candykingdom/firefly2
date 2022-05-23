@@ -10,7 +10,7 @@
 
 class Effect {
  public:
-  Effect(DeviceDescription *const device);
+  Effect(const DeviceDescription *device);
 
   /** Gets the value of a specific LED at a specific time. */
   virtual CRGB GetRGB(uint8_t ledIndex, uint32_t timeMs,
@@ -28,6 +28,6 @@ class Effect {
    */
   uint8_t GetThresholdSin(int16_t x, uint8_t threshold);
 
-  DeviceDescription *device;
+  const DeviceDescription *const device;
 };
 #endif

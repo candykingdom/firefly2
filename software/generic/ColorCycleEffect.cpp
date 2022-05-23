@@ -2,7 +2,7 @@
 
 #include "ColorPalette.hpp"
 
-ColorCycleEffect::ColorCycleEffect(DeviceDescription *const device)
+ColorCycleEffect::ColorCycleEffect(const DeviceDescription *device)
     : Effect(device) {};
 
 CRGB ColorCycleEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,

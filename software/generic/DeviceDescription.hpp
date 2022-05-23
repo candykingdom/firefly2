@@ -11,19 +11,26 @@ enum class DeviceType {
 class DeviceDescription {
  public:
   const DeviceType type;
-  const uint8_t physicalLeds;
-  const uint8_t virtualLeds;
+  const uint8_t physical_leds;
+  const uint8_t virtual_leds;
 
-  virtual const uint8_t PhysicalToVirtual(uint8_t pIndex) = 0;
+  virtual uint8_t PhysicalToVirtual(uint8_t pIndex) const = 0;
 
  protected:
-  DeviceDescription(DeviceType type, uint8_t physicalLeds, uint8_t virtualLeds);
+  DeviceDescription(DeviceType type, uint8_t physical_leds, uint8_t virtual_leds);
+};
+
+class CircularDescription: public DeviceDescription {
+ public:
+  CircularDescription(uint8_t physical_leds, DeviceType deviceType);
+
+  uint8_t PhysicalToVirtual(uint8_t pIndex) const;
 };
 
 class LinearDescription: public DeviceDescription {
  public:
-  LinearDescription(uint8_t physicalLeds, DeviceType deviceType);
+  LinearDescription(uint8_t physical_leds, DeviceType deviceType);
 
-  const uint8_t PhysicalToVirtual(uint8_t pIndex);
+  uint8_t PhysicalToVirtual(uint8_t pIndex) const;
 };
-#endif
+#endif // __DEVICE_DESCRIPTION_HPP__

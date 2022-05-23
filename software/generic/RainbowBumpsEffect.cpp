@@ -1,6 +1,6 @@
 #include "RainbowBumpsEffect.hpp"
 
-RainbowBumpsEffect::RainbowBumpsEffect(DeviceDescription *const device) : Effect(device) {}
+RainbowBumpsEffect::RainbowBumpsEffect(const DeviceDescription *device) : Effect(device) {}
 
 CRGB RainbowBumpsEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
                                 RadioPacket *setEffectPacket) {
