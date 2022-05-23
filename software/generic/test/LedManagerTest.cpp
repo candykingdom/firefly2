@@ -36,7 +36,8 @@ TEST(LedManager, hasNonRandomEffects) {
   EXPECT_EQ(effect1->GetRGB(0, 0, setEffect),
             alsoEffect1->GetRGB(0, 0, setEffect));
   EXPECT_NE(effect1->GetRGB(0, 0, setEffect), effect2->GetRGB(0, 0, setEffect));
-  EXPECT_NE(effect1->GetRGB(0, 0, setEffect), effect3->GetRGB(0, 0, setEffect));
+  // SimpleBlinkEffect and PoliceEffect have the same color at t=0
+  EXPECT_NE(effect1->GetRGB(0, 15, setEffect), effect3->GetRGB(0, 15, setEffect));
   EXPECT_NE(effect2->GetRGB(0, 0, setEffect), effect3->GetRGB(0, 0, setEffect));
 }
 

@@ -9,7 +9,7 @@
 
 class FakeLedManager : public LedManager {
  public:
-  FakeLedManager(DeviceDescription *device, RadioStateMachine *stateMachine);
+  FakeLedManager(const DeviceDescription *device, RadioStateMachine *stateMachine);
 
   CRGB GetLed(uint8_t ledIndex);
 

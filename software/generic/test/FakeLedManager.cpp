@@ -2,7 +2,7 @@
 
 #include <cassert>
 
-FakeLedManager::FakeLedManager(DeviceDescription *device,
+FakeLedManager::FakeLedManager(const DeviceDescription *device,
                                RadioStateMachine *stateMachine)
     : LedManager(device, stateMachine) {
   leds = new CRGB[device->physical_leds];

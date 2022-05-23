@@ -9,7 +9,6 @@
 //#define DEBUG
 
 FakeNetwork::FakeNetwork() {
-  LinearDescription device = LinearDescription(5, DeviceType::Wearable);
   setMillis(0);
 
   for (int i = 0; i < kNumNodes; i++) {
