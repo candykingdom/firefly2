@@ -4,15 +4,18 @@
 #undef min
 #include "../../arduino/FastLedManager.hpp"
 #include "../../arduino/RadioHeadRadio.hpp"
+#include "../../generic/DeviceDescription.hpp"
 #include "../../generic/NetworkManager.hpp"
 #include "../../generic/RadioStateMachine.hpp"
 
 const int kLedPin = 0;
-const int kNumLeds = 30;  // Bike
-// const int kNumLeds = 46;  // Scarf
-// const int kNumLeds = 5; // Lantern
 
-const DeviceType deviceType = DeviceType::Bike;
+const DeviceDescription *const bike = new LinearDescription(30, DeviceType::Bike);
+const DeviceDescription *const scarf = new LinearDescription(46, DeviceType::Wearable);
+const DeviceDescription *const lantern = new LinearDescription(5, DeviceType::Wearable);
+const DeviceDescription *const puck = new LinearDescription(12, DeviceType::Wearable);
+
+const DeviceDescription *const device = puck;
 
 RadioHeadRadio* radio;
 NetworkManager* nm;
@@ -29,7 +32,7 @@ void setup() {
   nm = new NetworkManager(radio);
   stateMachine = new RadioStateMachine(nm);
 
-  ledManager = new FastLedManager(kNumLeds, deviceType, stateMachine);
+  ledManager = new FastLedManager(device, stateMachine);
   // NOTE: can check if we watchdog rebooted by checking REG_PM_RCAUSE
   // See https://github.com/gjt211/SAMD21-Reset-Cause
 

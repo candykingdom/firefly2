@@ -7,7 +7,7 @@
 /** Utility effect that turns off all LEDs. */
 class DarkEffect : public Effect {
  public:
-  DarkEffect(uint8_t numLeds);
+  DarkEffect(const DeviceDescription *device);
 
   /** Gets the value of a specific LED at a specific time. */
   CRGB GetRGB(uint8_t ledIndex, uint32_t timeMs,

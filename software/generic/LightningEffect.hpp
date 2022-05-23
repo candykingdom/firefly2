@@ -7,7 +7,7 @@
 // Blinks groups of LEDS in a vaguely lightning-light pattern.
 class LightningEffect : public Effect {
  public:
-  LightningEffect(uint8_t numLeds);
+  LightningEffect(const DeviceDescription *device);
 
   /** Gets the value of a specific LED at a specific time. */
   CRGB GetRGB(uint8_t ledIndex, uint32_t timeMs,

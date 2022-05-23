@@ -2,7 +2,7 @@
 
 #include <Debug.hpp>
 
-FireflyEffect::FireflyEffect(uint8_t numLeds) : Effect(numLeds) {
+FireflyEffect::FireflyEffect(const DeviceDescription *device) : Effect(device) {
 #ifdef ARDUINO
   randomSeed((analogRead(A0) << 10) | analogRead(A0));
 #endif

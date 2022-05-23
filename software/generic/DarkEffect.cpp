@@ -1,6 +1,6 @@
 #include "DarkEffect.hpp"
 
-DarkEffect::DarkEffect(uint8_t numLeds) : Effect(numLeds) {}
+DarkEffect::DarkEffect(const DeviceDescription *device) : Effect(device) {}
 
 CRGB DarkEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
                         RadioPacket *setEffectPacket) {

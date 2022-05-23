@@ -6,7 +6,7 @@
 
 class FireEffect : public Effect {
  public:
-  FireEffect(uint8_t numLeds);
+  FireEffect(const DeviceDescription *device);
 
   CRGB GetRGB(uint8_t ledIndex, uint32_t timeMs,
               RadioPacket *setEffectPacket) override;

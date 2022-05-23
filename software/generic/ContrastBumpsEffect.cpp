@@ -1,6 +1,6 @@
 #include "ContrastBumpsEffect.hpp"
 
-ContrastBumpsEffect::ContrastBumpsEffect(uint8_t numLeds) : Effect(numLeds) {}
+ContrastBumpsEffect::ContrastBumpsEffect(const DeviceDescription *device) : Effect(device) {}
 
 CRGB ContrastBumpsEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
                                  RadioPacket *setEffectPacket) {

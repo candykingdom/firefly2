@@ -5,17 +5,12 @@
 
 #include "ColorPalette.hpp"
 #include "Radio.hpp"
+#include "DeviceDescription.hpp"
 #include <Types.hpp>
-
-enum class DeviceType {
-  Wearable,
-  Bike,
-};
 
 class Effect {
  public:
-  Effect(uint8_t numLeds);
-  Effect(uint8_t numLeds, DeviceType deviceType);
+  Effect(const DeviceDescription *device);
 
   /** Gets the value of a specific LED at a specific time. */
   virtual CRGB GetRGB(uint8_t ledIndex, uint32_t timeMs,
@@ -33,7 +28,6 @@ class Effect {
    */
   uint8_t GetThresholdSin(int16_t x, uint8_t threshold);
 
-  const uint8_t numLeds;
-  const DeviceType deviceType;
+  const DeviceDescription *const device;
 };
 #endif

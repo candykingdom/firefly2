@@ -1,18 +1,18 @@
 #include "StopLightEffect.hpp"
 
-StopLightEffect::StopLightEffect(uint8_t numLeds) : Effect(numLeds) {}
+StopLightEffect::StopLightEffect(const DeviceDescription *device) : Effect(device) {}
 
 CRGB StopLightEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
                              RadioPacket *setEffectPacket) {
-  const uint16_t led_pos = abs((numLeds >> 1) - ledIndex) << 8;
-  const uint16_t segment = numLeds << (8 - 3);
+  const uint16_t led_pos = abs((device->virtual_leds >> 1) - ledIndex) << 8;
+  const uint16_t segment = device->virtual_leds << (8 - 3);
   timeMs = timeMs >> 11;
 
   const bool is_red = (timeMs & 0b100) == 0 && (timeMs & 0b11) > 0;
   const bool is_amber = (timeMs & 0b100) == 0 && (timeMs & 0b11) == 0;
   const bool is_green = (timeMs & 0b100);
 
-  if (numLeds < 16) {
+  if (device->virtual_leds < 16) {
     if (is_red) {
       return red;
     } else if (is_amber) {

@@ -1,10 +1,6 @@
 #include "Effect.hpp"
 
-Effect::Effect(uint8_t numLeds)
-    : numLeds(numLeds), deviceType(DeviceType::Wearable) {}
-
-Effect::Effect(uint8_t numLeds, DeviceType deviceType)
-    : numLeds(numLeds), deviceType(deviceType) {}
+Effect::Effect(const DeviceDescription *device): device(device) {}
 
 uint8_t Effect::GetThresholdSin(int16_t x, uint8_t threshold) {
   int16_t val = sin16(x);

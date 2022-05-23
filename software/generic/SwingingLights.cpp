@@ -4,14 +4,10 @@
 
 static const uint16_t SPREAD = MAX_UINT16 * 0.2;
 
-// This effect looks bad on less than 10 LEDs. Instead of creating another
-// effect we can just make the LEDs flash when a light pulse hits the end of a
-// "long" strip which looks pretty cool.
-SwingingLights::SwingingLights(uint8_t numLeds)
-    : Effect(numLeds < 10 ? 50 : numLeds) {}
+SwingingLights::SwingingLights(const DeviceDescription *device) : Effect(device) {}
 
 // Add a CHSV value to a CRGB in place.
-static void addInPlace(const CHSV& value, CRGB& result) {
+static void addInPlace(const CHSV &value, CRGB &result) {
   CRGB color;
   hsv2rgb_rainbow(value, color);
   result.r = qadd8(result.r, color.r);
@@ -20,7 +16,13 @@ static void addInPlace(const CHSV& value, CRGB& result) {
 }
 
 CRGB SwingingLights::GetRGB(uint8_t ledIndex, uint32_t timeMs,
-                            RadioPacket* setEffectPacket) {
+                            RadioPacket *setEffectPacket) {
+
+  // This effect looks bad on less than 10 LEDs. Instead of creating another
+  // effect we can just make the LEDs flash when a light pulse hits the end of a
+  // "long" strip which looks pretty cool.
+  uint8_t numLeds = device->virtual_leds; // < 10 ? 50 : device->virtual_leds;
+
   // Map [0, period) to [0, MAX_UINT16)
   const fract16 angle = (timeMs % period) * MAX_UINT16 / period;
 
@@ -32,13 +34,15 @@ CRGB SwingingLights::GetRGB(uint8_t ledIndex, uint32_t timeMs,
 
   CRGB color(0, 0, 0);
 
-  for (uint32_t i = 0; i < palette.Size(); ++i) {
+  for (uint32_t i = 0; i < palette.Size(); ++i)
+  {
     const fract16 light_offset = i * MAX_UINT16 / palette.Size();
     const fract16 light_pos = sin16(light_offset + angle) + MAX_UINT16 / 2;
 
     int32_t dist = abs((int32_t)light_pos - led_pos) - SPREAD;
 
-    if (dist < 0) {
+    if (dist < 0)
+    {
       CHSV modifier = palette.GetColor(i);
       modifier.v = -dist * modifier.v / SPREAD;
       addInPlace(modifier, color);

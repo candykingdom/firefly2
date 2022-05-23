@@ -3,8 +3,8 @@
 #include "ColorPalette.hpp"
 #include "Perlin.hpp"
 
-RorschachEffect::RorschachEffect(uint8_t numLeds, DeviceType deviceType)
-    : Effect(numLeds, deviceType) {
+RorschachEffect::RorschachEffect(const DeviceDescription *device)
+    : Effect(device) {
 #ifdef ARDUINO
   random16_set_seed((analogRead(A0) << 10) | analogRead(A0));
 #endif
@@ -17,7 +17,7 @@ CRGB RorschachEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   const ColorPalette palette = palettes[paletteIndex];
 
   // LEDs at the center of the strip have a lower position.
-  const uint16_t led_pos = -abs(ledIndex - (numLeds >> 1));
+  const uint16_t led_pos = -abs(ledIndex - (device->virtual_leds >> 1));
 
   timeMs += offset;
   uint16_t noise =
@@ -36,7 +36,7 @@ CRGB RorschachEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
     return color;
   } else {
     CHSV color = palette.GetGradient(noise << 8, false);
-    if (deviceType == DeviceType::Wearable) {
+    if (device->type == DeviceType::Wearable) {
       color.v /= 2;
     }
     return color;

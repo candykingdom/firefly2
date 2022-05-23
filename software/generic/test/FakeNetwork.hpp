@@ -39,6 +39,7 @@ class FakeNetwork {
   int packetLoss = 0;
   FakeRadio radios[kNumNodes];
   RadioPacket *packet = nullptr;
+  const LinearDescription device = LinearDescription(5, DeviceType::Wearable);
 };
 
 #endif

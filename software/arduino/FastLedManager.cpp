@@ -1,11 +1,11 @@
 #include "FastLedManager.hpp"
 
-FastLedManager::FastLedManager(const uint8_t numLeds, DeviceType deviceType,
+FastLedManager::FastLedManager(const DeviceDescription *device,
                                RadioStateMachine *radioState)
-    : LedManager(numLeds, deviceType, radioState) {
+    : LedManager(device, radioState) {
   // The first LED is on-board, and should mirror the first LED of the strip.
-  leds = new CRGB[numLeds + 1];
-  FastLED.addLeds<NEOPIXEL, WS2812_PIN>(leds, numLeds + 1)
+  leds = new CRGB[device->physical_leds + 1];
+  FastLED.addLeds<NEOPIXEL, WS2812_PIN>(leds, device->physical_leds + 1)
       .setCorrection(TypicalLEDStrip);
   FastLED.showColor(CRGB(0, 0, 0));
 }
