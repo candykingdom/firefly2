@@ -3,8 +3,8 @@
 #include <Debug.hpp>
 #include <cstdio>
 
-#include "../NetworkManager.hpp"
 #include "../DeviceDescription.hpp"
+#include "../NetworkManager.hpp"
 
 //#define DEBUG
 

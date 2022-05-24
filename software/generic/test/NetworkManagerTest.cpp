@@ -4,9 +4,8 @@
 #include "gtest/gtest.h"
 
 class NetworkManagerTest : public ::testing::Test {
-  protected:
-  void SetUp() override {
-  }
+ protected:
+  void SetUp() override {}
 
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);

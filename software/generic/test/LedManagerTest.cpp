@@ -14,8 +14,7 @@ TEST(LedManager, hasNonRandomEffects) {
   RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
   FakeLedManager *manager = new FakeLedManager(&device, stateMachine);
   manager->ClearEffects();
-  manager->PublicAddEffect(new SimpleBlinkEffect(&device, 10),
-                           4);
+  manager->PublicAddEffect(new SimpleBlinkEffect(&device, 10), 4);
   manager->PublicAddEffect(new PoliceEffect(&device), 0);
   manager->PublicAddEffect(new FireEffect(&device), 2);
 
@@ -37,7 +36,8 @@ TEST(LedManager, hasNonRandomEffects) {
             alsoEffect1->GetRGB(0, 0, setEffect));
   EXPECT_NE(effect1->GetRGB(0, 0, setEffect), effect2->GetRGB(0, 0, setEffect));
   // SimpleBlinkEffect and PoliceEffect have the same color at t=0
-  EXPECT_NE(effect1->GetRGB(0, 15, setEffect), effect3->GetRGB(0, 15, setEffect));
+  EXPECT_NE(effect1->GetRGB(0, 15, setEffect),
+            effect3->GetRGB(0, 15, setEffect));
   EXPECT_NE(effect2->GetRGB(0, 0, setEffect), effect3->GetRGB(0, 0, setEffect));
 }
 

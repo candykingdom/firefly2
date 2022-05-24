@@ -1,6 +1,7 @@
 #include "DisplayColorPaletteEffect.hpp"
 
-DisplayColorPaletteEffect::DisplayColorPaletteEffect(const DeviceDescription *device)
+DisplayColorPaletteEffect::DisplayColorPaletteEffect(
+    const DeviceDescription *device)
     : Effect(device) {}
 
 CRGB DisplayColorPaletteEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
