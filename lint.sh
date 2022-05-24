@@ -3,6 +3,7 @@
 set -euo pipefail
 
 if [ $# -ne 1 ]; then
+    echo "Expected 1 command"
     echo "Usage: $0 check|format"
     exit 1
 fi
@@ -21,6 +22,7 @@ if [ $1 = "check" ]; then
 elif [ $1 = "format" ]; then
     clang-format -i $FILES
 else
+    echo "Unrecognized command: $1"
     echo "Usage: $0 check|format"
     exit 1
 fi
