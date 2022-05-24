@@ -3,7 +3,7 @@
 #include "ColorPalette.hpp"
 
 ColorCycleEffect::ColorCycleEffect(const DeviceDescription *device)
-    : Effect(device) {};
+    : Effect(device){};
 
 CRGB ColorCycleEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
                               RadioPacket *setEffectPacket) {

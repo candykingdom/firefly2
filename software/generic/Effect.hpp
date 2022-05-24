@@ -1,12 +1,12 @@
 #ifndef __EFFECT_HPP__
 #define __EFFECT_HPP__
 
+#include <Types.hpp>
 #include <vector>
 
 #include "ColorPalette.hpp"
-#include "Radio.hpp"
 #include "DeviceDescription.hpp"
-#include <Types.hpp>
+#include "Radio.hpp"
 
 class Effect {
  public:

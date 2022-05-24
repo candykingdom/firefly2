@@ -1,15 +1,16 @@
 #ifndef __FAKE_LED_MANAGER_HPP__
 #define __FAKE_LED_MANAGER_HPP__
 
+#include <Types.hpp>
 #include <vector>
 
 #include "../../generic/Effect.hpp"
 #include "../../generic/LedManager.hpp"
-#include <Types.hpp>
 
 class FakeLedManager : public LedManager {
  public:
-  FakeLedManager(const DeviceDescription *device, RadioStateMachine *stateMachine);
+  FakeLedManager(const DeviceDescription *device,
+                 RadioStateMachine *stateMachine);
 
   CRGB GetLed(uint8_t ledIndex);
 

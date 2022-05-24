@@ -10,17 +10,21 @@
 
 const int kLedPin = 0;
 
-const DeviceDescription *const bike = new LinearDescription(30, DeviceType::Bike);
-const DeviceDescription *const scarf = new LinearDescription(46, DeviceType::Wearable);
-const DeviceDescription *const lantern = new LinearDescription(5, DeviceType::Wearable);
-const DeviceDescription *const puck = new LinearDescription(12, DeviceType::Wearable);
+const DeviceDescription *const bike =
+    new LinearDescription(30, DeviceType::Bike);
+const DeviceDescription *const scarf =
+    new LinearDescription(46, DeviceType::Wearable);
+const DeviceDescription *const lantern =
+    new LinearDescription(5, DeviceType::Wearable);
+const DeviceDescription *const puck =
+    new LinearDescription(12, DeviceType::Wearable);
 
 const DeviceDescription *const device = puck;
 
-RadioHeadRadio* radio;
-NetworkManager* nm;
-FastLedManager* ledManager;
-RadioStateMachine* stateMachine;
+RadioHeadRadio *radio;
+NetworkManager *nm;
+FastLedManager *ledManager;
+RadioStateMachine *stateMachine;
 
 void FeedWatchdog() { WDT->CLEAR.reg = WDT_CLEAR_CLEAR_KEY; }
 

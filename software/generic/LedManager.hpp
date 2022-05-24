@@ -1,18 +1,17 @@
 #ifndef __LED_MANAGER_HPP__
 #define __LED_MANAGER_HPP__
 
+#include <Types.hpp>
 #include <vector>
 
 #include "ControlEffect.hpp"
 #include "Effect.hpp"
 #include "Radio.hpp"
 #include "RadioStateMachine.hpp"
-#include <Types.hpp>
 
 class LedManager {
  public:
-  LedManager(const DeviceDescription *device,
-             RadioStateMachine *radioState);
+  LedManager(const DeviceDescription *device, RadioStateMachine *radioState);
 
   void RunEffect();
 

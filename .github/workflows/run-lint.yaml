@@ -1,0 +1,17 @@
+name: Run Linter
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Download clang-format
+      run: sudo apt install clang-format
+    - name: Run
+      run: ./lint.sh check
+      shell: bash

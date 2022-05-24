@@ -7,13 +7,14 @@ CRGB SparkEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   const uint8_t pulse_size = brightnesses.size();
   const uint8_t paletteIndex = setEffectPacket->readPaletteIndexFromSetEffect();
   ColorPalette palette = palettes[paletteIndex];
-  int16_t pos =
-      ((timeMs * (device->virtual_leds + pulse_size)) / 3000) % ((device->virtual_leds + pulse_size) * 2);
+  int16_t pos = ((timeMs * (device->virtual_leds + pulse_size)) / 3000) %
+                ((device->virtual_leds + pulse_size) * 2);
 
   bool reverse = false;
   if (pos > (device->virtual_leds + pulse_size)) {
     reverse = true;
-    pos = (device->virtual_leds + pulse_size) - (pos - (device->virtual_leds + pulse_size));
+    pos = (device->virtual_leds + pulse_size) -
+          (pos - (device->virtual_leds + pulse_size));
   }
   int16_t relative_pos = pos - ledIndex;
   CHSV hsv = palette.GetGradient((timeMs / 24 + relative_pos * 14) << 8);

@@ -1,8 +1,9 @@
 #ifndef __RAINBOW_BUMPS_EFFECT_HPP__
 #define __RAINBOW_BUMPS_EFFECT_HPP__
 
-#include "Effect.hpp"
 #include <Types.hpp>
+
+#include "Effect.hpp"
 
 class RainbowBumpsEffect : public Effect {
  public:

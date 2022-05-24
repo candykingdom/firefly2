@@ -3,8 +3,8 @@
 #include "../RadioStateMachine.hpp"
 #include "FakeNetwork.hpp"
 #include "FakeRadio.hpp"
-#include "gtest/gtest.h"
 #include "RadioIntegrationTest.hpp"
+#include "gtest/gtest.h"
 
 class RadioStateIntegrationTest : public RadioIntegrationTest {};
 
@@ -30,7 +30,7 @@ TEST_F(RadioStateIntegrationTest, relectsMasterIfMasterDisappears) {
   resetMaster();
 
   runTicks(RadioStateMachine::kSlaveNoPacketTimeout +
-                        RadioStateMachine::kSlaveNoPacketRandom + 10);
+           RadioStateMachine::kSlaveNoPacketRandom + 10);
 
   EXPECT_EQ(getNumMasters(), 1);
 }
@@ -47,7 +47,7 @@ TEST_F(RadioStateIntegrationTest, stableOverTime) {
 
 TEST_F(RadioStateIntegrationTest, stableWhenNodesDropOut) {
   runTicks(RadioStateMachine::kSlaveNoPacketTimeout +
-                        RadioStateMachine::kSlaveNoPacketRandom + 10);
+           RadioStateMachine::kSlaveNoPacketRandom + 10);
   for (int i = 0; i < RadioStateMachine::kSlaveNoPacketTimeout * 2 + 2; i++) {
     advanceMillis(1);
     network.Tick();
@@ -135,7 +135,7 @@ TEST_F(RadioStateIntegrationTest, stableWithMildPacketLossAndNodesDropping) {
   network.setPacketLoss(100);
 
   runTicks(RadioStateMachine::kSlaveNoPacketTimeout +
-                        RadioStateMachine::kSlaveNoPacketRandom + 10);
+           RadioStateMachine::kSlaveNoPacketRandom + 10);
   for (int i = 0; i < RadioStateMachine::kSlaveNoPacketTimeout * 2 + 2; i++) {
     advanceMillis(1);
     network.Tick();
@@ -209,9 +209,11 @@ TEST_F(RadioStateIntegrationTest, changesEffectWhenMasterNotStable) {
 }
 
 TEST_F(RadioStateIntegrationTest, invalidPacket) {
-  runTicks(RadioStateMachine::kSlaveNoPacketTimeout + RadioStateMachine::kMasterHeartbeatInterval * 3);
+  runTicks(RadioStateMachine::kSlaveNoPacketTimeout +
+           RadioStateMachine::kMasterHeartbeatInterval * 3);
   // Invalid type
-  RadioPacket packet = {packetId: 1, type: (PacketType) 5, dataLength: 2, data: {5, 6}};
+  RadioPacket packet =
+      {packetId : 1, type : (PacketType)5, dataLength : 2, data : {5, 6}};
   network.TransmitPacket(packet);
   runTicks(100);
 }

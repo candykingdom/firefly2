@@ -1,6 +1,7 @@
 #include "StopLightEffect.hpp"
 
-StopLightEffect::StopLightEffect(const DeviceDescription *device) : Effect(device) {}
+StopLightEffect::StopLightEffect(const DeviceDescription *device)
+    : Effect(device) {}
 
 CRGB StopLightEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
                              RadioPacket *setEffectPacket) {

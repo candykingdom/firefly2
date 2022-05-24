@@ -1,7 +1,6 @@
 #include "RainbowEffect.hpp"
 
-RainbowEffect::RainbowEffect(const DeviceDescription *device)
-    : Effect(device) {
+RainbowEffect::RainbowEffect(const DeviceDescription *device) : Effect(device) {
   switch (device->type) {
     // Wearable gets reduced brightness, since we're lighting the whole strip.
     case DeviceType::Wearable:

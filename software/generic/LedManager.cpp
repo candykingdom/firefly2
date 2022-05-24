@@ -78,10 +78,9 @@ Effect *LedManager::GetEffect(uint8_t index) {
 
 void LedManager::RunEffect() {
   for (uint8_t ledIndex = 0; ledIndex < device->physical_leds; ledIndex++) {
-    CRGB rgb = GetCurrentEffect()->GetRGB(
-        device->PhysicalToVirtual(ledIndex),
-        radioState->GetNetworkMillis(),
-        radioState->GetSetEffect());
+    CRGB rgb = GetCurrentEffect()->GetRGB(device->PhysicalToVirtual(ledIndex),
+                                          radioState->GetNetworkMillis(),
+                                          radioState->GetSetEffect());
     SetLed(ledIndex, &rgb);
   }
   WriteOutLeds();

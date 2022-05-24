@@ -1,8 +1,9 @@
 #ifndef __SIMPLE_BLINK_EFFECT_HPP__
 #define __SIMPLE_BLINK_EFFECT_HPP__
 
-#include "Effect.hpp"
 #include <Types.hpp>
+
+#include "Effect.hpp"
 
 /** Cycles all of the LEDs through the color palette at once. */
 class SimpleBlinkEffect : public Effect {
