@@ -14,6 +14,8 @@ class FastLedManager : public LedManager {
 
   void SetGlobalColor(CRGB rgb);
 
+  void PlayStartupAnimation();
+
  protected:
   void SetLed(uint8_t ledIndex, CRGB *const rgb) override;
 

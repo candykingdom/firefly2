@@ -40,10 +40,7 @@ void setup() {
   // NOTE: can check if we watchdog rebooted by checking REG_PM_RCAUSE
   // See https://github.com/gjt211/SAMD21-Reset-Cause
 
-  // TODO: remove blink
-  ledManager->SetGlobalColor(CRGB(CRGB::White));
-  delay(20);
-  ledManager->SetGlobalColor(CRGB(CRGB::Black));
+  ledManager->PlayStartupAnimation();
 
   // Set up the watchdog timer: this will reset the processor if it hasn't
   // 'fed' the watchdog in ~100ms.
