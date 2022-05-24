@@ -2,14 +2,24 @@
 
 set -euo pipefail
 
-if [ $# -ne 1 ]
-  then
+if [ $# -ne 1 ]; then
     echo "Usage: $0 check|format"
     exit 1
-elif [ $1 = "check" ]; then
-    find software -not -path software/generic/build -iname *.h -o -iname *.cpp | xargs clang-format --dry-run --Werror
+fi
+
+FILES=$(find \
+lib \
+software \
+-not -path software/generic/build \
+-iname *.hpp \
+-o -iname *.cpp \
+-o -iname *.ino \
+)
+
+if [ $1 = "check" ]; then
+    clang-format --dry-run --Werror $FILES
 elif [ $1 = "format" ]; then
-    find software -not -path software/generic/build -iname *.h -o -iname *.cpp | xargs clang-format -i
+    clang-format -i $FILES
 else
     echo "Usage: $0 check|format"
     exit 1

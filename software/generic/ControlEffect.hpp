@@ -1,8 +1,9 @@
 #ifndef __CONTROL_EFFECT_HPP__
 #define __CONTROL_EFFECT_HPP__
 
-#include "Effect.hpp"
 #include <Types.hpp>
+
+#include "Effect.hpp"
 
 /** A generic effect that can be used by external controllers. */
 class ControlEffect : public Effect {

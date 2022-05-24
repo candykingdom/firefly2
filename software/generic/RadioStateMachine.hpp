@@ -1,10 +1,10 @@
 #ifndef __RADIO_STATE_MACHINE_H__
 #define __RADIO_STATE_MACHINE_H__
 
+#include <Types.hpp>
 #include <map>
 
 #include "NetworkManager.hpp"
-#include <Types.hpp>
 
 enum TimerType {
   TimerNone,
