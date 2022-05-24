@@ -9,7 +9,7 @@ CRGB PoliceEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   const bool red_flash = (timeMs / redSpeed & 0b100) == 0;
   const bool blue_flash = (timeMs / blueSpeed & 0b100) == 0;
 
-  if (device->virtual_leds < lightWidth * 2) {
+  if (device->led_count < lightWidth * 2) {
     if (red_flash) {
       if (red_cycle) {
         return red;
@@ -38,13 +38,13 @@ CRGB PoliceEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   }
 
   if (blue_flash) {
-    if (ledIndex > device->virtual_leds - lightWidth / 2) {
+    if (ledIndex > device->led_count - lightWidth / 2) {
       if (blue_cycle) {
         return blue;
       } else {
         return off;
       }
-    } else if (ledIndex > device->virtual_leds - lightWidth) {
+    } else if (ledIndex > device->led_count - lightWidth) {
       if (blue_cycle) {
         return off;
       } else {

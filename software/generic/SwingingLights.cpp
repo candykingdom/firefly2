@@ -21,7 +21,7 @@ CRGB SwingingLights::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   // This effect looks bad on less than 10 LEDs. Instead of creating another
   // effect we can just make the LEDs flash when a light pulse hits the end of a
   // "long" strip which looks pretty cool.
-  uint8_t numLeds = device->virtual_leds;  // < 10 ? 50 : device->virtual_leds;
+  uint8_t numLeds = device->led_count;  // < 10 ? 50 : device->led_count;
 
   // Map [0, period) to [0, MAX_UINT16)
   const fract16 angle = (timeMs % period) * MAX_UINT16 / period;

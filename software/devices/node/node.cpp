@@ -10,16 +10,13 @@
 
 const int kLedPin = 0;
 
-const DeviceDescription *const bike =
-    new LinearDescription(30, DeviceType::Bike);
-const DeviceDescription *const scarf =
-    new LinearDescription(46, DeviceType::Wearable);
-const DeviceDescription *const lantern =
-    new LinearDescription(5, DeviceType::Wearable);
+const DeviceDescription *const bike = new DeviceDescription(30, Bright);
+const DeviceDescription *const scarf = new DeviceDescription(46, 0);
+const DeviceDescription *const lantern = new DeviceDescription(5, Tiny);
 const DeviceDescription *const puck =
-    new LinearDescription(12, DeviceType::Wearable);
+    new DeviceDescription(12, Tiny | Circular);
 
-const DeviceDescription *const device = puck;
+const DeviceDescription *const device = scarf;
 
 RadioHeadRadio *radio;
 NetworkManager *nm;
@@ -41,6 +38,8 @@ void setup() {
   // See https://github.com/gjt211/SAMD21-Reset-Cause
 
   ledManager->PlayStartupAnimation();
+
+  Serial.println(device->ToString());
 
   // Set up the watchdog timer: this will reset the processor if it hasn't
   // 'fed' the watchdog in ~100ms.
