@@ -16,7 +16,7 @@ CRGB RainbowEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   // brightness rather than the hue.
   if (palette.Size() < 2) {
     // Solid color palette
-    if (device->led_count < 8) {
+    if (device->FlagEnabled(Tiny)) {
       return palette.GetGradient((cubicwave8(timeMs / 16)) << 8);
     } else {
       CHSV color = palette.GetColor(0);
@@ -29,7 +29,7 @@ CRGB RainbowEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
     }
   } else {
     // Varying color palette
-    if (device->led_count < 8) {
+    if (device->FlagEnabled(Tiny)) {
       CHSV color = palette.GetGradient((timeMs / 16) << 8);
       color.v = v;
       return color;

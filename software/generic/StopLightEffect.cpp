@@ -6,14 +6,13 @@ StopLightEffect::StopLightEffect(const DeviceDescription *device)
 CRGB StopLightEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
                              RadioPacket *setEffectPacket) {
   const uint16_t led_pos = abs((device->led_count >> 1) - ledIndex) << 8;
-  const uint16_t segment = device->led_count << (8 - 3);
   timeMs = timeMs >> 11;
 
   const bool is_red = (timeMs & 0b100) == 0 && (timeMs & 0b11) > 0;
   const bool is_amber = (timeMs & 0b100) == 0 && (timeMs & 0b11) == 0;
   const bool is_green = (timeMs & 0b100);
 
-  if (device->led_count < 16) {
+  if (device->FlagEnabled(Tiny)) {
     if (is_red) {
       return red;
     } else if (is_amber) {
@@ -22,6 +21,8 @@ CRGB StopLightEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
       return green;
     }
   }
+
+  const uint16_t segment = device->led_count << (8 - 3);
 
   if (led_pos < segment) {
     return {0, 0, 0};
