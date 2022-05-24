@@ -39,8 +39,6 @@ void setup() {
 
   ledManager->PlayStartupAnimation();
 
-  Serial.println(device->ToString());
-
   // Set up the watchdog timer: this will reset the processor if it hasn't
   // 'fed' the watchdog in ~100ms.
   // Inspired by
