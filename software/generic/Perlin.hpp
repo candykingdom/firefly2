@@ -62,4 +62,14 @@ inline uint8_t perlinNoise(uint32_t x, uint32_t y) {
   return val;
 }
 
+// Generates 2D perlin noise in the range [0, 256) given an initial catesian
+// coordinate and a polar offset.
+inline uint8_t perlinNoisePolar(uint32_t x, uint32_t y, uint8_t angle,
+                                uint8_t magnitude) {
+  int32_t x_offset = ((int16_t)cos8(angle) - 128) * magnitude / 128;
+  int32_t y_offset = ((int16_t)sin8(angle) - 128) * magnitude / 127;
+
+  return perlinNoise(x + x_offset, y + y_offset);
+}
+
 #endif
