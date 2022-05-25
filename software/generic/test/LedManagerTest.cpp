@@ -8,7 +8,7 @@
 #include "gtest/gtest.h"
 
 TEST(LedManager, hasNonRandomEffects) {
-  DeviceDescription device = DeviceDescription(1, 0);
+  DeviceDescription device = DeviceDescription(1, {});
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
@@ -42,7 +42,7 @@ TEST(LedManager, hasNonRandomEffects) {
 }
 
 TEST(LedManager, effectIndexIsInRange) {
-  DeviceDescription device = DeviceDescription(1, 0);
+  DeviceDescription device = DeviceDescription(1, {});
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);

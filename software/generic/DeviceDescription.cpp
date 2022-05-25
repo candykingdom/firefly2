@@ -1,7 +1,13 @@
 #include "DeviceDescription.hpp"
 
-DeviceDescription::DeviceDescription(uint8_t led_count, uint8_t flags)
-    : led_count(led_count), flags(flags) {}
+#include <functional>
+#include <numeric>
+
+DeviceDescription::DeviceDescription(uint8_t led_count,
+                                     std::list<DeviceFlag> flag_list)
+    : led_count(led_count),
+      flags(std::accumulate(flag_list.begin(), flag_list.end(), 0,
+                            std::bit_or<int>())) {}
 
 bool DeviceDescription::FlagEnabled(DeviceFlag flag) const {
   return (flags & (int)flag) == (int)flag;

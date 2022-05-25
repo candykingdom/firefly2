@@ -39,7 +39,7 @@ class FakeNetwork {
   int packetLoss = 0;
   FakeRadio radios[kNumNodes];
   RadioPacket *packet = nullptr;
-  const DeviceDescription device = DeviceDescription(5, 0);
+  const DeviceDescription device = DeviceDescription(5, {});
 };
 
 #endif

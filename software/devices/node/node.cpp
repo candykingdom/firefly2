@@ -10,11 +10,11 @@
 
 const int kLedPin = 0;
 
-const DeviceDescription *const bike = new DeviceDescription(30, Bright);
-const DeviceDescription *const scarf = new DeviceDescription(46, 0);
-const DeviceDescription *const lantern = new DeviceDescription(5, Tiny);
+const DeviceDescription *const bike = new DeviceDescription(30, {Bright});
+const DeviceDescription *const scarf = new DeviceDescription(46, {});
+const DeviceDescription *const lantern = new DeviceDescription(5, {Tiny});
 const DeviceDescription *const puck =
-    new DeviceDescription(12, Tiny | Circular);
+    new DeviceDescription(12, {Tiny, Circular});
 
 const DeviceDescription *const device = scarf;
 

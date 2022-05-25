@@ -2,6 +2,7 @@
 #define __DEVICE_DESCRIPTION_HPP__
 
 #include <Types.hpp>
+#include <list>
 
 enum DeviceFlag {
   Tiny = 1 << 0,
@@ -13,7 +14,7 @@ class DeviceDescription {
  public:
   const uint8_t led_count;
 
-  DeviceDescription(uint8_t led_count, uint8_t flags);
+  DeviceDescription(uint8_t led_count, std::list<DeviceFlag> flags);
 
   bool FlagEnabled(DeviceFlag flag) const;
 

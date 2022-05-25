@@ -34,17 +34,17 @@ void runEffectsTest(DeviceDescription *device, uint32_t maxTime) {
 }
 
 TEST(Effects, oneLed) {
-  DeviceDescription device = DeviceDescription(1, 0);
+  DeviceDescription device = DeviceDescription(1, {});
   runEffectsTest(&device, 60 * 1000);
 }
 
 TEST(Effects, hundredLeds) {
-  DeviceDescription device = DeviceDescription(100, 0);
+  DeviceDescription device = DeviceDescription(100, {});
   runEffectsTest(&device, 60 * 1000);
 }
 
 TEST(Effects, allLedValues) {
-  DeviceDescription device = DeviceDescription(1, 0);
+  DeviceDescription device = DeviceDescription(1, {});
   for (uint16_t numLeds = 0; numLeds < 256; numLeds++) {
     runEffectsTest(&device, 5 * 1000);
   }

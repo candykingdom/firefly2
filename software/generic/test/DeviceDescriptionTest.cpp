@@ -3,7 +3,7 @@
 #include "gtest/gtest.h"
 
 TEST(DeviceDescription, usesFlagsCorrectly) {
-  DeviceDescription dd = DeviceDescription(10, Bright | Tiny);
+  DeviceDescription dd = DeviceDescription(10, {Bright, Tiny});
 
   EXPECT_EQ(dd.led_count, 10);
 
