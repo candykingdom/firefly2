@@ -7,8 +7,8 @@ CRGB ContrastBumpsEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
                                  RadioPacket *setEffectPacket) {
   const uint8_t paletteIndex = setEffectPacket->readPaletteIndexFromSetEffect();
   ColorPalette palette = palettes[paletteIndex];
-  
-  uint8_t offset; 
+
+  uint8_t offset;
   if (device->FlagEnabled(Circular)) {
     offset = (uint16_t)ledIndex * 255 / device->led_count;
   } else {
