@@ -2,36 +2,23 @@
 #define __DEVICE_DESCRIPTION_HPP__
 
 #include <Types.hpp>
+#include <list>
 
-enum class DeviceType {
-  Wearable,
-  Bike,
+enum DeviceFlag {
+  Tiny = 1 << 0,
+  Bright = 1 << 1,
+  Circular = 1 << 2,
 };
 
 class DeviceDescription {
  public:
-  const DeviceType type;
-  const uint8_t physical_leds;
-  const uint8_t virtual_leds;
+  const uint8_t led_count;
 
-  virtual uint8_t PhysicalToVirtual(uint8_t p_index) const = 0;
+  DeviceDescription(uint8_t led_count, std::list<DeviceFlag> flags);
 
- protected:
-  DeviceDescription(DeviceType type, uint8_t physical_leds,
-                    uint8_t virtual_leds);
-};
+  bool FlagEnabled(DeviceFlag flag) const;
 
-class CircularDescription : public DeviceDescription {
- public:
-  CircularDescription(uint8_t physical_leds, DeviceType device_type);
-
-  uint8_t PhysicalToVirtual(uint8_t p_index) const;
-};
-
-class LinearDescription : public DeviceDescription {
- public:
-  LinearDescription(uint8_t physical_leds, DeviceType device_type);
-
-  uint8_t PhysicalToVirtual(uint8_t p_index) const;
+ private:
+  const uint8_t flags;
 };
 #endif  // __DEVICE_DESCRIPTION_HPP__

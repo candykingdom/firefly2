@@ -34,17 +34,17 @@ void runEffectsTest(DeviceDescription *device, uint32_t maxTime) {
 }
 
 TEST(Effects, oneLed) {
-  LinearDescription device = LinearDescription(1, DeviceType::Wearable);
+  DeviceDescription device = DeviceDescription(1, {});
   runEffectsTest(&device, 60 * 1000);
 }
 
 TEST(Effects, hundredLeds) {
-  LinearDescription device = LinearDescription(1, DeviceType::Wearable);
+  DeviceDescription device = DeviceDescription(100, {});
   runEffectsTest(&device, 60 * 1000);
 }
 
 TEST(Effects, allLedValues) {
-  LinearDescription device = LinearDescription(1, DeviceType::Wearable);
+  DeviceDescription device = DeviceDescription(1, {});
   for (uint16_t numLeds = 0; numLeds < 256; numLeds++) {
     runEffectsTest(&device, 5 * 1000);
   }

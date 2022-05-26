@@ -1,13 +1,14 @@
 #include "DeviceDescription.hpp"
 
-DeviceDescription::DeviceDescription(DeviceType type, uint8_t physical_leds,
-                                     uint8_t virtual_leds)
-    : type(type), physical_leds(physical_leds), virtual_leds(virtual_leds) {}
+#include <functional>
+#include <numeric>
 
-LinearDescription::LinearDescription(uint8_t physical_leds,
-                                     DeviceType device_type)
-    : DeviceDescription(type, physical_leds, physical_leds) {}
+DeviceDescription::DeviceDescription(uint8_t led_count,
+                                     std::list<DeviceFlag> flag_list)
+    : led_count(led_count),
+      flags(std::accumulate(flag_list.begin(), flag_list.end(), 0,
+                            std::bit_or<int>())) {}
 
-uint8_t LinearDescription::PhysicalToVirtual(uint8_t p_index) const {
-  return p_index;
+bool DeviceDescription::FlagEnabled(DeviceFlag flag) const {
+  return (flags & (int)flag) == (int)flag;
 }

@@ -10,16 +10,13 @@
 
 const int kLedPin = 0;
 
-const DeviceDescription *const bike =
-    new LinearDescription(30, DeviceType::Bike);
-const DeviceDescription *const scarf =
-    new LinearDescription(46, DeviceType::Wearable);
-const DeviceDescription *const lantern =
-    new LinearDescription(5, DeviceType::Wearable);
+const DeviceDescription *const bike = new DeviceDescription(30, {Bright});
+const DeviceDescription *const scarf = new DeviceDescription(46, {});
+const DeviceDescription *const lantern = new DeviceDescription(5, {Tiny});
 const DeviceDescription *const puck =
-    new LinearDescription(12, DeviceType::Wearable);
+    new DeviceDescription(12, {Tiny, Circular});
 
-const DeviceDescription *const device = puck;
+const DeviceDescription *const device = scarf;
 
 RadioHeadRadio *radio;
 NetworkManager *nm;

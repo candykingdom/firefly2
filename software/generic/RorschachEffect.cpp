@@ -17,7 +17,7 @@ CRGB RorschachEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   const ColorPalette palette = palettes[paletteIndex];
 
   // LEDs at the center of the strip have a lower position.
-  const uint16_t led_pos = -abs(ledIndex - (device->virtual_leds >> 1));
+  const uint16_t led_pos = -abs(ledIndex - (device->led_count >> 1));
 
   timeMs += offset;
   uint16_t noise =
@@ -36,7 +36,7 @@ CRGB RorschachEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
     return color;
   } else {
     CHSV color = palette.GetGradient(noise << 8, false);
-    if (device->type == DeviceType::Wearable) {
+    if (!device->FlagEnabled(Bright)) {
       color.v /= 2;
     }
     return color;

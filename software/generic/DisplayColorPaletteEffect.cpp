@@ -9,7 +9,7 @@ CRGB DisplayColorPaletteEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   ColorPalette palette =
       palettes[setEffectPacket->readPaletteIndexFromSetEffect()];
   CHSV color = palette.GetGradient((timeMs / 2) * 23);
-  if (device->type == DeviceType::Wearable) {
+  if (!device->FlagEnabled(Bright)) {
     color.v /= 2;
   }
   return color;
