@@ -8,7 +8,14 @@ CRGB RainbowBumpsEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   const uint8_t paletteIndex = setEffectPacket->readPaletteIndexFromSetEffect();
   ColorPalette palette = palettes[paletteIndex];
 
-  CHSV color = palette.GetGradient((timeMs / 10 + ledIndex * 8) << 8);
-  color.v = GetThresholdSin(-(timeMs / 16 - ledIndex * 24) << 8, 0);
+  uint8_t offset;
+  if (device->FlagEnabled(Circular)) {
+    offset = (uint16_t)ledIndex * 255 / device->led_count;
+  } else {
+    offset = ledIndex * 8;
+  }
+
+  CHSV color = palette.GetGradient((timeMs / 10 + offset) << 8);
+  color.v = GetThresholdSin(-(timeMs / 16 - offset * 3) << 8, 0);
   return color;
 }
