@@ -1,6 +1,6 @@
 #include "FireEffect.hpp"
 
-// #include "Math.hpp"
+#include "Math.hpp"
 #include "Perlin.hpp"
 
 FireEffect::FireEffect(const DeviceDescription *device) : Effect(device) {
@@ -17,7 +17,7 @@ CRGB FireEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   if (device->FlagEnabled(Circular)) {
     uint8_t angle;
     uint8_t radius;
-    // GetPosOnCircle(device->led_count, ledIndex, &angle, &radius);
+    GetPosOnCircle(device->led_count, ledIndex, &angle, &radius);
 
     // Create 2 octave Perlin noise by averaging multiple samples.
     noise = (perlinNoisePolar(timeMs / 8, 0, angle, radius) / 4 * 3) +
