@@ -9,7 +9,7 @@ CRGB PoliceEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   const bool red_flash = (timeMs / redSpeed & 0b100) == 0;
   const bool blue_flash = (timeMs / blueSpeed & 0b100) == 0;
 
-  if (device->led_count < lightWidth * 2) {
+  if (device->FlagEnabled(Tiny)) {
     if (red_flash) {
       if (red_cycle) {
         return red;
