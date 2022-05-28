@@ -21,29 +21,29 @@
 LedManager::LedManager(const DeviceDescription *device,
                        RadioStateMachine *radioState)
     : device(device), radioState(radioState) {
-  // AddEffect(new ColorCycleEffect(device), 4);
-  // AddEffect(new ContrastBumpsEffect(device), 2);
-  // AddEffect(new FireEffect(device), 1);
-  // AddEffect(new FireflyEffect(device), 2);
-  // AddEffect(new LightningEffect(device), 1);
-  // AddEffect(new RainbowBumpsEffect(device), 4);
-  // AddEffect(new RainbowEffect(device), 4);
-  // AddEffect(new RorschachEffect(device), 2);
-  // AddEffect(new SimpleBlinkEffect(device, 300), 2);
-  // AddEffect(new SparkEffect(device), 4);
+  AddEffect(new ColorCycleEffect(device), 4);
+  AddEffect(new ContrastBumpsEffect(device), 2);
+  AddEffect(new FireEffect(device), 1);
+  AddEffect(new FireflyEffect(device), 2);
+  AddEffect(new LightningEffect(device), 1);
+  AddEffect(new RainbowBumpsEffect(device), 4);
+  AddEffect(new RainbowEffect(device), 4);
+  AddEffect(new RorschachEffect(device), 2);
+  AddEffect(new SimpleBlinkEffect(device, 300), 2);
+  AddEffect(new SparkEffect(device), 4);
   AddEffect(new SwingingLights(device), 4);
 
-  // // Non-random effects
-  // AddEffect(new PoliceEffect(device), 1);
-  // AddEffect(new StopLightEffect(device), 0);
-  // // Strobes
-  // AddEffect(new SimpleBlinkEffect(device, 60), 0);
-  // AddEffect(new SimpleBlinkEffect(device, 30), 0);
-  // AddEffect(new SimpleBlinkEffect(device, 12), 0);
+  // Non-random effects
+  AddEffect(new PoliceEffect(device), 1);
+  AddEffect(new StopLightEffect(device), 0);
+  // Strobes
+  AddEffect(new SimpleBlinkEffect(device, 60), 0);
+  AddEffect(new SimpleBlinkEffect(device, 30), 0);
+  AddEffect(new SimpleBlinkEffect(device, 12), 0);
 
-  // // These two must be last
-  // AddEffect(new DisplayColorPaletteEffect(device), 0);
-  // AddEffect(new DarkEffect(device), 0);
+  // These two must be last
+  AddEffect(new DisplayColorPaletteEffect(device), 0);
+  AddEffect(new DarkEffect(device), 0);
 
   controlEffect = new ControlEffect(device);
 
