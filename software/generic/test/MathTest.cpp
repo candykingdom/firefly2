@@ -55,3 +55,55 @@ TEST(Math, shouldGetCardinalCordinates) {
   ASSERT_EQ(angle, 223);
   ASSERT_EQ(radius, 40);
 }
+
+TEST(Math, shouldMirrorIndiciesOdd) {
+  uint8_t led_index;
+  uint8_t led_count;
+
+  led_index = 0;
+  led_count = 5;
+  MirrorIndex(&led_index, &led_count);
+  ASSERT_EQ(led_index, 0);
+  ASSERT_EQ(led_count, 3);
+
+  led_index = 2;
+  led_count = 5;
+  MirrorIndex(&led_index, &led_count);
+  ASSERT_EQ(led_index, 2);
+  ASSERT_EQ(led_count, 3);
+
+  led_index = 4;
+  led_count = 5;
+  MirrorIndex(&led_index, &led_count);
+  ASSERT_EQ(led_index, 0);
+  ASSERT_EQ(led_count, 3);
+}
+
+TEST(Math, shouldMirrorIndiciesEven) {
+  uint8_t led_index;
+  uint8_t led_count;
+
+  led_index = 0;
+  led_count = 4;
+  MirrorIndex(&led_index, &led_count);
+  ASSERT_EQ(led_index, 0);
+  ASSERT_EQ(led_count, 2);
+
+  led_index = 1;
+  led_count = 4;
+  MirrorIndex(&led_index, &led_count);
+  ASSERT_EQ(led_index, 1);
+  ASSERT_EQ(led_count, 2);
+
+  led_index = 2;
+  led_count = 4;
+  MirrorIndex(&led_index, &led_count);
+  ASSERT_EQ(led_index, 1);
+  ASSERT_EQ(led_count, 2);
+
+  led_index = 3;
+  led_count = 4;
+  MirrorIndex(&led_index, &led_count);
+  ASSERT_EQ(led_index, 0);
+  ASSERT_EQ(led_count, 2);
+}

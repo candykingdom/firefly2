@@ -7,3 +7,10 @@ void GetPosOnCircle(uint8_t led_count, uint8_t led_index, uint8_t *angle,
   *angle = led_index * 255 / led_count;
   *radius = (circum * 1000) / tau;
 }
+
+void MirrorIndex(uint8_t *led_index, uint8_t *led_count) {
+  if (*led_index >= *led_count / 2) {
+    *led_index = *led_count - *led_index - 1;
+  }
+  *led_count = (*led_count + 1) / 2;
+}
