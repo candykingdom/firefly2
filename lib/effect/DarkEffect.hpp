@@ -1,7 +1,7 @@
 #ifndef __DARK_EFFECT__HPP__
 #define __DARK_EFFECT__HPP__
 
-#include <Types.hpp>
+#include "../types/Types.hpp"
 
 #include "Effect.hpp"
 

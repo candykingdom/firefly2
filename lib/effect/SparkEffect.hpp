@@ -1,7 +1,7 @@
 #ifndef __SPARK_EFFECT_HPP__
 #define __SPARK_EFFECT_HPP__
 
-#include <Types.hpp>
+#include "../types/Types.hpp"
 
 #include "Effect.hpp"
 

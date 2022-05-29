@@ -1,7 +1,7 @@
 #ifndef __COLOR_PALETTE_HPP__
 #define __COLOR_PALETTE_HPP__
 
-#include <Types.hpp>
+#include "../types/Types.hpp"
 #include <initializer_list>
 #include <vector>
 

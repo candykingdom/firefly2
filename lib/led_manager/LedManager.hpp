@@ -1,7 +1,7 @@
 #ifndef __LED_MANAGER_HPP__
 #define __LED_MANAGER_HPP__
 
-#include <Types.hpp>
+#include "../types/Types.hpp"
 #include <vector>
 
 #include "../effect/Effect.hpp"

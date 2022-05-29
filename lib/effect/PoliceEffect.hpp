@@ -1,7 +1,7 @@
 #ifndef __POLICE_EFFECT_HPP__
 #define __POLICE_EFFECT_HPP__
 
-#include <Types.hpp>
+#include "../types/Types.hpp"
 
 #include "Effect.hpp"
 

@@ -1,7 +1,7 @@
 #ifndef __SIMPLE_BLINK_EFFECT_HPP__
 #define __SIMPLE_BLINK_EFFECT_HPP__
 
-#include <Types.hpp>
+#include "../types/Types.hpp"
 
 #include "Effect.hpp"
 

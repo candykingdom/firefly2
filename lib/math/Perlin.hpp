@@ -1,7 +1,7 @@
 #ifndef __PERLIN_HPP__
 #define __PERLIN_HPP__
 
-#include <Types.hpp>
+#include "../types/Types.hpp"
 
 // Each tile contains 2^resolution number of integers.
 static const uint8_t resolution = 8;

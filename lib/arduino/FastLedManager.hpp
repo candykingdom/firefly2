@@ -1,7 +1,7 @@
 #ifndef __FAST_LED_MANAGER_HPP__
 #define __FAST_LED_MANAGER_HPP__
 
-#include <Types.hpp>
+#include "../types/Types.hpp"
 #include <vector>
 
 #include "../device/DeviceDescription.hpp"

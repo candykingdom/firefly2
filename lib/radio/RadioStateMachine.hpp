@@ -1,7 +1,7 @@
 #ifndef __RADIO_STATE_MACHINE_H__
 #define __RADIO_STATE_MACHINE_H__
 
-#include <Types.hpp>
+#include "../types/Types.hpp"
 #include <map>
 
 #include "../network/NetworkManager.hpp"

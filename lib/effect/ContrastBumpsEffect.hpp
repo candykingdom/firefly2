@@ -1,7 +1,7 @@
 #ifndef __CONTRAST_BUMPS_EFFECT_HPP__
 #define __CONTRAST_BUMPS_EFFECT_HPP__
 
-#include <Types.hpp>
+#include "../types/Types.hpp"
 
 #include "Effect.hpp"
 

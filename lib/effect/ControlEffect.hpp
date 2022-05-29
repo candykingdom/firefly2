@@ -1,7 +1,7 @@
 #ifndef __CONTROL_EFFECT_HPP__
 #define __CONTROL_EFFECT_HPP__
 
-#include <Types.hpp>
+#include "../types/Types.hpp"
 
 #include "Effect.hpp"
 

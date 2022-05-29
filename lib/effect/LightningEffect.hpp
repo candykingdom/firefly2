@@ -1,7 +1,7 @@
 #ifndef __LIGHTNING_EFFECT_HPP__
 #define __LIGHTNING_EFFECT_HPP__
 
-#include <Types.hpp>
+#include "../types/Types.hpp"
 
 #include "Effect.hpp"
 

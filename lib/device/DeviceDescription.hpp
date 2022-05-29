@@ -1,7 +1,7 @@
 #ifndef __DEVICE_DESCRIPTION_HPP__
 #define __DEVICE_DESCRIPTION_HPP__
 
-#include <Types.hpp>
+#include "../types/Types.hpp"
 #include <list>
 
 enum DeviceFlag {

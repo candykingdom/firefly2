@@ -1,7 +1,7 @@
 #ifndef __EFFECT_HPP__
 #define __EFFECT_HPP__
 
-#include <Types.hpp>
+#include "../types/Types.hpp"
 #include <vector>
 
 #include "../color/ColorPalette.hpp"

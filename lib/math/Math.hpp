@@ -1,7 +1,7 @@
 #ifndef __MATH_HPP__
 #define __MATH_HPP__
 
-#include <Types.hpp>
+#include "../types/Types.hpp"
 
 /**
  * @brief Gets the polar vector for evenly spaced points on a circle.

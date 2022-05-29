@@ -1,7 +1,7 @@
 #ifndef __SWINGING_LIGHTS_EFFECT_HPP__
 #define __SWINGING_LIGHTS_EFFECT_HPP__
 
-#include <Types.hpp>
+#include "../types/Types.hpp"
 
 #include "Effect.hpp"
 
