@@ -13,7 +13,7 @@ class Effect {
   Effect(const DeviceDescription *device);
 
   /** Gets the value of a specific LED at a specific time. */
-  virtual CRGB GetRGB(uint8_t ledIndex, uint32_t timeMs,
+  virtual CRGB GetRGB(uint8_t led_index, uint32_t time_ms,
                       RadioPacket *setEffectPacket) = 0;
 
   static const std::vector<ColorPalette> palettes;

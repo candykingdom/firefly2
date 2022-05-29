@@ -1,8 +1,8 @@
 #include "FastLedManager.hpp"
 
 FastLedManager::FastLedManager(const DeviceDescription *device,
-                               RadioStateMachine *radioState)
-    : LedManager(device, radioState) {
+                               RadioStateMachine *radio_state)
+    : LedManager(device, radio_state) {
   // The first LED is on-board, and should mirror the first LED of the strip.
   leds = new CRGB[device->led_count + 1];
   FastLED.addLeds<NEOPIXEL, WS2812_PIN>(leds, device->led_count + 1)
@@ -26,12 +26,12 @@ void FastLedManager::PlayStartupAnimation() {
   }
 }
 
-void FastLedManager::SetLed(uint8_t ledIndex, CRGB *const rgb) {
+void FastLedManager::SetLed(uint8_t led_index, CRGB *const rgb) {
   // The first LED is on-board, and should mirror the first LED of the strip.
-  if (ledIndex == 0) {
+  if (led_index == 0) {
     leds[0] = *rgb;
   }
-  leds[ledIndex + 1] = *rgb;
+  leds[led_index + 1] = *rgb;
 }
 
 void FastLedManager::WriteOutLeds() { FastLED.show(); }

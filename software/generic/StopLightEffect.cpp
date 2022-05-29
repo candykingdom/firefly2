@@ -3,14 +3,14 @@
 StopLightEffect::StopLightEffect(const DeviceDescription *device)
     : Effect(device) {}
 
-CRGB StopLightEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
+CRGB StopLightEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
                              RadioPacket *setEffectPacket) {
-  const uint16_t led_pos = abs((device->led_count >> 1) - ledIndex) << 8;
-  timeMs = timeMs >> 11;
+  const uint16_t led_pos = abs((device->led_count >> 1) - led_index) << 8;
+  time_ms = time_ms >> 11;
 
-  const bool is_red = (timeMs & 0b100) == 0 && (timeMs & 0b11) > 0;
-  const bool is_amber = (timeMs & 0b100) == 0 && (timeMs & 0b11) == 0;
-  const bool is_green = (timeMs & 0b100);
+  const bool is_red = (time_ms & 0b100) == 0 && (time_ms & 0b11) > 0;
+  const bool is_amber = (time_ms & 0b100) == 0 && (time_ms & 0b11) == 0;
+  const bool is_green = (time_ms & 0b100);
 
   if (device->FlagEnabled(Tiny)) {
     if (is_red) {

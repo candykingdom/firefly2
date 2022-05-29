@@ -15,7 +15,7 @@ RadioStateMachine::RadioStateMachine(NetworkManager *networkManager)
     timers[i] = 0;
   }
   state = RadioState::Slave;
-  nextState = RadioState::Slave;
+  next_state = RadioState::Slave;
   beginSlave();
   setEffectPacket.writeSetEffect(1, 0, 0);
 }
@@ -33,10 +33,10 @@ void RadioStateMachine::Tick() {
 
 uint32_t RadioStateMachine::GetNetworkMillis() {
   // DANGER: adding unsigned and signed types!
-  return millis() + millisOffset;
+  return millis() + millis_offset;
 }
 
-uint8_t RadioStateMachine::GetEffectIndex() { return effectIndex; }
+uint8_t RadioStateMachine::GetEffectIndex() { return effect_index; }
 
 RadioPacket *const RadioStateMachine::GetSetEffect() {
   return &setEffectPacket;
@@ -53,31 +53,31 @@ void RadioStateMachine::SetEffect(RadioPacket *const setEffect) {
   }
 }
 
-void RadioStateMachine::SetNumPalettes(uint8_t numPalettes) {
-  this->numPalettes = numPalettes;
+void RadioStateMachine::SetNumPalettes(uint8_t num_palettes) {
+  this->num_palettes = num_palettes;
 }
 
-void RadioStateMachine::SetNumEffects(uint8_t numEffects) {
-  this->numEffects = numEffects;
+void RadioStateMachine::SetNumEffects(uint8_t num_effects) {
+  this->num_effects = num_effects;
 }
 
 void RadioStateMachine::RadioTick() {
   RadioEventData data;
   data.packet = nullptr;
-  data.timerExpired = TimerNone;
+  data.timer_expired = TimerNone;
 
   RadioPacket packet;
 
   // Note: only allow one event type per iteration. This makes the handler
   // functions simpler (and less error prone).
-  TimerType timerExpired = TimerExpired();
+  TimerType timer_expired = TimerExpired();
   if (networkManager->receive(packet)) {
     data.packet = &packet;
-  } else if (timerExpired != TimerNone) {
-    data.timerExpired = timerExpired;
+  } else if (timer_expired != TimerNone) {
+    data.timer_expired = timer_expired;
   }
 
-  if (data.packet != nullptr || data.timerExpired != TimerNone) {
+  if (data.packet != nullptr || data.timer_expired != TimerNone) {
     switch (state) {
       case RadioState::Slave:
         handleSlaveEvent(data);
@@ -89,12 +89,12 @@ void RadioStateMachine::RadioTick() {
     }
   }
 
-  if (nextState != state) {
+  if (next_state != state) {
     // 0 is disabled. Clear the timer - the state will probably set this
     // anyway.
     SetTimer(TimerHeartbeat, 0);
 
-    switch (nextState) {
+    switch (next_state) {
       case RadioState::Slave:
         beginSlave();
         break;
@@ -105,7 +105,7 @@ void RadioStateMachine::RadioTick() {
     }
   }
 
-  state = nextState;
+  state = next_state;
 }
 
 void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
@@ -115,7 +115,7 @@ void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
     switch (data.packet->type) {
       case HEARTBEAT:
         // DANGER: unsigned + signed math!
-        this->millisOffset =
+        this->millis_offset =
             data.packet->readTimeFromHeartbeat() - (int32_t)millis();
 
         // Fall through
@@ -125,38 +125,39 @@ void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
         break;
 
       case SET_EFFECT: {
-        uint8_t newEffectIndex = data.packet->readEffectIndexFromSetEffect();
-        uint8_t newPaletteIndex = data.packet->readPaletteIndexFromSetEffect();
-        if (effectIndex != this->effectIndex ||
-            newPaletteIndex !=
+        uint8_t new_effect_index = data.packet->readEffectIndexFromSetEffect();
+        uint8_t new_palette_index =
+            data.packet->readPaletteIndexFromSetEffect();
+        if (effect_index != this->effect_index ||
+            new_palette_index !=
                 this->setEffectPacket.readPaletteIndexFromSetEffect()) {
-          effectChangeSeenAt = millis();
+          effect_change_seen_at = millis();
         }
         this->setEffectPacket = *data.packet;
-        this->effectIndex = newEffectIndex;
+        this->effect_index = new_effect_index;
         break;
       }
 
       case SET_CONTROL:
-        effectChangeSeenAt = millis();
+        effect_change_seen_at = millis();
         this->setEffectPacket = *data.packet;
         break;
     }
-  } else if (data.timerExpired == TimerHeartbeat) {
-    nextState = RadioState::Master;
+  } else if (data.timer_expired == TimerHeartbeat) {
+    next_state = RadioState::Master;
   }
 }
 
-void RadioStateMachine::PerformMasterElection(RadioPacket *receivedPacket) {
+void RadioStateMachine::PerformMasterElection(RadioPacket *received_packet) {
   // Master election: generate a random number. If our number is greater
   // than the packet's ID, become master. Otherwise, become slave.
-  const uint16_t ourId = random(1, 0xFFFF);
-  if (ourId > receivedPacket->packetId) {
+  const uint16_t our_id = random(1, 0xFFFF);
+  if (our_id > received_packet->packet_id) {
     packet.type = CLAIM_MASTER;
     packet.dataLength = 0;
     networkManager->send(packet);
   } else {
-    nextState = RadioState::Slave;
+    next_state = RadioState::Slave;
   }
 }
 
@@ -168,36 +169,36 @@ void RadioStateMachine::handleMasterEvent(RadioEventData &data) {
         break;
 
       case CLAIM_MASTER:
-        nextState = RadioState::Slave;
+        next_state = RadioState::Slave;
         break;
 
       case SET_EFFECT: {
         this->setEffectPacket = *data.packet;
-        this->effectIndex = data.packet->readEffectIndexFromSetEffect();
-        uint32_t setEffectTime =
+        this->effect_index = data.packet->readEffectIndexFromSetEffect();
+        uint32_t set_effect_time =
             (uint32_t)(data.packet->readDelayFromSetEffect()) * 1000;
-        SetTimer(TimerChangeEffect, setEffectTime);
+        SetTimer(TimerChangeEffect, set_effect_time);
         break;
       }
 
       case SET_CONTROL:
         this->setEffectPacket = *data.packet;
-        uint32_t setControlTime =
+        uint32_t set_control_time =
             (uint32_t)(data.packet->readDelayFromSetControl()) * 1000;
-        SetTimer(TimerChangeEffect, setControlTime);
+        SetTimer(TimerChangeEffect, set_control_time);
         break;
     }
-  } else if (data.timerExpired != TimerNone) {
-    switch (data.timerExpired) {
+  } else if (data.timer_expired != TimerNone) {
+    switch (data.timer_expired) {
       case TimerHeartbeat:
         SendHeartbeat();
         SetTimer(TimerHeartbeat, kMasterHeartbeatInterval);
         break;
 
       case TimerChangeEffect: {
-        effectIndex = random(0, numEffects);
-        const uint8_t paletteIndex = random(0, numPalettes);
-        packet.writeSetEffect(effectIndex, /* delay= */ 0, paletteIndex);
+        effect_index = random(0, num_effects);
+        const uint8_t palette_index = random(0, num_palettes);
+        packet.writeSetEffect(effect_index, /* delay= */ 0, palette_index);
         this->setEffectPacket = packet;
         networkManager->send(packet);
         SetTimer(TimerChangeEffect, kChangeEffectInterval);
@@ -226,12 +227,12 @@ void RadioStateMachine::beginMaster() {
   SetTimer(TimerHeartbeat, kMasterHeartbeatInterval);
   SetTimer(TimerBroadcastEffect, kBroadcastEffectInterval);
 
-  if (millis() - effectChangeSeenAt > kChangeEffectInterval) {
+  if (millis() - effect_change_seen_at > kChangeEffectInterval) {
     // Change the effect on the next tick
     SetTimer(TimerChangeEffect, 1);
   } else {
     SetTimer(TimerChangeEffect,
-             kChangeEffectInterval - (millis() - effectChangeSeenAt));
+             kChangeEffectInterval - (millis() - effect_change_seen_at));
   }
 }
 

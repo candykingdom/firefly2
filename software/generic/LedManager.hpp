@@ -11,7 +11,7 @@
 
 class LedManager {
  public:
-  LedManager(const DeviceDescription *device, RadioStateMachine *radioState);
+  LedManager(const DeviceDescription *device, RadioStateMachine *radio_state);
 
   void RunEffect();
 
@@ -39,13 +39,13 @@ class LedManager {
   virtual void SetGlobalColor(CRGB rgb) = 0;
 
  protected:
-  virtual void SetLed(uint8_t ledIndex, CRGB *const rgb) = 0;
+  virtual void SetLed(uint8_t led_index, CRGB *const rgb) = 0;
 
   // Note: these need to be defined, or else calls to this classes' constructor
   // don't work.
   virtual void WriteOutLeds() = 0;
   const DeviceDescription *const device;
-  RadioStateMachine *const radioState;
+  RadioStateMachine *const radio_state;
 
   // The effects that will be chosen randomly. This contains many entries for
   // each effect, so that we can control the occurence of each effect.
@@ -53,13 +53,13 @@ class LedManager {
 
   // Effects that can only be chosen manuall. These are "harsh" or otherwise
   // unsuitable for general use.
-  std::vector<Effect *> nonRandomEffects;
+  std::vector<Effect *> non_random_effects;
 
   // Map of the start of each unique effect in effects.
   std::vector<uint8_t> uniqueEffectIndices;
 
   void AddEffect(Effect *Effect, uint8_t proportion);
 
-  ControlEffect *controlEffect;
+  ControlEffect *control_effect;
 };
 #endif

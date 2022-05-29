@@ -3,8 +3,8 @@
 #include <cassert>
 
 FakeLedManager::FakeLedManager(const DeviceDescription *device,
-                               RadioStateMachine *stateMachine)
-    : LedManager(device, stateMachine) {
+                               RadioStateMachine *state_machine)
+    : LedManager(device, state_machine) {
   leds = new CRGB[device->led_count];
 }
 
@@ -14,14 +14,14 @@ void FakeLedManager::SetGlobalColor(CRGB rgb) {
   }
 }
 
-CRGB FakeLedManager::GetLed(uint8_t ledIndex) {
-  assert(ledIndex < device->led_count);
-  return leds[ledIndex];
+CRGB FakeLedManager::GetLed(uint8_t led_index) {
+  assert(led_index < device->led_count);
+  return leds[led_index];
 }
 
 void FakeLedManager::ClearEffects() {
   effects.clear();
-  nonRandomEffects.clear();
+  non_random_effects.clear();
   uniqueEffectIndices.clear();
 }
 
@@ -29,9 +29,9 @@ void FakeLedManager::PublicAddEffect(Effect *effect, uint8_t proportion) {
   AddEffect(effect, proportion);
 }
 
-void FakeLedManager::SetLed(uint8_t ledIndex, CRGB *const rgb) {
-  assert(ledIndex < device->led_count);
-  leds[ledIndex] = *rgb;
+void FakeLedManager::SetLed(uint8_t led_index, CRGB *const rgb) {
+  assert(led_index < device->led_count);
+  leds[led_index] = *rgb;
 }
 
 void FakeLedManager::WriteOutLeds() {}

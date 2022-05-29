@@ -56,27 +56,27 @@ TEST_F(RadioStateIntegrationTest, stableWhenNodesDropOut) {
 
   for (int i = 0; i < 10; i++) {
     // "Bad" ticks are ones where there isn't exactly one master.
-    int currentBadTicks = 0;
-    int maxBadTicks = 0;
-    int totalBadTicks = 0;
-    bool badPrev = false;
+    int current_bad_ticks = 0;
+    int max_bad_ticks = 0;
+    int total_bad_ticks = 0;
+    bool bad_prev = false;
 
     for (int j = 0; j < RadioStateMachine::kSlaveNoPacketTimeout * 2 + 2; j++) {
       advanceMillis(1);
       network.Tick();
 
-      int numMasters = getNumMasters();
-      if (numMasters != 1) {
-        totalBadTicks++;
-        if (badPrev) {
-          currentBadTicks++;
-          if (currentBadTicks > maxBadTicks) {
-            maxBadTicks = currentBadTicks;
+      int num_masters = getNumMasters();
+      if (num_masters != 1) {
+        total_bad_ticks++;
+        if (bad_prev) {
+          current_bad_ticks++;
+          if (current_bad_ticks > max_bad_ticks) {
+            max_bad_ticks = current_bad_ticks;
           }
         }
-        badPrev = true;
+        bad_prev = true;
       } else {
-        badPrev = false;
+        bad_prev = false;
       }
     }
 
@@ -87,8 +87,8 @@ TEST_F(RadioStateIntegrationTest, stableWhenNodesDropOut) {
       EXPECT_EQ(getNumMasters(), 1);
     }
 
-    EXPECT_LT(maxBadTicks, 10) << "On iteration " << i;
-    EXPECT_LT(totalBadTicks, 10) << "On iteration " << i;
+    EXPECT_LT(max_bad_ticks, 10) << "On iteration " << i;
+    EXPECT_LT(total_bad_ticks, 10) << "On iteration " << i;
     network.reinitNode(rand() % FakeNetwork::kNumNodes);
     network.reinitNode(rand() % FakeNetwork::kNumNodes);
 
@@ -103,31 +103,31 @@ TEST_F(RadioStateIntegrationTest, stableWithMildPacketLoss) {
 
   runTicks(RadioStateMachine::kSlaveNoPacketTimeout * 2);
 
-  int currentBadTicks = 0;
-  int maxBadTicks = 0;
-  int totalBadTicks = 0;
-  bool badPrev = false;
+  int current_bad_ticks = 0;
+  int max_bad_ticks = 0;
+  int total_bad_ticks = 0;
+  bool bad_prev = false;
   for (int i = 0; i < RadioStateMachine::kSlaveNoPacketTimeout * 10; i++) {
     advanceMillis(1);
     network.Tick();
 
-    int numMasters = getNumMasters();
-    if (numMasters != 1) {
-      totalBadTicks++;
-      if (badPrev) {
-        currentBadTicks++;
-        if (currentBadTicks > maxBadTicks) {
-          maxBadTicks = currentBadTicks;
+    int num_masters = getNumMasters();
+    if (num_masters != 1) {
+      total_bad_ticks++;
+      if (bad_prev) {
+        current_bad_ticks++;
+        if (current_bad_ticks > max_bad_ticks) {
+          max_bad_ticks = current_bad_ticks;
         }
       }
-      badPrev = true;
+      bad_prev = true;
     } else {
-      badPrev = false;
+      bad_prev = false;
     }
   }
 
-  EXPECT_LT(maxBadTicks, 50);
-  EXPECT_LT(totalBadTicks, 100);
+  EXPECT_LT(max_bad_ticks, 50);
+  EXPECT_LT(total_bad_ticks, 100);
 }
 
 TEST_F(RadioStateIntegrationTest, stableWithMildPacketLossAndNodesDropping) {
@@ -143,32 +143,32 @@ TEST_F(RadioStateIntegrationTest, stableWithMildPacketLossAndNodesDropping) {
   }
 
   for (int i = 0; i < 10; i++) {
-    int currentBadTicks = 0;
-    int maxBadTicks = 0;
-    int totalBadTicks = 0;
-    bool badPrev = false;
+    int current_bad_ticks = 0;
+    int max_bad_ticks = 0;
+    int total_bad_ticks = 0;
+    bool bad_prev = false;
 
     for (int j = 0; j < RadioStateMachine::kSlaveNoPacketTimeout * 2 + 2; j++) {
       advanceMillis(1);
       network.Tick();
 
-      int numMasters = getNumMasters();
-      if (numMasters != 1) {
-        totalBadTicks++;
-        if (badPrev) {
-          currentBadTicks++;
-          if (currentBadTicks > maxBadTicks) {
-            maxBadTicks = currentBadTicks;
+      int num_masters = getNumMasters();
+      if (num_masters != 1) {
+        total_bad_ticks++;
+        if (bad_prev) {
+          current_bad_ticks++;
+          if (current_bad_ticks > max_bad_ticks) {
+            max_bad_ticks = current_bad_ticks;
           }
         }
-        badPrev = true;
+        bad_prev = true;
       } else {
-        badPrev = false;
+        bad_prev = false;
       }
     }
 
-    EXPECT_LT(maxBadTicks, 500) << "On iteration " << i;
-    EXPECT_LT(totalBadTicks, 1000) << "On iteration " << i;
+    EXPECT_LT(max_bad_ticks, 500) << "On iteration " << i;
+    EXPECT_LT(total_bad_ticks, 1000) << "On iteration " << i;
     network.reinitNode(rand() % FakeNetwork::kNumNodes);
     network.reinitNode(rand() % FakeNetwork::kNumNodes);
 
@@ -188,10 +188,10 @@ TEST_F(RadioStateIntegrationTest, setEffectIndex) {
   // seed, this is stable.
   runTicks(RadioStateMachine::kChangeEffectInterval * 3);
   // All nodes should have the same, non-zero (i.e. default) effect index
-  uint8_t expectedEffectIndex = network.stateMachines[0]->GetEffectIndex();
-  EXPECT_NE(expectedEffectIndex, 1);
+  uint8_t expected_effect_index = network.stateMachines[0]->GetEffectIndex();
+  EXPECT_NE(expected_effect_index, 1);
   for (int i = 0; i < FakeNetwork::kNumNodes; i++) {
-    EXPECT_EQ(network.stateMachines[i]->GetEffectIndex(), expectedEffectIndex)
+    EXPECT_EQ(network.stateMachines[i]->GetEffectIndex(), expected_effect_index)
         << "Node " << i << " has wrong effect index";
   }
 }
@@ -199,13 +199,13 @@ TEST_F(RadioStateIntegrationTest, setEffectIndex) {
 TEST_F(RadioStateIntegrationTest, changesEffectWhenMasterNotStable) {
   runTicks(RadioStateMachine::kChangeEffectInterval - 10);
 
-  uint8_t originalEffect = network.stateMachines[0]->GetEffectIndex();
+  uint8_t original_effect = network.stateMachines[0]->GetEffectIndex();
 
   resetMaster();
   runTicks(100);
 
-  uint8_t newEffect = network.stateMachines[0]->GetEffectIndex();
-  EXPECT_NE(originalEffect, newEffect);
+  uint8_t new_effect = network.stateMachines[0]->GetEffectIndex();
+  EXPECT_NE(original_effect, new_effect);
 }
 
 TEST_F(RadioStateIntegrationTest, invalidPacket) {
@@ -213,7 +213,7 @@ TEST_F(RadioStateIntegrationTest, invalidPacket) {
            RadioStateMachine::kMasterHeartbeatInterval * 3);
   // Invalid type
   RadioPacket packet =
-      {packetId : 1, type : (PacketType)5, dataLength : 2, data : {5, 6}};
+      {packet_id : 1, type : (PacketType)5, dataLength : 2, data : {5, 6}};
   network.TransmitPacket(packet);
   runTicks(100);
 }

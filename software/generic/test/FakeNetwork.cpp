@@ -24,7 +24,7 @@ void FakeNetwork::Tick() {
   // since senders should be ignoring their own packets anyway, because of the
   // repeater functionality.
   for (int i = 0; i < kNumNodes; i++) {
-    if (packetLoss == 0 || rand() % packetLoss) {
+    if (packet_loss == 0 || rand() % packet_loss) {
       radios[i].setReceivedPacket(packet);
     } else {
       debug_printf("Randomly dropping packet\n");
@@ -60,7 +60,7 @@ void FakeNetwork::reinitNode(int index) {
       new RadioStateMachine(new NetworkManager(&radios[index]));
 }
 
-void FakeNetwork::setPacketLoss(int n) { packetLoss = n; }
+void FakeNetwork::setPacketLoss(int n) { packet_loss = n; }
 
 void FakeNetwork::TransmitPacket(RadioPacket &packet) {
   for (int i = 0; i < kNumNodes; i++) {

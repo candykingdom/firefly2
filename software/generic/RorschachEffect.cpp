@@ -11,19 +11,20 @@ RorschachEffect::RorschachEffect(const DeviceDescription *device)
   offset = random16();
 }
 
-CRGB RorschachEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
+CRGB RorschachEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
                              RadioPacket *setEffectPacket) {
-  const uint8_t paletteIndex = setEffectPacket->readPaletteIndexFromSetEffect();
-  const ColorPalette palette = palettes[paletteIndex];
+  const uint8_t palette_index =
+      setEffectPacket->readPaletteIndexFromSetEffect();
+  const ColorPalette palette = palettes[palette_index];
 
   // LEDs at the center of the strip have a lower position.
-  const uint16_t led_pos = -abs(ledIndex - (device->led_count >> 1));
+  const uint16_t led_pos = -abs(led_index - (device->led_count >> 1));
 
-  timeMs += offset;
+  time_ms += offset;
   uint16_t noise =
-      perlinNoise((led_pos << 5) + (timeMs >> 3),
-                  (timeMs >> 3) + (led_pos << 2));  // Skew coordinates to avoid
-                                                    // moire patterns.
+      perlinNoise((led_pos << 5) + (time_ms >> 3),
+                  (time_ms >> 3) + (led_pos << 2));  // Skew coordinates to
+                                                     // avoid moire patterns.
 
   // If the palette is only one color, change the value instead of the hue.
   if (palette.Size() < 2) {

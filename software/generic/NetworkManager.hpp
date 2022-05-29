@@ -35,7 +35,7 @@ class NetworkManager {
    * LRU ID is dropped.
    */
   uint16_t recentIdsCache[kRecentIdsCacheSize];
-  uint8_t recentIdsCacheIndex;
+  uint8_t recent_ids_cache_index;
 };
 
 #endif

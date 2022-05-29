@@ -5,31 +5,32 @@
 ContrastBumpsEffect::ContrastBumpsEffect(const DeviceDescription *device)
     : Effect(device) {}
 
-CRGB ContrastBumpsEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
+CRGB ContrastBumpsEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
                                  RadioPacket *setEffectPacket) {
-  const uint8_t paletteIndex = setEffectPacket->readPaletteIndexFromSetEffect();
-  ColorPalette palette = palettes[paletteIndex];
+  const uint8_t palette_index =
+      setEffectPacket->readPaletteIndexFromSetEffect();
+  ColorPalette palette = palettes[palette_index];
 
   uint8_t led_count = device->led_count;
   if (device->FlagEnabled(Mirrored)) {
-    MirrorIndex(&ledIndex, &led_count);
+    MirrorIndex(&led_index, &led_count);
   }
 
   uint8_t offset;
   if (device->FlagEnabled(Circular)) {
-    offset = (uint16_t)ledIndex * 255 / led_count;
+    offset = (uint16_t)led_index * 255 / led_count;
   } else {
-    offset = ledIndex * 24;
+    offset = led_index * 24;
   }
 
-  uint8_t sin = GetThresholdSin(-(timeMs / 16 + offset) << 8, 0);
-  uint16_t colorIndex = timeMs * 16;
+  uint8_t sin = GetThresholdSin(-(time_ms / 16 + offset) << 8, 0);
+  uint16_t color_index = time_ms * 16;
   if (sin == 0) {
-    CHSV color = palette.GetGradient(colorIndex);
+    CHSV color = palette.GetGradient(color_index);
     color.v = 64;
     return color;
   } else {
-    CHSV color = palette.GetGradient(colorIndex + 0x4000);
+    CHSV color = palette.GetGradient(color_index + 0x4000);
     color.v = qadd8(sin / 2, 96);
     return color;
   }
