@@ -2,21 +2,8 @@
 
 #include <cassert>
 
-#include "ColorCycleEffect.hpp"
-#include "ContrastBumpsEffect.hpp"
-#include "DarkEffect.hpp"
-#include "DisplayColorPaletteEffect.hpp"
-#include "FireEffect.hpp"
-#include "FireflyEffect.hpp"
-#include "LightningEffect.hpp"
-#include "PoliceEffect.hpp"
-#include "RainbowBumpsEffect.hpp"
-#include "RainbowEffect.hpp"
-#include "RorschachEffect.hpp"
-#include "SimpleBlinkEffect.hpp"
-#include "SparkEffect.hpp"
-#include "StopLightEffect.hpp"
-#include "SwingingLights.hpp"
+#include "../../lib/effect/Effects.hpp"
+#include "Radio.hpp"
 
 LedManager::LedManager(const DeviceDescription *device,
                        RadioStateMachine *radio_state)

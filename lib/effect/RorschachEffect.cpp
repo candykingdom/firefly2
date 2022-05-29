@@ -1,7 +1,7 @@
 #include "RorschachEffect.hpp"
 
-#include "ColorPalette.hpp"
-#include "Perlin.hpp"
+#include "../../software/generic/ColorPalette.hpp"
+#include "../../software/generic/Perlin.hpp"
 
 RorschachEffect::RorschachEffect(const DeviceDescription *device)
     : Effect(device) {

@@ -4,8 +4,8 @@
 #include <Types.hpp>
 #include <vector>
 
-#include "../../generic/Effect.hpp"
-#include "../../generic/LedManager.hpp"
+#include "../../lib/effect/Effect.hpp"
+#include "../LedManager.hpp"
 
 class FakeLedManager : public LedManager {
  public:
