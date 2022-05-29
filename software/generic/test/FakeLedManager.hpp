@@ -1,11 +1,10 @@
 #ifndef __FAKE_LED_MANAGER_HPP__
 #define __FAKE_LED_MANAGER_HPP__
 
+#include <Effect.hpp>
+#include <LedManager.hpp>
 #include <Types.hpp>
 #include <vector>
-
-#include "../../lib/effect/Effect.hpp"
-#include "../../lib/led_manager/LedManager.hpp"
 
 class FakeLedManager : public LedManager {
  public:

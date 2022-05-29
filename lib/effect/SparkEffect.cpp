@@ -1,6 +1,6 @@
 #include "SparkEffect.hpp"
 
-#include "../math/Math.hpp"
+#include <Math.hpp>
 
 SparkEffect::SparkEffect(const DeviceDescription *device) : Effect(device) {}
 

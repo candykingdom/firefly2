@@ -1,10 +1,9 @@
 #include "FakeNetwork.hpp"
 
 #include <Debug.hpp>
+#include <DeviceDescription.hpp>
+#include <NetworkManager.hpp>
 #include <cstdio>
-
-#include "../../lib/device/DeviceDescription.hpp"
-#include "../../lib/network/NetworkManager.hpp"
 
 //#define DEBUG
 

@@ -1,8 +1,7 @@
 #include "LedManager.hpp"
 
+#include <Radio.hpp>
 #include <cassert>
-
-#include "../radio/Radio.hpp"
 
 LedManager::LedManager(const DeviceDescription *device,
                        RadioStateMachine *radio_state)

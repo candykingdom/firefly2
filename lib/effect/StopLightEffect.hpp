@@ -1,7 +1,8 @@
 #ifndef __STOP_LIGHT_EFFECT_HPP__
 #define __STOP_LIGHT_EFFECT_HPP__
 
-#include "../types/Types.hpp"
+#include <Types.hpp>
+
 #include "Effect.hpp"
 
 class StopLightEffect : public Effect {

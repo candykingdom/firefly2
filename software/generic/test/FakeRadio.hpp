@@ -1,7 +1,7 @@
 #ifndef __FAKE_RADIO_H__
 #define __FAKE_RADIO_H__
 
-#include "../../lib/radio/Radio.hpp"
+#include <Radio.hpp>
 
 class FakeRadio : public Radio {
  public:

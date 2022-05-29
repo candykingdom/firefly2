@@ -1,7 +1,8 @@
 #ifndef __RAINBOW_EFFECT_HPP__
 #define __RAINBOW_EFFECT_HPP__
 
-#include "../types/Types.hpp"
+#include <Types.hpp>
+
 #include "Effect.hpp"
 
 class RainbowEffect : public Effect {

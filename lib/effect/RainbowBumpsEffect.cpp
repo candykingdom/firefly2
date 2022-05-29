@@ -1,6 +1,6 @@
 #include "RainbowBumpsEffect.hpp"
 
-#include "../math/Math.hpp"
+#include <Math.hpp>
 
 RainbowBumpsEffect::RainbowBumpsEffect(const DeviceDescription *device)
     : Effect(device) {}

@@ -1,7 +1,7 @@
 #include "SwingingLights.hpp"
 
-#include "../color/ColorPalette.hpp"
-#include "../math/Math.hpp"
+#include <ColorPalette.hpp>
+#include <Math.hpp>
 
 static const uint16_t SPREAD = MAX_UINT16 * 0.2;
 

@@ -1,7 +1,8 @@
 #ifndef __SPARK_EFFECT_HPP__
 #define __SPARK_EFFECT_HPP__
 
-#include "../types/Types.hpp"
+#include <Types.hpp>
+
 #include "Effect.hpp"
 
 // Makes a bright light trace back and forth, with a tail.

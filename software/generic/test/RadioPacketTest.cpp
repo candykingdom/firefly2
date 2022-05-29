@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 
 #define DEBUG 1
-#include "../../lib/radio/Radio.hpp"
+#include <Radio.hpp>
 
 TEST(RadioPacket, serializesHeartbeat0) {
   RadioPacket packet;

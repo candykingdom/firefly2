@@ -1,6 +1,6 @@
 #include "ContrastBumpsEffect.hpp"
 
-#include "../math/Math.hpp"
+#include <Math.hpp>
 
 ContrastBumpsEffect::ContrastBumpsEffect(const DeviceDescription *device)
     : Effect(device) {}

@@ -1,8 +1,9 @@
 #ifndef __FAKE_NETWORK_H__
 #define __FAKE_NETWORK_H__
 
-#include "../../lib/radio/Radio.hpp"
-#include "../../lib/radio/RadioStateMachine.hpp"
+#include <Radio.hpp>
+#include <RadioStateMachine.hpp>
+
 #include "FakeLedManager.hpp"
 #include "FakeRadio.hpp"
 
