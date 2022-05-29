@@ -1,8 +1,8 @@
 #include <algorithm>
 #include <vector>
 
-#include "../LedManager.hpp"
-#include "DeviceDescription.hpp"
+#include "../../lib/led_manager/LedManager.hpp"
+#include "../../lib/device/DeviceDescription.hpp"
 #include "FakeLedManager.hpp"
 #include "FakeRadio.hpp"
 #include "gtest/gtest.h"

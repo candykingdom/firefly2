@@ -1,6 +1,6 @@
 #include "ColorCycleEffect.hpp"
 
-#include "../../software/generic/ColorPalette.hpp"
+#include "../color/ColorPalette.hpp"
 
 ColorCycleEffect::ColorCycleEffect(const DeviceDescription *device)
     : Effect(device){};

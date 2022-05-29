@@ -1,7 +1,7 @@
 #include <SparkFunDMX.h>
 
-#include "../../arduino/RadioHeadRadio.hpp"
-#include "../../generic/NetworkManager.hpp"
+#include "../../lib/arduino/RadioHeadRadio.hpp"
+#include "../../lib/network/NetworkManager.hpp"
 
 const uint8_t DMX_CHANNELS = 192;
 

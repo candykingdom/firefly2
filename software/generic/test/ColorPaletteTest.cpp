@@ -1,4 +1,4 @@
-#include "../ColorPalette.hpp"
+#include "../../lib/color/ColorPalette.hpp"
 #include "gtest/gtest.h"
 
 TEST(ColorPalette, indexColors) {

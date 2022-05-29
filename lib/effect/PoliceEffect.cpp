@@ -1,6 +1,6 @@
 #include "PoliceEffect.hpp"
 
-#include "../../software/generic/Math.hpp"
+#include "../math/Math.hpp"
 
 PoliceEffect::PoliceEffect(const DeviceDescription *device) : Effect(device) {}
 

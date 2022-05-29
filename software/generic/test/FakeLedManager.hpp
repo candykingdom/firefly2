@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "../../lib/effect/Effect.hpp"
-#include "../LedManager.hpp"
+#include "../../lib/led_manager/LedManager.hpp"
 
 class FakeLedManager : public LedManager {
  public:

@@ -4,7 +4,7 @@
 #include <Types.hpp>
 #include <map>
 
-#include "NetworkManager.hpp"
+#include "../network/NetworkManager.hpp"
 
 enum TimerType {
   TimerNone,

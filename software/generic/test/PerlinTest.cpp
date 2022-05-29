@@ -1,4 +1,4 @@
-#include "../Perlin.hpp"
+#include "../../lib/math/Perlin.hpp"
 #include "gtest/gtest.h"
 
 static const uint16_t tolerance = 8;

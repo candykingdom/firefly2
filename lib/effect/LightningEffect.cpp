@@ -1,6 +1,6 @@
 #include "LightningEffect.hpp"
 
-#include "../../software/generic/Perlin.hpp"
+#include "../math/Perlin.hpp"
 
 LightningEffect::LightningEffect(const DeviceDescription *device)
     : Effect(device) {}

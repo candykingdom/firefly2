@@ -2,11 +2,11 @@
 // (which it shouldn't)
 #undef max
 #undef min
-#include "../../arduino/FastLedManager.hpp"
-#include "../../arduino/RadioHeadRadio.hpp"
-#include "../../generic/DeviceDescription.hpp"
-#include "../../generic/NetworkManager.hpp"
-#include "../../generic/RadioStateMachine.hpp"
+#include "../../../lib/device/DeviceDescription.hpp"
+#include "../../../lib/arduino/FastLedManager.hpp"
+#include "../../../lib/network/NetworkManager.hpp"
+#include "../../../lib/radio/RadioStateMachine.hpp"
+#include "../../../lib/arduino/RadioHeadRadio.hpp"
 
 const int kLedPin = 0;
 

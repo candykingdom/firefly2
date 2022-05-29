@@ -1,7 +1,7 @@
 #include "FireEffect.hpp"
 
-#include "../../software/generic/Math.hpp"
-#include "../../software/generic/Perlin.hpp"
+#include "../math/Math.hpp"
+#include "../math/Perlin.hpp"
 
 FireEffect::FireEffect(const DeviceDescription *device) : Effect(device) {
 #ifdef ARDUINO

@@ -4,10 +4,10 @@
 #include <Types.hpp>
 #include <vector>
 
-#include "../../lib/effect/Effect.hpp"
-#include "../../lib/effect/Effects.hpp"
-#include "Radio.hpp"
-#include "RadioStateMachine.hpp"
+#include "../effect/Effect.hpp"
+#include "../effect/Effects.hpp"
+#include "../radio/Radio.hpp"
+#include "../radio/RadioStateMachine.hpp"
 
 class LedManager {
  public:

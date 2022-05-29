@@ -3,7 +3,7 @@
 
 #include <Types.hpp>
 
-#include "Radio.hpp"
+#include "../radio/Radio.hpp"
 
 class NetworkManager {
  public:
