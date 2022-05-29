@@ -8,6 +8,7 @@ enum DeviceFlag {
   Tiny = 1 << 0,
   Bright = 1 << 1,
   Circular = 1 << 2,
+  Mirrored = 1 << 3,
 };
 
 class DeviceDescription {

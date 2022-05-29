@@ -1,3 +1,5 @@
+#include <string>
+
 #include "../Math.hpp"
 #include "gtest/gtest.h"
 
@@ -54,4 +56,23 @@ TEST(Math, shouldGetCardinalCordinates) {
   GetPosOnCircle(8, 7, &angle, &radius);
   ASSERT_EQ(angle, 223);
   ASSERT_EQ(radius, 40);
+}
+
+TEST(Math, shouldMirrorIndicies) {
+  std::vector<std::vector<uint8_t>> cases = {
+      {0, 5, 0, 3}, {1, 5, 1, 3}, {2, 5, 2, 3}, {3, 5, 1, 3}, {4, 5, 0, 3},
+      {0, 4, 0, 2}, {1, 4, 1, 2}, {2, 4, 1, 2}, {3, 4, 0, 2},
+  };
+
+  for (auto it = cases.begin(); it != cases.end(); ++it) {
+    uint8_t led_index = (*it)[0];
+    uint8_t led_count = (*it)[1];
+    MirrorIndex(&led_index, &led_count);
+    std::string run_desc = "(index: " + std::to_string((*it)[0]) +
+                           ", count: " + std::to_string((*it)[1]) + ")";
+    ASSERT_EQ(led_index, (*it)[2])
+        << "Expected mirrored index is incorrect! " + run_desc;
+    ASSERT_EQ(led_count, (*it)[3])
+        << "Expected mirrored LED count is incorrect! " + run_desc;
+  }
 }

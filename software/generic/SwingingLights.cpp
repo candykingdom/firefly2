@@ -1,6 +1,7 @@
 #include "SwingingLights.hpp"
 
 #include "ColorPalette.hpp"
+#include "Math.hpp"
 
 static const uint16_t SPREAD = MAX_UINT16 * 0.2;
 
@@ -25,6 +26,8 @@ CRGB SwingingLights::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   if (device->FlagEnabled(Tiny) && !device->FlagEnabled(Circular)) {
     ledIndex = 0;
     numLeds = 50;
+  } else if (device->FlagEnabled(Mirrored)) {
+    MirrorIndex(&ledIndex, &numLeds);
   }
 
   // Map [0, period) to [0, MAX_UINT16)
