@@ -1,5 +1,7 @@
 #include "SparkEffect.hpp"
 
+#include "Math.hpp"
+
 SparkEffect::SparkEffect(const DeviceDescription *device) : Effect(device) {}
 
 CRGB SparkEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
@@ -7,21 +9,31 @@ CRGB SparkEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   const uint8_t pulse_size = brightnesses.size();
   const uint8_t paletteIndex = setEffectPacket->readPaletteIndexFromSetEffect();
   ColorPalette palette = palettes[paletteIndex];
-  int16_t pos = ((timeMs * (device->led_count + pulse_size)) / 3000) %
-                ((device->led_count + pulse_size) * 2);
 
-  bool reverse = false;
-  if (pos > (device->led_count + pulse_size)) {
-    reverse = true;
-    pos = (device->led_count + pulse_size) -
-          (pos - (device->led_count + pulse_size));
+  uint8_t led_count = device->led_count;
+  if (device->FlagEnabled(Mirrored)) {
+    MirrorIndex(&ledIndex, &led_count);
   }
-  int16_t relative_pos = pos - ledIndex;
+
+  int16_t relative_pos;
+  bool reverse = false;
+  if (device->FlagEnabled(Circular)) {
+    relative_pos = (timeMs * led_count / 3000 + ledIndex) % led_count;
+  } else {
+    int16_t pos = ((timeMs * (led_count + pulse_size)) / 3000) %
+                  ((led_count + pulse_size) * 2);
+
+    if (pos > (led_count + pulse_size)) {
+      reverse = true;
+      pos = (led_count + pulse_size) - (pos - (led_count + pulse_size));
+    }
+    relative_pos = pos - ledIndex;
+  }
   CHSV hsv = palette.GetGradient((timeMs / 24 + relative_pos * 14) << 8);
 
   if (relative_pos < 0) {
     hsv.v = 0;
-  } else if (relative_pos < (device->led_count + pulse_size)) {
+  } else if (relative_pos < (led_count + pulse_size)) {
     if (relative_pos < pulse_size) {
       if (reverse) {
         hsv.v = brightnesses[pulse_size - relative_pos - 1];

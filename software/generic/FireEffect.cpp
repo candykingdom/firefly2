@@ -12,15 +12,25 @@ FireEffect::FireEffect(const DeviceDescription *device) : Effect(device) {
 
 CRGB FireEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
                         RadioPacket *setEffectPacket) {
+  uint32_t side_differentiator = 0;
+  uint8_t led_count = device->led_count;
+  if (device->FlagEnabled(Mirrored)) {
+    if (ledIndex > led_count / 2) {
+      side_differentiator = 6789;
+    }
+    MirrorIndex(&ledIndex, &led_count);
+  }
+
   timeMs += offset;
   uint8_t noise;
   if (device->FlagEnabled(Circular)) {
     uint8_t angle;
     uint8_t radius;
-    GetPosOnCircle(device->led_count, ledIndex, &angle, &radius);
+    GetPosOnCircle(led_count, ledIndex, &angle, &radius);
 
     // Create 2 octave Perlin noise by averaging multiple samples.
-    noise = (perlinNoisePolar(timeMs / 8, 0, angle, radius) / 4 * 3) +
+    noise = (perlinNoisePolar(timeMs / 8, side_differentiator, angle, radius) /
+             4 * 3) +
             (perlinNoisePolar(timeMs / 2 + 1234567, 0, angle, radius) / 4 * 1);
   } else {
     // Create 2 octave Perlin noise by averaging multiple samples.
