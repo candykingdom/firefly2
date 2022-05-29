@@ -7,6 +7,7 @@
 #include "../../generic/DeviceDescription.hpp"
 #include "../../generic/NetworkManager.hpp"
 #include "../../generic/RadioStateMachine.hpp"
+#include "../../generic/DeviceDescription.hpp"
 
 const int kLedPin = 0;
 

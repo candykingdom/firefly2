@@ -4,8 +4,8 @@
 #include <Types.hpp>
 #include <vector>
 
-#include "ControlEffect.hpp"
-#include "Effect.hpp"
+#include "../../lib/effect/ControlEffect.hpp"
+#include "../../lib/effect/Effect.hpp"
 #include "Radio.hpp"
 #include "RadioStateMachine.hpp"
 

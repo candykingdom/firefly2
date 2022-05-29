@@ -2,21 +2,22 @@
 
 #include <cassert>
 
-#include "ColorCycleEffect.hpp"
-#include "ContrastBumpsEffect.hpp"
-#include "DarkEffect.hpp"
-#include "DisplayColorPaletteEffect.hpp"
-#include "FireEffect.hpp"
-#include "FireflyEffect.hpp"
-#include "LightningEffect.hpp"
-#include "PoliceEffect.hpp"
-#include "RainbowBumpsEffect.hpp"
-#include "RainbowEffect.hpp"
-#include "RorschachEffect.hpp"
-#include "SimpleBlinkEffect.hpp"
-#include "SparkEffect.hpp"
-#include "StopLightEffect.hpp"
-#include "SwingingLights.hpp"
+#include "../../lib/effect/ColorCycleEffect.hpp"
+#include "../../lib/effect/ContrastBumpsEffect.hpp"
+#include "../../lib/effect/DarkEffect.hpp"
+#include "../../lib/effect/DisplayColorPaletteEffect.hpp"
+#include "../../lib/effect/FireEffect.hpp"
+#include "../../lib/effect/FireflyEffect.hpp"
+#include "../../lib/effect/LightningEffect.hpp"
+#include "../../lib/effect/PoliceEffect.hpp"
+#include "../../lib/effect/RainbowBumpsEffect.hpp"
+#include "../../lib/effect/RainbowEffect.hpp"
+#include "../../lib/effect/RorschachEffect.hpp"
+#include "../../lib/effect/SimpleBlinkEffect.hpp"
+#include "../../lib/effect/SparkEffect.hpp"
+#include "../../lib/effect/StopLightEffect.hpp"
+#include "../../lib/effect/SwingingLights.hpp"
+#include "Radio.hpp"
 
 LedManager::LedManager(const DeviceDescription *device,
                        RadioStateMachine *radio_state)

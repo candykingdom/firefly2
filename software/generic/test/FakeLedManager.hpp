@@ -4,13 +4,13 @@
 #include <Types.hpp>
 #include <vector>
 
-#include "../../generic/Effect.hpp"
-#include "../../generic/LedManager.hpp"
+#include "../../lib/effect/Effect.hpp"
+#include "../LedManager.hpp"
 
 class FakeLedManager : public LedManager {
  public:
   FakeLedManager(const DeviceDescription *device,
-                 RadioStateMachine *state_machine);
+                 RadioStateMachine *stateMachine);
 
   CRGB GetLed(uint8_t led_index);
 
@@ -25,7 +25,7 @@ class FakeLedManager : public LedManager {
   void WriteOutLeds() override;
 
  private:
-  // Note: this looks like a pointer, but is actually an array of size num_leds
+  // Note: this looks like a pointer, but is actually an array of size numLeds
   CRGB *leds;
 };
 #endif

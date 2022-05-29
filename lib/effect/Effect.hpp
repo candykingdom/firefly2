@@ -4,9 +4,9 @@
 #include <Types.hpp>
 #include <vector>
 
-#include "ColorPalette.hpp"
-#include "DeviceDescription.hpp"
-#include "Radio.hpp"
+#include "../../software/generic/DeviceDescription.hpp"
+#include "../../software/generic/ColorPalette.hpp"
+#include "../../software/generic/Radio.hpp"
 
 class Effect {
  public:

@@ -29,7 +29,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -std=c++11 -g")
 # Generate the file needed for YCM integration
 set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
 
-file(GLOB LIBRARY_SOURCES "*.cpp" "FakeFastLED/*.cpp" "../../lib/types/*.cpp" "../../lib/debug/*.cpp")
+file(GLOB LIBRARY_SOURCES "*.cpp" "FakeFastLED/*.cpp" "../../lib/effect/*.cpp" "../../lib/types/*.cpp" "../../lib/debug/*.cpp")
 add_library(generic ${LIBRARY_SOURCES})
 target_include_directories(generic PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>

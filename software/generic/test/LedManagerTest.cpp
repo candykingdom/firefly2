@@ -1,10 +1,10 @@
+#include "../../../lib/effect/FireEffect.hpp"
+#include "../../../lib/effect/PoliceEffect.hpp"
+#include "../../../lib/effect/SimpleBlinkEffect.hpp"
 #include "../LedManager.hpp"
 #include "DeviceDescription.hpp"
 #include "FakeLedManager.hpp"
 #include "FakeRadio.hpp"
-#include "FireEffect.hpp"
-#include "PoliceEffect.hpp"
-#include "SimpleBlinkEffect.hpp"
 #include "gtest/gtest.h"
 
 TEST(LedManager, hasNonRandomEffects) {
