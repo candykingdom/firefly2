@@ -1,3 +1,5 @@
+#include <string>
+
 #include "../Math.hpp"
 #include "gtest/gtest.h"
 
@@ -56,54 +58,21 @@ TEST(Math, shouldGetCardinalCordinates) {
   ASSERT_EQ(radius, 40);
 }
 
-TEST(Math, shouldMirrorIndiciesOdd) {
-  uint8_t led_index;
-  uint8_t led_count;
+TEST(Math, shouldMirrorIndicies) {
+  std::vector<std::vector<uint8_t>> cases = {
+      {0, 5, 0, 3}, {1, 5, 1, 3}, {2, 5, 2, 3}, {3, 5, 1, 3}, {4, 5, 0, 3},
+      {0, 4, 0, 2}, {1, 4, 1, 2}, {2, 4, 1, 2}, {3, 4, 0, 2},
+  };
 
-  led_index = 0;
-  led_count = 5;
-  MirrorIndex(&led_index, &led_count);
-  ASSERT_EQ(led_index, 0);
-  ASSERT_EQ(led_count, 3);
-
-  led_index = 2;
-  led_count = 5;
-  MirrorIndex(&led_index, &led_count);
-  ASSERT_EQ(led_index, 2);
-  ASSERT_EQ(led_count, 3);
-
-  led_index = 4;
-  led_count = 5;
-  MirrorIndex(&led_index, &led_count);
-  ASSERT_EQ(led_index, 0);
-  ASSERT_EQ(led_count, 3);
-}
-
-TEST(Math, shouldMirrorIndiciesEven) {
-  uint8_t led_index;
-  uint8_t led_count;
-
-  led_index = 0;
-  led_count = 4;
-  MirrorIndex(&led_index, &led_count);
-  ASSERT_EQ(led_index, 0);
-  ASSERT_EQ(led_count, 2);
-
-  led_index = 1;
-  led_count = 4;
-  MirrorIndex(&led_index, &led_count);
-  ASSERT_EQ(led_index, 1);
-  ASSERT_EQ(led_count, 2);
-
-  led_index = 2;
-  led_count = 4;
-  MirrorIndex(&led_index, &led_count);
-  ASSERT_EQ(led_index, 1);
-  ASSERT_EQ(led_count, 2);
-
-  led_index = 3;
-  led_count = 4;
-  MirrorIndex(&led_index, &led_count);
-  ASSERT_EQ(led_index, 0);
-  ASSERT_EQ(led_count, 2);
+  for (auto it = cases.begin(); it != cases.end(); ++it) {
+    uint8_t led_index = (*it)[0];
+    uint8_t led_count = (*it)[1];
+    MirrorIndex(&led_index, &led_count);
+    std::string run_desc = "(index: " + std::to_string((*it)[0]) +
+                           ", count: " + std::to_string((*it)[1]) + ")";
+    ASSERT_EQ(led_index, (*it)[2])
+        << "Expected mirrored index is incorrect! " + run_desc;
+    ASSERT_EQ(led_count, (*it)[3])
+        << "Expected mirrored LED count is incorrect! " + run_desc;
+  }
 }
