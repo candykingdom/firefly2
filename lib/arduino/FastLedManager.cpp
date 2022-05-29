@@ -14,15 +14,21 @@ FastLedManager::FastLedManager(const DeviceDescription *device,
 
 void FastLedManager::SetGlobalColor(CRGB rgb) { FastLED.showColor(rgb); }
 
-void FastLedManager::PlayStartupAnimation() {
-  CRGB white = CRGB(128, 128, 128);
+void FastLedManager::PlayStartupAnimation(bool error) {
+  CRGB color;
+  if (error) {
+    color = CRGB(128, 0, 0);
+  } else {
+    color = CRGB(128, 128, 128);
+  }
+
   for (uint8_t i = 0; i < device->led_count * 2; ++i) {
     uint8_t index = i;
     if (i >= device->led_count) {
       index = device->led_count - (i - device->led_count);
     }
     FastLED.clear();
-    SetLed(index, &white);
+    SetLed(index, &color);
     FastLED.show();
     delay(500 / device->led_count);
   }

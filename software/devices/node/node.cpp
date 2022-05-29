@@ -7,18 +7,12 @@
 #include "../../../lib/device/DeviceDescription.hpp"
 #include "../../../lib/network/NetworkManager.hpp"
 #include "../../../lib/radio/RadioStateMachine.hpp"
+#include "../../../lib/storage/Storage.hpp"
 
 const int kLedPin = 0;
 
-const DeviceDescription *const bike = new DeviceDescription(30, {Bright});
-const DeviceDescription *const scarf = new DeviceDescription(46, {});
-const DeviceDescription *const lantern = new DeviceDescription(5, {Tiny});
-const DeviceDescription *const puck =
-    new DeviceDescription(12, {Tiny, Circular});
-const DeviceDescription *const two_side_puck =
-    new DeviceDescription(24, {Tiny, Circular, Mirrored});
-
-const DeviceDescription *const device = two_side_puck;
+const DeviceDescription *const fallback_device = new DeviceDescription(10, {});
+const DeviceDescription *device;
 
 RadioHeadRadio *radio;
 NetworkManager *nm;
@@ -35,11 +29,20 @@ void setup() {
   nm = new NetworkManager(radio);
   state_machine = new RadioStateMachine(nm);
 
+  bool valid_description = GetDeviceDescription(device);
+  if (!valid_description) {
+    // If the number of LEDs looks roughly correct, try to use the bit-banged
+    // description, otherwise, use the fallback.
+    if (device->led_count < 1 || device->led_count > 200) {
+      device = fallback_device;
+    }
+  }
+
   led_manager = new FastLedManager(device, state_machine);
   // NOTE: can check if we watchdog rebooted by checking REG_PM_RCAUSE
   // See https://github.com/gjt211/SAMD21-Reset-Cause
 
-  led_manager->PlayStartupAnimation();
+  led_manager->PlayStartupAnimation(!valid_description);
 
   // Set up the watchdog timer: this will reset the processor if it hasn't
   // 'fed' the watchdog in ~100ms.

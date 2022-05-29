@@ -5,7 +5,8 @@
 
 DeviceDescription::DeviceDescription(uint8_t led_count,
                                      std::list<DeviceFlag> flag_list)
-    : led_count(led_count),
+    : description_version(DEVICE_DESCRIPTION_VERSION),
+      led_count(led_count),
       flags(std::accumulate(flag_list.begin(), flag_list.end(), 0,
                             std::bit_or<int>())) {}
 
