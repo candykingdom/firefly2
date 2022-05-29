@@ -1,5 +1,7 @@
 #include "RainbowBumpsEffect.hpp"
 
+#include "Math.hpp"
+
 RainbowBumpsEffect::RainbowBumpsEffect(const DeviceDescription *device)
     : Effect(device) {}
 
@@ -8,9 +10,14 @@ CRGB RainbowBumpsEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
   const uint8_t paletteIndex = setEffectPacket->readPaletteIndexFromSetEffect();
   ColorPalette palette = palettes[paletteIndex];
 
+  uint8_t led_count = device->led_count;
+  if (device->FlagEnabled(Mirrored)) {
+    MirrorIndex(&ledIndex, &led_count);
+  }
+
   uint8_t offset;
   if (device->FlagEnabled(Circular)) {
-    offset = (uint16_t)ledIndex * 255 / device->led_count;
+    offset = (uint16_t)ledIndex * 255 / led_count;
   } else {
     offset = ledIndex * 8;
   }

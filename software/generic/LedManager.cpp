@@ -34,7 +34,7 @@ LedManager::LedManager(const DeviceDescription *device,
   AddEffect(new SwingingLights(device), 4);
 
   // Non-random effects
-  AddEffect(new PoliceEffect(device), 1);
+  AddEffect(new PoliceEffect(device), 0);
   AddEffect(new StopLightEffect(device), 0);
   // Strobes
   AddEffect(new SimpleBlinkEffect(device, 60), 0);
