@@ -1,6 +1,4 @@
-#include "../../../lib/effect/FireEffect.hpp"
-#include "../../../lib/effect/PoliceEffect.hpp"
-#include "../../../lib/effect/SimpleBlinkEffect.hpp"
+#include "../../../lib/effect/Effects.hpp"
 #include "../LedManager.hpp"
 #include "DeviceDescription.hpp"
 #include "FakeLedManager.hpp"

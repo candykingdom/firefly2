@@ -3,7 +3,7 @@
 #include <Debug.hpp>
 #include <cstdio>
 
-#include "../../lib/effect/ControlEffect.hpp"
+#include "../../lib/effect/Effects.hpp"
 #include "../../lib/effect/Effect.hpp"
 
 //#define DEBUG

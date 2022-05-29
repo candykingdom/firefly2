@@ -10,7 +10,7 @@
 class FakeLedManager : public LedManager {
  public:
   FakeLedManager(const DeviceDescription *device,
-                 RadioStateMachine *stateMachine);
+                 RadioStateMachine *state_machine);
 
   CRGB GetLed(uint8_t led_index);
 
@@ -25,7 +25,7 @@ class FakeLedManager : public LedManager {
   void WriteOutLeds() override;
 
  private:
-  // Note: this looks like a pointer, but is actually an array of size numLeds
+  // Note: this looks like a pointer, but is actually an array of size num_leds
   CRGB *leds;
 };
 #endif
