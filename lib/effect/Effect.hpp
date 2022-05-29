@@ -4,8 +4,8 @@
 #include <Types.hpp>
 #include <vector>
 
-#include "../../software/generic/DeviceDescription.hpp"
 #include "../../software/generic/ColorPalette.hpp"
+#include "../../software/generic/DeviceDescription.hpp"
 #include "../../software/generic/Radio.hpp"
 
 class Effect {
