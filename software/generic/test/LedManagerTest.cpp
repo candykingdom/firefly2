@@ -1,6 +1,6 @@
 #include "../../../lib/effect/Effects.hpp"
-#include "../../lib/led_manager/LedManager.hpp"
 #include "../../lib/device/DeviceDescription.hpp"
+#include "../../lib/led_manager/LedManager.hpp"
 #include "FakeLedManager.hpp"
 #include "FakeRadio.hpp"
 #include "gtest/gtest.h"
