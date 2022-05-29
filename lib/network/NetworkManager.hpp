@@ -1,9 +1,8 @@
 #ifndef __NETWORK_MANAGER_H__
 #define __NETWORK_MANAGER_H__
 
-#include "../types/Types.hpp"
-
 #include "../radio/Radio.hpp"
+#include "../types/Types.hpp"
 
 class NetworkManager {
  public:

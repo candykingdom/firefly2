@@ -1,7 +1,8 @@
 #include "Math.hpp"
 
-#include "../types/Types.hpp"
 #include <cstdio>
+
+#include "../types/Types.hpp"
 
 void GetPosOnCircle(uint8_t led_count, uint8_t led_index, uint8_t *angle,
                     uint8_t *radius) {

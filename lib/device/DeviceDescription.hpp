@@ -1,8 +1,9 @@
 #ifndef __DEVICE_DESCRIPTION_HPP__
 #define __DEVICE_DESCRIPTION_HPP__
 
-#include "../types/Types.hpp"
 #include <list>
+
+#include "../types/Types.hpp"
 
 enum DeviceFlag {
   Tiny = 1 << 0,

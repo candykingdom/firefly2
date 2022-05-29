@@ -2,7 +2,6 @@
 #define __RORSCHACH_EFFECT_HPP__
 
 #include "../types/Types.hpp"
-
 #include "Effect.hpp"
 
 class RorschachEffect : public Effect {

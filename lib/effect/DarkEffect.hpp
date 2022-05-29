@@ -2,7 +2,6 @@
 #define __DARK_EFFECT__HPP__
 
 #include "../types/Types.hpp"
-
 #include "Effect.hpp"
 
 /** Utility effect that turns off all LEDs. */

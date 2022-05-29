@@ -2,7 +2,6 @@
 #define __RAINBOW_BUMPS_EFFECT_HPP__
 
 #include "../types/Types.hpp"
-
 #include "Effect.hpp"
 
 class RainbowBumpsEffect : public Effect {

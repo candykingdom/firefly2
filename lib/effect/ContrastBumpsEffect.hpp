@@ -2,7 +2,6 @@
 #define __CONTRAST_BUMPS_EFFECT_HPP__
 
 #include "../types/Types.hpp"
-
 #include "Effect.hpp"
 
 // This has a background of one color, and smooth bumps of the opposite (e.g.

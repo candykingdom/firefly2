@@ -2,7 +2,6 @@
 #define __CONTROL_EFFECT_HPP__
 
 #include "../types/Types.hpp"
-
 #include "Effect.hpp"
 
 /** A generic effect that can be used by external controllers. */
