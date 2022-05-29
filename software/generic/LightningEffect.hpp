@@ -11,7 +11,7 @@ class LightningEffect : public Effect {
   LightningEffect(const DeviceDescription *device);
 
   /** Gets the value of a specific LED at a specific time. */
-  CRGB GetRGB(uint8_t ledIndex, uint32_t timeMs,
+  CRGB GetRGB(uint8_t led_index, uint32_t time_ms,
               RadioPacket *setEffectPacket) override;
 
  private:

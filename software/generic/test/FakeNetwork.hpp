@@ -36,7 +36,7 @@ class FakeNetwork {
   FakeLedManager *ledManagers[kNumNodes];
 
  private:
-  int packetLoss = 0;
+  int packet_loss = 0;
   FakeRadio radios[kNumNodes];
   RadioPacket *packet = nullptr;
   const DeviceDescription device = DeviceDescription(5, {});

@@ -27,9 +27,9 @@ struct RadioPacket {
   /**
    * This is used for "mesh" networking. Upon receiving a packet, each node
    * rebroadcasts it if it has not recently rebroadcasted a packet with that
-   * packetId.
+   * packet_id.
    */
-  uint16_t packetId;
+  uint16_t packet_id;
 
   /**
    * The type of packet. This determines how the data is processed.
@@ -55,7 +55,8 @@ struct RadioPacket {
 
   // For SET_EFFECT
   // delay: time for the master to not change the effect, in seconds
-  void writeSetEffect(uint8_t effectIndex, uint8_t delay, uint8_t paletteIndex);
+  void writeSetEffect(uint8_t effect_index, uint8_t delay,
+                      uint8_t palette_index);
   uint8_t readEffectIndexFromSetEffect();
   uint8_t readDelayFromSetEffect();
   uint8_t readPaletteIndexFromSetEffect();
@@ -75,7 +76,7 @@ inline bool operator==(const RadioPacket& lhs, const RadioPacket& rhs) {
     return false;
   }
 
-  return lhs.packetId == rhs.packetId && lhs.type == rhs.type &&
+  return lhs.packet_id == rhs.packet_id && lhs.type == rhs.type &&
          lhs.dataLength == rhs.dataLength &&
          !memcmp(lhs.data, rhs.data, lhs.dataLength);
 }

@@ -19,8 +19,8 @@
 #include "SwingingLights.hpp"
 
 LedManager::LedManager(const DeviceDescription *device,
-                       RadioStateMachine *radioState)
-    : device(device), radioState(radioState) {
+                       RadioStateMachine *radio_state)
+    : device(device), radio_state(radio_state) {
   AddEffect(new ColorCycleEffect(device), 4);
   AddEffect(new ContrastBumpsEffect(device), 2);
   AddEffect(new FireEffect(device), 1);
@@ -45,42 +45,43 @@ LedManager::LedManager(const DeviceDescription *device,
   AddEffect(new DisplayColorPaletteEffect(device), 0);
   AddEffect(new DarkEffect(device), 0);
 
-  controlEffect = new ControlEffect(device);
+  control_effect = new ControlEffect(device);
 
-  radioState->SetNumEffects(GetNumEffects());
-  radioState->SetNumPalettes(effects[0]->palettes.size());
+  radio_state->SetNumEffects(GetNumEffects());
+  radio_state->SetNumPalettes(effects[0]->palettes.size());
 }
 
 Effect *LedManager::GetCurrentEffect() {
-  RadioPacket *packet = radioState->GetSetEffect();
+  RadioPacket *packet = radio_state->GetSetEffect();
   if (packet->type == SET_CONTROL) {
-    return controlEffect;
+    return control_effect;
   }
-  uint8_t effectIndex =
-      radioState->GetSetEffect()->readEffectIndexFromSetEffect();
-  return GetEffect(effectIndex);
+  uint8_t effect_index =
+      radio_state->GetSetEffect()->readEffectIndexFromSetEffect();
+  return GetEffect(effect_index);
 }
 
 Effect *LedManager::GetEffect(uint8_t index) {
-  uint8_t totalNumEffects = effects.size() + nonRandomEffects.size();
+  uint8_t total_num_effects = effects.size() + non_random_effects.size();
 #ifdef ARDUINO
-  index = index % totalNumEffects;
+  index = index % total_num_effects;
 #else
-  assert(index < totalNumEffects);
+  assert(index < total_num_effects);
 #endif
 
   if (index < effects.size()) {
     return effects[index];
   } else {
-    return nonRandomEffects[index - effects.size()];
+    return non_random_effects[index - effects.size()];
   }
 }
 
 void LedManager::RunEffect() {
-  for (uint8_t ledIndex = 0; ledIndex < device->led_count; ledIndex++) {
-    CRGB rgb = GetCurrentEffect()->GetRGB(
-        ledIndex, radioState->GetNetworkMillis(), radioState->GetSetEffect());
-    SetLed(ledIndex, &rgb);
+  for (uint8_t led_index = 0; led_index < device->led_count; led_index++) {
+    CRGB rgb =
+        GetCurrentEffect()->GetRGB(led_index, radio_state->GetNetworkMillis(),
+                                   radio_state->GetSetEffect());
+    SetLed(led_index, &rgb);
   }
   WriteOutLeds();
 }
@@ -88,10 +89,12 @@ void LedManager::RunEffect() {
 uint8_t LedManager::GetNumEffects() { return effects.size(); }
 
 uint8_t LedManager::GetNumUniqueEffects() {
-  return uniqueEffectIndices.size() + nonRandomEffects.size();
+  return uniqueEffectIndices.size() + non_random_effects.size();
 }
 
-uint8_t LedManager::GetNumNonRandomEffects() { return nonRandomEffects.size(); }
+uint8_t LedManager::GetNumNonRandomEffects() {
+  return non_random_effects.size();
+}
 
 uint8_t LedManager::UniqueEffectNumberToIndex(uint8_t uniqueEffectNumber) {
   if (uniqueEffectNumber < uniqueEffectIndices.size()) {
@@ -105,7 +108,7 @@ void LedManager::AddEffect(Effect *effect, uint8_t proportion) {
   if (proportion > 0) {
     uniqueEffectIndices.push_back(effects.size());
   } else {
-    nonRandomEffects.push_back(effect);
+    non_random_effects.push_back(effect);
   }
   for (uint8_t i = 0; i < proportion; ++i) {
     effects.push_back(effect);
@@ -113,6 +116,6 @@ void LedManager::AddEffect(Effect *effect, uint8_t proportion) {
 #ifndef ARDUINO
   // The effect index is 8 bits, so make sure the total number of effects is in
   // range.
-  assert(effects.size() + nonRandomEffects.size() < 256);
+  assert(effects.size() + non_random_effects.size() < 256);
 #endif
 }

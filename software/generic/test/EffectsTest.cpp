@@ -11,13 +11,13 @@
 void runEffectsTest(DeviceDescription *device, uint32_t maxTime) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
-  RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
-  FakeLedManager *manager = new FakeLedManager(device, stateMachine);
+  RadioStateMachine *state_machine = new RadioStateMachine(networkManager);
+  FakeLedManager *manager = new FakeLedManager(device, state_machine);
   RadioPacket packet;
   std::vector<Effect *> ran_effects;
   for (uint8_t i = 0; i < manager->GetNumEffects(); i++) {
     packet.writeSetEffect(i, 0, 0);
-    stateMachine->SetEffect(&packet);
+    state_machine->SetEffect(&packet);
     Effect *effect = manager->GetCurrentEffect();
 
     // Effects are duplicated, make sure we haven't already tested this one.
@@ -45,7 +45,7 @@ TEST(Effects, hundredLeds) {
 
 TEST(Effects, allLedValues) {
   DeviceDescription device = DeviceDescription(1, {});
-  for (uint16_t numLeds = 0; numLeds < 256; numLeds++) {
+  for (uint16_t num_leds = 0; num_leds < 256; num_leds++) {
     runEffectsTest(&device, 5 * 1000);
   }
 }

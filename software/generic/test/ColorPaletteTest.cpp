@@ -21,20 +21,20 @@ TEST(ColorPalette, lerpValues) {
       {HUE_GREEN, 255, 255},
   };
 
-  CHSV oneFourth = p.GetGradient(MAX_UINT16 / 4);
-  EXPECT_EQ(oneFourth.h, HUE_GREEN / 2 - 1);
-  EXPECT_EQ(oneFourth.s, 255 / 2);
-  EXPECT_EQ(oneFourth.v, 255 / 2);
+  CHSV one_fourth = p.GetGradient(MAX_UINT16 / 4);
+  EXPECT_EQ(one_fourth.h, HUE_GREEN / 2 - 1);
+  EXPECT_EQ(one_fourth.s, 255 / 2);
+  EXPECT_EQ(one_fourth.v, 255 / 2);
 
-  CHSV oneHalf = p.GetGradient(MAX_UINT16 / 2);
-  EXPECT_EQ(oneHalf.h, HUE_GREEN);
-  EXPECT_EQ(oneHalf.s, 255);
-  EXPECT_EQ(oneHalf.v, 255);
+  CHSV one_half = p.GetGradient(MAX_UINT16 / 2);
+  EXPECT_EQ(one_half.h, HUE_GREEN);
+  EXPECT_EQ(one_half.s, 255);
+  EXPECT_EQ(one_half.v, 255);
 
-  CHSV threeFourths = p.GetGradient(MAX_UINT16 * 3 / 4);
-  EXPECT_EQ(threeFourths.h, HUE_GREEN / 2);
-  EXPECT_EQ(threeFourths.s, 256 / 2);
-  EXPECT_EQ(threeFourths.v, 256 / 2);
+  CHSV three_fourths = p.GetGradient(MAX_UINT16 * 3 / 4);
+  EXPECT_EQ(three_fourths.h, HUE_GREEN / 2);
+  EXPECT_EQ(three_fourths.s, 256 / 2);
+  EXPECT_EQ(three_fourths.v, 256 / 2);
 }
 
 TEST(ColorPalette, lerpOddNumberOfValues) {
@@ -44,14 +44,14 @@ TEST(ColorPalette, lerpOddNumberOfValues) {
       {HUE_BLUE, 255, 255},
   };
 
-  CHSV oneSixth = p.GetGradient(MAX_UINT16 / 6);
-  EXPECT_EQ(oneSixth.h, 47);  // Yellow
+  CHSV one_sixth = p.GetGradient(MAX_UINT16 / 6);
+  EXPECT_EQ(one_sixth.h, 47);  // Yellow
 
-  CHSV oneHalf = p.GetGradient(MAX_UINT16 / 2);
-  EXPECT_EQ(oneHalf.h, 127);  // Cyan
+  CHSV one_half = p.GetGradient(MAX_UINT16 / 2);
+  EXPECT_EQ(one_half.h, 127);  // Cyan
 
-  CHSV fiveSixths = p.GetGradient(MAX_UINT16 * 5 / 6);
-  EXPECT_EQ(fiveSixths.h, 207);  // Magenta
+  CHSV five_sixths = p.GetGradient(MAX_UINT16 * 5 / 6);
+  EXPECT_EQ(five_sixths.h, 207);  // Magenta
 }
 
 TEST(ColorPalette, wrapHueRedBlue) {
@@ -62,16 +62,16 @@ TEST(ColorPalette, wrapHueRedBlue) {
       {HUE_BLUE, 255, 255},
   };
 
-  CHSV oneFourthP1 = p1.GetGradient(MAX_UINT16 / 4);
-  EXPECT_EQ(oneFourthP1.h, violet) << "Red to blue.";
+  CHSV one_fourth_p1 = p1.GetGradient(MAX_UINT16 / 4);
+  EXPECT_EQ(one_fourth_p1.h, violet) << "Red to blue.";
 
   ColorPalette p2{
       {HUE_BLUE, 255, 255},
       {HUE_RED, 255, 255},
   };
 
-  CHSV oneFourthP2 = p2.GetGradient(MAX_UINT16 / 4);
-  EXPECT_EQ(oneFourthP2.h, violet - 1) << "Blue to red.";
+  CHSV one_fourth_p2 = p2.GetGradient(MAX_UINT16 / 4);
+  EXPECT_EQ(one_fourth_p2.h, violet - 1) << "Blue to red.";
 }
 
 TEST(ColorPalette, wrapHueOrangePurple) {
@@ -82,14 +82,14 @@ TEST(ColorPalette, wrapHueOrangePurple) {
       {HUE_PURPLE, 255, 255},
   };
 
-  CHSV oneFourth = p.GetGradient(MAX_UINT16 / 4, false);
-  EXPECT_EQ(oneFourth.h, 9) << "Orange to purple.";
+  CHSV one_fourth = p.GetGradient(MAX_UINT16 / 4, false);
+  EXPECT_EQ(one_fourth.h, 9) << "Orange to purple.";
 
-  CHSV oneHalf = p.GetGradient(MAX_UINT16 / 2, false);
-  EXPECT_EQ(oneHalf.h, 240) << "Orange to purple.";
+  CHSV one_half = p.GetGradient(MAX_UINT16 / 2, false);
+  EXPECT_EQ(one_half.h, 240) << "Orange to purple.";
 
-  CHSV threeFourths = p.GetGradient(MAX_UINT16 / 4 * 3, false);
-  EXPECT_EQ(threeFourths.h, 216) << "Orange to purple.";
+  CHSV three_fourths = p.GetGradient(MAX_UINT16 / 4 * 3, false);
+  EXPECT_EQ(three_fourths.h, 216) << "Orange to purple.";
 }
 
 TEST(ColorPalette, wrapHueNotValues) {

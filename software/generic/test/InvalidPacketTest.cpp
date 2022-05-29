@@ -34,7 +34,7 @@ const std::vector<std::vector<uint8_t>> kData = {{0},
 TEST_P(InvalidPacketTest, Runs) {
   runTicks(100);
   RadioPacket packet = {
-    packetId : std::get<0>(GetParam()),
+    packet_id : std::get<0>(GetParam()),
     type : (PacketType)std::get<1>(GetParam()),
     dataLength : std::get<2>(GetParam()),
     data : {5, 6}

@@ -24,7 +24,7 @@ struct RadioEventData {
   RadioPacket *packet;
 
   /** The timer that expired, or none if no timer expired. */
-  TimerType timerExpired;
+  TimerType timer_expired;
 };
 
 /**
@@ -62,9 +62,9 @@ class RadioStateMachine {
   /** Sets and broadcasts the current effect. */
   void SetEffect(RadioPacket *const setEffect);
 
-  // See comment on numPalettes and numEffects below.
-  void SetNumPalettes(uint8_t numPalettes);
-  void SetNumEffects(uint8_t numEffects);
+  // See comment on num_palettes and num_effects below.
+  void SetNumPalettes(uint8_t num_palettes);
+  void SetNumEffects(uint8_t num_effects);
 
   // Tuning constants. Public for testing.
   /**
@@ -105,7 +105,7 @@ class RadioStateMachine {
   TimerType TimerExpired();
 
   /** Performs master election based on the received heartbeat. */
-  void PerformMasterElection(RadioPacket *receivedPacket);
+  void PerformMasterElection(RadioPacket *received_packet);
 
   /** Sends a heartbeat packet. */
   void SendHeartbeat();
@@ -116,36 +116,30 @@ class RadioStateMachine {
   RadioState state;
 
   /** If not equal to state, the next state. */
-  RadioState nextState;
+  RadioState next_state;
 
   uint32_t timers[TIMER_TYPE_LAST + 1];
-
-  /** The milliseconds when the heartbeat timer expires and fires an event. */
-  uint32_t heartbeatTimerExpiresAt = 0;
-
-  /** The milliseconds when the effect timer expires and fires an event. */
-  uint32_t effectTimerExpiresAt = 0;
 
   /**
    * The last time we saw the effect change. This is so that we can preserve the
    * cadence of changing effects, even if the master changes.
    */
-  uint32_t effectChangeSeenAt = 0;
+  uint32_t effect_change_seen_at = 0;
 
   /**
    * The offset between the local millis() and the network time, such that
-   * millis + millisOffset = network time.
+   * millis + millis_offset = network time.
    */
-  int32_t millisOffset = 0;
+  int32_t millis_offset = 0;
 
   /** The current effect index. */
-  int8_t effectIndex = 0;
+  int8_t effect_index = 0;
 
   // The state machine needs to know how many effects and palettes there are, so
   // that it can set them in the SetEffect packets. These are set by LedManager
   // calling the corresponding setters.
-  uint8_t numPalettes = 1;
-  uint8_t numEffects = 1;
+  uint8_t num_palettes = 1;
+  uint8_t num_effects = 1;
 
   RadioPacket packet;
   RadioPacket setEffectPacket;

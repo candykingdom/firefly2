@@ -12,13 +12,13 @@ class RadioIntegrationTest : public ::testing::Test {
   }
 
   int getNumMasters() {
-    int numMasters = 0;
+    int num_masters = 0;
     for (int i = 0; i < FakeNetwork::kNumNodes; i++) {
       if (network.stateMachines[i]->GetCurrentState() == RadioState::Master) {
-        numMasters++;
+        num_masters++;
       }
     }
-    return numMasters;
+    return num_masters;
   }
 
   void runTicks(int ticks) {

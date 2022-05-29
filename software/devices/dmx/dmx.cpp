@@ -29,10 +29,10 @@ void setup() {
   Serial.println("Starting...");
 }
 
-unsigned long printAliveAt = 0;
+unsigned long print_alive_at = 0;
 
 RadioPacket packet;
-uint16_t packetId;
+uint16_t packet_id;
 
 uint32_t last_sent = 0;
 uint8_t last_r;
@@ -58,7 +58,7 @@ void loop() {
     last_sent = time;
 
     packet.writeControl(RESERVATION_SECONDS, CRGB(r, g, b));
-    packet.packetId = packetId++;
+    packet.packet_id = packet_id++;
     radio->sendPacket(packet);
 
     Serial.printf("Sent r: %u\tg: %u\tb: %u\n", r, g, b);

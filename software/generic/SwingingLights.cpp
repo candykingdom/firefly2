@@ -17,24 +17,24 @@ static void addInPlace(const CHSV &value, CRGB &result) {
   result.b = qadd8(result.b, color.b);
 }
 
-CRGB SwingingLights::GetRGB(uint8_t ledIndex, uint32_t timeMs,
+CRGB SwingingLights::GetRGB(uint8_t led_index, uint32_t time_ms,
                             RadioPacket *setEffectPacket) {
   // This effect looks bad on small devices. Instead of creating another
   // effect we can just make the LEDs flash when a light pulse hits the end of a
   // "long" strip which looks pretty cool.
-  uint8_t numLeds = device->led_count;
+  uint8_t num_leds = device->led_count;
   if (device->FlagEnabled(Tiny) && !device->FlagEnabled(Circular)) {
-    ledIndex = 0;
-    numLeds = 50;
+    led_index = 0;
+    num_leds = 50;
   } else if (device->FlagEnabled(Mirrored)) {
-    MirrorIndex(&ledIndex, &numLeds);
+    MirrorIndex(&led_index, &num_leds);
   }
 
   // Map [0, period) to [0, MAX_UINT16)
-  const fract16 angle = (timeMs % period) * MAX_UINT16 / period;
+  const fract16 angle = (time_ms % period) * MAX_UINT16 / period;
 
-  // Map [0, numLeds) to [0, MAX_UINT16)
-  const fract16 led_pos = (uint32_t)ledIndex * MAX_UINT16 / numLeds;
+  // Map [0, num_leds) to [0, MAX_UINT16)
+  const fract16 led_pos = (uint32_t)led_index * MAX_UINT16 / num_leds;
 
   ColorPalette palette =
       palettes[setEffectPacket->readPaletteIndexFromSetEffect()];

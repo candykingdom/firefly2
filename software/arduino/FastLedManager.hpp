@@ -10,19 +10,19 @@
 class FastLedManager : public LedManager {
  public:
   FastLedManager(const DeviceDescription *device,
-                 RadioStateMachine *radioState);
+                 RadioStateMachine *radio_state);
 
   void SetGlobalColor(CRGB rgb);
 
   void PlayStartupAnimation();
 
  protected:
-  void SetLed(uint8_t ledIndex, CRGB *const rgb) override;
+  void SetLed(uint8_t led_index, CRGB *const rgb) override;
 
   void WriteOutLeds() override;
 
  private:
-  // Note: this looks like a pointer, but is actually an array of size numLeds
+  // Note: this looks like a pointer, but is actually an array of size num_leds
   CRGB *leds;
 };
 #endif

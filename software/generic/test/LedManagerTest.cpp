@@ -11,8 +11,8 @@ TEST(LedManager, hasNonRandomEffects) {
   DeviceDescription device = DeviceDescription(1, {});
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
-  RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
-  FakeLedManager *manager = new FakeLedManager(&device, stateMachine);
+  RadioStateMachine *state_machine = new RadioStateMachine(networkManager);
+  FakeLedManager *manager = new FakeLedManager(&device, state_machine);
   manager->ClearEffects();
   manager->PublicAddEffect(new SimpleBlinkEffect(&device, 10), 4);
   manager->PublicAddEffect(new PoliceEffect(&device), 0);
@@ -45,6 +45,6 @@ TEST(LedManager, effectIndexIsInRange) {
   DeviceDescription device = DeviceDescription(1, {});
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
-  RadioStateMachine *stateMachine = new RadioStateMachine(networkManager);
-  new FakeLedManager(&device, stateMachine);
+  RadioStateMachine *state_machine = new RadioStateMachine(networkManager);
+  new FakeLedManager(&device, state_machine);
 }

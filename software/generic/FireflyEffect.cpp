@@ -9,40 +9,40 @@ FireflyEffect::FireflyEffect(const DeviceDescription *device) : Effect(device) {
   offset = random(0, kBlinkPeriod / 2);
 }
 
-CRGB FireflyEffect::GetRGB(uint8_t ledIndex, uint32_t timeMs,
+CRGB FireflyEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
                            RadioPacket *setEffectPacket) {
-  const int8_t phase = (timeMs / kPeriodMs) % 3;
+  const int8_t phase = (time_ms / kPeriodMs) % 3;
 
-  uint32_t adjustedTime = 0;
-  const uint32_t periodStart = (timeMs / kPeriodMs) * kPeriodMs;
-  const uint32_t elapsedInPeriod = timeMs - periodStart;
-  const uint32_t remainingInPeriod = kPeriodMs - elapsedInPeriod;
+  uint32_t adjusted_time = 0;
+  const uint32_t period_start = (time_ms / kPeriodMs) * kPeriodMs;
+  const uint32_t elapsed_in_period = time_ms - period_start;
+  const uint32_t remaining_in_period = kPeriodMs - elapsed_in_period;
   if (phase == 0) {
     // Out of sync -> in sync
     if (offset < kBlinkPeriod / 4) {
-      adjustedTime = timeMs - (offset * remainingInPeriod) / kPeriodMs;
+      adjusted_time = time_ms - (offset * remaining_in_period) / kPeriodMs;
     } else {
-      adjustedTime = timeMs + (offset * remainingInPeriod) / kPeriodMs;
+      adjusted_time = time_ms + (offset * remaining_in_period) / kPeriodMs;
     }
   } else if (phase == 1) {
     // In sync
-    adjustedTime = timeMs;
+    adjusted_time = time_ms;
   } else {
     // In sync -> out of sync
     if (offset < kBlinkPeriod / 4) {
-      adjustedTime = timeMs - (offset * elapsedInPeriod) / kPeriodMs;
+      adjusted_time = time_ms - (offset * elapsed_in_period) / kPeriodMs;
     } else {
-      adjustedTime = timeMs + (offset * elapsedInPeriod) / kPeriodMs;
+      adjusted_time = time_ms + (offset * elapsed_in_period) / kPeriodMs;
     }
   }
 
-  int16_t curve = sin16(adjustedTime * kSinMultiplier);
+  int16_t curve = sin16(adjusted_time * kSinMultiplier);
   if (curve < 0) {
     curve = 0;
   }
   ColorPalette palette =
       palettes[setEffectPacket->readPaletteIndexFromSetEffect()];
-  CHSV color = palette.GetGradient((timeMs / kBlinkPeriod) << 8);
+  CHSV color = palette.GetGradient((time_ms / kBlinkPeriod) << 8);
   color.v = curve / 256;
   return color;
 }

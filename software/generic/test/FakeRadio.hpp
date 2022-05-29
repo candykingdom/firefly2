@@ -17,8 +17,8 @@ class FakeRadio : public Radio {
   RadioPacket *getSentPacket();
 
  private:
-  RadioPacket *receivedPacket;
-  RadioPacket *sentPacket;
+  RadioPacket *received_packet;
+  RadioPacket *sent_packet;
 };
 
 #endif
