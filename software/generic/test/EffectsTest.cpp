@@ -1,7 +1,7 @@
+#include <LedManager.hpp>
 #include <algorithm>
 #include <vector>
 
-#include "../LedManager.hpp"
 #include "DeviceDescription.hpp"
 #include "FakeLedManager.hpp"
 #include "FakeRadio.hpp"

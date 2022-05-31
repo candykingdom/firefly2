@@ -1,13 +1,13 @@
 #ifndef __LED_MANAGER_HPP__
 #define __LED_MANAGER_HPP__
 
+#include <Effect.hpp>
+#include <Effects.hpp>
+#include <Radio.hpp>
 #include <Types.hpp>
 #include <vector>
 
-#include "../../lib/effect/Effect.hpp"
-#include "../../lib/effect/Effects.hpp"
-#include "Radio.hpp"
-#include "RadioStateMachine.hpp"
+#include "../../software/generic/RadioStateMachine.hpp"
 
 class LedManager {
  public:

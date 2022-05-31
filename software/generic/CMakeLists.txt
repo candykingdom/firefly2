@@ -33,18 +33,25 @@ file(GLOB LIBRARY_SOURCES
   "*.cpp"
   "FakeFastLED/*.cpp"
   "../../lib/color/*.cpp"
-  "../../lib/effect/*.cpp"
-  "../../lib/types/*.cpp"
   "../../lib/debug/*.cpp"
+  "../../lib/effect/*.cpp"
+  "../../lib/led_manager/*.cpp"
+  "../../lib/math/*.cpp"
+  "../../lib/radio/*.cpp"
+  "../../lib/types/*.cpp"
 )
 add_library(generic ${LIBRARY_SOURCES})
 target_include_directories(generic PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FakeFastLED>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/color>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/effect>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/types>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/debug>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/effect>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/led_manager>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/math>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/network>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/radio>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/types>
   $<INSTALL_INTERFACE:.>
   $<INSTALL_INTERFACE:./FakeFastLED>
   $<INSTALL_INTERFACE:../../lib/types>

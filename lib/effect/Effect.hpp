@@ -2,11 +2,11 @@
 #define __EFFECT_HPP__
 
 #include <ColorPalette.hpp>
+#include <Radio.hpp>
 #include <Types.hpp>
 #include <vector>
 
 #include "../../software/generic/DeviceDescription.hpp"
-#include "../../software/generic/Radio.hpp"
 
 class Effect {
  public:
