@@ -3,12 +3,7 @@
 #include <functional>
 #include <numeric>
 
-DeviceDescription::DeviceDescription(uint8_t led_count,
-                                     std::list<DeviceFlag> flag_list)
-    : led_count(led_count),
-      flags(std::accumulate(flag_list.begin(), flag_list.end(), 0,
-                            std::bit_or<int>())) {}
-
-bool DeviceDescription::FlagEnabled(DeviceFlag flag) const {
-  return (flags & (int)flag) == (int)flag;
-}
+DeviceDescription::DeviceDescription(
+    uint32_t milliamps_supported,
+    const std::list<const StripDescription*> strips)
+    : milliamps_supported(milliamps_supported), strips(strips) {}

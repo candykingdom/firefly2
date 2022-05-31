@@ -5,8 +5,7 @@
 
 static const uint16_t SPREAD = MAX_UINT16 * 0.2;
 
-SwingingLights::SwingingLights(const DeviceDescription *device)
-    : Effect(device) {}
+SwingingLights::SwingingLights(const DeviceDescription *device) : Effect() {}
 
 // Add a CHSV value to a CRGB in place.
 static void addInPlace(const CHSV &value, CRGB &result) {
@@ -18,15 +17,16 @@ static void addInPlace(const CHSV &value, CRGB &result) {
 }
 
 CRGB SwingingLights::GetRGB(uint8_t led_index, uint32_t time_ms,
+                            const StripDescription *strip,
                             RadioPacket *setEffectPacket) {
   // This effect looks bad on small devices. Instead of creating another
   // effect we can just make the LEDs flash when a light pulse hits the end of a
   // "long" strip which looks pretty cool.
-  uint8_t num_leds = device->led_count;
-  if (device->FlagEnabled(Tiny) && !device->FlagEnabled(Circular)) {
+  uint8_t num_leds = strip->led_count;
+  if (strip->FlagEnabled(Tiny) && !strip->FlagEnabled(Circular)) {
     led_index = 0;
     num_leds = 50;
-  } else if (device->FlagEnabled(Mirrored)) {
+  } else if (strip->FlagEnabled(Mirrored)) {
     MirrorIndex(&led_index, &num_leds);
   }
 

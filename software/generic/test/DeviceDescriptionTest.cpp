@@ -1,14 +1,12 @@
-#include <LedManager.hpp>
-
-#include "../DeviceDescription.hpp"
+#include "../StripDescription.hpp"
 #include "gtest/gtest.h"
 
-TEST(DeviceDescription, usesFlagsCorrectly) {
-  DeviceDescription dd = DeviceDescription(10, {Bright, Tiny});
+TEST(StripDescription, usesFlagsCorrectly) {
+  StripDescription sd = StripDescription(10, {Bright, Tiny});
 
-  EXPECT_EQ(dd.led_count, 10);
+  EXPECT_EQ(sd.led_count, 10);
 
-  EXPECT_TRUE(dd.FlagEnabled(Bright));
-  EXPECT_TRUE(dd.FlagEnabled(Tiny));
-  EXPECT_FALSE(dd.FlagEnabled(Circular));
+  EXPECT_TRUE(sd.FlagEnabled(Bright));
+  EXPECT_TRUE(sd.FlagEnabled(Tiny));
+  EXPECT_FALSE(sd.FlagEnabled(Circular));
 }

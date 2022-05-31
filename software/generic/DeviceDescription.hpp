@@ -4,22 +4,21 @@
 #include <Types.hpp>
 #include <list>
 
-enum DeviceFlag {
-  Tiny = 1 << 0,
-  Bright = 1 << 1,
-  Circular = 1 << 2,
-  Mirrored = 1 << 3,
-};
+#include "StripDescription.hpp"
 
 class DeviceDescription {
  public:
-  const uint8_t led_count;
+  /**
+   * @brief How many milliamps this device can support at 5v.
+   *
+   * This is used as a safety mechanism to prevent the LEDs from pulling too
+   * much power.
+   */
+  const uint32_t milliamps_supported;
 
-  DeviceDescription(uint8_t led_count, std::list<DeviceFlag> flags);
+  const std::list<const StripDescription*> strips;
 
-  bool FlagEnabled(DeviceFlag flag) const;
-
- private:
-  const uint8_t flags;
+  DeviceDescription(const uint32_t milliamps_supported,
+                    const std::list<const StripDescription*> strips);
 };
 #endif  // __DEVICE_DESCRIPTION_HPP__

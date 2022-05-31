@@ -2,10 +2,10 @@
 
 #include <ColorPalette.hpp>
 
-ColorCycleEffect::ColorCycleEffect(const DeviceDescription *device)
-    : Effect(device){};
+ColorCycleEffect::ColorCycleEffect() : Effect(){};
 
 CRGB ColorCycleEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
+                              const StripDescription *strip,
                               RadioPacket *setEffectPacket) {
   const uint8_t palette_index =
       setEffectPacket->readPaletteIndexFromSetEffect();
@@ -15,7 +15,7 @@ CRGB ColorCycleEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
   if (palette.Size() < 2) {
     // Solid color palette
     CHSV color = palette.GetColor(0);
-    if (device->FlagEnabled(Bright)) {
+    if (strip->FlagEnabled(Bright)) {
       color.v = ((uint16_t)cubicwave8(time_ms / 16));
     } else {
       color.v = ((uint16_t)cubicwave8(time_ms / 16)) * 2 / 3;
@@ -23,7 +23,7 @@ CRGB ColorCycleEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
     return color;
   } else {
     CHSV color = palette.GetGradient((time_ms / 16) << 8);
-    if (!device->FlagEnabled(Bright)) {
+    if (!strip->FlagEnabled(Bright)) {
       color.v /= 2;
     }
     return color;

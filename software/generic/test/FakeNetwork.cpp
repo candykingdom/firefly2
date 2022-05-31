@@ -19,6 +19,12 @@ FakeNetwork::FakeNetwork() {
   }
 }
 
+FakeNetwork::~FakeNetwork() {
+  for (auto&& strip : device.strips) {
+    delete strip;
+  }
+}
+
 void FakeNetwork::Tick() {
   // Note: this means that a sender will receive its own packet. This is OK,
   // since senders should be ignoring their own packets anyway, because of the

@@ -25,6 +25,8 @@ class FakeLedManager : public LedManager {
   void WriteOutLeds() override;
 
  private:
+  uint8_t led_count;
+
   // Note: this looks like a pointer, but is actually an array of size num_leds
   CRGB *leds;
 };

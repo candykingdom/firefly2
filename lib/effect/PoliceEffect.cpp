@@ -2,17 +2,18 @@
 
 #include <Math.hpp>
 
-PoliceEffect::PoliceEffect(const DeviceDescription *device) : Effect(device) {}
+PoliceEffect::PoliceEffect() : Effect() {}
 
 CRGB PoliceEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
+                          const StripDescription *strip,
                           RadioPacket *setEffectPacket) {
   const bool red_cycle = (time_ms / red_speed & 0b100000) == 0;
   const bool blue_cycle = (time_ms / blue_speed & 0b100000) == 0;
   const bool red_flash = (time_ms / red_speed & 0b100) == 0;
   const bool blue_flash = (time_ms / blue_speed & 0b100) == 0;
 
-  if (device->FlagEnabled(Tiny) && device->FlagEnabled(Mirrored)) {
-    if (led_index >= device->led_count / 2) {
+  if (strip->FlagEnabled(Tiny) && strip->FlagEnabled(Mirrored)) {
+    if (led_index >= strip->led_count / 2) {
       if (red_cycle && red_flash) {
         return red;
       } else {
@@ -27,12 +28,12 @@ CRGB PoliceEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
     }
   }
 
-  uint8_t led_count = device->led_count;
-  if (device->FlagEnabled(Mirrored)) {
+  uint8_t led_count = strip->led_count;
+  if (strip->FlagEnabled(Mirrored)) {
     MirrorIndex(&led_index, &led_count);
   }
 
-  if (device->FlagEnabled(Tiny)) {
+  if (strip->FlagEnabled(Tiny)) {
     if (red_flash) {
       if (red_cycle) {
         return red;

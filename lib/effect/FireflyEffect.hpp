@@ -8,9 +8,10 @@
 /** Lights blink - they smoothly change between in- and out-of-sync. */
 class FireflyEffect : public Effect {
  public:
-  FireflyEffect(const DeviceDescription *device);
+  FireflyEffect();
 
   CRGB GetRGB(uint8_t led_index, uint32_t time_ms,
+              const StripDescription *strip,
               RadioPacket *setEffectPacket) override;
 
  private:

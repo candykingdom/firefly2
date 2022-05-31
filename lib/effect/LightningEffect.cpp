@@ -2,10 +2,10 @@
 
 #include <Perlin.hpp>
 
-LightningEffect::LightningEffect(const DeviceDescription *device)
-    : Effect(device) {}
+LightningEffect::LightningEffect() : Effect() {}
 
 CRGB LightningEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
+                             const StripDescription *strip,
                              RadioPacket *setEffectPacket) {
   const uint8_t palette_index =
       setEffectPacket->readPaletteIndexFromSetEffect();

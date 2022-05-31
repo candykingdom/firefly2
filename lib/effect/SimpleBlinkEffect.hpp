@@ -8,10 +8,11 @@
 /** Cycles all of the LEDs through the color palette at once. */
 class SimpleBlinkEffect : public Effect {
  public:
-  SimpleBlinkEffect(const DeviceDescription *device, uint16_t speed);
+  SimpleBlinkEffect(uint16_t speed);
 
   /** Gets the value of a specific LED at a specific time. */
   CRGB GetRGB(uint8_t led_index, uint32_t time_ms,
+              const StripDescription *strip,
               RadioPacket *setEffectPacket) override;
 
  private:
