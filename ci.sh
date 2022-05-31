@@ -6,4 +6,4 @@ cd software/generic
 mkdir build || true
 cd build
 cmake ..
-make && ./generictest
+make && ./generictest --gtest_filter=Perlin*
