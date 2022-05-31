@@ -17,8 +17,10 @@ const DeviceDescription *const puck =
     new DeviceDescription(12, {Tiny, Circular});
 const DeviceDescription *const two_side_puck =
     new DeviceDescription(24, {Tiny, Circular, Mirrored});
+const DeviceDescription *const rainbow_cloak =
+    new DeviceDescription((11 + 94 + 11), {});
 
-const DeviceDescription *const device = two_side_puck;
+const DeviceDescription *const device = scarf;
 
 RadioHeadRadio *radio;
 NetworkManager *nm;
