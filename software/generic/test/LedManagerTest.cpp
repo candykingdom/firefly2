@@ -1,5 +1,6 @@
 #include <LedManager.hpp>
 
+#include "../../../lib/effect/Effect.hpp"
 #include "../../../lib/effect/Effects.hpp"
 #include "DeviceDescription.hpp"
 #include "FakeLedManager.hpp"
@@ -50,4 +51,38 @@ TEST(LedManager, effectIndexIsInRange) {
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *state_machine = new RadioStateMachine(networkManager);
   new FakeLedManager(&device, state_machine);
+}
+
+class TestEffect : public Effect {
+ public:
+  std::list<uint8_t> called_indicies;
+
+  TestEffect() : called_indicies() {}
+
+  CRGB GetRGB(uint8_t led_index, uint32_t time_ms,
+              const StripDescription *strip, RadioPacket *setEffectPacket) {
+    called_indicies.push_back(led_index);
+  }
+};
+
+TEST(LedManager, callStripInReverse) {
+  StripDescription strip = StripDescription(5, {Reversed});
+  DeviceDescription device = DeviceDescription(2000, {&strip});
+  FakeRadio radio;
+  NetworkManager *networkManager = new NetworkManager(&radio);
+  RadioStateMachine *state_machine = new RadioStateMachine(networkManager);
+  FakeLedManager *manager = new FakeLedManager(&device, state_machine);
+  manager->ClearEffects();
+  TestEffect test_effect = TestEffect();
+  manager->PublicAddEffect(&test_effect, 1);
+
+  manager->RunEffect();
+
+  ASSERT_EQ(test_effect.called_indicies.size(), 5);
+
+  uint8_t expected_index = 4;
+  for (auto actual : test_effect.called_indicies) {
+    ASSERT_EQ(actual, expected_index--)
+        << "Reverse strip should be called in reverse order!";
+  }
 }
