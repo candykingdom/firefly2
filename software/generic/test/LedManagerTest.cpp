@@ -72,9 +72,14 @@ TEST(LedManager, callStripInReverse) {
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *state_machine = new RadioStateMachine(networkManager);
   FakeLedManager *manager = new FakeLedManager(&device, state_machine);
+
   manager->ClearEffects();
   TestEffect test_effect = TestEffect();
   manager->PublicAddEffect(&test_effect, 1);
+
+  RadioPacket *setEffect = new RadioPacket();
+  setEffect->writeSetEffect(0, 0, 0);
+  state_machine->SetEffect(setEffect);
 
   manager->RunEffect();
 
