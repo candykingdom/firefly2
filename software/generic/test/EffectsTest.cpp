@@ -34,18 +34,28 @@ void runEffectsTest(DeviceDescription *device, uint32_t maxTime) {
 }
 
 TEST(Effects, oneLed) {
-  DeviceDescription device = DeviceDescription(1, {});
+  DeviceDescription device =
+      DeviceDescription(2000, {new StripDescription(1, {})});
   runEffectsTest(&device, 60 * 1000);
 }
 
 TEST(Effects, hundredLeds) {
-  DeviceDescription device = DeviceDescription(100, {});
+  DeviceDescription device =
+      DeviceDescription(2000, {new StripDescription(100, {})});
   runEffectsTest(&device, 60 * 1000);
 }
 
 TEST(Effects, allLedValues) {
-  DeviceDescription device = DeviceDescription(1, {});
+  DeviceDescription device =
+      DeviceDescription(2000, {new StripDescription(1, {})});
   for (uint16_t num_leds = 0; num_leds < 256; num_leds++) {
     runEffectsTest(&device, 5 * 1000);
   }
+}
+
+TEST(Effects, multipleStrips) {
+  DeviceDescription device = DeviceDescription(
+      2000, {new StripDescription(20, {}), new StripDescription(10, {Tiny}),
+             new StripDescription(12, {Circular})});
+  runEffectsTest(&device, 60 * 1000);
 }

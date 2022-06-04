@@ -7,31 +7,31 @@
 LedManager::LedManager(const DeviceDescription *device,
                        RadioStateMachine *radio_state)
     : device(device), radio_state(radio_state) {
-  AddEffect(new ColorCycleEffect(device), 4);
-  AddEffect(new ContrastBumpsEffect(device), 2);
-  AddEffect(new FireEffect(device), 1);
-  AddEffect(new FireflyEffect(device), 2);
-  AddEffect(new LightningEffect(device), 1);
-  AddEffect(new RainbowBumpsEffect(device), 4);
-  AddEffect(new RainbowEffect(device), 4);
-  AddEffect(new RorschachEffect(device), 2);
-  AddEffect(new SimpleBlinkEffect(device, 300), 2);
-  AddEffect(new SparkEffect(device), 4);
+  AddEffect(new ColorCycleEffect(), 4);
+  AddEffect(new ContrastBumpsEffect(), 2);
+  AddEffect(new FireEffect(), 1);
+  AddEffect(new FireflyEffect(), 2);
+  AddEffect(new LightningEffect(), 1);
+  AddEffect(new RainbowBumpsEffect(), 4);
+  AddEffect(new RainbowEffect(), 4);
+  AddEffect(new RorschachEffect(), 2);
+  AddEffect(new SimpleBlinkEffect(300), 2);
+  AddEffect(new SparkEffect(), 4);
   AddEffect(new SwingingLights(device), 4);
 
   // Non-random effects
-  AddEffect(new PoliceEffect(device), 0);
-  AddEffect(new StopLightEffect(device), 0);
+  AddEffect(new PoliceEffect(), 0);
+  AddEffect(new StopLightEffect(), 0);
   // Strobes
-  AddEffect(new SimpleBlinkEffect(device, 60), 0);
-  AddEffect(new SimpleBlinkEffect(device, 30), 0);
-  AddEffect(new SimpleBlinkEffect(device, 12), 0);
+  AddEffect(new SimpleBlinkEffect(60), 0);
+  AddEffect(new SimpleBlinkEffect(30), 0);
+  AddEffect(new SimpleBlinkEffect(12), 0);
 
   // These two must be last
-  AddEffect(new DisplayColorPaletteEffect(device), 0);
-  AddEffect(new DarkEffect(device), 0);
+  AddEffect(new DisplayColorPaletteEffect(), 0);
+  AddEffect(new DarkEffect(), 0);
 
-  control_effect = new ControlEffect(device);
+  control_effect = new ControlEffect();
 
   radio_state->SetNumEffects(GetNumEffects());
   radio_state->SetNumPalettes(effects[0]->palettes.size());
@@ -63,11 +63,24 @@ Effect *LedManager::GetEffect(uint8_t index) {
 }
 
 void LedManager::RunEffect() {
-  for (uint8_t led_index = 0; led_index < device->led_count; led_index++) {
-    CRGB rgb =
-        GetCurrentEffect()->GetRGB(led_index, radio_state->GetNetworkMillis(),
-                                   radio_state->GetSetEffect());
-    SetLed(led_index, &rgb);
+  uint8_t global_index = 0;
+  for (auto it = device->strips.begin(); it != device->strips.end(); ++it) {
+    const StripDescription *strip = *it;
+    for (uint8_t strip_index = 0; strip_index < strip->led_count;
+         ++strip_index) {
+      uint8_t virtual_index;
+      if (strip->FlagEnabled(Reversed)) {
+        virtual_index = strip->led_count - strip_index - 1;
+      } else {
+        virtual_index = strip_index;
+      }
+
+      CRGB rgb = GetCurrentEffect()->GetRGB(virtual_index,
+                                            radio_state->GetNetworkMillis(),
+                                            strip, radio_state->GetSetEffect());
+      SetLed(global_index, &rgb);
+      global_index += 1;
+    }
   }
   WriteOutLeds();
 }

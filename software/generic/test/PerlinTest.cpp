@@ -52,7 +52,7 @@ TEST(Perlin, shouldProduceContiguousNoiseRadially) {
     uint8_t magnitude = random();
     // The distance between points radially can get very large, make sure the
     // magnitude isn't too high!
-    magnitude /= 2;
+    magnitude /= 3;
 
     uint16_t first = perlinNoisePolar(x, y, i, magnitude);
     uint16_t second = perlinNoisePolar(x, y, i + 1, magnitude);

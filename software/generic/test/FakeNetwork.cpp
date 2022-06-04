@@ -19,6 +19,12 @@ FakeNetwork::FakeNetwork() {
   }
 }
 
+FakeNetwork::~FakeNetwork() {
+  for (auto&& strip : device.strips) {
+    delete strip;
+  }
+}
+
 void FakeNetwork::Tick() {
   // Note: this means that a sender will receive its own packet. This is OK,
   // since senders should be ignoring their own packets anyway, because of the
@@ -62,7 +68,7 @@ void FakeNetwork::reinitNode(int index) {
 
 void FakeNetwork::setPacketLoss(int n) { packet_loss = n; }
 
-void FakeNetwork::TransmitPacket(RadioPacket &packet) {
+void FakeNetwork::TransmitPacket(RadioPacket& packet) {
   for (int i = 0; i < kNumNodes; i++) {
     radios[i].setReceivedPacket(&packet);
   }

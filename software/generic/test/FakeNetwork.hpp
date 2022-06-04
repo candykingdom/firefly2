@@ -10,6 +10,7 @@
 class FakeNetwork {
  public:
   FakeNetwork();
+  ~FakeNetwork();
 
   /**
    * Runs one cycle of packet distribution. Runs the Tick method on each
@@ -40,7 +41,8 @@ class FakeNetwork {
   int packet_loss = 0;
   FakeRadio radios[kNumNodes];
   RadioPacket *packet = nullptr;
-  const DeviceDescription device = DeviceDescription(5, {});
+  DeviceDescription device =
+      DeviceDescription(2000, {new StripDescription(5, {})});
 };
 
 #endif

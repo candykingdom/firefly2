@@ -1,15 +1,12 @@
 #include "RainbowEffect.hpp"
 
-RainbowEffect::RainbowEffect(const DeviceDescription *device) : Effect(device) {
-  if (device->FlagEnabled(Bright)) {
-    v = 255;
-  } else {
-    v = 128;
-  }
-}
+RainbowEffect::RainbowEffect() : Effect() {}
 
 CRGB RainbowEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
+                           const StripDescription *strip,
                            RadioPacket *setEffectPacket) {
+  uint8_t v = strip->FlagEnabled(Bright) ? 255 : 128;
+
   const uint8_t palette_index =
       setEffectPacket->readPaletteIndexFromSetEffect();
   ColorPalette palette = palettes[palette_index];
@@ -17,11 +14,11 @@ CRGB RainbowEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
   // brightness rather than the hue.
   if (palette.Size() < 2) {
     // Solid color palette
-    if (device->FlagEnabled(Tiny)) {
+    if (strip->FlagEnabled(Tiny)) {
       return palette.GetGradient((cubicwave8(time_ms / 16)) << 8);
     } else {
       CHSV color = palette.GetColor(0);
-      if (device->FlagEnabled(Bright)) {
+      if (strip->FlagEnabled(Bright)) {
         color.v = cubicwave8(time_ms / 16 + led_index * 8);
       } else {
         color.v = (cubicwave8(time_ms / 16 + led_index * 8) * (uint16_t)2) / 3;
@@ -30,7 +27,7 @@ CRGB RainbowEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
     }
   } else {
     // Varying color palette
-    if (device->FlagEnabled(Tiny)) {
+    if (strip->FlagEnabled(Tiny)) {
       CHSV color = palette.GetGradient((time_ms / 16) << 8);
       color.v = v;
       return color;

@@ -8,10 +8,11 @@
 // Makes a bright light trace back and forth, with a tail.
 class SparkEffect : public Effect {
  public:
-  SparkEffect(const DeviceDescription *device);
+  SparkEffect();
 
   /** Gets the value of a specific LED at a specific time. */
   CRGB GetRGB(uint8_t led_index, uint32_t time_ms,
+              const StripDescription *strip,
               RadioPacket *setEffectPacket) override;
 
  private:

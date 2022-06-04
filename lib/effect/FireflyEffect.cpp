@@ -2,7 +2,7 @@
 
 #include <Debug.hpp>
 
-FireflyEffect::FireflyEffect(const DeviceDescription *device) : Effect(device) {
+FireflyEffect::FireflyEffect() : Effect() {
 #ifdef ARDUINO
   randomSeed((analogRead(A0) << 10) | analogRead(A0));
 #endif
@@ -10,6 +10,7 @@ FireflyEffect::FireflyEffect(const DeviceDescription *device) : Effect(device) {
 }
 
 CRGB FireflyEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
+                           const StripDescription *strip,
                            RadioPacket *setEffectPacket) {
   const int8_t phase = (time_ms / kPeriodMs) % 3;
 

@@ -3,7 +3,7 @@
 #include <Math.hpp>
 #include <Perlin.hpp>
 
-FireEffect::FireEffect(const DeviceDescription *device) : Effect(device) {
+FireEffect::FireEffect() : Effect() {
 #ifdef ARDUINO
   random16_set_seed((analogRead(A0) << 10) | analogRead(A0));
 #endif
@@ -11,10 +11,11 @@ FireEffect::FireEffect(const DeviceDescription *device) : Effect(device) {
 }
 
 CRGB FireEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
+                        const StripDescription *strip,
                         RadioPacket *setEffectPacket) {
   uint32_t side_differentiator = 0;
-  uint8_t led_count = device->led_count;
-  if (device->FlagEnabled(Mirrored)) {
+  uint8_t led_count = strip->led_count;
+  if (strip->FlagEnabled(Mirrored)) {
     if (led_index > led_count / 2) {
       side_differentiator = 6789;
     }
@@ -23,7 +24,7 @@ CRGB FireEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
 
   time_ms += offset;
   uint8_t noise;
-  if (device->FlagEnabled(Circular)) {
+  if (strip->FlagEnabled(Circular)) {
     uint8_t angle;
     uint8_t radius;
     GetPosOnCircle(led_count, led_index, &angle, &radius);

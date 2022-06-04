@@ -2,25 +2,43 @@
 // (which it shouldn't)
 #undef max
 #undef min
+#include <vector>
+
 #include "../../arduino/FastLedManager.hpp"
 #include "../../arduino/RadioHeadRadio.hpp"
 #include "../../generic/DeviceDescription.hpp"
 #include "../../generic/NetworkManager.hpp"
 #include "../../generic/RadioStateMachine.hpp"
+#include "../../generic/StripDescription.hpp"
 
 const int kLedPin = 0;
 
-const DeviceDescription *const bike = new DeviceDescription(30, {Bright});
-const DeviceDescription *const scarf = new DeviceDescription(46, {});
-const DeviceDescription *const lantern = new DeviceDescription(5, {Tiny});
-const DeviceDescription *const puck =
-    new DeviceDescription(12, {Tiny, Circular});
-const DeviceDescription *const two_side_puck =
-    new DeviceDescription(24, {Tiny, Circular, Mirrored});
-const DeviceDescription *const rainbow_cloak =
-    new DeviceDescription((11 + 94 + 11), {});
+const uint32_t RF_BOARD_MA_SUPPORTED = 2400 - 50;
 
-const DeviceDescription *const device = scarf;
+static const DeviceDescription *SimpleRfBoardDescription(
+    uint8_t led_count, std::vector<StripFlag> flags) {
+  return new DeviceDescription(RF_BOARD_MA_SUPPORTED,
+                               {
+                                   new StripDescription(led_count, flags),
+                               });
+}
+
+const DeviceDescription *const bike = SimpleRfBoardDescription(30, {Bright});
+const DeviceDescription *const scarf = SimpleRfBoardDescription(46, {});
+const DeviceDescription *const lantern = SimpleRfBoardDescription(5, {Tiny});
+const DeviceDescription *const puck =
+    SimpleRfBoardDescription(12, {Tiny, Circular});
+const DeviceDescription *const two_side_puck =
+    SimpleRfBoardDescription(24, {Tiny, Circular, Mirrored});
+const DeviceDescription *const rainbow_cloak = new DeviceDescription(
+    RF_BOARD_MA_SUPPORTED,
+    {
+        new StripDescription(11, {Tiny, Circular}),
+        new StripDescription(94, {}),
+        new StripDescription(11, {Tiny, Circular, Reversed}),
+    });
+
+const DeviceDescription *const device = rainbow_cloak;
 
 RadioHeadRadio *radio;
 NetworkManager *nm;

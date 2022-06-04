@@ -54,8 +54,10 @@ target_include_directories(generic PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/types>
   $<INSTALL_INTERFACE:.>
   $<INSTALL_INTERFACE:./FakeFastLED>
+  $<INSTALL_INTERFACE:../../lib/debug>
+  $<INSTALL_INTERFACE:../../lib/effects>
   $<INSTALL_INTERFACE:../../lib/types>
-  $<INSTALL_INTERFACE:../../lib/debug>)
+)
 
 target_link_libraries(generic fake-fast-led)
 

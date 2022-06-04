@@ -1,30 +1,44 @@
 #include "FastLedManager.hpp"
 
+#include <functional>
+#include <numeric>
+
 #include "../generic/DeviceDescription.hpp"
 
 FastLedManager::FastLedManager(const DeviceDescription *device,
                                RadioStateMachine *radio_state)
     : LedManager(device, radio_state) {
+  uint16_t led_count = 0;
+  for (const StripDescription *strip : device->strips) {
+    led_count += strip->led_count;
+  }
+
   // The first LED is on-board, and should mirror the first LED of the strip.
-  leds = new CRGB[device->led_count + 1];
-  FastLED.addLeds<NEOPIXEL, WS2812_PIN>(leds, device->led_count + 1)
+  leds = new CRGB[led_count + 1];
+  FastLED.addLeds<NEOPIXEL, WS2812_PIN>(leds, led_count + 1)
       .setCorrection(TypicalLEDStrip);
+  FastLED.setMaxPowerInVoltsAndMilliamps(5, device->milliamps_supported);
   FastLED.showColor(CRGB(0, 0, 0));
 }
 
 void FastLedManager::SetGlobalColor(CRGB rgb) { FastLED.showColor(rgb); }
 
 void FastLedManager::PlayStartupAnimation() {
+  uint16_t led_count = 0;
+  for (const StripDescription *strip : device->strips) {
+    led_count += strip->led_count;
+  }
+
   CRGB white = CRGB(128, 128, 128);
-  for (uint8_t i = 0; i < device->led_count * 2; ++i) {
+  for (uint8_t i = 0; i < led_count * 2; ++i) {
     uint8_t index = i;
-    if (i >= device->led_count) {
-      index = device->led_count - (i - device->led_count);
+    if (i >= led_count) {
+      index = led_count - (i - led_count);
     }
     FastLED.clear();
     SetLed(index, &white);
     FastLED.show();
-    delay(500 / device->led_count);
+    delay(500 / led_count);
   }
 }
 

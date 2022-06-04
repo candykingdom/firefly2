@@ -1,15 +1,14 @@
 #include "DisplayColorPaletteEffect.hpp"
 
-DisplayColorPaletteEffect::DisplayColorPaletteEffect(
-    const DeviceDescription *device)
-    : Effect(device) {}
+DisplayColorPaletteEffect::DisplayColorPaletteEffect() : Effect() {}
 
 CRGB DisplayColorPaletteEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
+                                       const StripDescription *strip,
                                        RadioPacket *setEffectPacket) {
   ColorPalette palette =
       palettes[setEffectPacket->readPaletteIndexFromSetEffect()];
   CHSV color = palette.GetGradient((time_ms / 2) * 23);
-  if (!device->FlagEnabled(Bright)) {
+  if (!strip->FlagEnabled(Bright)) {
     color.v /= 2;
   }
   return color;
