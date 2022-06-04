@@ -11,6 +11,7 @@
 #include "FireflyEffect.hpp"
 #include "LightningEffect.hpp"
 #include "PoliceEffect.hpp"
+#include "PrideEffect.hpp"
 #include "RainbowBumpsEffect.hpp"
 #include "RainbowEffect.hpp"
 #include "RorschachEffect.hpp"
