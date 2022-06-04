@@ -16,8 +16,7 @@ class PrideEffect : public Effect {
 
  private:
   // Pride color palette.
-  ColorPalette palette = {
-      // {36 * 255 / 360, 82 * 255 / 100, 47 * 255 / 100},
+  const ColorPalette palette = {
       {0 * 255 / 360, 100 * 255 / 100, 100 * 255 / 100},
       {34 * 255 / 360, 100 * 255 / 100, 99 * 255 / 100},
       {54 * 255 / 360, 100 * 255 / 100, 100 * 255 / 100},
