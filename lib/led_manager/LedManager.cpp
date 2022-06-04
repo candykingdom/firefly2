@@ -12,6 +12,7 @@ LedManager::LedManager(const DeviceDescription *device,
   AddEffect(new FireEffect(), 1);
   AddEffect(new FireflyEffect(), 2);
   AddEffect(new LightningEffect(), 1);
+  AddEffect(new PrideEffect(), 1);
   AddEffect(new RainbowBumpsEffect(), 4);
   AddEffect(new RainbowEffect(), 4);
   AddEffect(new RorschachEffect(), 2);
