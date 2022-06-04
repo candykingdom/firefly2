@@ -2,7 +2,7 @@
 // (which it shouldn't)
 #undef max
 #undef min
-#include <list>
+#include <vector>
 
 #include "../../arduino/FastLedManager.hpp"
 #include "../../arduino/RadioHeadRadio.hpp"
@@ -16,7 +16,7 @@ const int kLedPin = 0;
 const uint32_t RF_BOARD_MA_SUPPORTED = 2000 - 200;
 
 static const DeviceDescription *SimpleRfBoardDescription(
-    uint8_t led_count, std::list<StripFlag> flags) {
+    uint8_t led_count, std::vector<StripFlag> flags) {
   return new DeviceDescription(RF_BOARD_MA_SUPPORTED,
                                {
                                    new StripDescription(led_count, flags),

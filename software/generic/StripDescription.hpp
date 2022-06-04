@@ -2,7 +2,7 @@
 #define __STRIP_DESCRIPTION_HPP__
 
 #include <Types.hpp>
-#include <list>
+#include <vector>
 
 enum StripFlag {
   Tiny = 1 << 0,
@@ -16,7 +16,7 @@ class StripDescription {
  public:
   const uint8_t led_count;
 
-  StripDescription(uint8_t led_count, std::list<StripFlag> flags);
+  StripDescription(uint8_t led_count, std::vector<StripFlag> flags);
 
   bool FlagEnabled(StripFlag flag) const;
 

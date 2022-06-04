@@ -55,7 +55,7 @@ TEST(LedManager, effectIndexIsInRange) {
 
 class TestEffect : public Effect {
  public:
-  std::list<uint8_t> called_indicies;
+  std::vector<uint8_t> called_indicies;
 
   TestEffect() : called_indicies() {}
 

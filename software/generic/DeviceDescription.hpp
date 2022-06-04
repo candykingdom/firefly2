@@ -2,7 +2,7 @@
 #define __DEVICE_DESCRIPTION_HPP__
 
 #include <Types.hpp>
-#include <list>
+#include <vector>
 
 #include "StripDescription.hpp"
 
@@ -16,9 +16,9 @@ class DeviceDescription {
    */
   const uint32_t milliamps_supported;
 
-  const std::list<const StripDescription*> strips;
+  const std::vector<const StripDescription*> strips;
 
   DeviceDescription(const uint32_t milliamps_supported,
-                    const std::list<const StripDescription*> strips);
+                    const std::vector<const StripDescription*> strips);
 };
 #endif  // __DEVICE_DESCRIPTION_HPP__
