@@ -1,6 +1,6 @@
+#include <Math.hpp>
 #include <string>
 
-#include "../Math.hpp"
 #include "gtest/gtest.h"
 
 TEST(Math, shouldGetCardinalCordinates) {

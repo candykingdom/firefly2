@@ -1,9 +1,8 @@
 #include "LedManager.hpp"
 
+#include <Effects.hpp>
+#include <Radio.hpp>
 #include <cassert>
-
-#include "../../lib/effect/Effects.hpp"
-#include "Radio.hpp"
 
 LedManager::LedManager(const DeviceDescription *device,
                        RadioStateMachine *radio_state)

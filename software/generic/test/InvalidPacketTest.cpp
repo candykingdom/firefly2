@@ -1,7 +1,7 @@
+#include <Radio.hpp>
 #include <tuple>
 
 #include "../NetworkManager.hpp"
-#include "../Radio.hpp"
 #include "../RadioStateMachine.hpp"
 #include "FakeNetwork.hpp"
 #include "FakeRadio.hpp"

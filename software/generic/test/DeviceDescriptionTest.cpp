@@ -1,5 +1,6 @@
+#include <LedManager.hpp>
+
 #include "../DeviceDescription.hpp"
-#include "../LedManager.hpp"
 #include "gtest/gtest.h"
 
 TEST(DeviceDescription, usesFlagsCorrectly) {
