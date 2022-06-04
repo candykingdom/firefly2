@@ -1,9 +1,8 @@
 #include "FastLedManager.hpp"
 
+#include <DeviceDescription.hpp>
 #include <functional>
 #include <numeric>
-
-#include "../generic/DeviceDescription.hpp"
 
 FastLedManager::FastLedManager(const DeviceDescription *device,
                                RadioStateMachine *radio_state)

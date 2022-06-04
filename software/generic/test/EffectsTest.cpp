@@ -1,8 +1,8 @@
+#include <DeviceDescription.hpp>
 #include <LedManager.hpp>
 #include <algorithm>
 #include <vector>
 
-#include "DeviceDescription.hpp"
 #include "FakeLedManager.hpp"
 #include "FakeRadio.hpp"
 #include "gtest/gtest.h"
