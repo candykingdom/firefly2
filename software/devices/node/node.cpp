@@ -13,7 +13,7 @@
 
 const int kLedPin = 0;
 
-const uint32_t RF_BOARD_MA_SUPPORTED = 2000 - 200;
+const uint32_t RF_BOARD_MA_SUPPORTED = 2400 - 50;
 
 static const DeviceDescription *SimpleRfBoardDescription(
     uint8_t led_count, std::vector<StripFlag> flags) {

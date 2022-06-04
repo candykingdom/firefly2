@@ -52,3 +52,10 @@ TEST(Effects, allLedValues) {
     runEffectsTest(&device, 5 * 1000);
   }
 }
+
+TEST(Effects, multipleStrips) {
+  DeviceDescription device = DeviceDescription(
+      2000, {new StripDescription(20, {}), new StripDescription(10, {Tiny}),
+             new StripDescription(12, {Circular})});
+  runEffectsTest(&device, 60 * 1000);
+}

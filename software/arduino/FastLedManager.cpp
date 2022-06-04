@@ -9,8 +9,8 @@ FastLedManager::FastLedManager(const DeviceDescription *device,
                                RadioStateMachine *radio_state)
     : LedManager(device, radio_state) {
   uint16_t led_count = 0;
-  for (auto it = device->strips.begin(); it != device->strips.end(); ++it) {
-    led_count += (*it)->led_count;
+  for (const StripDescription *strip : device->strips) {
+    led_count += strip->led_count;
   }
 
   // The first LED is on-board, and should mirror the first LED of the strip.
@@ -18,7 +18,6 @@ FastLedManager::FastLedManager(const DeviceDescription *device,
   FastLED.addLeds<NEOPIXEL, WS2812_PIN>(leds, led_count + 1)
       .setCorrection(TypicalLEDStrip);
   FastLED.setMaxPowerInVoltsAndMilliamps(5, device->milliamps_supported);
-  FastLED.setMaxRefreshRate(100);
   FastLED.showColor(CRGB(0, 0, 0));
 }
 
@@ -26,8 +25,8 @@ void FastLedManager::SetGlobalColor(CRGB rgb) { FastLED.showColor(rgb); }
 
 void FastLedManager::PlayStartupAnimation() {
   uint16_t led_count = 0;
-  for (auto it = device->strips.begin(); it != device->strips.end(); ++it) {
-    led_count += (*it)->led_count;
+  for (const StripDescription *strip : device->strips) {
+    led_count += strip->led_count;
   }
 
   CRGB white = CRGB(128, 128, 128);
