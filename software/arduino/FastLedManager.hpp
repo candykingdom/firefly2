@@ -1,12 +1,12 @@
 #ifndef __FAST_LED_MANAGER_HPP__
 #define __FAST_LED_MANAGER_HPP__
 
+#include <DeviceDescription.hpp>
 #include <LedManager.hpp>
 #include <Types.hpp>
 #include <vector>
 
 #include "../../lib/effect/Effect.hpp"
-#include "../../software/generic/DeviceDescription.hpp"
 
 class FastLedManager : public LedManager {
  public:

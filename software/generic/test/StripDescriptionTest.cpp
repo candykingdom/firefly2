@@ -1,4 +1,5 @@
-#include "../StripDescription.hpp"
+#include <StripDescription.hpp>
+
 #include "gtest/gtest.h"
 
 TEST(StripDescription, usesFlagsCorrectly) {
