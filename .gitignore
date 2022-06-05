@@ -1,4 +1,4 @@
-software/generic/build
+src/generic/build
 assembly/*.zip
 *.d
 *.o

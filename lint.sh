@@ -10,8 +10,8 @@ fi
 
 FILES=$(find \
 lib \
-software \
--not -path software/generic/build \
+src \
+-not -path src/generic/build \
 -iname *.hpp \
 -o -iname *.cpp \
 -o -iname *.ino \

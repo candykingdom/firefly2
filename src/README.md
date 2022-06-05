@@ -5,7 +5,7 @@
 This is the tentative software structure:
 
 ```
-software                   contains Arduino-specific code
+src                        contains Arduino-specific code
 └── generic                contains only vanilla C++ code
     ├── test               contains tests for the generic code
     │   └── CMakeLists.txt CMake file for tests
