@@ -9,6 +9,6 @@ To do development work on this library, first clone this repo somewhere. Then, s
 FIREFLY2_DIR=$PWD
 
 pushd ~/Arduino/libraries
-ln -s $FIREFLY2_DIR/software/generic firefly_generic
-ln -s $FIREFLY2_DIR/software/arduino firefly_arduino
+ln -s $FIREFLY2_DIR/src/generic firefly_generic
+ln -s $FIREFLY2_DIR/src/arduino firefly_arduino
 ```

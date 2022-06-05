@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-cd software/generic
+cd src/generic
 mkdir build || true
 cd build
 cmake ..

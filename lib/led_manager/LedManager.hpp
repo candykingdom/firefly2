@@ -7,7 +7,7 @@
 #include <Types.hpp>
 #include <vector>
 
-#include "../../software/generic/RadioStateMachine.hpp"
+#include "../../src/generic/RadioStateMachine.hpp"
 
 class LedManager {
  public:
