@@ -20,5 +20,7 @@ class DeviceDescription {
 
   DeviceDescription(const uint32_t milliamps_supported,
                     const std::vector<const StripDescription*> strips);
+
+  uint8_t GetLedCount() const;
 };
 #endif  // __DEVICE_DESCRIPTION_HPP__
