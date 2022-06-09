@@ -37,8 +37,9 @@ const DeviceDescription *const rainbow_cloak = new DeviceDescription(
         new StripDescription(94, {}),
         new StripDescription(11, {Tiny, Circular, Reversed}),
     });
+const DeviceDescription *const backpack_tail = SimpleRfBoardDescription(11, {});
 
-const DeviceDescription *const device = rainbow_cloak;
+const DeviceDescription *const device = scarf;
 
 RadioHeadRadio *radio;
 NetworkManager *nm;

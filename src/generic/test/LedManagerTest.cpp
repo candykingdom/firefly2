@@ -10,6 +10,7 @@
 TEST(LedManager, hasNonRandomEffects) {
   StripDescription strip = StripDescription(1, {});
   DeviceDescription device = DeviceDescription(2000, {&strip});
+  EXPECT_EQ(device.GetLedCount(), 1);
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *state_machine = new RadioStateMachine(networkManager);
@@ -47,6 +48,7 @@ TEST(LedManager, hasNonRandomEffects) {
 TEST(LedManager, effectIndexIsInRange) {
   StripDescription strip = StripDescription(1, {});
   DeviceDescription device = DeviceDescription(2000, {&strip});
+  EXPECT_EQ(device.GetLedCount(), 1);
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *state_machine = new RadioStateMachine(networkManager);
@@ -68,6 +70,7 @@ class TestEffect : public Effect {
 TEST(LedManager, callStripInReverse) {
   StripDescription strip = StripDescription(5, {Reversed});
   DeviceDescription device = DeviceDescription(2000, {&strip});
+  EXPECT_EQ(device.GetLedCount(), 5);
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *state_machine = new RadioStateMachine(networkManager);
