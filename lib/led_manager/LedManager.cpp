@@ -38,6 +38,16 @@ LedManager::LedManager(const DeviceDescription *device,
   radio_state->SetNumPalettes(effects[0]->palettes.size());
 }
 
+LedManager::~LedManager() {
+  for (uint8_t effect_index : uniqueEffectIndices) {
+    delete effects[effect_index];
+  }
+  for (Effect *effect : non_random_effects) {
+    delete effect;
+  }
+  delete control_effect;
+}
+
 Effect *LedManager::GetCurrentEffect() {
   RadioPacket *packet = radio_state->GetSetEffect();
   if (packet->type == SET_CONTROL) {

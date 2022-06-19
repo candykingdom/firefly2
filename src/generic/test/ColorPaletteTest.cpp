@@ -76,8 +76,6 @@ TEST(ColorPalette, wrapHueRedBlue) {
 }
 
 TEST(ColorPalette, wrapHueOrangePurple) {
-  uint8_t mid = 234;
-
   ColorPalette p{
       {HUE_ORANGE, 255, 255},
       {HUE_PURPLE, 255, 255},

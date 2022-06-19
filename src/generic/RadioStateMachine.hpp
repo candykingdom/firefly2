@@ -38,6 +38,7 @@ enum class RadioState {
 class RadioStateMachine {
  public:
   RadioStateMachine(NetworkManager *networkManager);
+  ~RadioStateMachine();
 
   RadioState GetCurrentState();
 
