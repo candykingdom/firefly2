@@ -12,6 +12,7 @@
 class LedManager {
  public:
   LedManager(const DeviceDescription *device, RadioStateMachine *radio_state);
+  virtual ~LedManager(){};
 
   void RunEffect();
 

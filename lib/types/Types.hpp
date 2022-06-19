@@ -3,6 +3,8 @@
 
 // This header defines types depending on the platform.
 
+#define UNUSED(x) (void)(x)
+
 // Arduino provides the types of the form 'int8_t'. In vanilla C++, we need to
 // include these manually.
 #ifndef ARDUINO

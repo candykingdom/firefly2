@@ -5,7 +5,9 @@
 
 static const uint16_t SPREAD = MAX_UINT16 * 0.2;
 
-SwingingLights::SwingingLights(const DeviceDescription *device) : Effect() {}
+SwingingLights::SwingingLights(const DeviceDescription *device) : Effect() {
+  UNUSED(device);
+}
 
 // Add a CHSV value to a CRGB in place.
 static void addInPlace(const CHSV &value, CRGB &result) {
