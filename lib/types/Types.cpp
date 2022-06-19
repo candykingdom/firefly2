@@ -13,7 +13,11 @@ void setMillis(uint32_t time) { currentTime = time; }
 
 void advanceMillis(uint32_t time) { currentTime += time; }
 
-uint16_t XY(uint8_t x, uint8_t y) { return 0; }
+uint16_t XY(uint8_t x, uint8_t y) {
+  UNUSED(x);
+  UNUSED(y);
+  return 0;
+}
 #else
 namespace std {
 void __throw_bad_alloc() { Serial.println("Unable to allocate memory"); }

@@ -37,9 +37,7 @@ uint32_t RadioStateMachine::GetNetworkMillis() {
 
 uint8_t RadioStateMachine::GetEffectIndex() { return effect_index; }
 
-RadioPacket *const RadioStateMachine::GetSetEffect() {
-  return &setEffectPacket;
-}
+RadioPacket *RadioStateMachine::GetSetEffect() { return &setEffectPacket; }
 
 void RadioStateMachine::SetEffect(RadioPacket *const setEffect) {
   this->setEffectPacket = *setEffect;
@@ -127,7 +125,7 @@ void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
         uint8_t new_effect_index = data.packet->readEffectIndexFromSetEffect();
         uint8_t new_palette_index =
             data.packet->readPaletteIndexFromSetEffect();
-        if (effect_index != this->effect_index ||
+        if (new_effect_index != this->effect_index ||
             new_palette_index !=
                 this->setEffectPacket.readPaletteIndexFromSetEffect()) {
           effect_change_seen_at = millis();

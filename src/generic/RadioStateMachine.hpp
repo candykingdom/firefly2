@@ -57,7 +57,7 @@ class RadioStateMachine {
   uint8_t GetEffectIndex();
 
   /** Returns the most recent SetEffect packet. */
-  RadioPacket *const GetSetEffect();
+  RadioPacket *GetSetEffect();
 
   /** Sets and broadcasts the current effect. */
   void SetEffect(RadioPacket *const setEffect);

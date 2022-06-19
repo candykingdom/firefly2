@@ -7,6 +7,8 @@ LightningEffect::LightningEffect() : Effect() {}
 CRGB LightningEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
                              const StripDescription *strip,
                              RadioPacket *setEffectPacket) {
+  UNUSED(led_index);
+  UNUSED(strip);
   const uint8_t palette_index =
       setEffectPacket->readPaletteIndexFromSetEffect();
   ColorPalette palette = palettes[palette_index];
