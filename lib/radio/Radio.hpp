@@ -83,6 +83,8 @@ inline bool operator==(const RadioPacket& lhs, const RadioPacket& rhs) {
 
 class Radio {
  public:
+  virtual ~Radio(){};
+
   /**
    * If a packet is avilable, reads it into the provided struct and return
    * true. If no packet is available, returns false.

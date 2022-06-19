@@ -1,8 +1,16 @@
 #include "FakeRadio.hpp"
 
+#include <cstdio>
+
 FakeRadio::FakeRadio() {
   received_packet = nullptr;
   sent_packet = nullptr;
+}
+
+FakeRadio::~FakeRadio() {
+  if (sent_packet != nullptr) {
+    delete sent_packet;
+  }
 }
 
 bool FakeRadio::readPacket(RadioPacket &packet) {
@@ -15,10 +23,10 @@ bool FakeRadio::readPacket(RadioPacket &packet) {
 }
 
 void FakeRadio::sendPacket(RadioPacket &packet) {
-  // Note: this is sort-of wrong, since it just copies the pointer, not the
-  // struct itself. However, since this is only used in tests, it's OK.
-  sent_packet = new RadioPacket();
-  memcpy(sent_packet, &packet, sizeof(RadioPacket));
+  if (sent_packet == nullptr) {
+    sent_packet = new RadioPacket();
+  }
+  *sent_packet = packet;
 }
 
 void FakeRadio::setReceivedPacket(RadioPacket *packet) {

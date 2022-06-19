@@ -19,6 +19,8 @@ RadioStateMachine::RadioStateMachine(NetworkManager *networkManager)
   setEffectPacket.writeSetEffect(1, 0, 0);
 }
 
+RadioStateMachine::~RadioStateMachine() { delete networkManager; }
+
 RadioState RadioStateMachine::GetCurrentState() { return state; }
 
 void RadioStateMachine::Tick() {

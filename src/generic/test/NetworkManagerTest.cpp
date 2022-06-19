@@ -6,10 +6,18 @@
 
 class NetworkManagerTest : public ::testing::Test {
  protected:
-  void SetUp() override {}
+  void SetUp() override { networkManager = new NetworkManager(&radio); }
+
+  void TearDown() override { delete networkManager; }
+
+  void expectEqualAndDelete(RadioPacket *packet,
+                            const RadioPacket &other_packet) {
+    EXPECT_EQ(*packet, other_packet);
+    delete packet;
+  }
 
   FakeRadio radio;
-  NetworkManager *networkManager = new NetworkManager(&radio);
+  NetworkManager *networkManager;
 };
 
 TEST_F(NetworkManagerTest, receive_noPackets) {
@@ -45,7 +53,7 @@ TEST_F(NetworkManagerTest, receive_rebroadcasts) {
   radio.setReceivedPacket(&received_packet);
 
   EXPECT_EQ(networkManager->receive(packet), true);
-  EXPECT_EQ(*radio.getSentPacket(), received_packet);
+  expectEqualAndDelete(radio.getSentPacket(), received_packet);
 
   // With same ID, shouldn't rebroadcast again
   networkManager->receive(packet);
@@ -55,7 +63,7 @@ TEST_F(NetworkManagerTest, receive_rebroadcasts) {
   received_packet.packet_id = 6789;
   radio.setReceivedPacket(&received_packet);
   EXPECT_EQ(networkManager->receive(packet), true);
-  EXPECT_EQ(*radio.getSentPacket(), received_packet);
+  expectEqualAndDelete(radio.getSentPacket(), received_packet);
 
   // Make sure it doesn't crash when exceeding the cache size
   // Start from 1 because 0 isn't a valid packet ID.
@@ -63,7 +71,7 @@ TEST_F(NetworkManagerTest, receive_rebroadcasts) {
     received_packet.packet_id = i;
     radio.setReceivedPacket(&received_packet);
     EXPECT_EQ(networkManager->receive(packet), true);
-    EXPECT_EQ(*radio.getSentPacket(), received_packet);
+    expectEqualAndDelete(radio.getSentPacket(), received_packet);
 
     EXPECT_EQ(networkManager->receive(packet), false);
     EXPECT_EQ(radio.getSentPacket(), nullptr);
@@ -75,7 +83,7 @@ TEST_F(NetworkManagerTest, receive_doesntRebroadcastSentId) {
   sent_packet.dataLength = 1;
   networkManager->send(sent_packet);
   // Consume the FakeRadio's sent packet
-  radio.getSentPacket();
+  delete radio.getSentPacket();
 
   RadioPacket received_packet;
   received_packet.packet_id = sent_packet.packet_id;
@@ -98,4 +106,5 @@ TEST_F(NetworkManagerTest, send_sendsPacket) {
 
   packet.packet_id = sent_packet->packet_id;
   EXPECT_EQ(*sent_packet, packet);
+  delete sent_packet;
 }

@@ -13,6 +13,7 @@ FakeNetwork::FakeNetwork() {
 
   for (int i = 0; i < kNumNodes; i++) {
     advanceMillis(1);
+    radios[i] = FakeRadio();
     stateMachines[i] = new RadioStateMachine(new NetworkManager(&radios[i]));
     ledManagers[i] = new FakeLedManager(&device, stateMachines[i]);
     stateMachines[i]->Tick();
@@ -20,8 +21,20 @@ FakeNetwork::FakeNetwork() {
 }
 
 FakeNetwork::~FakeNetwork() {
+  for (RadioStateMachine* state_machine : stateMachines) {
+    delete state_machine;
+  }
+  for (FakeLedManager* led_manager : ledManagers) {
+    delete led_manager;
+  }
   for (auto&& strip : device.strips) {
     delete strip;
+  }
+  if (packet != nullptr) {
+    delete packet;
+  }
+  if (previous_packet != nullptr) {
+    delete previous_packet;
   }
 }
 
@@ -34,8 +47,13 @@ void FakeNetwork::Tick() {
       radios[i].setReceivedPacket(packet);
     } else {
       debug_printf("Randomly dropping packet\n");
+      radios[i].setReceivedPacket(nullptr);
     }
   }
+  if (previous_packet != nullptr) {
+    delete previous_packet;
+  }
+  previous_packet = packet;
   packet = nullptr;
 
   debug_printf("Running FakeNetwork::Tick at %u millis\n", millis());
@@ -64,6 +82,8 @@ void FakeNetwork::reinitNode(int index) {
   delete stateMachines[index];
   stateMachines[index] =
       new RadioStateMachine(new NetworkManager(&radios[index]));
+  delete ledManagers[index];
+  ledManagers[index] = new FakeLedManager(&device, stateMachines[index]);
 }
 
 void FakeNetwork::setPacketLoss(int n) { packet_loss = n; }

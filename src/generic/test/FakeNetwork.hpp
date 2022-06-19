@@ -41,6 +41,7 @@ class FakeNetwork {
   int packet_loss = 0;
   FakeRadio radios[kNumNodes];
   RadioPacket *packet = nullptr;
+  RadioPacket *previous_packet = nullptr;
   DeviceDescription device =
       DeviceDescription(2000, {new StripDescription(5, {})});
 };

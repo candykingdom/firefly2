@@ -13,6 +13,8 @@ FakeLedManager::FakeLedManager(const DeviceDescription *device,
   leds = new CRGB[led_count];
 }
 
+FakeLedManager::~FakeLedManager() { delete[] leds; }
+
 void FakeLedManager::SetGlobalColor(CRGB rgb) {
   for (uint8_t i = 0; i < led_count; i++) {
     leds[i] = rgb;
@@ -25,6 +27,12 @@ CRGB FakeLedManager::GetLed(uint8_t led_index) {
 }
 
 void FakeLedManager::ClearEffects() {
+  for (uint8_t effect_index : uniqueEffectIndices) {
+    delete effects[effect_index];
+  }
+  for (Effect *effect : non_random_effects) {
+    delete effect;
+  }
   effects.clear();
   non_random_effects.clear();
   uniqueEffectIndices.clear();

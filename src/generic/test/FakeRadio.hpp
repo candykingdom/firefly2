@@ -6,6 +6,7 @@
 class FakeRadio : public Radio {
  public:
   FakeRadio();
+  ~FakeRadio();
 
   // Overrides
   bool readPacket(RadioPacket &packet) override;

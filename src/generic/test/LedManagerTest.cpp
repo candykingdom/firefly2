@@ -43,6 +43,10 @@ TEST(LedManager, hasNonRandomEffects) {
             effect3->GetRGB(0, 15, &strip, setEffect));
   EXPECT_NE(effect2->GetRGB(0, 0, &strip, setEffect),
             effect3->GetRGB(0, 0, &strip, setEffect));
+
+  delete setEffect;
+  delete manager;
+  delete state_machine;
 }
 
 TEST(LedManager, effectIndexIsInRange) {
@@ -52,7 +56,9 @@ TEST(LedManager, effectIndexIsInRange) {
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *state_machine = new RadioStateMachine(networkManager);
-  new FakeLedManager(&device, state_machine);
+  FakeLedManager *led_manager = new FakeLedManager(&device, state_machine);
+  delete led_manager;
+  delete state_machine;
 }
 
 class TestEffect : public Effect {
@@ -63,7 +69,11 @@ class TestEffect : public Effect {
 
   CRGB GetRGB(uint8_t led_index, uint32_t time_ms,
               const StripDescription *strip, RadioPacket *setEffectPacket) {
+    UNUSED(time_ms);
+    UNUSED(strip);
+    UNUSED(setEffectPacket);
     called_indicies.push_back(led_index);
+    return CRGB(0, 0, 0);
   }
 };
 
@@ -77,8 +87,8 @@ TEST(LedManager, callStripInReverse) {
   FakeLedManager *manager = new FakeLedManager(&device, state_machine);
 
   manager->ClearEffects();
-  TestEffect test_effect = TestEffect();
-  manager->PublicAddEffect(&test_effect, 1);
+  TestEffect *test_effect = new TestEffect();
+  manager->PublicAddEffect(test_effect, 1);
 
   RadioPacket *setEffect = new RadioPacket();
   setEffect->writeSetEffect(0, 0, 0);
@@ -86,11 +96,15 @@ TEST(LedManager, callStripInReverse) {
 
   manager->RunEffect();
 
-  ASSERT_EQ(test_effect.called_indicies.size(), 5);
+  ASSERT_EQ(test_effect->called_indicies.size(), 5);
 
   uint8_t expected_index = 4;
-  for (auto actual : test_effect.called_indicies) {
+  for (auto actual : test_effect->called_indicies) {
     ASSERT_EQ(actual, expected_index--)
         << "Reverse strip should be called in reverse order!";
   }
+
+  delete setEffect;
+  delete manager;
+  delete state_machine;
 }
