@@ -1,7 +1,11 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.11)
 if (POLICY CMP0048)
   cmake_policy(SET CMP0048 NEW)
 endif (POLICY CMP0048)
+
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED On)
+set(CMAKE_CXX_EXTENSIONS Off)
 
 project(firefly2 LANGUAGES CXX)
 
@@ -23,9 +27,10 @@ download_project(PROJ                fake-fast-led
 add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
 add_subdirectory(${fake-fast-led_SOURCE_DIR} ${fake-fast-led_BINARY_DIR})
 
+set(SANITIZER_FLAGS "-fsanitize=address -fsanitize=undefined")
 # Set appropriate warning levels and include debug symbols.
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -std=c++11 -g -fsanitize=address")
-set (CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS_DEBUG} -fsanitize=address")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -std=c++11 -g ${SANITIZER_FLAGS}")
+set (CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS_DEBUG} ${SANITIZER_FLAGS}")
 
 # Generate the file needed for YCM integration
 set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
@@ -66,9 +71,17 @@ target_link_libraries(generic fake-fast-led)
 
 enable_testing()
 
-file(GLOB TEST_SOURCES "test/*.cpp" "test/*.hpp")
+file(GLOB TEST_LIB "test/*.cpp" "test/*.hpp")
+list(FILTER TEST_LIB EXCLUDE REGEX ".*Test\\.[ch]pp$")
+add_library(testlib ${TEST_LIB})
+target_link_libraries(testlib generic fake-fast-led)
 
-add_executable(generictest ${TEST_SOURCES})
+file(GLOB SMALLTEST_SOURCES "test/*.cpp" "test/*.hpp")
+list(FILTER SMALLTEST_SOURCES EXCLUDE REGEX ".*InvalidPacketTest\\.[ch]pp$")
+add_executable(smalltests ${SMALLTEST_SOURCES})
+target_link_libraries(smalltests generic gmock_main gtest fake-fast-led testlib)
+add_test(smalltests smalltests)
 
-target_link_libraries(generictest generic gmock_main gtest fake-fast-led)
-add_test(generictest generictest)
+add_executable(largetests "test/InvalidPacketTest.cpp")
+target_link_libraries(largetests generic gmock_main gtest fake-fast-led testlib)
+add_test(largetests largetests)

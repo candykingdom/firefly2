@@ -6,4 +6,6 @@ cd src/generic
 mkdir build || true
 cd build
 cmake ..
-make && ./generictest
+make
+./smalltests
+./largetests
