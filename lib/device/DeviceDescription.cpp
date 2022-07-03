@@ -5,9 +5,9 @@
 #include <vector>
 
 DeviceDescription::DeviceDescription(
-    uint32_t milliamps_supported,
+    char* name, uint32_t milliamps_supported,
     const std::vector<const StripDescription *> strips)
-    : milliamps_supported(milliamps_supported), strips(strips) {}
+    : name(name), milliamps_supported(milliamps_supported), strips(strips) {}
 
 uint8_t DeviceDescription::GetLedCount() const {
   uint16_t led_count = 0;

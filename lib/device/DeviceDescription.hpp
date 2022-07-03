@@ -8,6 +8,8 @@
 
 class DeviceDescription {
  public:
+  const char* name;
+
   /**
    * @brief How many milliamps this device can support at 5v.
    *
@@ -18,7 +20,7 @@ class DeviceDescription {
 
   const std::vector<const StripDescription*> strips;
 
-  DeviceDescription(const uint32_t milliamps_supported,
+  DeviceDescription(char* name, const uint32_t milliamps_supported,
                     const std::vector<const StripDescription*> strips);
 
   uint8_t GetLedCount() const;

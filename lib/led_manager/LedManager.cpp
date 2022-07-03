@@ -6,7 +6,7 @@
 
 LedManager::LedManager(const DeviceDescription *device,
                        RadioStateMachine *radio_state)
-    : device(device), radio_state(radio_state) {
+    : device(device), radio_state(radio_state), error(false) {
   AddEffect(new ColorCycleEffect(), 4);
   AddEffect(new ContrastBumpsEffect(), 2);
   AddEffect(new FireEffect(), 1);
@@ -46,6 +46,10 @@ LedManager::~LedManager() {
     delete effect;
   }
   delete control_effect;
+}
+
+void LedManager::SetError(bool error) {
+  this->error = error;
 }
 
 Effect *LedManager::GetCurrentEffect() {

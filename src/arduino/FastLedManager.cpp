@@ -23,14 +23,20 @@ void FastLedManager::SetGlobalColor(CRGB rgb) { FastLED.showColor(rgb); }
 void FastLedManager::PlayStartupAnimation() {
   uint16_t led_count = device->GetLedCount();
 
-  CRGB white = CRGB(128, 128, 128);
+  CRGB light_color;
+  if (error) {
+    light_color = CRGB(128, 0, 0);
+  } else {
+    light_color = CRGB(128, 128, 128);
+  }
+
   for (uint8_t i = 0; i < led_count * 2; ++i) {
     uint8_t index = i;
     if (i >= led_count) {
       index = led_count - (i - led_count);
     }
     FastLED.clear();
-    SetLed(index, &white);
+    SetLed(index, &light_color);
     FastLED.show();
     delay(500 / led_count);
   }
@@ -45,4 +51,9 @@ void FastLedManager::SetLed(uint8_t led_index, CRGB *const rgb) {
   leds[led_index + 1] = *rgb;
 }
 
-void FastLedManager::WriteOutLeds() { FastLED.show(); }
+void FastLedManager::WriteOutLeds() {
+  if (error) {
+    leds[0] = CRGB(64, 0, 0);
+  }
+  FastLED.show();
+}

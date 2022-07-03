@@ -36,6 +36,8 @@ class LedManager {
 
   Effect *GetEffect(uint8_t index);
 
+  void SetError(bool error);
+
   /** Sets all LEDs to the given color. */
   virtual void SetGlobalColor(CRGB rgb) = 0;
 
@@ -47,6 +49,7 @@ class LedManager {
   virtual void WriteOutLeds() = 0;
   const DeviceDescription *const device;
   RadioStateMachine *const radio_state;
+  bool error;
 
   // The effects that will be chosen randomly. This contains many entries for
   // each effect, so that we can control the occurence of each effect.

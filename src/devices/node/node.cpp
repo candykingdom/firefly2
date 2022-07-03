@@ -3,6 +3,8 @@
 #undef max
 #undef min
 #include <DeviceDescription.hpp>
+#include <DeviceTable.hpp>
+#include <Storage.hpp>
 #include <StripDescription.hpp>
 #include <vector>
 
@@ -12,34 +14,6 @@
 #include "../../generic/RadioStateMachine.hpp"
 
 const int kLedPin = 0;
-
-const uint32_t RF_BOARD_MA_SUPPORTED = 2400 - 50;
-
-static const DeviceDescription *SimpleRfBoardDescription(
-    uint8_t led_count, std::vector<StripFlag> flags) {
-  return new DeviceDescription(RF_BOARD_MA_SUPPORTED,
-                               {
-                                   new StripDescription(led_count, flags),
-                               });
-}
-
-const DeviceDescription *const bike = SimpleRfBoardDescription(30, {Bright});
-const DeviceDescription *const scarf = SimpleRfBoardDescription(46, {});
-const DeviceDescription *const lantern = SimpleRfBoardDescription(5, {Tiny});
-const DeviceDescription *const puck =
-    SimpleRfBoardDescription(12, {Tiny, Circular});
-const DeviceDescription *const two_side_puck =
-    SimpleRfBoardDescription(24, {Tiny, Circular, Mirrored});
-const DeviceDescription *const rainbow_cloak = new DeviceDescription(
-    RF_BOARD_MA_SUPPORTED,
-    {
-        new StripDescription(11, {Tiny, Circular}),
-        new StripDescription(94, {}),
-        new StripDescription(11, {Tiny, Circular, Reversed}),
-    });
-const DeviceDescription *const backpack_tail = SimpleRfBoardDescription(11, {});
-
-const DeviceDescription *const device = scarf;
 
 RadioHeadRadio *radio;
 NetworkManager *nm;
@@ -56,7 +30,28 @@ void setup() {
   nm = new NetworkManager(radio);
   state_machine = new RadioStateMachine(nm);
 
+  uint16_t device_index = GetDeviceIndex();
+  Serial.println("FOOBAR");
+  delay(2000);
+  bool device_error = false;
+  if (device_index >= device_table.size() || device_index == 0) {
+    Serial.print("Device index ");
+    Serial.print(device_index);
+    Serial.print(" is out of range [1,");
+    Serial.print(device_table.size());
+    Serial.println(")");
+
+    device_error = true;
+    device_index = 0;
+  }
+  const DeviceDescription *const device = device_table[device_index];
+  Serial.print("Using device #");
+  Serial.print(device_index);
+  Serial.print(": ");
+  Serial.println(device->name);
+
   led_manager = new FastLedManager(device, state_machine);
+  led_manager->SetError(device_error);
   // NOTE: can check if we watchdog rebooted by checking REG_PM_RCAUSE
   // See https://github.com/gjt211/SAMD21-Reset-Cause
 
