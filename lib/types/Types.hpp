@@ -3,7 +3,9 @@
 
 // This header defines types depending on the platform.
 
+#if !defined(STM32G0xx)
 #define UNUSED(x) (void)(x)
+#endif
 
 // Arduino provides the types of the form 'int8_t'. In vanilla C++, we need to
 // include these manually.
