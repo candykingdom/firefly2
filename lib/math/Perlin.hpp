@@ -51,7 +51,7 @@ inline uint8_t perlinNoise(uint32_t x, uint32_t y) {
                           ease8InOutApprox(fy));
 
   // Scale and normalize noise.
-  val = val << 2;
+  val *= 4;
   val += 128;
   if (val >= 256) {
     val = 255;
