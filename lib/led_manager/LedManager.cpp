@@ -7,7 +7,7 @@
 LedManager::LedManager(const DeviceDescription *device,
                        RadioStateMachine *radio_state)
     : device(device), radio_state(radio_state) {
-  AddEffect(new ColorCycleEffect(), 4);
+  AddEffect(new ColorCycleEffect(), 2);
   AddEffect(new ContrastBumpsEffect(), 2);
   AddEffect(new FireEffect(), 1);
   AddEffect(new FireflyEffect(), 2);
@@ -16,7 +16,6 @@ LedManager::LedManager(const DeviceDescription *device,
   AddEffect(new RainbowBumpsEffect(), 4);
   AddEffect(new RainbowEffect(), 4);
   AddEffect(new RorschachEffect(), 2);
-  AddEffect(new SimpleBlinkEffect(300), 2);
   AddEffect(new SparkEffect(), 4);
   AddEffect(new SwingingLights(device), 4);
 
@@ -27,6 +26,7 @@ LedManager::LedManager(const DeviceDescription *device,
   AddEffect(new SimpleBlinkEffect(60), 0);
   AddEffect(new SimpleBlinkEffect(30), 0);
   AddEffect(new SimpleBlinkEffect(12), 0);
+  AddEffect(new SimpleBlinkEffect(300), 0);
 
   // These two must be last
   AddEffect(new DisplayColorPaletteEffect(), 0);
