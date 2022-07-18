@@ -24,8 +24,8 @@ void FastLedManager::PlayStartupAnimation() {
   uint16_t led_count = device->GetLedCount();
 
   CRGB white = CRGB(128, 128, 128);
-  for (uint8_t i = 0; i < led_count * 2; ++i) {
-    uint8_t index = i;
+  for (uint32_t i = 0; i < led_count * 2; ++i) {
+    uint32_t index = i;
     if (i >= led_count) {
       index = led_count - (i - led_count);
     }
