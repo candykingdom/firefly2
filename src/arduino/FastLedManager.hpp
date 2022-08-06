@@ -17,9 +17,11 @@ class FastLedManager : public LedManager {
 
   void PlayStartupAnimation();
 
- protected:
   void SetLed(uint8_t led_index, const CRGB &rgb) override;
 
+  void SetOnboardLed(const CRGB &rgb);
+
+ protected:
   void WriteOutLeds() override;
 
  private:

@@ -45,4 +45,6 @@ void FastLedManager::SetLed(uint8_t led_index, const CRGB &rgb) {
   leds[led_index + 1] = rgb;
 }
 
+void FastLedManager::SetOnboardLed(const CRGB &rgb) { leds[0] = rgb; }
+
 void FastLedManager::WriteOutLeds() { FastLED.show(); }
