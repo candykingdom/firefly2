@@ -1,5 +1,8 @@
 #include <Arduino.h>
 #include <FastLED.h>
+#include <exponential-moving-average-filter.h>
+#include <median-filter.h>
+
 #include <DeviceDescription.hpp>
 #include <Devices.hpp>
 #include <StripDescription.hpp>
@@ -12,26 +15,49 @@
 
 const int kLedPin = PB0;
 const int kNeopixelPin = PA12;
+const int kBatteryPin = PA0;
 
 static const DeviceDescription *SimpleRfBoardDescription(
     uint8_t led_count, std::vector<StripFlag> flags) {
-  return new DeviceDescription(2000,
-                               {
-                                   new StripDescription(led_count, flags),
-                               });
+  return new DeviceDescription(2000, {
+                                         new StripDescription(led_count, flags),
+                                     });
 }
 
-const DeviceDescription *const test_device = SimpleRfBoardDescription(1, {Bright});
+const DeviceDescription *const test_device =
+    SimpleRfBoardDescription(1, {Bright});
 
 RadioHeadRadio *radio;
 NetworkManager *nm;
 FastLedManager *led_manager;
 RadioStateMachine *state_machine;
 
+// val = (previous * 3 + current) / 4
+static constexpr uint8_t kBatteryFilterAlpha = 96;
+MedianFilter<uint16_t, uint16_t, 5> battery_median_filter{
+    filter_functions::ForAnalogRead<kBatteryPin>()};
+ExponentialMovingAverageFilter<uint16_t> battery_average_filter{
+    []() { return battery_median_filter.GetFilteredValue(); },
+    kBatteryFilterAlpha};
+
+static constexpr float kBatteryDead = 3.72;
+static constexpr float kBatteryFull = 4.2;
+
+// voltage = battery * 180 / (62 + 180) * 3.3 / 1024
+constexpr uint16_t kBatteryDividerHigh = 62;
+constexpr uint16_t kBatteryDividerLow = 180;
+constexpr uint16_t BatteryVoltageToRawReading(float voltage) {
+  return voltage / (kBatteryDividerLow * 3.3 /
+                    (kBatteryDividerHigh + kBatteryDividerLow) / 1024);
+}
+
 void setup() {
   pinMode(kLedPin, OUTPUT);
   digitalWrite(kLedPin, HIGH);
 
+  analogReadResolution(10);
+  battery_median_filter.SetMinRunInterval(10);
+  battery_average_filter.SetMinRunInterval(10);
 
   SPI.setMISO(PA6);
   SPI.setMOSI(PA7);
@@ -46,6 +72,28 @@ void setup() {
 }
 
 void loop() {
-  state_machine->Tick();
-  led_manager->RunEffect();
+  battery_median_filter.Run();
+  battery_average_filter.Run();
+  if (battery_average_filter.GetFilteredValue() <
+      BatteryVoltageToRawReading(kBatteryDead)) {
+    // TODO: display a battery-low pattern?
+    led_manager->SetGlobalColor(CRGB::Black);
+    led_manager->SetOnboardLed(CRGB(4, 0, 0));
+  } else {
+    // Display battery status on onboard LED for the first 20 seconds
+    if (millis() < 20 * 1000) {
+      uint16_t battery_val = battery_average_filter.GetFilteredValue() -
+                             BatteryVoltageToRawReading(kBatteryDead);
+      uint16_t battery_range = BatteryVoltageToRawReading(kBatteryFull) -
+                               BatteryVoltageToRawReading(kBatteryDead);
+      // Red is hue 0
+      uint8_t hue = (battery_val * HUE_GREEN) / battery_range;
+      led_manager->SetOnboardLed(CHSV(hue, 255, 255));
+    } else {
+      led_manager->SetOnboardLed(CRGB::Black);
+    }
+
+    state_machine->Tick();
+    led_manager->RunEffect();
+  }
 }
