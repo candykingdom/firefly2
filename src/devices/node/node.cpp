@@ -24,6 +24,8 @@ static const DeviceDescription *SimpleRfBoardDescription(
 }
 
 const DeviceDescription *const bike = SimpleRfBoardDescription(30, {Bright});
+const DeviceDescription *const will_bike =
+    SimpleRfBoardDescription(63, {Bright});
 const DeviceDescription *const scarf = SimpleRfBoardDescription(46, {});
 const DeviceDescription *const lantern = SimpleRfBoardDescription(5, {Tiny});
 const DeviceDescription *const puck =
