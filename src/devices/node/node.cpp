@@ -40,6 +40,8 @@ const DeviceDescription *const rainbow_cloak = new DeviceDescription(
         new StripDescription(11, {Tiny, Circular, Reversed}),
     });
 const DeviceDescription *const backpack_tail = SimpleRfBoardDescription(11, {});
+const DeviceDescription *const dan_jacket = SimpleRfBoardDescription(60, {});
+const DeviceDescription *const will_jacket = SimpleRfBoardDescription(56, {});
 
 const DeviceDescription *const device = scarf;
 
