@@ -16,25 +16,28 @@ FastLedControllerManager::FastLedControllerManager(
   FastLED.addLeds<NEOPIXEL, WS2812_PIN>(leds, kControllerLedCount)
       .setCorrection(TypicalLEDStrip);
   FastLED.setMaxPowerInVoltsAndMilliamps(5, device->milliamps_supported);
-  FastLED.showColor(CRGB(0, 0, 0));
+  FastLED.showColor(CRGB::Black);
 }
 
 void FastLedControllerManager::RunEffect() {
   std::fill_n(leds, kControllerLedCount, CRGB::Black);
 
   RadioPacket setEffectPacket;
-  setEffectPacket.writeSetEffect(effect_index, 0, palette_index);
+  setEffectPacket.writeSetEffect(0, 0, palette_index);
   Effect* effect = GetEffect(effect_index);
   for (uint8_t index = 0; index < kControllerLightsPerRow; ++index) {
     CRGB rgb = effect->GetRGB(index, radio_state->GetNetworkMillis(),
                               device->strips[0], &setEffectPacket);
+    rgb = CRGB::Red;
     SetLed(index, &rgb);
   }
 
   WriteOutLeds();
 }
 
-void FastLedControllerManager::SetGlobalColor(CRGB rgb) { FastLED.showColor(rgb); }
+void FastLedControllerManager::SetGlobalColor(CRGB rgb) {
+  FastLED.showColor(rgb);
+}
 
 void FastLedControllerManager::SetLed(uint8_t led_index, CRGB* const rgb) {
   leds[led_index] = *rgb;

@@ -24,7 +24,5 @@ void loop() {
   state_machine->Tick();
   led_manager->RunEffect();
 
-  while (true) {
-    delay(10);
-  }
+  delay(10);
 }
