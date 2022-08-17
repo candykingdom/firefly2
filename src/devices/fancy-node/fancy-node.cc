@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <FastLED.h>
 #include <DeviceDescription.hpp>
+#include <Devices.hpp>
 #include <StripDescription.hpp>
 #include <vector>
 
@@ -40,7 +41,7 @@ void setup() {
   nm = new NetworkManager(radio);
   state_machine = new RadioStateMachine(nm);
 
-  led_manager = new FastLedManager(test_device, state_machine);
+  led_manager = new FastLedManager(Devices::current, state_machine);
   led_manager->PlayStartupAnimation();
 }
 

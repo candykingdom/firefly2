@@ -3,6 +3,7 @@
 #undef max
 #undef min
 #include <DeviceDescription.hpp>
+#include <Devices.hpp>
 #include <StripDescription.hpp>
 #include <vector>
 
@@ -13,37 +14,7 @@
 
 const int kLedPin = 0;
 
-const uint32_t RF_BOARD_MA_SUPPORTED = 2400 - 50;
-
-static const DeviceDescription *SimpleRfBoardDescription(
-    uint8_t led_count, std::vector<StripFlag> flags) {
-  return new DeviceDescription(RF_BOARD_MA_SUPPORTED,
-                               {
-                                   new StripDescription(led_count, flags),
-                               });
-}
-
-const DeviceDescription *const bike = SimpleRfBoardDescription(30, {Bright});
-const DeviceDescription *const will_bike =
-    SimpleRfBoardDescription(63, {Bright});
-const DeviceDescription *const scarf = SimpleRfBoardDescription(46, {});
-const DeviceDescription *const lantern = SimpleRfBoardDescription(5, {Tiny});
-const DeviceDescription *const puck =
-    SimpleRfBoardDescription(12, {Tiny, Circular});
-const DeviceDescription *const two_side_puck =
-    SimpleRfBoardDescription(24, {Tiny, Circular, Mirrored});
-const DeviceDescription *const rainbow_cloak = new DeviceDescription(
-    RF_BOARD_MA_SUPPORTED,
-    {
-        new StripDescription(11, {Tiny, Circular}),
-        new StripDescription(94, {}),
-        new StripDescription(11, {Tiny, Circular, Reversed}),
-    });
-const DeviceDescription *const backpack_tail = SimpleRfBoardDescription(11, {});
-const DeviceDescription *const dan_jacket = SimpleRfBoardDescription(60, {});
-const DeviceDescription *const will_jacket = SimpleRfBoardDescription(56, {});
-
-const DeviceDescription *const device = scarf;
+const DeviceDescription *const device = Devices::current;
 
 RadioHeadRadio *radio;
 NetworkManager *nm;
