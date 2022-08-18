@@ -35,7 +35,8 @@ const DeviceDescription *const rainbow_cloak = new DeviceDescription(
 const DeviceDescription *const backpack_tail = SimpleRfBoardDescription(11, {});
 const DeviceDescription *const dan_jacket = SimpleRfBoardDescription(60, {});
 const DeviceDescription *const will_jacket = SimpleRfBoardDescription(56, {});
-const DeviceDescription *const will_bike_front = SimpleRfBoardDescription(27, {Circular});
+const DeviceDescription *const will_bike_front =
+    SimpleRfBoardDescription(27, {Circular});
 
 // Modify this variable to easily switch between devices.
 const DeviceDescription *const current = scarf;
