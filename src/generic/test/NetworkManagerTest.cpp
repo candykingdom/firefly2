@@ -12,6 +12,7 @@ class NetworkManagerTest : public ::testing::Test {
 
   void expectEqualAndDelete(RadioPacket *packet,
                             const RadioPacket &other_packet) {
+    ASSERT_FALSE(packet == nullptr);
     EXPECT_EQ(*packet, other_packet);
     delete packet;
   }
@@ -53,7 +54,9 @@ TEST_F(NetworkManagerTest, receive_rebroadcasts) {
   radio.setReceivedPacket(&received_packet);
 
   EXPECT_EQ(networkManager->receive(packet), true);
-  expectEqualAndDelete(radio.getSentPacket(), received_packet);
+  RadioPacket *sent_packet = radio.getSentPacket();
+  ASSERT_NE(sent_packet, nullptr);
+  expectEqualAndDelete(sent_packet, received_packet);
 
   // With same ID, shouldn't rebroadcast again
   networkManager->receive(packet);
@@ -63,11 +66,13 @@ TEST_F(NetworkManagerTest, receive_rebroadcasts) {
   received_packet.packet_id = 6789;
   radio.setReceivedPacket(&received_packet);
   EXPECT_EQ(networkManager->receive(packet), true);
-  expectEqualAndDelete(radio.getSentPacket(), received_packet);
+  sent_packet = radio.getSentPacket();
+  ASSERT_NE(sent_packet, nullptr);
+  expectEqualAndDelete(sent_packet, received_packet);
 
   // Make sure it doesn't crash when exceeding the cache size
   // Start from 1 because 0 isn't a valid packet ID.
-  for (uint16_t i = 1; i < NetworkManager::kRecentIdsCacheSize * 2; i++) {
+  for (uint16_t i = 1; i < NetworkManager::kRecentIdsCacheSize * 2; ++i) {
     received_packet.packet_id = i;
     radio.setReceivedPacket(&received_packet);
     EXPECT_EQ(networkManager->receive(packet), true);
@@ -93,6 +98,45 @@ TEST_F(NetworkManagerTest, receive_doesntRebroadcastSentId) {
   RadioPacket packet;
   EXPECT_EQ(networkManager->receive(packet), false);
   EXPECT_EQ(radio.getSentPacket(), nullptr);
+}
+
+TEST_F(NetworkManagerTest, ReceivePausesRebroadcast) {
+  RadioPacket received_packet;
+  received_packet.packet_id = 1234;
+  received_packet.dataLength = 1;
+  radio.setReceivedPacket(&received_packet);
+
+  RadioPacket packet;
+  ASSERT_EQ(networkManager->receive(packet), true);
+  RadioPacket *sent_packet = radio.getSentPacket();
+  ASSERT_NE(sent_packet, nullptr);
+  delete sent_packet;
+
+  for (uint16_t n = 0; n < NetworkManager::kPacketCopiesThreshold + 1; n++) {
+    radio.setReceivedPacket(&received_packet);
+    ASSERT_EQ(networkManager->receive(packet), false);
+  }
+
+  received_packet.packet_id = 5678;
+  radio.setReceivedPacket(&received_packet);
+  ASSERT_EQ(networkManager->receive(packet), true);
+  ASSERT_EQ(radio.getSentPacket(), nullptr);
+
+  // Send more packets with few copies, to clear the buffer
+  for (uint16_t n = 0; n < NetworkManager::kRecentIdsCacheSize; ++n) {
+    received_packet.packet_id = 100 + n;
+    radio.setReceivedPacket(&received_packet);
+    ASSERT_EQ(networkManager->receive(packet), true);
+    ASSERT_EQ(radio.getSentPacket(), nullptr);
+  }
+
+  advanceMillis(NetworkManager::kRebroadcastPauseMillis + 10);
+  received_packet.packet_id = 1;
+  radio.setReceivedPacket(&received_packet);
+  ASSERT_EQ(networkManager->receive(packet), true);
+  sent_packet = radio.getSentPacket();
+  ASSERT_NE(sent_packet, nullptr);
+  delete sent_packet;
 }
 
 TEST_F(NetworkManagerTest, send_sendsPacket) {
