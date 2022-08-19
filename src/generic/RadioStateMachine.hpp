@@ -37,7 +37,7 @@ enum class RadioState {
 
 class RadioStateMachine {
  public:
-  RadioStateMachine(NetworkManager *networkManager);
+  RadioStateMachine(NetworkManager *network_manager);
   ~RadioStateMachine();
 
   RadioState GetCurrentState();
@@ -111,39 +111,39 @@ class RadioStateMachine {
   /** Sends a heartbeat packet. */
   void SendHeartbeat();
 
-  NetworkManager *const networkManager;
+  NetworkManager *const network_manager_;
 
   /** The current state. */
-  RadioState state;
+  RadioState state_;
 
   /** If not equal to state, the next state. */
-  RadioState next_state;
+  RadioState next_state_;
 
-  uint32_t timers[TIMER_TYPE_LAST + 1];
+  uint32_t timers_[TIMER_TYPE_LAST + 1];
 
   /**
    * The last time we saw the effect change. This is so that we can preserve the
    * cadence of changing effects, even if the master changes.
    */
-  uint32_t effect_change_seen_at = 0;
+  uint32_t effect_change_seen_at_ = 0;
 
   /**
    * The offset between the local millis() and the network time, such that
    * millis + millis_offset = network time.
    */
-  int32_t millis_offset = 0;
+  int32_t millis_offset_ = 0;
 
   /** The current effect index. */
-  int8_t effect_index = 0;
+  int8_t effect_index_ = 0;
 
   // The state machine needs to know how many effects and palettes there are, so
   // that it can set them in the SetEffect packets. These are set by LedManager
   // calling the corresponding setters.
-  uint8_t num_palettes = 1;
-  uint8_t num_effects = 1;
+  uint8_t num_palettes_ = 1;
+  uint8_t num_effects_ = 1;
 
-  RadioPacket packet;
-  RadioPacket setEffectPacket;
+  RadioPacket packet_;
+  RadioPacket set_effect_packet_;
 };
 
 #endif
