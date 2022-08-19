@@ -15,13 +15,13 @@ class FakeLedManager : public LedManager {
 
   CRGB GetLed(uint8_t led_index);
 
-  void SetGlobalColor(CRGB rgb) override;
+  void SetGlobalColor(const CRGB &rgb) override;
 
   void ClearEffects();
   void PublicAddEffect(Effect *effect, uint8_t proportion);
 
  protected:
-  void SetLed(uint8_t led_index, CRGB *const rgb) override;
+  void SetLed(uint8_t led_index, const CRGB &rgb) override;
 
   void WriteOutLeds() override;
 

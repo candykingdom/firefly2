@@ -13,12 +13,12 @@ class FastLedManager : public LedManager {
   FastLedManager(const DeviceDescription *device,
                  RadioStateMachine *radio_state);
 
-  void SetGlobalColor(CRGB rgb);
+  void SetGlobalColor(const CRGB &rgb);
 
   void PlayStartupAnimation();
 
  protected:
-  void SetLed(uint8_t led_index, CRGB *const rgb) override;
+  void SetLed(uint8_t led_index, const CRGB &rgb) override;
 
   void WriteOutLeds() override;
 

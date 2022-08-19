@@ -37,10 +37,10 @@ class LedManager {
   Effect *GetEffect(uint8_t index);
 
   /** Sets all LEDs to the given color. */
-  virtual void SetGlobalColor(CRGB rgb) = 0;
+  virtual void SetGlobalColor(const CRGB &rgb) = 0;
 
  protected:
-  virtual void SetLed(uint8_t led_index, CRGB *const rgb) = 0;
+  virtual void SetLed(uint8_t led_index, const CRGB &rgb) = 0;
 
   // Note: these need to be defined, or else calls to this classes' constructor
   // don't work.

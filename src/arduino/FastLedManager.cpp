@@ -18,7 +18,7 @@ FastLedManager::FastLedManager(const DeviceDescription *device,
   FastLED.showColor(CRGB(0, 0, 0));
 }
 
-void FastLedManager::SetGlobalColor(CRGB rgb) { FastLED.showColor(rgb); }
+void FastLedManager::SetGlobalColor(const CRGB &rgb) { FastLED.showColor(rgb); }
 
 void FastLedManager::PlayStartupAnimation() {
   uint16_t led_count = device->GetLedCount();
@@ -30,19 +30,19 @@ void FastLedManager::PlayStartupAnimation() {
       index = led_count - (i - led_count);
     }
     FastLED.clear();
-    SetLed(index, &white);
+    SetLed(index, white);
     FastLED.show();
     delay(500 / led_count);
   }
 }
 
-void FastLedManager::SetLed(uint8_t led_index, CRGB *const rgb) {
+void FastLedManager::SetLed(uint8_t led_index, const CRGB &rgb) {
   // If we only have one LED then treat the board LED as the first LED. This is
   // useful for testing boards themselves.
   if (device->GetLedCount() == 1 && led_index == 0) {
-    leds[0] = *rgb;
+    leds[0] = rgb;
   }
-  leds[led_index + 1] = *rgb;
+  leds[led_index + 1] = rgb;
 }
 
 void FastLedManager::WriteOutLeds() { FastLED.show(); }

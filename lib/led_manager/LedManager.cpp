@@ -89,7 +89,7 @@ void LedManager::RunEffect() {
       CRGB rgb = GetCurrentEffect()->GetRGB(virtual_index,
                                             radio_state->GetNetworkMillis(),
                                             strip, radio_state->GetSetEffect());
-      SetLed(global_index, &rgb);
+      SetLed(global_index, rgb);
       global_index += 1;
     }
   }

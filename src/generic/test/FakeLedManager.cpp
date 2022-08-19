@@ -15,7 +15,7 @@ FakeLedManager::FakeLedManager(const DeviceDescription *device,
 
 FakeLedManager::~FakeLedManager() { delete[] leds; }
 
-void FakeLedManager::SetGlobalColor(CRGB rgb) {
+void FakeLedManager::SetGlobalColor(const CRGB &rgb) {
   for (uint8_t i = 0; i < led_count; i++) {
     leds[i] = rgb;
   }
@@ -42,9 +42,9 @@ void FakeLedManager::PublicAddEffect(Effect *effect, uint8_t proportion) {
   AddEffect(effect, proportion);
 }
 
-void FakeLedManager::SetLed(uint8_t led_index, CRGB *const rgb) {
+void FakeLedManager::SetLed(uint8_t led_index, const CRGB &rgb) {
   assert(led_index < led_count);
-  leds[led_index] = *rgb;
+  leds[led_index] = rgb;
 }
 
 void FakeLedManager::WriteOutLeds() {}
