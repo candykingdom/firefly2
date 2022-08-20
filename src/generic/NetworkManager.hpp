@@ -23,6 +23,13 @@ class NetworkManager {
   // Public for testing
   static const uint8_t kRecentIdsCacheSize = 5;
 
+  // If we've seen this many copies for the packets in our recent ids cache,
+  // then stop rebroadcasting for a while, to avoid flooding the network.
+  static constexpr uint16_t kPacketCopiesThreshold = 10 * kRecentIdsCacheSize;
+
+  // How long to pause rebroadcasting for, when many packet copies are seen.
+  static constexpr uint32_t kRebroadcastPauseMillis = 60 * 1000;
+
  private:
   void AddToRecentIdsCache(uint16_t id);
 
@@ -35,6 +42,12 @@ class NetworkManager {
    */
   uint16_t recent_ids_cache_[kRecentIdsCacheSize];
   uint8_t recent_ids_cache_index_;
+
+  // The number of copies of each packet seen, per packet id.
+  uint8_t recent_ids_num_seen_[kRecentIdsCacheSize];
+
+  // Will resume rebroadcasting once this timer expires.
+  uint32_t resume_rebroadcast_at = 0;
 };
 
 #endif
