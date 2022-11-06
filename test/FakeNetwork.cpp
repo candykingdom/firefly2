@@ -4,7 +4,7 @@
 #include <DeviceDescription.hpp>
 #include <cstdio>
 
-#include "../NetworkManager.hpp"
+#include "NetworkManager.hpp"
 
 //#define DEBUG
 

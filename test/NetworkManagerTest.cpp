@@ -1,6 +1,6 @@
 #include <Radio.hpp>
 
-#include "../NetworkManager.hpp"
+#include "NetworkManager.hpp"
 #include "FakeRadio.hpp"
 #include "gtest/gtest.h"
 

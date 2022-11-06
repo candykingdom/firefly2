@@ -1,6 +1,7 @@
-src/generic/build
+build/*
 assembly/*.zip
 *.d
 *.o
 .pio
 .vscode
+

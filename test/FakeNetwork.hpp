@@ -3,7 +3,7 @@
 
 #include <Radio.hpp>
 
-#include "../RadioStateMachine.hpp"
+#include "RadioStateMachine.hpp"
 #include "FakeLedManager.hpp"
 #include "FakeRadio.hpp"
 

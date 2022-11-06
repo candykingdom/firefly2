@@ -9,15 +9,14 @@ set(CMAKE_CXX_EXTENSIONS Off)
 
 project(firefly2 LANGUAGES CXX)
 
-# Download GoogleTest for mocks and test runner.
-include(DownloadProject.cmake)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+include(DownloadProject)
 download_project(PROJ                googletest
                  GIT_REPOSITORY      https://github.com/google/googletest.git
                  GIT_TAG             main
                  UPDATE_DISCONNECTED 1
 )
 
-include(DownloadProject.cmake)
 download_project(PROJ                fake-fast-led
                  GIT_REPOSITORY      https://github.com/ademuri/FakeFastLED.git
                  GIT_TAG             master
@@ -36,35 +35,35 @@ set (CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS_DEBUG} ${SANITIZER_FLAGS}")
 set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
 
 file(GLOB LIBRARY_SOURCES
-  "*.cpp"
-  "FakeFastLED/*.cpp"
-  "../../lib/color/*.cpp"
-  "../../lib/debug/*.cpp"
-  "../../lib/device/*.cpp"
-  "../../lib/effect/*.cpp"
-  "../../lib/led_manager/*.cpp"
-  "../../lib/math/*.cpp"
-  "../../lib/radio/*.cpp"
-  "../../lib/types/*.cpp"
+  "src/generic/*.cpp"
+  "src/generic/FakeFastLED/*.cpp"
+  "lib/color/*.cpp"
+  "lib/debug/*.cpp"
+  "lib/device/*.cpp"
+  "lib/effect/*.cpp"
+  "lib/led_manager/*.cpp"
+  "lib/math/*.cpp"
+  "lib/radio/*.cpp"
+  "lib/types/*.cpp"
 )
 add_library(generic ${LIBRARY_SOURCES})
 target_include_directories(generic PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/FakeFastLED>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/color>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/debug>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/device>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/effect>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/led_manager>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/math>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/network>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/radio>
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../lib/types>
-  $<INSTALL_INTERFACE:.>
-  $<INSTALL_INTERFACE:./FakeFastLED>
-  $<INSTALL_INTERFACE:../../lib/debug>
-  $<INSTALL_INTERFACE:../../lib/effects>
-  $<INSTALL_INTERFACE:../../lib/types>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/generic>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/generic/FakeFastLED>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/color>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/debug>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/device>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/effect>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/led_manager>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/math>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/network>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/radio>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/types>
+  $<INSTALL_INTERFACE:./src/generic>
+  $<INSTALL_INTERFACE:./src/generic/FakeFastLED>
+  $<INSTALL_INTERFACE:./lib/debug>
+  $<INSTALL_INTERFACE:./lib/effects>
+  $<INSTALL_INTERFACE:./lib/types>
 )
 
 target_link_libraries(generic fake-fast-led)
