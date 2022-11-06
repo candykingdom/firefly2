@@ -9,22 +9,22 @@ set(CMAKE_CXX_EXTENSIONS Off)
 
 project(firefly2 LANGUAGES CXX)
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-include(DownloadProject)
-download_project(PROJ                googletest
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake-fetch-content)
+include(FetchContent)
+include(fetch-content-shim)
+include(ExternalProject)
+
+FetchContent_Declare(googletest
                  GIT_REPOSITORY      https://github.com/google/googletest.git
                  GIT_TAG             main
-                 UPDATE_DISCONNECTED 1
 )
+FetchContent_MakeAvailable(googletest)
 
-download_project(PROJ                fake-fast-led
+FetchContent_Declare(fake-fast-led
                  GIT_REPOSITORY      https://github.com/ademuri/FakeFastLED.git
                  GIT_TAG             master
-                 UPDATE_DISCONNECTED 1
 )
-
-add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
-add_subdirectory(${fake-fast-led_SOURCE_DIR} ${fake-fast-led_BINARY_DIR})
+FetchContent_MakeAvailable(fake-fast-led)
 
 set(SANITIZER_FLAGS "-fsanitize=address -fsanitize=undefined")
 # Set appropriate warning levels and include debug symbols.
@@ -67,6 +67,11 @@ target_include_directories(generic PUBLIC
 )
 
 target_link_libraries(generic fake-fast-led)
+
+set(BUILD_SIMULATOR true CACHE BOOL "Whether to build the simulator")
+if(BUILD_SIMULATOR)
+  add_subdirectory(lib/simulator)
+endif(BUILD_SIMULATOR)
 
 enable_testing()
 

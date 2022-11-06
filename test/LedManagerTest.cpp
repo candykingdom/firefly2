@@ -1,8 +1,8 @@
 #include <DeviceDescription.hpp>
 #include <LedManager.hpp>
 
-#include "../../../lib/effect/Effect.hpp"
-#include "../../../lib/effect/Effects.hpp"
+#include "Effect.hpp"
+#include "Effects.hpp"
 #include "FakeLedManager.hpp"
 #include "FakeRadio.hpp"
 #include "gtest/gtest.h"
