@@ -484,6 +484,11 @@
     (pad "P$11" smd rect locked (at 1 0 180) (size 1.5 1.55) (layers "F.Cu" "F.Paste" "F.Mask") (tstamp 52af3f9b-4d48-4bda-804d-a7401b309acd))
     (pad "P$12" smd rect locked (at -3.05 0 180) (size 1.5 1.55) (layers "F.Cu" "F.Paste" "F.Mask") (tstamp dafe1208-312f-44c4-88c3-aedc8cadac97))
     (pad "P$13" smd rect locked (at 3.05 0 180) (size 1.5 1.55) (layers "F.Cu" "F.Paste" "F.Mask") (tstamp 6cfb685d-9e3a-492d-9af4-5856b91b0c45))
+    (model ":homebrew:10118194-0001LF.wrl"
+      (offset (xyz 0 0 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 0 0))
+    )
   )
 
   (footprint "Inductor_SMD:L_0603_1608Metric" (layer "F.Cu")
@@ -1358,6 +1363,11 @@
       (net 18 "RADIO_DIO0") (tstamp 0031a26e-355b-43f1-a06a-f6256d421bcd))
     (pad "14" smd rect locked (at 7.49808 5.99948 90) (size 2.99974 1.19888) (layers "B.Cu" "B.Paste" "B.Mask")
       (net 2 "GND") (tstamp 35ce62fb-72b0-408c-87ae-31ba841be14e))
+    (model ":homebrew:RFM69CW_rough.wrl"
+      (offset (xyz 0 0 0))
+      (scale (xyz 1 1 1))
+      (rotate (xyz 0 0 0))
+    )
   )
 
   (gr_line (start 116.3 105) (end 116.6 105.5) (layer "F.SilkS") (width 0.15) (tstamp 5ed679d2-0d9d-4ae0-8f1b-5b88f4d3b64c))

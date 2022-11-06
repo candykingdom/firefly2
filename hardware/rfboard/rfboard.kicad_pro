@@ -384,7 +384,7 @@
       "idf": "",
       "netlist": "rfboard.net",
       "specctra_dsn": "",
-      "step": "",
+      "step": "rfboard.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""
