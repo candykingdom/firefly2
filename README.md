@@ -1,14 +1,5 @@
-# Firefly 2
+# Firefly2
 
-## Working on this library
+## Programming
 
-To do development work on this library, first clone this repo somewhere. Then, set up symbolic links in the Arduino libraries directory for the `generic` and `arduino` libraries. The names are important (they must the names used in the board definition).
-
-```bash
-# set me
-FIREFLY2_DIR=$PWD
-
-pushd ~/Arduino/libraries
-ln -s $FIREFLY2_DIR/src/generic firefly_generic
-ln -s $FIREFLY2_DIR/src/arduino firefly_arduino
-```
+The `fancy-node` device can be programmed either using an STLink, or via USB port. To program via USB, you must first install [stm32loader] using pip (`pip install stm32loader`). You may also need to pass the port (typically `/dev/ttyUSB0`), e.g. `pio run -e fancy-node-usb -t upload --upload-port /dev/ttyUSB0`.
