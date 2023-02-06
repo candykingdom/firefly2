@@ -7,6 +7,12 @@
     "framework_extra_flags": {
       "arduino": "-D__CORTEX_SC=0"
     },
+    "hwids": [
+      [
+        "0x1A86",
+        "0x7523"
+      ]
+    ],
     "mcu": "stm32g030c8tx",
     "product_line": "STM32G030xx",
     "variant": "STM32G0xx/G030C(6-8)T"
