@@ -52,7 +52,7 @@ class LedManager {
   // each effect, so that we can control the occurence of each effect.
   std::vector<Effect *> effects;
 
-  // Effects that can only be chosen manuall. These are "harsh" or otherwise
+  // Effects that can only be chosen manually. These are "harsh" or otherwise
   // unsuitable for general use.
   std::vector<Effect *> non_random_effects;
 

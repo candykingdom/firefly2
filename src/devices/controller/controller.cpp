@@ -1,6 +1,10 @@
 #include <FastLED.h>
 
 #include "Arduino.h"
+#include "FakeLedManager.hpp"
+#include "arduino/RadioHeadRadio.hpp"
+#include "generic/NetworkManager.hpp"
+#include "generic/RadioStateMachine.hpp"
 
 // Pin definitions
 constexpr int kSwitchLeft = PA0;
@@ -38,29 +42,31 @@ int ReadAnalogButton(int pin) {
   return -1;
 }
 
-void setup() { FastLED.addLeds<NEOPIXEL, kNeopixelPin>(leds, kLedCount); }
+void setup() {
+  FastLED.addLeds<NEOPIXEL, kNeopixelPin>(leds, kLedCount)
+      .setCorrection(TypicalLEDStrip);
+  FastLED.setBrightness(64);
 
-bool output = false;
-void loop() {
-  int button = ReadAnalogButton(kSwitchLeft);
-  switch (button) {
-    case -1:
-      FastLED.showColor(CRGB::Black);
-      break;
-
-    case 0:
-      FastLED.showColor(CRGB::Red);
-      break;
-
-    case 1:
-      FastLED.showColor(CRGB::Green);
-      break;
-
-    case 2:
-      FastLED.showColor(CRGB::Blue);
-      break;
+  if (!radio.Begin()) {
+    while (true) {
+      leds[0] = CRGB((millis() / 200) % 2 == 0 ? 255 : 0, 0, 0);
+      FastLED.show();
+    }
   }
-  // FastLED.showColor(CHSV(millis() / 10, 255, 64));
+  FastLED.clear(/*writeData=*/true);
+}
 
-  // delay(10);
+void loop() {
+  state_machine.Tick();
+  led_manager.RunEffect();
+
+  for (uint8_t i = 0; i < 12; i++) {
+    leds[i] = led_manager.GetLed(i);
+  }
+  leds[37] = state_machine.GetCurrentState() == RadioState::Slave
+                 ? CRGB(255, 0, 0)
+                 : CRGB(0, 255, 0);
+  FastLED.show();
+
+  delay(5);
 }
