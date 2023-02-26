@@ -49,7 +49,7 @@ class RadioStateMachine {
   /** Runs the radio state machine. Typically you want to use just Tick. */
   void RadioTick();
 
-  // Network properties - these are used to coordinate effectrs
+  // Network properties - these are used to coordinate effects
 
   /** Returns the synchronized milliseconds time from the network. */
   uint32_t GetNetworkMillis();

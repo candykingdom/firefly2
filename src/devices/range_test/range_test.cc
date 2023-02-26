@@ -13,10 +13,10 @@
 constexpr int kLedPin = 0;
 static const DeviceDescription device{200, {new StripDescription(1, {})}};
 
-RadioHeadRadio* radio;
-NetworkManager *nm;
-RadioStateMachine *state_machine;
-FastLedManager* led_manager;
+RadioHeadRadio *radio = new RadioHeadRadio();
+NetworkManager nm(radio);
+RadioStateMachine state_machine(&nm);
+FastLedManager led_manager(Devices::current, &state_machine);
 
 RadioPacket packetToSend;
 void setup() {
@@ -25,13 +25,8 @@ void setup() {
   // Delay makes it easier to reset the board in case of failure
   delay(1000);
 
-  radio = new RadioHeadRadio();
-  nm = new NetworkManager(radio);
-  state_machine = new RadioStateMachine(nm);
-  led_manager = new FastLedManager(&device, state_machine);
-
   if (!radio->Begin()) {
-    led_manager->FatalErrorAnimation();
+    led_manager.FatalErrorAnimation();
   }
 
   packetToSend.writeSetEffect(0, 10, 4);
@@ -55,7 +50,7 @@ void loop() {
     // RSSI range is -120 to 0 (0 is best), so this maps from aqua (high
     // strength) to red (low strength)
     uint8_t hue = 120 + (radio->LastRssi());
-    led_manager->SetGlobalColor(CHSV(hue, 255, 255));
+    led_manager.SetGlobalColor(CHSV(hue, 255, 255));
 
     // Wait for the other radio to transition to receiving
     delay(1);
@@ -63,7 +58,7 @@ void loop() {
   } else {
     radio->sendPacket(packetToSend);
     if (millis() - receivedPacketAt > 500) {
-      led_manager->SetGlobalColor(CRGB(CRGB::Black));
+      led_manager.SetGlobalColor(CRGB(CRGB::Black));
     }
   }
 }

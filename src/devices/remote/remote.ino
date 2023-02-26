@@ -3,7 +3,7 @@
 const int kLedPin = 0;
 const int kButton0 = 8;
 
-RadioHeadRadio* radio;
+RadioHeadRadio *radio = new RadioHeadRadio();
 RadioPacket packet;
 
 void setup() {
@@ -12,7 +12,6 @@ void setup() {
   pinMode(kLedPin, OUTPUT);
   pinMode(kButton0, INPUT_PULLUP);
 
-  radio = new RadioHeadRadio();
   if (!radio->Begin()) {
     bool on = false;
     while (true) {

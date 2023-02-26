@@ -14,12 +14,12 @@
 
 const int kLedPin = 0;
 
-const DeviceDescription *const device = Devices::current;
-
-RadioHeadRadio *radio;
-NetworkManager *nm;
-FastLedManager *led_manager;
-RadioStateMachine *state_machine;
+// Note: `RadioHeadRadio` needs to be a pointer, I think because the superclass
+// `Radio` is abstract (has pure virtual methods)
+RadioHeadRadio *radio = new RadioHeadRadio();
+NetworkManager nm(radio);
+RadioStateMachine state_machine(&nm);
+FastLedManager led_manager(Devices::current, &state_machine);
 
 void FeedWatchdog() { WDT->CLEAR.reg = WDT_CLEAR_CLEAR_KEY; }
 
@@ -27,19 +27,16 @@ void setup() {
   Serial.begin(115200);
   pinMode(kLedPin, OUTPUT);
 
-  radio = new RadioHeadRadio();
-  nm = new NetworkManager(radio);
-  state_machine = new RadioStateMachine(nm);
-
-  led_manager = new FastLedManager(device, state_machine);
-
+  // nm = new NetworkManager(radio);
+  // state_machine = new RadioStateMachine(nm);
+  // led_manager = new FastLedManager(Devices::current, state_machine);
   if (!radio->Begin()) {
-    led_manager->FatalErrorAnimation();
+    led_manager.FatalErrorAnimation();
   }
 
   // NOTE: can check if we watchdog rebooted by checking REG_PM_RCAUSE
   // See https://github.com/gjt211/SAMD21-Reset-Cause
-  led_manager->PlayStartupAnimation();
+  led_manager.PlayStartupAnimation();
 
   // Set up the watchdog timer: this will reset the processor if it hasn't
   // 'fed' the watchdog in ~100ms.
@@ -87,11 +84,11 @@ unsigned long print_alive_at = 0;
 uint8_t watchdog_counter = 0;
 
 void loop() {
-  state_machine->Tick();
-  led_manager->RunEffect();
+  state_machine.Tick();
+  led_manager.RunEffect();
 
   if (millis() > print_alive_at) {
-    Serial.println(state_machine->GetNetworkMillis());
+    Serial.println(state_machine.GetNetworkMillis());
     print_alive_at = millis() + 1000;
   }
 
