@@ -35,7 +35,7 @@ LedManager::LedManager(const DeviceDescription *device,
   control_effect = new ControlEffect();
 
   radio_state->SetNumEffects(GetNumEffects());
-  radio_state->SetNumPalettes(effects[0]->palettes.size());
+  radio_state->SetNumPalettes(Effect::palettes().size());
 }
 
 LedManager::~LedManager() {

@@ -7,7 +7,7 @@ CRGB DisplayColorPaletteEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
                                        RadioPacket *setEffectPacket) {
   UNUSED(led_index);
   ColorPalette palette =
-      palettes[setEffectPacket->readPaletteIndexFromSetEffect()];
+      palettes()[setEffectPacket->readPaletteIndexFromSetEffect()];
   CHSV color = palette.GetGradient((time_ms / 2) * 23);
   if (!strip->FlagEnabled(Bright)) {
     color.v /= 2;

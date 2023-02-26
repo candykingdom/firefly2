@@ -15,7 +15,7 @@ CRGB RorschachEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
                              RadioPacket *setEffectPacket) {
   const uint8_t palette_index =
       setEffectPacket->readPaletteIndexFromSetEffect();
-  const ColorPalette palette = palettes[palette_index];
+  const ColorPalette palette = palettes()[palette_index];
 
   // LEDs at the center of the strip have a lower position.
   const uint16_t led_pos = -abs(led_index - (strip->led_count >> 1));
