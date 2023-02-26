@@ -36,6 +36,15 @@ void FastLedManager::PlayStartupAnimation() {
   }
 }
 
+void FastLedManager::FatalErrorAnimation() {
+  while (true) {
+    FastLED.showColor(CRGB(64, 0, 0));
+    delay(100);
+    FastLED.showColor(CRGB(0, 0, 0));
+    delay(100);
+  }
+}
+
 void FastLedManager::SetLed(uint8_t led_index, const CRGB &rgb) {
   // If we only have one LED then treat the board LED as the first LED. This is
   // useful for testing boards themselves.

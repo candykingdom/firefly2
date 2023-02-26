@@ -13,6 +13,14 @@ void setup() {
   pinMode(kButton0, INPUT_PULLUP);
 
   radio = new RadioHeadRadio();
+  if (!radio->Begin()) {
+    bool on = false;
+    while (true) {
+      digitalWrite(kLedPin, on);
+      delay(100);
+      on = !on;
+    }
+  }
   radio->sleep();
 }
 

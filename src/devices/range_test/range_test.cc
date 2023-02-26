@@ -29,9 +29,10 @@ void setup() {
   nm = new NetworkManager(radio);
   state_machine = new RadioStateMachine(nm);
   led_manager = new FastLedManager(&device, state_machine);
-  // Yellow LED on boot indicates a problem initializing the radio
-  led_manager->SetGlobalColor(CHSV(HUE_YELLOW, 255, 128));
-  led_manager->SetGlobalColor(CRGB(CRGB::Black));
+
+  if (!radio->Begin()) {
+    led_manager->FatalErrorAnimation();
+  }
 
   packetToSend.writeSetEffect(0, 10, 4);
 }

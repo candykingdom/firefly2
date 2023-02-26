@@ -12,7 +12,11 @@ const int kFrontPacketPadding = 3;
 
 class RadioHeadRadio : public Radio {
  public:
-  RadioHeadRadio();
+  RadioHeadRadio() {}
+
+  // Initializes the hardware. Call before using this class. Returns true on
+  // success.
+  bool Begin();
 
   // Overrides
   bool readPacket(RadioPacket &packet) override;

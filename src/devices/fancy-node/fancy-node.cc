@@ -66,8 +66,12 @@ void setup() {
   radio = new RadioHeadRadio();
   nm = new NetworkManager(radio);
   state_machine = new RadioStateMachine(nm);
-
   led_manager = new FastLedManager(Devices::current, state_machine);
+
+  if (!radio->Begin()) {
+    led_manager->FatalErrorAnimation();
+  }
+
   led_manager->PlayStartupAnimation();
 }
 
