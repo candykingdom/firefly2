@@ -7,6 +7,10 @@ constexpr int kSwitchLeft = PA0;
 constexpr int kSwitchRight = PA1;
 constexpr int kSwitchAction = PA2;
 
+constexpr int kVbattDiv = PA3;
+
+constexpr int kNeopixelPin = PB15;
+
 // Constants for the analog switch inputs. See
 // http://www.ignorantofthings.com/2018/07/the-perfect-multi-button-input-resistor.html?m=1
 constexpr uint16_t kSwitch1Threshold = 346 / 2;
@@ -27,7 +31,7 @@ int ReadAnalogButton(int pin) {
   return -1;
 }
 
-void setup() { FastLED.addLeds<NEOPIXEL, PB15>(leds, kLedCount); }
+void setup() { FastLED.addLeds<NEOPIXEL, kNeopixelPin>(leds, kLedCount); }
 
 bool output = false;
 void loop() {
