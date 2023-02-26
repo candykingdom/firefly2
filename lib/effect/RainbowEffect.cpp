@@ -9,7 +9,7 @@ CRGB RainbowEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
 
   const uint8_t palette_index =
       setEffectPacket->readPaletteIndexFromSetEffect();
-  ColorPalette palette = palettes[palette_index];
+  ColorPalette palette = palettes()[palette_index];
   // Check for whether the entire palette is the same color - if so, change the
   // brightness rather than the hue.
   if (palette.Size() < 2) {
