@@ -15,7 +15,6 @@ RadioStateMachine::RadioStateMachine(NetworkManager *networkManager)
   }
   state_ = RadioState::Slave;
   next_state_ = RadioState::Slave;
-  beginSlave();
   set_effect_packet_.writeSetEffect(1, 0, 0);
 }
 
@@ -24,6 +23,10 @@ RadioStateMachine::~RadioStateMachine() { delete network_manager_; }
 RadioState RadioStateMachine::GetCurrentState() { return state_; }
 
 void RadioStateMachine::Tick() {
+  if (!initialized_) {
+    beginSlave();
+    initialized_ = true;
+  }
   // Run the radio state machine twice, since writing out LEDs may take several
   // ms.
   RadioTick();
