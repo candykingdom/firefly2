@@ -3,7 +3,7 @@
 
 // This header defines types depending on the platform.
 
-#if !defined(STM32G0xx)
+#if !defined(STM32G0xx) && !defined(STM32F1xx)
 #define UNUSED(x) (void)(x)
 #endif
 

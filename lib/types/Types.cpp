@@ -20,11 +20,17 @@ uint16_t XY(uint8_t x, uint8_t y) {
 }
 #else
 namespace std {
-void __throw_bad_alloc() { Serial.println("Unable to allocate memory"); }
+void __throw_bad_alloc() {
+  Serial.println("Unable to allocate memory");
+  while (true)
+    ;
+}
 
 void __throw_length_error(char const* e) {
   Serial.print("Length Error :");
   Serial.println(e);
+  while (true)
+    ;
 }
 }  // namespace std
 #endif
