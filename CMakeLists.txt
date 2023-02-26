@@ -41,6 +41,7 @@ file(GLOB LIBRARY_SOURCES
   "lib/debug/*.cpp"
   "lib/device/*.cpp"
   "lib/effect/*.cpp"
+  "lib/fake-led-manager/*.cpp"
   "lib/fake-radio/*.cpp"
   "lib/led_manager/*.cpp"
   "lib/math/*.cpp"
@@ -55,6 +56,7 @@ target_include_directories(generic PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/debug>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/device>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/effect>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/fake-led-manager>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/fake-radio>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/led_manager>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/math>
@@ -64,6 +66,7 @@ target_include_directories(generic PUBLIC
   $<INSTALL_INTERFACE:./src/generic>
   $<INSTALL_INTERFACE:./src/generic/FakeFastLED>
   $<INSTALL_INTERFACE:./lib/debug>
+  $<INSTALL_INTERFACE:./lib/fake-led-manager>
   $<INSTALL_INTERFACE:./lib/fake-radio>
   $<INSTALL_INTERFACE:./lib/led_manager>
   $<INSTALL_INTERFACE:./lib/effects>
