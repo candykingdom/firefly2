@@ -4,5 +4,4 @@ assembly/*.zip
 *.o
 .pio
 .vscode
-src/generic/build/*
 
