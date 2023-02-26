@@ -4,7 +4,7 @@ set -euo pipefail
 
 mkdir -p build
 cd build
-cmake ..
+cmake .. -DBUILD_SIMULATOR=false
 make
 ./smalltests
 ./largetests
