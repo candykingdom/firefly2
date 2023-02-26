@@ -2,10 +2,10 @@
 
 set -euo pipefail
 
-cd src/generic
-mkdir build || true
+mkdir -p build
 cd build
 cmake ..
 make
 ./smalltests
 ./largetests
+
