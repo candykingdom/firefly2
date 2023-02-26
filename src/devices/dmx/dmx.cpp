@@ -24,6 +24,14 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
 
   radio = new RadioHeadRadio();
+  if (!radio->Begin()) {
+    bool on = false;
+    while (true) {
+      digitalWrite(LED_BUILTIN, on);
+      delay(100);
+      on = !on;
+    }
+  }
   radio->sleep();
 
   Serial.println("Starting...");

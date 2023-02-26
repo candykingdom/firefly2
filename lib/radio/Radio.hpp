@@ -86,7 +86,7 @@ class Radio {
   virtual ~Radio(){};
 
   /**
-   * If a packet is avilable, reads it into the provided struct and return
+   * If a packet is available, reads it into the provided struct and returns
    * true. If no packet is available, returns false.
    */
   virtual bool readPacket(RadioPacket& packet) = 0;

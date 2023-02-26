@@ -32,9 +32,13 @@ void setup() {
   state_machine = new RadioStateMachine(nm);
 
   led_manager = new FastLedManager(device, state_machine);
+
+  if (!radio->Begin()) {
+    led_manager->FatalErrorAnimation();
+  }
+
   // NOTE: can check if we watchdog rebooted by checking REG_PM_RCAUSE
   // See https://github.com/gjt211/SAMD21-Reset-Cause
-
   led_manager->PlayStartupAnimation();
 
   // Set up the watchdog timer: this will reset the processor if it hasn't

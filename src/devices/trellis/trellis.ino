@@ -49,10 +49,11 @@ void setup() {
   stateMachine = new RadioStateMachine(nm);
 
   ledManager = new FastLedManager(kNumLeds, DeviceType::Wearable, stateMachine);
+  if (!radio->Begin()) {
+    ledManager->FatalErrorAnimation();
+  }
 
   initTrellis();
-
-  ledManager->SetGlobalColor(CRGB(CRGB::Black));
   colorPaletteEffect = new DisplayColorPaletteEffect(1, DeviceType::Wearable);
 }
 

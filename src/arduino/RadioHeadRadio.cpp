@@ -4,11 +4,15 @@
 
 #include <Debug.hpp>
 
-RadioHeadRadio::RadioHeadRadio() {
-  radio.init();
+bool RadioHeadRadio::Begin() {
+  if (!radio.init()) {
+    debug_printf("Failed to initialize radio");
+    return false;
+  }
   radio.setTxPower(13, false);
   radio.setFrequency(915.0);
   radio.available();
+  return true;
 }
 
 bool RadioHeadRadio::readPacket(RadioPacket &packet) {
