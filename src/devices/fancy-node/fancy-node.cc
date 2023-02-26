@@ -27,10 +27,10 @@ static const DeviceDescription *SimpleRfBoardDescription(
 const DeviceDescription *const test_device =
     SimpleRfBoardDescription(1, {Bright});
 
-RadioHeadRadio *radio;
-NetworkManager *nm;
-FastLedManager *led_manager;
-RadioStateMachine *state_machine;
+RadioHeadRadio *radio = new RadioHeadRadio();
+NetworkManager nm(radio);
+RadioStateMachine state_machine(&nm);
+FastLedManager led_manager(Devices::current, &state_machine);
 
 // val = (previous * 3 + current) / 4
 static constexpr uint8_t kBatteryFilterAlpha = 96;
@@ -63,16 +63,12 @@ void setup() {
   SPI.setMOSI(PA7);
   SPI.setSCLK(PA5);
   SPI.setSSEL(PA4);
-  radio = new RadioHeadRadio();
-  nm = new NetworkManager(radio);
-  state_machine = new RadioStateMachine(nm);
-  led_manager = new FastLedManager(Devices::current, state_machine);
 
   if (!radio->Begin()) {
-    led_manager->FatalErrorAnimation();
+    led_manager.FatalErrorAnimation();
   }
 
-  led_manager->PlayStartupAnimation();
+  led_manager.PlayStartupAnimation();
 }
 
 void loop() {
@@ -81,8 +77,8 @@ void loop() {
   if (battery_average_filter.GetFilteredValue() <
       BatteryVoltageToRawReading(kBatteryDead)) {
     // TODO: display a battery-low pattern?
-    led_manager->SetGlobalColor(CRGB::Black);
-    led_manager->SetOnboardLed(CRGB(4, 0, 0));
+    led_manager.SetGlobalColor(CRGB::Black);
+    led_manager.SetOnboardLed(CRGB(4, 0, 0));
   } else {
     // Display battery status on onboard LED for the first 20 seconds
     if (millis() < 20 * 1000) {
@@ -92,12 +88,12 @@ void loop() {
                                BatteryVoltageToRawReading(kBatteryDead);
       // Red is hue 0
       uint8_t hue = (battery_val * HUE_GREEN) / battery_range;
-      led_manager->SetOnboardLed(CHSV(hue, 255, 255));
+      led_manager.SetOnboardLed(CHSV(hue, 255, 255));
     } else {
-      led_manager->SetOnboardLed(CRGB::Black);
+      led_manager.SetOnboardLed(CRGB::Black);
     }
 
-    state_machine->Tick();
-    led_manager->RunEffect();
+    state_machine.Tick();
+    led_manager.RunEffect();
   }
 }

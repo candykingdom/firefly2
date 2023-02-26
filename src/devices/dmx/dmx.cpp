@@ -8,7 +8,7 @@ const uint8_t DMX_CHANNELS = 192;
 const uint8_t RESERVATION_SECONDS = 5;
 const uint8_t UPDATE_TIMEOUT_SECONDS = 1;
 
-RadioHeadRadio* radio;
+RadioHeadRadio *radio = new RadioHeadRadio();
 
 SparkFunDMX dmx;
 
@@ -23,7 +23,6 @@ void setup() {
 
   pinMode(LED_BUILTIN, OUTPUT);
 
-  radio = new RadioHeadRadio();
   if (!radio->Begin()) {
     bool on = false;
     while (true) {

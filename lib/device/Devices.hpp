@@ -45,7 +45,7 @@ const DeviceDescription *const hex_light =
     SimpleRfBoardDescription(12, {Circular, Tiny});
 
 // Modify this variable to easily switch between devices.
-const DeviceDescription *const current = scarf;
+const DeviceDescription *const current = bike;
 
 }  // namespace Devices
 
