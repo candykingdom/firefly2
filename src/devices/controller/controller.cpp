@@ -64,14 +64,12 @@ void loop() {
   bottom_buttons.Tick();
 
   const uint8_t num_unique_effects = led_manager.GetNumUniqueEffects();
+  const uint8_t num_palettes = Effect::palettes().size();
   if (left_buttons.Button1Pressed()) {
     effect_index = (effect_index - 1 + num_unique_effects) % num_unique_effects;
   } else if (right_buttons.Button1Pressed()) {
     effect_index = (effect_index + 1) % num_unique_effects;
-  }
-
-  const uint8_t num_palettes = Effect::palettes().size();
-  if (left_buttons.Button2Pressed()) {
+  } else if (left_buttons.Button2Pressed()) {
     palette_index = (palette_index - 1 + num_palettes) % num_palettes;
   } else if (right_buttons.Button2Pressed()) {
     palette_index = (palette_index + 1) % num_palettes;
