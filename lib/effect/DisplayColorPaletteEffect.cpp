@@ -11,7 +11,8 @@ CRGB DisplayColorPaletteEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
   if (strip.led_count < palette.Size() && palette.Size() <= 4) {
     color = palette.GetGradient((time_ms / 2) * 23);
   } else {
-    color = palette.GetGradient((((uint32_t)led_index) * 65536) / strip.led_count);
+    color =
+        palette.GetGradient((((uint32_t)led_index) * 65536) / strip.led_count);
   }
 
   if (!strip.FlagEnabled(Bright)) {
