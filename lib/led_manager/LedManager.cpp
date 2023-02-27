@@ -4,7 +4,7 @@
 #include <Radio.hpp>
 #include <cassert>
 
-LedManager::LedManager(const DeviceDescription *device,
+LedManager::LedManager(const DeviceDescription &device,
                        RadioStateMachine *radio_state)
     : device(device), radio_state(radio_state) {
   AddEffect(new ColorCycleEffect(), 2);
@@ -17,7 +17,7 @@ LedManager::LedManager(const DeviceDescription *device,
   AddEffect(new RainbowEffect(), 4);
   AddEffect(new RorschachEffect(), 2);
   AddEffect(new SparkEffect(), 4);
-  AddEffect(new SwingingLights(device), 4);
+  AddEffect(new SwingingLights(), 4);
 
   // Non-random effects
   AddEffect(new PoliceEffect(), 0);
@@ -75,13 +75,13 @@ Effect *LedManager::GetEffect(uint8_t index) {
 
 void LedManager::RunEffect() {
   uint8_t global_index = 0;
-  for (auto it = device->strips.begin(); it != device->strips.end(); ++it) {
-    const StripDescription *strip = *it;
-    for (uint8_t strip_index = 0; strip_index < strip->led_count;
+  for (auto it = device.strips.begin(); it != device.strips.end(); ++it) {
+    const StripDescription strip = *it;
+    for (uint8_t strip_index = 0; strip_index < strip.led_count;
          ++strip_index) {
       uint8_t virtual_index;
-      if (strip->FlagEnabled(Reversed)) {
-        virtual_index = strip->led_count - strip_index - 1;
+      if (strip.FlagEnabled(Reversed)) {
+        virtual_index = strip.led_count - strip_index - 1;
       } else {
         virtual_index = strip_index;
       }

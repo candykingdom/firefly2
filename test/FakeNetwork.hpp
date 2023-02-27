@@ -43,7 +43,7 @@ class FakeNetwork {
   RadioPacket *packet = nullptr;
   RadioPacket *previous_packet = nullptr;
   DeviceDescription device =
-      DeviceDescription(2000, {new StripDescription(5, {})});
+      DeviceDescription(2000, {StripDescription(5, {})});
 };
 
 #endif

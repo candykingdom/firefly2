@@ -9,12 +9,12 @@
 
 TEST(LedManager, hasNonRandomEffects) {
   StripDescription strip = StripDescription(1, {});
-  DeviceDescription device = DeviceDescription(2000, {&strip});
+  DeviceDescription device = DeviceDescription(2000, {strip});
   EXPECT_EQ(device.GetLedCount(), 1);
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *state_machine = new RadioStateMachine(networkManager);
-  FakeLedManager *manager = new FakeLedManager(&device, state_machine);
+  FakeLedManager *manager = new FakeLedManager(device, state_machine);
   manager->ClearEffects();
   manager->PublicAddEffect(new SimpleBlinkEffect(10), 4);
   manager->PublicAddEffect(new PoliceEffect(), 0);
@@ -34,15 +34,15 @@ TEST(LedManager, hasNonRandomEffects) {
   Effect *alsoEffect1 = manager->GetEffect(1);
   Effect *effect2 = manager->GetEffect(4);
   Effect *effect3 = manager->GetEffect(6);
-  EXPECT_EQ(effect1->GetRGB(0, 0, &strip, setEffect),
-            alsoEffect1->GetRGB(0, 0, &strip, setEffect));
-  EXPECT_NE(effect1->GetRGB(0, 0, &strip, setEffect),
-            effect2->GetRGB(0, 0, &strip, setEffect));
+  EXPECT_EQ(effect1->GetRGB(0, 0, strip, setEffect),
+            alsoEffect1->GetRGB(0, 0, strip, setEffect));
+  EXPECT_NE(effect1->GetRGB(0, 0, strip, setEffect),
+            effect2->GetRGB(0, 0, strip, setEffect));
   // SimpleBlinkEffect and PoliceEffect have the same color at t=0
-  EXPECT_NE(effect1->GetRGB(0, 15, &strip, setEffect),
-            effect3->GetRGB(0, 15, &strip, setEffect));
-  EXPECT_NE(effect2->GetRGB(0, 0, &strip, setEffect),
-            effect3->GetRGB(0, 0, &strip, setEffect));
+  EXPECT_NE(effect1->GetRGB(0, 15, strip, setEffect),
+            effect3->GetRGB(0, 15, strip, setEffect));
+  EXPECT_NE(effect2->GetRGB(0, 0, strip, setEffect),
+            effect3->GetRGB(0, 0, strip, setEffect));
 
   delete setEffect;
   delete manager;
@@ -51,12 +51,12 @@ TEST(LedManager, hasNonRandomEffects) {
 
 TEST(LedManager, effectIndexIsInRange) {
   StripDescription strip = StripDescription(1, {});
-  DeviceDescription device = DeviceDescription(2000, {&strip});
+  DeviceDescription device = DeviceDescription(2000, {strip});
   EXPECT_EQ(device.GetLedCount(), 1);
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *state_machine = new RadioStateMachine(networkManager);
-  FakeLedManager *led_manager = new FakeLedManager(&device, state_machine);
+  FakeLedManager *led_manager = new FakeLedManager(device, state_machine);
   delete led_manager;
   delete state_machine;
 }
@@ -68,7 +68,7 @@ class TestEffect : public Effect {
   TestEffect() : called_indicies() {}
 
   CRGB GetRGB(uint8_t led_index, uint32_t time_ms,
-              const StripDescription *strip, RadioPacket *setEffectPacket) {
+              const StripDescription &strip, RadioPacket *setEffectPacket) {
     UNUSED(time_ms);
     UNUSED(strip);
     UNUSED(setEffectPacket);
@@ -79,12 +79,12 @@ class TestEffect : public Effect {
 
 TEST(LedManager, callStripInReverse) {
   StripDescription strip = StripDescription(5, {Reversed});
-  DeviceDescription device = DeviceDescription(2000, {&strip});
+  DeviceDescription device = DeviceDescription(2000, {strip});
   EXPECT_EQ(device.GetLedCount(), 5);
   FakeRadio radio;
   NetworkManager *networkManager = new NetworkManager(&radio);
   RadioStateMachine *state_machine = new RadioStateMachine(networkManager);
-  FakeLedManager *manager = new FakeLedManager(&device, state_machine);
+  FakeLedManager *manager = new FakeLedManager(device, state_machine);
 
   manager->ClearEffects();
   TestEffect *test_effect = new TestEffect();

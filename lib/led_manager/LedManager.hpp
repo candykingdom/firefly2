@@ -11,7 +11,7 @@
 
 class LedManager {
  public:
-  LedManager(const DeviceDescription *device, RadioStateMachine *radio_state);
+  LedManager(const DeviceDescription &device, RadioStateMachine *radio_state);
   virtual ~LedManager();
 
   void RunEffect();
@@ -45,7 +45,7 @@ class LedManager {
   // Note: these need to be defined, or else calls to this classes' constructor
   // don't work.
   virtual void WriteOutLeds() = 0;
-  const DeviceDescription *const device;
+  const DeviceDescription &device;
   RadioStateMachine *const radio_state;
 
   // The effects that will be chosen randomly. This contains many entries for

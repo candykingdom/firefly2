@@ -10,7 +10,7 @@ FireflyEffect::FireflyEffect() : Effect() {
 }
 
 CRGB FireflyEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
-                           const StripDescription *strip,
+                           const StripDescription &strip,
                            RadioPacket *setEffectPacket) {
   const int8_t phase = (time_ms / kPeriodMs) % 3;
 
