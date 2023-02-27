@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <median-filter.h>
 
 #include "Types.hpp"
 
@@ -13,6 +14,8 @@ class AnalogButton {
 
  private:
   int ReadAnalog();
+
+  MedianFilter<uint16_t, uint16_t, 3> analog_filter_;
 
   const int pin_;
   int prev_state_ = 0;
