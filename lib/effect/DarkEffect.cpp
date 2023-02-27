@@ -3,7 +3,7 @@
 DarkEffect::DarkEffect() : Effect() {}
 
 CRGB DarkEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
-                        const StripDescription *strip,
+                        const StripDescription &strip,
                         RadioPacket *setEffectPacket) {
   UNUSED(led_index);
   UNUSED(time_ms);

@@ -17,15 +17,8 @@ const int kLedPin = PB0;
 const int kNeopixelPin = PA12;
 const int kBatteryPin = PA0;
 
-static const DeviceDescription *SimpleRfBoardDescription(
-    uint8_t led_count, std::vector<StripFlag> flags) {
-  return new DeviceDescription(2000, {
-                                         new StripDescription(led_count, flags),
-                                     });
-}
-
-const DeviceDescription *const test_device =
-    SimpleRfBoardDescription(1, {Bright});
+const DeviceDescription test_device =
+    Devices::SimpleRfBoardDescription(1, {Bright});
 
 RadioHeadRadio *radio = new RadioHeadRadio();
 NetworkManager nm(radio);

@@ -20,6 +20,13 @@ constexpr uint16_t kSwitch3Threshold = (678 + 1023) / 2;
 constexpr uint16_t kLedCount = 42;
 CRGB leds[kLedCount];
 
+RadioHeadRadio radio;
+NetworkManager nm(&radio);
+RadioStateMachine state_machine(&nm);
+FakeLedManager led_manager(
+    DeviceDescription(2000, {StripDescription(/*led_count=*/12, {Bright})}),
+    &state_machine);
+
 // Returns which analog button is pressed on the given pin, or -1 if no button
 // is pressed.
 int ReadAnalogButton(int pin) {

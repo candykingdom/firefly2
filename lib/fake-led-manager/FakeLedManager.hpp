@@ -9,7 +9,7 @@
 
 class FakeLedManager : public LedManager {
  public:
-  FakeLedManager(const DeviceDescription *device,
+  FakeLedManager(const DeviceDescription &device,
                  RadioStateMachine *state_machine);
   ~FakeLedManager();
 

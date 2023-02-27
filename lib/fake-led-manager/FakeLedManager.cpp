@@ -2,13 +2,10 @@
 
 #include <cassert>
 
-FakeLedManager::FakeLedManager(const DeviceDescription *device,
+FakeLedManager::FakeLedManager(const DeviceDescription &device,
                                RadioStateMachine *state_machine)
     : LedManager(device, state_machine) {
-  led_count = 0;
-  for (auto it = device->strips.begin(); it != device->strips.end(); ++it) {
-    led_count += (*it)->led_count;
-  }
+  led_count = device.GetLedCount();
 
   leds = new CRGB[led_count];
 }
