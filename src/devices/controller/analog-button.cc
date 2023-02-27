@@ -4,7 +4,7 @@
 
 AnalogButton::AnalogButton(int pin) : pin_(pin), analog_filter_{
       filter_functions::ForAnalogReadDynamic(pin)} {
-  analog_filter_.SetMinRunInterval(10);
+  analog_filter_.SetMinRunInterval(5);
 }
 
 void AnalogButton::Tick() {
