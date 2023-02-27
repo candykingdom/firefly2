@@ -12,6 +12,9 @@ uint8_t Effect::GetThresholdSin(int16_t x, uint8_t threshold) {
   }
 }
 
+// If this is a simple static variable, then it might not be initialized before
+// it's used, static variable initialization order is undefined. This method
+// ensures that it is initialized when it's used.
 const std::vector<ColorPalette> Effect::palettes() {
   static const std::vector<ColorPalette> palettes = {
       // Solid color

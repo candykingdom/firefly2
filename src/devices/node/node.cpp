@@ -14,8 +14,8 @@
 
 const int kLedPin = 0;
 
-// Note: `RadioHeadRadio` needs to be a pointer, I think because the superclass
-// `Radio` is abstract (has pure virtual methods)
+// Note: `RadioHeadRadio` needs to be a pointer - if it's an object, the node
+// crashes upon receiving a packet.
 RadioHeadRadio *radio = new RadioHeadRadio();
 NetworkManager nm(radio);
 RadioStateMachine state_machine(&nm);
@@ -27,9 +27,6 @@ void setup() {
   Serial.begin(115200);
   pinMode(kLedPin, OUTPUT);
 
-  // nm = new NetworkManager(radio);
-  // state_machine = new RadioStateMachine(nm);
-  // led_manager = new FastLedManager(Devices::current, state_machine);
   if (!radio->Begin()) {
     led_manager.FatalErrorAnimation();
   }
