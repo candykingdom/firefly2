@@ -3,6 +3,7 @@
 #include "Arduino.h"
 #include "FakeLedManager.hpp"
 #include "analog-button.h"
+#include "arduino-timer.h"
 #include "arduino/RadioHeadRadio.hpp"
 #include "generic/NetworkManager.hpp"
 #include "generic/RadioStateMachine.hpp"
@@ -26,6 +27,11 @@ constexpr uint8_t kStatusRight = 37;
 
 const StripDescription kRowStrip = StripDescription(/*led_count=*/12, {Bright});
 const DeviceDescription kRowDescription(2000, {kRowStrip});
+
+constexpr uint8_t kSetEffectDelay = 60;
+
+// Used to show when the radio is broadcasting
+CountDownTimer broadcast_led_timer{1000};
 
 RadioHeadRadio radio;
 NetworkManager nm(&radio);
@@ -73,11 +79,16 @@ void loop() {
     palette_index = (palette_index - 1 + num_palettes) % num_palettes;
   } else if (right_buttons.Button2Pressed()) {
     palette_index = (palette_index + 1) % num_palettes;
+  } else if (bottom_buttons.Button1Pressed()) {
+    state_machine.SetEffect(&set_effect_packet);
+    broadcast_led_timer.Reset();
   }
 
-  Effect* current_effect = led_manager.GetEffect(
-      led_manager.UniqueEffectNumberToIndex(effect_index));
-  set_effect_packet.writeSetEffect(effect_index, 0, palette_index);
+  const uint8_t real_effect_index =
+      led_manager.UniqueEffectNumberToIndex(effect_index);
+  Effect* current_effect = led_manager.GetEffect(real_effect_index);
+  set_effect_packet.writeSetEffect(real_effect_index, kSetEffectDelay,
+                                   palette_index);
 
   for (uint8_t i = 0; i < kRowStrip.led_count; i++) {
     leds[i] = current_effect->GetRGB(i, state_machine.GetNetworkMillis(),
@@ -91,6 +102,7 @@ void loop() {
   leds[kStatusLeft] = state_machine.GetCurrentState() == RadioState::Slave
                           ? CRGB(255, 0, 0)
                           : CRGB(0, 255, 0);
+  leds[kStatusRight] = CRGB(0, 0, broadcast_led_timer.Active() ? 255 : 0);
   FastLED.show();
 
   delay(5);
