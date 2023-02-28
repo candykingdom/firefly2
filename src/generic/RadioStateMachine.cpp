@@ -19,7 +19,7 @@ RadioStateMachine::RadioStateMachine(NetworkManager *networkManager)
   set_effect_packet_.writeSetEffect(1, 0, 0);
 }
 
-RadioStateMachine::~RadioStateMachine() { delete network_manager_; }
+RadioStateMachine::~RadioStateMachine() {}
 
 RadioState RadioStateMachine::GetCurrentState() { return state_; }
 
