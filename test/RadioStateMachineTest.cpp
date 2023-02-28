@@ -158,6 +158,7 @@ TEST_F(RadioStateMachineTest, returnNetworkMillisForNoOffset) {
 
 TEST_F(RadioStateMachineTest, slaveGetsTimeFromNetwork) {
   RadioPacket packet;
+  packet.packet_id = 1;
   packet.writeHeartbeat(10000);
   // The random ID for master election is in the range [2, 0xFFFF)
   radio.setReceivedPacket(&packet);
@@ -171,6 +172,7 @@ TEST_F(RadioStateMachineTest, slaveGetsTimeFromNetwork) {
 TEST_F(RadioStateMachineTest, slaveGetsTimeFromNetwork_negativeOffset) {
   setMillis(10000);
   RadioPacket packet;
+  packet.packet_id = 1;
   packet.writeHeartbeat(0);
   radio.setReceivedPacket(&packet);
   state_machine->RadioTick();
@@ -244,6 +246,7 @@ TEST_F(RadioStateMachineTest, masterRespectsSetEffectDelay) {
   delete received_packet;
 
   RadioPacket setEffectPacket;
+  setEffectPacket.packet_id = 1;
   setEffectPacket.writeSetEffect(2, 120, 0);
   radio.setReceivedPacket(&setEffectPacket);
   state_machine->RadioTick();
@@ -285,6 +288,7 @@ TEST_F(RadioStateMachineTest, slaveReturnsEffectIndexFromNetwork) {
   EXPECT_EQ(state_machine->GetEffectIndex(), 0);
 
   RadioPacket packet;
+  packet.packet_id = 1;
   packet.writeSetEffect(42, 0, 0);
   radio.setReceivedPacket(&packet);
   state_machine->RadioTick();
@@ -299,6 +303,7 @@ TEST_F(RadioStateMachineTest, slaveReturnsSetEffectPacketFromNetwork) {
   EXPECT_EQ(setEffect->readPaletteIndexFromSetEffect(), 0);
 
   RadioPacket packet;
+  packet.packet_id = 1;
   packet.writeSetEffect(42, 0, 0);
   radio.setReceivedPacket(&packet);
   state_machine->RadioTick();
@@ -309,6 +314,7 @@ TEST_F(RadioStateMachineTest, SetEffect_Delay) {
   RadioPacket *defaultSetEffect = state_machine->GetSetEffect();
 
   RadioPacket setEffect;
+  setEffect.packet_id = 1;
   setEffect.writeSetEffect(1, /* delay= */ 5, 2);
   state_machine->SetEffect(&setEffect);
   state_machine->RadioTick();
@@ -327,6 +333,7 @@ TEST_F(RadioStateMachineTest, SetEffect_NoDelay) {
   RadioPacket *defaultSetEffect = state_machine->GetSetEffect();
 
   RadioPacket setEffect;
+  setEffect.packet_id = 1;
   setEffect.writeSetEffect(1, /* delay= */ 0, 2);
   state_machine->SetEffect(&setEffect);
   state_machine->RadioTick();
