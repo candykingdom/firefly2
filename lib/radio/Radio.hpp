@@ -29,7 +29,7 @@ struct RadioPacket {
    * rebroadcasts it if it has not recently rebroadcasted a packet with that
    * packet_id.
    */
-  uint16_t packet_id;
+  uint16_t packet_id = 0;
 
   /**
    * The type of packet. This determines how the data is processed.
@@ -39,7 +39,7 @@ struct RadioPacket {
   /**
    * The length of the data field.
    */
-  uint8_t dataLength;
+  uint8_t dataLength = 0;
 
   /**
    * The raw application-layer data. The length is the max packet length (61)
