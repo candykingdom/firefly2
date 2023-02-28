@@ -16,7 +16,7 @@ class StripDescription {
  public:
   const uint8_t led_count;
 
-  StripDescription(uint8_t led_count, std::vector<StripFlag> flags);
+  explicit StripDescription(uint8_t led_count, std::vector<StripFlag> flags);
 
   bool FlagEnabled(StripFlag flag) const;
 

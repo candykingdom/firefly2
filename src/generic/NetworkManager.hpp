@@ -6,7 +6,7 @@
 
 class NetworkManager {
  public:
-  NetworkManager(Radio *const radio);
+  explicit NetworkManager(Radio *const radio);
 
   /**
    * Checks if a packet is available. If so, performs network functions (e.g.

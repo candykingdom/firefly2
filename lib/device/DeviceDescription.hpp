@@ -18,8 +18,8 @@ class DeviceDescription {
 
   const std::vector<StripDescription> strips;
 
-  DeviceDescription(const uint32_t milliamps_supported,
-                    const std::vector<StripDescription> strips);
+  explicit DeviceDescription(const uint32_t milliamps_supported,
+                             const std::vector<StripDescription> strips);
 
   uint8_t GetLedCount() const;
 };

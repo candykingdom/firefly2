@@ -5,7 +5,7 @@
 
 class AnalogButton {
  public:
-  AnalogButton(int pin);
+  explicit AnalogButton(int pin);
   void Tick();
 
   bool Button1Pressed();
