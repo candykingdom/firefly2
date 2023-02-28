@@ -144,8 +144,6 @@ class RadioStateMachine {
 
   RadioPacket packet_;
   RadioPacket set_effect_packet_;
-
-  bool initialized_ = false;
 };
 
 #endif
