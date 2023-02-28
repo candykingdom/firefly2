@@ -11,8 +11,8 @@ template <uint16_t NumLeds>
 class SimulatorLedManager : private FastLEDSimulator<NumLeds>,
                             public LedManager {
  public:
-  SimulatorLedManager(const DeviceDescription *device,
-                      RadioStateMachine *radio_state);
+  explicit SimulatorLedManager(const DeviceDescription *device,
+                               RadioStateMachine *radio_state);
   ~SimulatorLedManager();
 
   using FastLEDSimulator<NumLeds>::Run;

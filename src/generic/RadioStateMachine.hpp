@@ -37,7 +37,7 @@ enum class RadioState {
 
 class RadioStateMachine {
  public:
-  RadioStateMachine(NetworkManager *network_manager);
+  explicit RadioStateMachine(NetworkManager *network_manager);
   ~RadioStateMachine();
 
   RadioState GetCurrentState();
