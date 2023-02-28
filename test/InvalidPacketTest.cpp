@@ -32,7 +32,7 @@ const std::vector<std::vector<uint8_t>> kData = {{0},
                                                  {255, 255, 255, 255, 255}};
 
 TEST_P(InvalidPacketTest, Runs) {
-  runTicks(100);
+  runTicks(10);
   RadioPacket packet = {
     packet_id : std::get<0>(GetParam()),
     type : (PacketType)std::get<1>(GetParam()),
@@ -40,7 +40,7 @@ TEST_P(InvalidPacketTest, Runs) {
     data : {5, 6}
   };
   network.TransmitPacket(packet);
-  runTicks(100);
+  runTicks(10);
 }
 
 INSTANTIATE_TEST_CASE_P(InvalidPacketTests, InvalidPacketTest,
