@@ -1,9 +1,9 @@
 #include <Radio.hpp>
 
-#include "NetworkManager.hpp"
-#include "RadioStateMachine.hpp"
 #include "FakeLedManager.hpp"
 #include "FakeRadio.hpp"
+#include "NetworkManager.hpp"
+#include "RadioStateMachine.hpp"
 #include "gtest/gtest.h"
 
 const uint16_t kMaxSlaveTimeout = RadioStateMachine::kSlaveNoPacketTimeout +
@@ -24,7 +24,10 @@ class RadioStateMachineTest : public ::testing::Test {
     state_machine = new RadioStateMachine(network_manager);
   }
 
-  void TearDown() override { delete state_machine; }
+  void TearDown() override {
+    delete state_machine;
+    delete network_manager;
+  }
 
   FakeRadio radio;
   NetworkManager *network_manager;
