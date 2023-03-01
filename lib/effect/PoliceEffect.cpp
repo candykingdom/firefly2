@@ -12,6 +12,21 @@ CRGB PoliceEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
   const bool red_flash = (time_ms / red_speed & 0b100) == 0;
   const bool blue_flash = (time_ms / blue_speed & 0b100) == 0;
 
+  if (strip.FlagEnabled(Controller)) {
+    // Less harsh pattern for the controller
+    uint8_t phase = (time_ms / 100) % 10;
+    if (phase < 4) {
+      if (led_index < strip.led_count / 3) {
+        return (phase % 2 == 0) ? red : off;
+      }
+    } else {
+      if (led_index >= (strip.led_count * 2 / 3)) {
+        return (phase % 2 == 0) ? blue : off;
+      }
+    }
+    return off;
+  }
+
   if (strip.FlagEnabled(Tiny) && strip.FlagEnabled(Mirrored)) {
     if (led_index >= strip.led_count / 2) {
       if (red_cycle && red_flash) {

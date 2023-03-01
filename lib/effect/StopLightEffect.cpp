@@ -22,6 +22,20 @@ CRGB StopLightEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
     }
   }
 
+  if (strip.FlagEnabled(Controller)) {
+    const uint16_t segment = strip.led_count / 5;
+    if (led_index <= segment) {
+      return red;
+    }
+    if (led_index > (segment * 2) && led_index <= (segment * 3)) {
+      return amber / 2;
+    }
+    if (led_index > (segment * 4)) {
+      return green;
+    }
+    return CRGB(0, 0, 0);
+  }
+
   const uint16_t segment = strip.led_count << (8 - 3);
 
   if (led_pos < segment) {

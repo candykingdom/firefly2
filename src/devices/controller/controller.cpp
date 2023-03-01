@@ -25,7 +25,8 @@ constexpr uint8_t kStatusLeft = 39;
 constexpr uint8_t kStatusMiddle = 38;
 constexpr uint8_t kStatusRight = 37;
 
-const StripDescription kRowStrip = StripDescription(/*led_count=*/12, {Bright});
+const StripDescription kRowStrip =
+    StripDescription(/*led_count=*/12, {Bright, Controller});
 const DeviceDescription kRowDescription(2000, {kRowStrip});
 
 constexpr uint8_t kSetEffectDelay = 60;
