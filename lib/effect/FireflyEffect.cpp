@@ -12,6 +12,15 @@ FireflyEffect::FireflyEffect() : Effect() {
 CRGB FireflyEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
                            const StripDescription &strip,
                            RadioPacket *setEffectPacket) {
+  if (strip.FlagEnabled(Controller)) {
+    // For the controller, blink the lights mostly in sync
+    if (led_index % 2 == 1) {
+      return CRGB(0, 0, 0);
+    }
+
+    offset = (kBlinkPeriod + 1234 << led_index) % (kBlinkPeriod / 2);
+  }
+
   const int8_t phase = (time_ms / kPeriodMs) % 3;
 
   uint32_t adjusted_time = 0;

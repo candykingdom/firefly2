@@ -10,6 +10,7 @@ enum StripFlag {
   Circular = 1 << 2,
   Mirrored = 1 << 3,
   Reversed = 1 << 4,
+  Controller = 1 << 5,
 };
 
 class StripDescription {
