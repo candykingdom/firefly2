@@ -20,7 +20,7 @@ enum class ControllerMode {
   DirectPalette,
 };
 
-ControllerMode mode = ControllerMode::DirectColor;
+ControllerMode mode = ControllerMode::DirectPalette;
 
 // Pin definitions
 constexpr int kSwitchLeft = PA0;
@@ -42,6 +42,8 @@ constexpr uint8_t kStatusRight = 37;
 const StripDescription kRowStrip =
     StripDescription(/*led_count=*/12, {Bright, Controller});
 const DeviceDescription kRowDescription(2000, {kRowStrip});
+const StripDescription kPaletteStrip =
+    StripDescription(/*led_count=*/5, {Bright, Controller});
 
 constexpr uint8_t kSetEffectDelay = 60;
 
@@ -64,11 +66,17 @@ AnalogButton left_buttons(kSwitchLeft);
 AnalogButton right_buttons(kSwitchRight);
 AnalogButton bottom_buttons(kSwitchBottom);
 
+// TODO(adam): add pagination for color and palette mode
 // Colors for color mode
 std::array<CHSV, 6> colors = {
     CHSV{0, 255, 255},           CHSV{256 / 6, 255, 255},
     CHSV{256 * 2 / 6, 255, 255}, CHSV{256 * 3 / 6, 255, 255},
     CHSV{256 * 4 / 6, 255, 255}, CHSV{256 * 5 / 6, 255, 255}};
+
+// Palette indices for palette mode.
+std::array<uint8_t, 6> palettes = {
+    8, 9, 10, 11, 12, 13,
+};
 
 void SetMainLed(uint8_t led_index, CRGB rgb) {
   if (led_index > 11 && led_index < 24) {
@@ -159,6 +167,49 @@ void RunColorMode() {
   }
 }
 
+void RunPaletteMode() {
+  for (uint8_t i = 0; i < 36; i++) {
+    if ((i % 12) > 4 && (i % 12) <= 6) {
+      SetMainLed(i, CRGB(0, 0, 0));
+    } else {
+      set_effect_packet.writeSetEffect(/*effect_index=*/0, /*delay=*/1,
+                                       /*palette_index=*/palettes[i / 6]);
+      uint8_t led_index = (i % 6);
+      SetMainLed(
+          i, palette_effect.GetRGB(led_index, state_machine.GetNetworkMillis(),
+                                   kPaletteStrip, &set_effect_packet));
+    }
+  }
+
+  bool pressed = false;
+  uint8_t palette_index = 0;
+  if (left_buttons.Button1Pressed()) {
+    pressed = true;
+    palette_index = 0;
+  } else if (left_buttons.Button2Pressed()) {
+    pressed = true;
+    palette_index = 2;
+  } else if (left_buttons.Button3Pressed()) {
+    pressed = true;
+    palette_index = 4;
+  } else if (right_buttons.Button1Pressed()) {
+    pressed = true;
+    palette_index = 1;
+  } else if (right_buttons.Button2Pressed()) {
+    pressed = true;
+    palette_index = 3;
+  } else if (right_buttons.Button3Pressed()) {
+    pressed = true;
+    palette_index = 5;
+  }
+
+  if (pressed) {
+    set_effect_packet.writeSetEffect(state_machine.GetEffectIndex(),
+                                     kSetEffectDelay, palettes[palette_index]);
+    state_machine.SetEffect(&set_effect_packet);
+  }
+}
+
 void setup() {
   FastLED.addLeds<NEOPIXEL, kNeopixelPin>(leds, kLedCount)
       .setCorrection(TypicalLEDStrip);
@@ -190,6 +241,10 @@ void loop() {
 
     case ControllerMode::DirectColor:
       RunColorMode();
+      break;
+
+    case ControllerMode::DirectPalette:
+      RunPaletteMode();
       break;
   }
 
