@@ -1,7 +1,10 @@
+#pragma once
+
+#include <array>
 #include <Types.hpp>
 
 constexpr uint16_t kLedCount = 42;
-extern CRGB leds[kLedCount];
+extern std::array<CRGB, kLedCount> leds;
 
 // LED indices
 constexpr uint8_t kStatusLeft = 39;

@@ -1,6 +1,6 @@
 #include "leds.h"
 
-CRGB leds[kLedCount];
+std::array<CRGB, kLedCount> leds;
 
 void SetMainLed(uint8_t led_index, CRGB rgb) {
   if (led_index > 11 && led_index < 24) {

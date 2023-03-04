@@ -219,7 +219,7 @@ void RunPaletteMode() {
 }
 
 void setup() {
-  FastLED.addLeds<NEOPIXEL, kNeopixelPin>(leds, kLedCount)
+  FastLED.addLeds<NEOPIXEL, kNeopixelPin>(leds.data(), kLedCount)
       .setCorrection(TypicalLEDStrip);
   FastLED.setBrightness(32);
 

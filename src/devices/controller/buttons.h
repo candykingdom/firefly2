@@ -1,6 +1,8 @@
+#pragma once
+
 #include <Types.hpp>
 
-extern CRGB leds[42];
+#include "leds.h"
 
 constexpr uint8_t kLeftButtonLed = 41;
 constexpr uint8_t kRightButtonLed = 36;
