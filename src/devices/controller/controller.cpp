@@ -5,8 +5,10 @@
 #include "FakeLedManager.hpp"
 #include "analog-button.h"
 #include "arduino/RadioHeadRadio.hpp"
+#include "buttons.h"
 #include "generic/NetworkManager.hpp"
 #include "generic/RadioStateMachine.hpp"
+#include "leds.h"
 
 // Which mode of control the device is in
 enum class ControllerMode {
@@ -30,21 +32,6 @@ constexpr int kSwitchBottom = PA2;
 constexpr int kVbattDiv = PA3;
 
 constexpr int kNeopixelPin = PB15;
-
-constexpr uint16_t kLedCount = 42;
-CRGB leds[kLedCount];
-
-// LED indices
-constexpr uint8_t kStatusLeft = 39;
-constexpr uint8_t kStatusMiddle = 38;
-constexpr uint8_t kStatusRight = 37;
-
-// Button LEDs
-constexpr uint8_t kRightButtonLed = 36;
-constexpr uint8_t kBottomButtonLed = 40;
-
-constexpr uint8_t kButtonActiveBrightness = 64;
-constexpr uint8_t kButtonPressedBrightness = 255;
 
 const StripDescription kRowStrip =
     StripDescription(/*led_count=*/12, {Bright, Controller});
@@ -85,83 +72,6 @@ std::array<uint8_t, 6> palettes = {
     8, 9, 10, 11, 12, 13,
 };
 
-void SetMainLed(uint8_t led_index, CRGB rgb) {
-  if (led_index > 11 && led_index < 24) {
-    leds[12 + (23 - led_index)] = rgb;
-  } else {
-    leds[led_index] = rgb;
-  }
-}
-
-// button_index: 1-3
-void SetLeftButtonLed(uint8_t button_index, uint8_t brightness) {
-  switch (button_index) {
-    case 2:
-      leds[kLeftButtonLed].r = brightness;
-      break;
-
-    case 1:
-      leds[kLeftButtonLed].g = brightness;
-      break;
-
-    case 3:
-      leds[kLeftButtonLed].b = brightness;
-      break;
-  }
-}
-
-void SetLeftButtonLeds(uint8_t button1, uint8_t button2, uint8_t button3) {
-  SetLeftButtonLed(1, button1);
-  SetLeftButtonLed(2, button2);
-  SetLeftButtonLed(3, button3);
-}
-
-// button_index: 1-3
-void SetRightButtonLed(uint8_t button_index, uint8_t brightness) {
-  switch (button_index) {
-    case 2:
-      leds[kRightButtonLed].r = brightness;
-      break;
-
-    case 3:
-      leds[kRightButtonLed].g = brightness;
-      break;
-
-    case 1:
-      leds[kRightButtonLed].b = brightness;
-      break;
-  }
-}
-
-void SetRightButtonLeds(uint8_t button1, uint8_t button2, uint8_t button3) {
-  SetRightButtonLed(1, button1);
-  SetRightButtonLed(2, button2);
-  SetRightButtonLed(3, button3);
-}
-
-// button_index: 1-3
-void SetBottomButtonLed(uint8_t button_index, uint8_t brightness) {
-  switch (button_index) {
-    case 1:
-      leds[kBottomButtonLed].r = brightness;
-      break;
-
-    case 2:
-      leds[kBottomButtonLed].g = brightness;
-      break;
-
-    case 3:
-      leds[kBottomButtonLed].b = brightness;
-      break;
-  }
-}
-
-void SetBottomButtonLeds(uint8_t button1, uint8_t button2, uint8_t button3) {
-  SetBottomButtonLed(1, button1);
-  SetBottomButtonLed(2, button2);
-  SetBottomButtonLed(3, button3);
-}
-
 void RunEffectMode() {
   const uint8_t num_unique_effects = led_manager.GetNumUniqueEffects();
   const uint8_t num_palettes = Effect::palettes().size();
@@ -196,7 +106,7 @@ void RunEffectMode() {
 
   if (bottom_buttons.Button1Pressed()) {
     SetBottomButtonLeds(kButtonPressedBrightness, 0, 0);
-   } else {
+  } else {
     SetBottomButtonLeds(kButtonActiveBrightness, 0, 0);
   }
 
