@@ -44,6 +44,7 @@ RadioPacket *RadioStateMachine::GetSetEffect() { return &set_effect_packet_; }
 void RadioStateMachine::SetEffect(RadioPacket *const setEffect) {
   this->set_effect_packet_ = *setEffect;
   this->network_manager_->send(this->set_effect_packet_);
+  effect_index_ = setEffect->readEffectIndexFromSetEffect();
   if (this->set_effect_packet_.readDelayFromSetEffect()) {
     SetTimer(TimerChangeEffect,
              this->set_effect_packet_.readDelayFromSetEffect() * 1000);

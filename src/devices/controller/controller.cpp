@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <FastLED.h>
 #include <arduino-timer.h>
+#include <median-filter.h>
 
 #include "FakeLedManager.hpp"
 #include "analog-button.h"
@@ -23,6 +24,7 @@ enum class ControllerMode {
 };
 
 ControllerMode mode = ControllerMode::Effect;
+ControllerMode prev_mode = mode;
 
 // Pin definitions
 constexpr int kSwitchLeft = PA0;
@@ -30,6 +32,7 @@ constexpr int kSwitchRight = PA1;
 constexpr int kSwitchBottom = PA2;
 
 constexpr int kVbattDiv = PA3;
+constexpr int kModeSwitch = PB1;
 
 constexpr int kNeopixelPin = PB15;
 
@@ -40,6 +43,10 @@ const StripDescription kPaletteStrip =
     StripDescription(/*led_count=*/5, {Bright, Controller});
 
 constexpr uint8_t kSetEffectDelay = 60;
+
+static constexpr uint16_t kMode1Threshold = 346 / 2;
+static constexpr uint16_t kMode2Threshold = (346 + 678) / 2;
+static constexpr uint16_t kMode3Threshold = (678 + 1023) / 2;
 
 // Used to show when the radio is broadcasting
 CountDownTimer broadcast_led_timer{1000};
@@ -59,6 +66,9 @@ RadioPacket control_packet;
 AnalogButton left_buttons(kSwitchLeft);
 AnalogButton right_buttons(kSwitchRight);
 AnalogButton bottom_buttons(kSwitchBottom);
+
+MedianFilter<uint16_t, uint16_t, 5> mode_switch(
+    filter_functions::ForAnalogRead<kModeSwitch>());
 
 // TODO(adam): add pagination for color and palette mode
 // Colors for color mode
@@ -239,8 +249,18 @@ void loop() {
   right_buttons.Tick();
   bottom_buttons.Tick();
 
-  // TODO(adam): choose the mode based off of the mode switch, once it's
-  // electrically connected to the MCU (d'oh)
+  mode_switch.Run();
+  if (mode_switch.GetFilteredValue() < kMode1Threshold) {
+    mode = ControllerMode::DirectColor;
+  } else if (mode_switch.GetFilteredValue() < kMode2Threshold) {
+    mode = ControllerMode::DirectPalette;
+  } else {
+    mode = ControllerMode::Effect;
+  }
+  if (prev_mode != mode) {
+    FastLED.clearData();
+  }
+  prev_mode = mode;
 
   switch (mode) {
     case ControllerMode::Effect:
