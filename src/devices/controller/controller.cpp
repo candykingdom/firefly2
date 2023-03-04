@@ -20,7 +20,7 @@ enum class ControllerMode {
   DirectPalette,
 };
 
-ControllerMode mode = ControllerMode::DirectPalette;
+ControllerMode mode = ControllerMode::Effect;
 
 // Pin definitions
 constexpr int kSwitchLeft = PA0;
@@ -40,9 +40,11 @@ constexpr uint8_t kStatusMiddle = 38;
 constexpr uint8_t kStatusRight = 37;
 
 // Button LEDs
-constexpr uint8_t kLeftButtonLed = 36;
-constexpr uint8_t kRightButtonLed = 40;
-constexpr uint8_t kBottomButtonLed = 41;
+constexpr uint8_t kRightButtonLed = 36;
+constexpr uint8_t kBottomButtonLed = 40;
+
+constexpr uint8_t kButtonActiveBrightness = 64;
+constexpr uint8_t kButtonPressedBrightness = 255;
 
 const StripDescription kRowStrip =
     StripDescription(/*led_count=*/12, {Bright, Controller});
@@ -91,7 +93,74 @@ void SetMainLed(uint8_t led_index, CRGB rgb) {
   }
 }
 
-void SetLeftButtonLed(uint8_t led_index, uint8_t brightness) {}
+// button_index: 1-3
+void SetLeftButtonLed(uint8_t button_index, uint8_t brightness) {
+  switch (button_index) {
+    case 2:
+      leds[kLeftButtonLed].r = brightness;
+      break;
+
+    case 1:
+      leds[kLeftButtonLed].g = brightness;
+      break;
+
+    case 3:
+      leds[kLeftButtonLed].b = brightness;
+      break;
+  }
+}
+
+void SetLeftButtonLeds(uint8_t button1, uint8_t button2, uint8_t button3) {
+  SetLeftButtonLed(1, button1);
+  SetLeftButtonLed(2, button2);
+  SetLeftButtonLed(3, button3);
+}
+
+// button_index: 1-3
+void SetRightButtonLed(uint8_t button_index, uint8_t brightness) {
+  switch (button_index) {
+    case 2:
+      leds[kRightButtonLed].r = brightness;
+      break;
+
+    case 3:
+      leds[kRightButtonLed].g = brightness;
+      break;
+
+    case 1:
+      leds[kRightButtonLed].b = brightness;
+      break;
+  }
+}
+
+void SetRightButtonLeds(uint8_t button1, uint8_t button2, uint8_t button3) {
+  SetRightButtonLed(1, button1);
+  SetRightButtonLed(2, button2);
+  SetRightButtonLed(3, button3);
+}
+
+// button_index: 1-3
+void SetBottomButtonLed(uint8_t button_index, uint8_t brightness) {
+  switch (button_index) {
+    case 1:
+      leds[kBottomButtonLed].r = brightness;
+      break;
+
+    case 2:
+      leds[kBottomButtonLed].g = brightness;
+      break;
+
+    case 3:
+      leds[kBottomButtonLed].b = brightness;
+      break;
+  }
+}
+
+void SetBottomButtonLeds(uint8_t button1, uint8_t button2, uint8_t button3) {
+  SetBottomButtonLed(1, button1);
+  SetBottomButtonLed(2, button2);
+  SetBottomButtonLed(3, button3);
+}
 
 void RunEffectMode() {
   const uint8_t num_unique_effects = led_manager.GetNumUniqueEffects();
@@ -107,6 +176,28 @@ void RunEffectMode() {
   } else if (bottom_buttons.Button1Pressed()) {
     state_machine.SetEffect(&set_effect_packet);
     broadcast_led_timer.Reset();
+  }
+
+  if (left_buttons.Button1Pressed()) {
+    SetLeftButtonLeds(kButtonPressedBrightness, kButtonActiveBrightness, 0);
+  } else if (left_buttons.Button2Pressed()) {
+    SetLeftButtonLeds(kButtonActiveBrightness, kButtonPressedBrightness, 0);
+  } else {
+    SetLeftButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness, 0);
+  }
+
+  if (right_buttons.Button1Pressed()) {
+    SetRightButtonLeds(kButtonPressedBrightness, kButtonActiveBrightness, 0);
+  } else if (left_buttons.Button2Pressed()) {
+    SetRightButtonLeds(kButtonActiveBrightness, kButtonPressedBrightness, 0);
+  } else {
+    SetRightButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness, 0);
+  }
+
+  if (bottom_buttons.Button1Pressed()) {
+    SetBottomButtonLeds(kButtonPressedBrightness, 0, 0);
+   } else {
+    SetBottomButtonLeds(kButtonActiveBrightness, 0, 0);
   }
 
   const uint8_t real_effect_index =
