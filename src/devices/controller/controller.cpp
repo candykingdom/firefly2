@@ -179,6 +179,36 @@ void RunColorMode() {
     color_index = 5;
   }
 
+  if (left_buttons.Button1Pressed()) {
+    SetLeftButtonLeds(kButtonPressedBrightness, kButtonActiveBrightness,
+                      kButtonActiveBrightness);
+  } else if (left_buttons.Button2Pressed()) {
+    SetLeftButtonLeds(kButtonActiveBrightness, kButtonPressedBrightness,
+                      kButtonActiveBrightness);
+  } else if (left_buttons.Button3Pressed()) {
+    SetLeftButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
+                      kButtonPressedBrightness);
+  } else {
+    SetLeftButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
+                      kButtonActiveBrightness);
+  }
+
+  if (right_buttons.Button1Pressed()) {
+    SetRightButtonLeds(kButtonPressedBrightness, kButtonActiveBrightness,
+                       kButtonActiveBrightness);
+  } else if (left_buttons.Button2Pressed()) {
+    SetRightButtonLeds(kButtonActiveBrightness, kButtonPressedBrightness,
+                       kButtonActiveBrightness);
+  } else if (left_buttons.Button3Pressed()) {
+    SetRightButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
+                       kButtonPressedBrightness);
+  } else {
+    SetRightButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
+                       kButtonActiveBrightness);
+  }
+
+  SetBottomButtonLeds(0, 0, 0);
+
   if (pressed) {
     control_packet.writeControl(kSetEffectDelay, colors[color_index]);
     state_machine.SetEffect(&control_packet);
@@ -220,6 +250,36 @@ void RunPaletteMode() {
     pressed = true;
     palette_index = 5;
   }
+
+  if (left_buttons.Button1Pressed()) {
+    SetLeftButtonLeds(kButtonPressedBrightness, kButtonActiveBrightness,
+                      kButtonActiveBrightness);
+  } else if (left_buttons.Button2Pressed()) {
+    SetLeftButtonLeds(kButtonActiveBrightness, kButtonPressedBrightness,
+                      kButtonActiveBrightness);
+  } else if (left_buttons.Button3Pressed()) {
+    SetLeftButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
+                      kButtonPressedBrightness);
+  } else {
+    SetLeftButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
+                      kButtonActiveBrightness);
+  }
+
+  if (right_buttons.Button1Pressed()) {
+    SetRightButtonLeds(kButtonPressedBrightness, kButtonActiveBrightness,
+                       kButtonActiveBrightness);
+  } else if (left_buttons.Button2Pressed()) {
+    SetRightButtonLeds(kButtonActiveBrightness, kButtonPressedBrightness,
+                       kButtonActiveBrightness);
+  } else if (left_buttons.Button3Pressed()) {
+    SetRightButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
+                       kButtonPressedBrightness);
+  } else {
+    SetRightButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
+                       kButtonActiveBrightness);
+  }
+
+  SetBottomButtonLeds(0, 0, 0);
 
   if (pressed) {
     set_effect_packet.writeSetEffect(state_machine.GetEffectIndex(),
