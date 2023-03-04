@@ -1,9 +1,9 @@
+#include <Arduino.h>
 #include <FastLED.h>
+#include <arduino-timer.h>
 
-#include "Arduino.h"
 #include "FakeLedManager.hpp"
 #include "analog-button.h"
-#include "arduino-timer.h"
 #include "arduino/RadioHeadRadio.hpp"
 #include "generic/NetworkManager.hpp"
 #include "generic/RadioStateMachine.hpp"
@@ -38,6 +38,11 @@ CRGB leds[kLedCount];
 constexpr uint8_t kStatusLeft = 39;
 constexpr uint8_t kStatusMiddle = 38;
 constexpr uint8_t kStatusRight = 37;
+
+// Button LEDs
+constexpr uint8_t kLeftButtonLed = 36;
+constexpr uint8_t kRightButtonLed = 40;
+constexpr uint8_t kBottomButtonLed = 41;
 
 const StripDescription kRowStrip =
     StripDescription(/*led_count=*/12, {Bright, Controller});
@@ -85,6 +90,8 @@ void SetMainLed(uint8_t led_index, CRGB rgb) {
     leds[led_index] = rgb;
   }
 }
+
+void SetLeftButtonLed(uint8_t led_index, uint8_t brightness) {}
 
 void RunEffectMode() {
   const uint8_t num_unique_effects = led_manager.GetNumUniqueEffects();
