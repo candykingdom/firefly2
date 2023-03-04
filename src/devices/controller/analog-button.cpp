@@ -1,9 +1,9 @@
 #include "analog-button.h"
 
-#include <Arduino.h>
-
 AnalogButton::AnalogButton(int pin)
-    : pin_(pin), analog_filter_{filter_functions::ForAnalogReadDynamic(pin)} {
+    : pin_(pin),
+      analog_filter_{filter_functions::ForAnalogReadDynamic(pin),
+                     kFilterAlpha} {
   analog_filter_.SetMinRunInterval(5);
 }
 
@@ -14,7 +14,7 @@ void AnalogButton::Tick() {
 
   analog_filter_.Run();
   int state = ReadAnalog();
-  if (state != prev_state_) {
+  if (state != prev_state_ && analog_filter_.Stable(kStableThreshold)) {
     if (state == 1) {
       button1_pressed_ = true;
     } else if (state == 2) {
@@ -22,8 +22,8 @@ void AnalogButton::Tick() {
     } else if (state == 3) {
       button3_pressed_ = true;
     }
+    prev_state_ = state;
   }
-  prev_state_ = state;
 }
 
 bool AnalogButton::Button1Pressed() { return button1_pressed_; }
