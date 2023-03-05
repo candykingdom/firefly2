@@ -14,13 +14,17 @@ FakeNetwork::FakeNetwork() {
   for (int i = 0; i < kNumNodes; i++) {
     advanceMillis(1);
     radios[i] = FakeRadio();
-    stateMachines[i] = new RadioStateMachine(new NetworkManager(&radios[i]));
+    networkManagers[i] = new NetworkManager(&radios[i]);
+    stateMachines[i] = new RadioStateMachine(networkManagers[i]);
     ledManagers[i] = new FakeLedManager(device, stateMachines[i]);
     stateMachines[i]->Tick();
   }
 }
 
 FakeNetwork::~FakeNetwork() {
+  for (NetworkManager* network_manager : networkManagers) {
+    delete network_manager;
+  }
   for (RadioStateMachine* state_machine : stateMachines) {
     delete state_machine;
   }
