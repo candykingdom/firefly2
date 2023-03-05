@@ -5,6 +5,7 @@ StopLightEffect::StopLightEffect() : Effect() {}
 CRGB StopLightEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
                              const StripDescription &strip,
                              RadioPacket *setEffectPacket) {
+  UNUSED(setEffectPacket);
   const uint16_t led_pos = abs((strip.led_count >> 1) - led_index) << 8;
   time_ms = time_ms >> 11;
 
