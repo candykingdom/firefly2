@@ -39,7 +39,7 @@ TEST_F(RadioStateIntegrationTest, relectsMasterIfMasterDisappears) {
 TEST_F(RadioStateIntegrationTest, stableOverTime) {
   runTicks(RadioStateMachine::kSlaveNoPacketTimeout * 2);
 
-  for (int i = 0; i < RadioStateMachine::kSlaveNoPacketTimeout * 5; i++) {
+  for (uint32_t i = 0; i < RadioStateMachine::kSlaveNoPacketTimeout * 5; i++) {
     advanceMillis(1);
     network.Tick();
     EXPECT_EQ(getNumMasters(), 1);
@@ -49,7 +49,7 @@ TEST_F(RadioStateIntegrationTest, stableOverTime) {
 TEST_F(RadioStateIntegrationTest, stableWhenNodesDropOut) {
   runTicks(RadioStateMachine::kSlaveNoPacketTimeout +
            RadioStateMachine::kSlaveNoPacketRandom + 10);
-  for (int i = 0; i < RadioStateMachine::kSlaveNoPacketTimeout * 2 + 2; i++) {
+  for (uint32_t i = 0; i < RadioStateMachine::kSlaveNoPacketTimeout * 2 + 2; i++) {
     advanceMillis(1);
     network.Tick();
     ASSERT_EQ(getNumMasters(), 1);
@@ -62,7 +62,7 @@ TEST_F(RadioStateIntegrationTest, stableWhenNodesDropOut) {
     int total_bad_ticks = 0;
     bool bad_prev = false;
 
-    for (int j = 0; j < RadioStateMachine::kSlaveNoPacketTimeout * 2 + 2; j++) {
+    for (uint32_t j = 0; j < RadioStateMachine::kSlaveNoPacketTimeout * 2 + 2; j++) {
       advanceMillis(1);
       network.Tick();
 
@@ -108,7 +108,7 @@ TEST_F(RadioStateIntegrationTest, stableWithMildPacketLoss) {
   int max_bad_ticks = 0;
   int total_bad_ticks = 0;
   bool bad_prev = false;
-  for (int i = 0; i < RadioStateMachine::kSlaveNoPacketTimeout * 10; i++) {
+  for (uint32_t i = 0; i < RadioStateMachine::kSlaveNoPacketTimeout * 10; i++) {
     advanceMillis(1);
     network.Tick();
 
@@ -137,7 +137,7 @@ TEST_F(RadioStateIntegrationTest, stableWithMildPacketLossAndNodesDropping) {
 
   runTicks(RadioStateMachine::kSlaveNoPacketTimeout +
            RadioStateMachine::kSlaveNoPacketRandom + 10);
-  for (int i = 0; i < RadioStateMachine::kSlaveNoPacketTimeout * 2 + 2; i++) {
+  for (uint32_t i = 0; i < RadioStateMachine::kSlaveNoPacketTimeout * 2 + 2; i++) {
     advanceMillis(1);
     network.Tick();
     ASSERT_EQ(getNumMasters(), 1);
@@ -149,7 +149,7 @@ TEST_F(RadioStateIntegrationTest, stableWithMildPacketLossAndNodesDropping) {
     int total_bad_ticks = 0;
     bool bad_prev = false;
 
-    for (int j = 0; j < RadioStateMachine::kSlaveNoPacketTimeout * 2 + 2; j++) {
+    for (uint32_t j = 0; j < RadioStateMachine::kSlaveNoPacketTimeout * 2 + 2; j++) {
       advanceMillis(1);
       network.Tick();
 
@@ -179,7 +179,7 @@ TEST_F(RadioStateIntegrationTest, stableWithMildPacketLossAndNodesDropping) {
 
 TEST_F(RadioStateIntegrationTest, setEffectIndex) {
   runTicks(1);
-  for (int i = 0; i < FakeNetwork::kNumNodes; i++) {
+  for (uint32_t i = 0; i < FakeNetwork::kNumNodes; i++) {
     EXPECT_EQ(network.stateMachines[i]->GetEffectIndex(), 0)
         << "Node " << i << " has wrong effect index";
   }
@@ -191,7 +191,7 @@ TEST_F(RadioStateIntegrationTest, setEffectIndex) {
   // All nodes should have the same, non-zero (i.e. default) effect index
   uint8_t expected_effect_index = network.stateMachines[0]->GetEffectIndex();
   EXPECT_NE(expected_effect_index, 1);
-  for (int i = 0; i < FakeNetwork::kNumNodes; i++) {
+  for (uint32_t i = 0; i < FakeNetwork::kNumNodes; i++) {
     EXPECT_EQ(network.stateMachines[i]->GetEffectIndex(), expected_effect_index)
         << "Node " << i << " has wrong effect index";
   }
