@@ -18,7 +18,7 @@ CRGB FireflyEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
       return CRGB(0, 0, 0);
     }
 
-    offset = (kBlinkPeriod + 1234 << led_index) % (kBlinkPeriod / 2);
+    offset = ((kBlinkPeriod + 1234) << led_index) % (kBlinkPeriod / 2);
   }
 
   const int8_t phase = (time_ms / kPeriodMs) % 3;
