@@ -6,7 +6,7 @@
 
 #include "NetworkManager.hpp"
 
-//#define DEBUG
+// #define DEBUG
 
 FakeNetwork::FakeNetwork() {
   setMillis(0);
@@ -81,8 +81,9 @@ void FakeNetwork::Tick() {
 
 void FakeNetwork::reinitNode(int index) {
   delete stateMachines[index];
-  stateMachines[index] =
-      new RadioStateMachine(new NetworkManager(&radios[index]));
+  delete networkManagers[index];
+  networkManagers[index] = new NetworkManager(&radios[index]);
+  stateMachines[index] = new RadioStateMachine(networkManagers[index]);
   delete ledManagers[index];
   ledManagers[index] = new FakeLedManager(device, stateMachines[index]);
 }
