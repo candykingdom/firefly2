@@ -90,18 +90,24 @@ void loop() {
   set_effect_packet.writeSetEffect(real_effect_index, kSetEffectDelay,
                                    palette_index);
 
+  // Update the top row with the effect output.
   for (uint8_t i = 0; i < kRowStrip.led_count; i++) {
     leds[i] = current_effect->GetRGB(i, state_machine.GetNetworkMillis(),
                                      kRowStrip, &set_effect_packet);
   }
 
+  // Update the middle row with the palette colors.
   for (uint8_t i = 0; i < kRowStrip.led_count; i++) {
     leds[i + kRowStrip.led_count] = palette_effect.GetRGB(
         i, state_machine.GetNetworkMillis(), kRowStrip, &set_effect_packet);
   }
+
+  // Update slave status LED.
   leds[kStatusLeft] = state_machine.GetCurrentState() == RadioState::Slave
                           ? CRGB(255, 0, 0)
                           : CRGB(0, 255, 0);
+
+  // Update "sending" status LED.
   leds[kStatusRight] = CRGB(0, 0, broadcast_led_timer.Active() ? 255 : 0);
   FastLED.show();
 
