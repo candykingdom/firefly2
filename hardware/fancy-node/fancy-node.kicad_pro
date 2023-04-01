@@ -1,5 +1,6 @@
 {
   "board": {
+    "3dviewports": [],
     "design_settings": {
       "defaults": {
         "board_outline_line_width": 0.09999999999999999,
@@ -154,7 +155,8 @@
       "zones_allow_external_fillets": false,
       "zones_use_no_outline": true
     },
-    "layer_presets": []
+    "layer_presets": [],
+    "viewports": []
   },
   "boards": [],
   "cvpcb": {
@@ -376,7 +378,7 @@
   "net_settings": {
     "classes": [
       {
-        "bus_width": 12.0,
+        "bus_width": 12,
         "clearance": 0.15,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
@@ -390,10 +392,10 @@
         "track_width": 0.25,
         "via_diameter": 0.8,
         "via_drill": 0.4,
-        "wire_width": 6.0
+        "wire_width": 6
       },
       {
-        "bus_width": 12.0,
+        "bus_width": 12,
         "clearance": 0.2,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
@@ -402,20 +404,15 @@
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
         "name": "Power",
-        "nets": [
-          "+BATT",
-          "/BATT_DIRECT",
-          "VBUS"
-        ],
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.5,
         "via_diameter": 0.6,
         "via_drill": 0.4,
-        "wire_width": 6.0
+        "wire_width": 6
       },
       {
-        "bus_width": 12.0,
+        "bus_width": 12,
         "clearance": 0.15,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
@@ -424,32 +421,15 @@
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
         "name": "Signal",
-        "nets": [
-          "/BOOT0",
-          "/DIO0",
-          "/EXTERNAL_LED",
-          "/INTERNAL_LED",
-          "/MISO",
-          "/MOSI",
-          "/NSS",
-          "/SCK",
-          "/SWDIO",
-          "/USART_RX",
-          "/USART_TX",
-          "/VBATT_DIV",
-          "/~{CHRG}",
-          "/~{DTR}",
-          "/~{STDBY}"
-        ],
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.15,
         "via_diameter": 0.6,
         "via_drill": 0.4,
-        "wire_width": 6.0
+        "wire_width": 6
       },
       {
-        "bus_width": 12.0,
+        "bus_width": 12,
         "clearance": 0.127,
         "diff_pair_gap": 0.127,
         "diff_pair_via_gap": 0.25,
@@ -458,22 +438,101 @@
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
         "name": "USB",
-        "nets": [
-          "/USB+",
-          "/USB-"
-        ],
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.62,
         "via_diameter": 0.62,
         "via_drill": 0.4,
-        "wire_width": 6.0
+        "wire_width": 6
       }
     ],
     "meta": {
-      "version": 2
+      "version": 3
     },
-    "net_colors": null
+    "net_colors": null,
+    "netclass_assignments": null,
+    "netclass_patterns": [
+      {
+        "netclass": "Power",
+        "pattern": "+BATT"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "/BATT_DIRECT"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "VBUS"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": "/BOOT0"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": "/DIO0"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": "/EXTERNAL_LED"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": "/INTERNAL_LED"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": "/MISO"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": "/MOSI"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": "/NSS"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": "/SCK"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": "/SWDIO"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": "/USART_RX"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": "/USART_TX"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": "/VBATT_DIV"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": "/~{CHRG}"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": "/~{DTR}"
+      },
+      {
+        "netclass": "Signal",
+        "pattern": "/~{STDBY}"
+      },
+      {
+        "netclass": "USB",
+        "pattern": "/USB+"
+      },
+      {
+        "netclass": "USB",
+        "pattern": "/USB-"
+      }
+    ]
   },
   "pcbnew": {
     "last_paths": {
