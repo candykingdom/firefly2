@@ -49,8 +49,25 @@
           "min_clearance": 0.508
         }
       },
-      "diff_pair_dimensions": [],
-      "drc_exclusions": [],
+      "diff_pair_dimensions": [
+        {
+          "gap": 0.0,
+          "via_gap": 0.0,
+          "width": 0.0
+        }
+      ],
+      "drc_exclusions": [
+        "clearance|39500000|91000000|1f9afecc-637f-4fe6-89cd-27e654ec3de2|01ff4c51-73df-41ec-9c56-65771fb7b189",
+        "clearance|47100000|91000000|35ca2925-2b7d-4f5c-8a72-4040ffb351d2|f46642e6-b819-4506-8a2b-6c710a46fce6",
+        "solder_mask_bridge|39500000|91000000|1f9afecc-637f-4fe6-89cd-27e654ec3de2|01ff4c51-73df-41ec-9c56-65771fb7b189",
+        "solder_mask_bridge|47100000|91000000|35ca2925-2b7d-4f5c-8a72-4040ffb351d2|f46642e6-b819-4506-8a2b-6c710a46fce6",
+        "starved_thermal|125060000|99900000|00000000-0000-0000-0000-000062569269|1b5e4818-637f-4e25-a292-74c2265182a5|B.Cu",
+        "unconnected_items|53269501|107004999|9ef1b0f6-550f-4341-8e55-307e11f73cde|f2a8b6c2-5c95-4f87-8c2f-4109670ab3a2",
+        "unconnected_items|55800000|107250000|f2a8b6c2-5c95-4f87-8c2f-4109670ab3a2|bfb53299-ea59-4f50-b693-11b38334cb73",
+        "unconnected_items|55800000|111750000|59dadee4-e85f-497d-aa58-641920bed325|66b185c6-a84b-44c4-bd89-9cd158ed0b38",
+        "via_dangling|161800000|110100000|79994bd8-e4a0-4eac-a4d0-b0771a34f463|00000000-0000-0000-0000-000000000000",
+        "via_dangling|174200000|108700000|1603f969-d108-4d28-a7eb-438b383d060a|00000000-0000-0000-0000-000000000000"
+      ],
       "meta": {
         "filename": "board_design_settings.json",
         "version": 2
@@ -87,9 +104,9 @@
         "padstack": "error",
         "pth_inside_courtyard": "ignore",
         "shorting_items": "error",
-        "silk_edge_clearance": "warning",
-        "silk_over_copper": "warning",
-        "silk_overlap": "warning",
+        "silk_edge_clearance": "ignore",
+        "silk_over_copper": "ignore",
+        "silk_overlap": "ignore",
         "skew_out_of_range": "error",
         "solder_mask_bridge": "error",
         "starved_thermal": "error",
@@ -173,6 +190,7 @@
         0.0,
         0.15,
         0.2,
+        0.25,
         0.5,
         0.75,
         1.0
