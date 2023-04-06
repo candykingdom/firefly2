@@ -2,7 +2,7 @@
 <export version="E">
   <design>
     <source>/home/adam/hardware/firefly2/hardware/controller/controller.kicad_sch</source>
-    <date>Tue 04 Apr 2023 07:30:13 PM MDT</date>
+    <date>Thu 06 Apr 2023 02:52:17 PM MDT</date>
     <tool>Eeschema 7.0.1-3b83917a11~172~ubuntu22.04.1</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
@@ -986,13 +986,13 @@
     </comp>
     <comp ref="D1">
       <value>D_TVS</value>
-      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <footprint>Diode_SMD:D_SOD-123F</footprint>
       <fields>
-        <field name="LCSC">C127522</field>
+        <field name="LCSC">C2990473</field>
       </fields>
       <libsource lib="Device" part="D_TVS" description="Bidirectional transient-voltage-suppression diode"/>
       <property name="MPN" value=""/>
-      <property name="LCSC" value="C127522"/>
+      <property name="LCSC" value="C2990473"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="controller.kicad_sch"/>
       <property name="ki_description" value="Bidirectional transient-voltage-suppression diode"/>
@@ -1002,13 +1002,13 @@
     </comp>
     <comp ref="D2">
       <value>D_TVS</value>
-      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <footprint>Diode_SMD:D_SOD-123F</footprint>
       <fields>
-        <field name="LCSC">C127522</field>
+        <field name="LCSC">C2990473</field>
       </fields>
       <libsource lib="Device" part="D_TVS" description="Bidirectional transient-voltage-suppression diode"/>
       <property name="MPN" value=""/>
-      <property name="LCSC" value="C127522"/>
+      <property name="LCSC" value="C2990473"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="controller.kicad_sch"/>
       <property name="ki_description" value="Bidirectional transient-voltage-suppression diode"/>
@@ -1018,13 +1018,13 @@
     </comp>
     <comp ref="D4">
       <value>D_TVS</value>
-      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <footprint>Diode_SMD:D_SOD-123F</footprint>
       <fields>
-        <field name="LCSC">C127522</field>
+        <field name="LCSC">C2990473</field>
       </fields>
       <libsource lib="Device" part="D_TVS" description="Bidirectional transient-voltage-suppression diode"/>
       <property name="MPN" value=""/>
-      <property name="LCSC" value="C127522"/>
+      <property name="LCSC" value="C2990473"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="controller.kicad_sch"/>
       <property name="ki_description" value="Bidirectional transient-voltage-suppression diode"/>
@@ -1370,13 +1370,13 @@
     </comp>
     <comp ref="D26">
       <value>D_TVS</value>
-      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <footprint>Diode_SMD:D_SOD-123F</footprint>
       <fields>
-        <field name="LCSC">C127522</field>
+        <field name="LCSC">C2990473</field>
       </fields>
       <libsource lib="Device" part="D_TVS" description="Bidirectional transient-voltage-suppression diode"/>
       <property name="MPN" value=""/>
-      <property name="LCSC" value="C127522"/>
+      <property name="LCSC" value="C2990473"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="controller.kicad_sch"/>
       <property name="ki_description" value="Bidirectional transient-voltage-suppression diode"/>
@@ -1434,13 +1434,13 @@
     </comp>
     <comp ref="D30">
       <value>D_TVS</value>
-      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <footprint>Diode_SMD:D_SOD-123F</footprint>
       <fields>
-        <field name="LCSC">C127522</field>
+        <field name="LCSC">C2990473</field>
       </fields>
       <libsource lib="Device" part="D_TVS" description="Bidirectional transient-voltage-suppression diode"/>
       <property name="MPN" value=""/>
-      <property name="LCSC" value="C127522"/>
+      <property name="LCSC" value="C2990473"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="controller.kicad_sch"/>
       <property name="ki_description" value="Bidirectional transient-voltage-suppression diode"/>
@@ -1450,13 +1450,13 @@
     </comp>
     <comp ref="D31">
       <value>D_TVS</value>
-      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <footprint>Diode_SMD:D_SOD-123F</footprint>
       <fields>
-        <field name="LCSC">C127522</field>
+        <field name="LCSC">C2990473</field>
       </fields>
       <libsource lib="Device" part="D_TVS" description="Bidirectional transient-voltage-suppression diode"/>
       <property name="MPN" value=""/>
-      <property name="LCSC" value="C127522"/>
+      <property name="LCSC" value="C2990473"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="controller.kicad_sch"/>
       <property name="ki_description" value="Bidirectional transient-voltage-suppression diode"/>
@@ -1752,13 +1752,13 @@
     </comp>
     <comp ref="D50">
       <value>D_TVS</value>
-      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <footprint>Diode_SMD:D_SOD-123F</footprint>
       <fields>
-        <field name="LCSC">C127522</field>
+        <field name="LCSC">C2990473</field>
       </fields>
       <libsource lib="Device" part="D_TVS" description="Bidirectional transient-voltage-suppression diode"/>
       <property name="MPN" value=""/>
-      <property name="LCSC" value="C127522"/>
+      <property name="LCSC" value="C2990473"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="controller.kicad_sch"/>
       <property name="ki_description" value="Bidirectional transient-voltage-suppression diode"/>
@@ -1768,13 +1768,13 @@
     </comp>
     <comp ref="D51">
       <value>D_TVS</value>
-      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <footprint>Diode_SMD:D_SOD-123F</footprint>
       <fields>
-        <field name="LCSC">C127522</field>
+        <field name="LCSC">C2990473</field>
       </fields>
       <libsource lib="Device" part="D_TVS" description="Bidirectional transient-voltage-suppression diode"/>
       <property name="MPN" value=""/>
-      <property name="LCSC" value="C127522"/>
+      <property name="LCSC" value="C2990473"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="controller.kicad_sch"/>
       <property name="ki_description" value="Bidirectional transient-voltage-suppression diode"/>
@@ -1787,12 +1787,8 @@
       <footprint>Diode_SMD:D_SMA</footprint>
       <fields>
         <field name="LCSC">C8678</field>
-        <field name="Sim.Device">D</field>
-        <field name="Sim.Pins">1=K 2=A</field>
       </fields>
       <libsource lib="Device" part="D" description="Diode"/>
-      <property name="Sim.Device" value="D"/>
-      <property name="Sim.Pins" value="1=K 2=A"/>
       <property name="LCSC" value="C8678"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="controller.kicad_sch"/>
@@ -1803,13 +1799,13 @@
     </comp>
     <comp ref="D53">
       <value>D_TVS</value>
-      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <footprint>Diode_SMD:D_SOD-123F</footprint>
       <fields>
-        <field name="LCSC">C127522</field>
+        <field name="LCSC">C2990473</field>
       </fields>
       <libsource lib="Device" part="D_TVS" description="Bidirectional transient-voltage-suppression diode"/>
       <property name="MPN" value=""/>
-      <property name="LCSC" value="C127522"/>
+      <property name="LCSC" value="C2990473"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="controller.kicad_sch"/>
       <property name="ki_description" value="Bidirectional transient-voltage-suppression diode"/>
@@ -1819,13 +1815,13 @@
     </comp>
     <comp ref="D54">
       <value>D_TVS</value>
-      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <footprint>Diode_SMD:D_SOD-123F</footprint>
       <fields>
-        <field name="LCSC">C127522</field>
+        <field name="LCSC">C2990473</field>
       </fields>
       <libsource lib="Device" part="D_TVS" description="Bidirectional transient-voltage-suppression diode"/>
       <property name="MPN" value=""/>
-      <property name="LCSC" value="C127522"/>
+      <property name="LCSC" value="C2990473"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="controller.kicad_sch"/>
       <property name="ki_description" value="Bidirectional transient-voltage-suppression diode"/>
@@ -1835,13 +1831,13 @@
     </comp>
     <comp ref="D55">
       <value>D_TVS</value>
-      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <footprint>Diode_SMD:D_SOD-123F</footprint>
       <fields>
-        <field name="LCSC">C127522</field>
+        <field name="LCSC">C2990473</field>
       </fields>
       <libsource lib="Device" part="D_TVS" description="Bidirectional transient-voltage-suppression diode"/>
       <property name="MPN" value=""/>
-      <property name="LCSC" value="C127522"/>
+      <property name="LCSC" value="C2990473"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="controller.kicad_sch"/>
       <property name="ki_description" value="Bidirectional transient-voltage-suppression diode"/>
@@ -1851,13 +1847,13 @@
     </comp>
     <comp ref="D56">
       <value>D_TVS</value>
-      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <footprint>Diode_SMD:D_SOD-123F</footprint>
       <fields>
-        <field name="LCSC">C127522</field>
+        <field name="LCSC">C2990473</field>
       </fields>
       <libsource lib="Device" part="D_TVS" description="Bidirectional transient-voltage-suppression diode"/>
       <property name="MPN" value=""/>
-      <property name="LCSC" value="C127522"/>
+      <property name="LCSC" value="C2990473"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="controller.kicad_sch"/>
       <property name="ki_description" value="Bidirectional transient-voltage-suppression diode"/>
@@ -1867,13 +1863,13 @@
     </comp>
     <comp ref="D57">
       <value>D_TVS</value>
-      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <footprint>Diode_SMD:D_SOD-123F</footprint>
       <fields>
-        <field name="LCSC">C127522</field>
+        <field name="LCSC">C2990473</field>
       </fields>
       <libsource lib="Device" part="D_TVS" description="Bidirectional transient-voltage-suppression diode"/>
       <property name="MPN" value=""/>
-      <property name="LCSC" value="C127522"/>
+      <property name="LCSC" value="C2990473"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="controller.kicad_sch"/>
       <property name="ki_description" value="Bidirectional transient-voltage-suppression diode"/>
@@ -1961,7 +1957,7 @@
     </comp>
     <comp ref="J4">
       <value>USB_B_Micro</value>
-      <footprint>homebrew:FRAMATOME_10118194-0001LF_fixed_bridges</footprint>
+      <footprint>Homebrew:FRAMATOME_10118194-0001LF_fixed_bridges</footprint>
       <fields>
         <field name="LCSC">C132563</field>
       </fields>
@@ -2615,7 +2611,7 @@
     </comp>
     <comp ref="S1">
       <value>OS103011MS8QP1</value>
-      <footprint>OS102011MS8QP1</footprint>
+      <footprint>Homebrew:OS102011MS8QP1</footprint>
       <fields>
         <field name="DIGIKEY">CKN9543-ND</field>
         <field name="MPN">OS103011MS8QP1</field>
@@ -2875,7 +2871,7 @@
     </comp>
     <comp ref="U6">
       <value>RFM69CW-915MHZ</value>
-      <footprint>RFM69CW-XXXS2</footprint>
+      <footprint>Homebrew:RFM69CW-minimalpads</footprint>
       <fields>
         <field name="Field4">IC-11996</field>
       </fields>
@@ -3688,7 +3684,6 @@
       <node ref="D48" pin="1" pinfunction="VDD" pintype="power_in"/>
       <node ref="D49" pin="1" pinfunction="VDD" pintype="power_in"/>
       <node ref="D5" pin="1" pinfunction="VDD" pintype="power_in"/>
-      <node ref="D52" pin="1" pinfunction="K" pintype="passive"/>
       <node ref="D6" pin="1" pinfunction="VDD" pintype="power_in"/>
       <node ref="D7" pin="1" pinfunction="VDD" pintype="power_in"/>
       <node ref="D8" pin="1" pinfunction="VDD" pintype="power_in"/>
@@ -3727,6 +3722,7 @@
       <node ref="C12" pin="2" pintype="passive"/>
       <node ref="C18" pin="2" pintype="passive"/>
       <node ref="D26" pin="1" pinfunction="A1" pintype="passive"/>
+      <node ref="D52" pin="1" pinfunction="K" pintype="passive"/>
       <node ref="SW11" pin="2" pinfunction="B" pintype="passive"/>
       <node ref="TH1" pin="1" pintype="passive"/>
       <node ref="U7" pin="5" pinfunction="BAT" pintype="output"/>
