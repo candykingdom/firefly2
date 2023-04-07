@@ -1,5 +1,5 @@
 "Source:","/home/adam/hardware/firefly2/hardware/controller/controller.kicad_sch"
-"Date:","Thu 06 Apr 2023 02:52:17 PM MDT"
+"Date:","Thu 06 Apr 2023 11:02:52 PM MDT"
 "Tool:","Eeschema 7.0.1-3b83917a11~172~ubuntu22.04.1"
 "Generator:","/usr/share/kicad/plugins/bom_csv_grouped_by_value.py"
 "Component Count:","194"
@@ -51,5 +51,5 @@
 "42","1","U6","RFM69CW-915MHZ","controller-rescue:RFM69CW-915MHZ-SparkFun-RF","Homebrew:RFM69CW-minimalpads","","","","IC-11996","","","","","","",""
 "43","1","U7","TP4056","controller-rescue:TP4056-snapeda-TP4056","Homebrew:SOP127P600X175-9N","","","","","C382139","NanJing Top Power ASIC Corp.","1.75mm","","IPC 7351B","",""
 "44","1","U8","STM32G070CBTx","MCU_ST_STM32G0:STM32G070CBTx","Package_QFP:LQFP-48_7x7mm_P0.5mm","https://www.st.com/resource/en/datasheet/stm32g070cb.pdf","","","","C529338","","","","","",""
-"45","1","U9","ISL29125","SparkFun_Sensors:ISL29125","Sparkfun_Silicon_Standard:ODFN-6","https://cdn.sparkfun.com/datasheets/Sensors/LightImaging/isl29125.pdf","","","","C2654928","","","","","",""
+"45","1","U9","VEML6040","Homebrew:VEML6040","Homebrew:VISHAY_VEML6040_1.25X2X1","https://datasheet.lcsc.com/lcsc/1811101814_Vishay-Intertech-VEML6040A3OG_C78465.pdf","","","","C78465","","","","","",""
 "46","1","U10","CH340X","Interface_USB:CH340E","Package_SO:MSOP-10_3x3mm_P0.5mm","https://www.mpja.com/download/35227cpdata.pdf","","","","C3035748","","","","","",""

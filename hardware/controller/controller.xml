@@ -2,7 +2,7 @@
 <export version="E">
   <design>
     <source>/home/adam/hardware/firefly2/hardware/controller/controller.kicad_sch</source>
-    <date>Thu 06 Apr 2023 02:52:17 PM MDT</date>
+    <date>Thu 06 Apr 2023 11:02:52 PM MDT</date>
     <tool>Eeschema 7.0.1-3b83917a11~172~ubuntu22.04.1</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
@@ -2918,20 +2918,18 @@
       <tstamps>1ea222f4-b307-43d9-8aba-236ce4052d55</tstamps>
     </comp>
     <comp ref="U9">
-      <value>ISL29125</value>
-      <footprint>Sparkfun_Silicon_Standard:ODFN-6</footprint>
-      <datasheet>https://cdn.sparkfun.com/datasheets/Sensors/LightImaging/isl29125.pdf</datasheet>
+      <value>VEML6040</value>
+      <footprint>Homebrew:VISHAY_VEML6040_1.25X2X1</footprint>
+      <datasheet>https://datasheet.lcsc.com/lcsc/1811101814_Vishay-Intertech-VEML6040A3OG_C78465.pdf</datasheet>
       <fields>
-        <field name="LCSC">C2654928</field>
+        <field name="LCSC">C78465</field>
       </fields>
-      <libsource lib="SparkFun_Sensors" part="ISL29125" description="Intersil ISL29125 RGB Color Light Sensor The ISL29125 is a low power, high sensitivity, RED, GREEN and BLUE color light sensor (RGB) with an I2C (SMBus compatible) interface. Its state-of-the-art photodiode array provides an accurate RGB spectral response and excellent light source to light source variation (LS2LS). &lt;a href=&quot;https://cdn.sparkfun.com/datasheets/Sensors/LightImaging/isl29125.pdf&quot;&gt;Datasheet&lt;/a&gt; &lt;h4&gt;SparkFun Products&lt;/h4&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://www.sparkfun.com/products/12829&quot;&gt;SparkFun RGB Light Sensor - ISL29125&lt;/a&gt; (SEN-12829)&lt;/li&gt;&lt;/ul&gt;"/>
-      <property name="LCSC" value="C2654928"/>
+      <libsource lib="Homebrew" part="VEML6040" description=""/>
+      <property name="LCSC" value="C78465"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="controller.kicad_sch"/>
-      <property name="ki_description" value="Intersil ISL29125 RGB Color Light Sensor The ISL29125 is a low power, high sensitivity, RED, GREEN and BLUE color light sensor (RGB) with an I2C (SMBus compatible) interface. Its state-of-the-art photodiode array provides an accurate RGB spectral response and excellent light source to light source variation (LS2LS). &lt;a href=&quot;https://cdn.sparkfun.com/datasheets/Sensors/LightImaging/isl29125.pdf&quot;&gt;Datasheet&lt;/a&gt; &lt;h4&gt;SparkFun Products&lt;/h4&gt;&lt;ul&gt;&lt;li&gt;&lt;a href=&quot;https://www.sparkfun.com/products/12829&quot;&gt;SparkFun RGB Light Sensor - ISL29125&lt;/a&gt; (SEN-12829)&lt;/li&gt;&lt;/ul&gt;"/>
-      <property name="ki_keywords" value="PROD_ID:IC-12055"/>
       <sheetpath names="/" tstamps="/"/>
-      <tstamps>9a6dc6b9-9a48-4a37-ac34-52c1527e4fa3</tstamps>
+      <tstamps>b4af74b0-cc9d-4dfe-96e3-a11254def856</tstamps>
     </comp>
     <comp ref="U10">
       <value>CH340X</value>
@@ -3219,6 +3217,22 @@
         <pin num="6" name="IO4" type="input"/>
       </pins>
     </libpart>
+    <libpart lib="Homebrew" part="VEML6040">
+      <docs>https://datasheet.lcsc.com/lcsc/1811101814_Vishay-Intertech-VEML6040A3OG_C78465.pdf</docs>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">VEML6040</field>
+        <field name="Footprint">Homebrew:VISHAY_VEML6040_1.25X2X1</field>
+        <field name="Datasheet">https://datasheet.lcsc.com/lcsc/1811101814_Vishay-Intertech-VEML6040A3OG_C78465.pdf</field>
+        <field name="LCSC">C78465</field>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="power_in"/>
+        <pin num="2" name="" type="bidirectional"/>
+        <pin num="3" name="" type="input"/>
+        <pin num="4" name="" type="power_in"/>
+      </pins>
+    </libpart>
     <libpart lib="Interface_USB" part="CH340E">
       <description>USB serial converter, UART, MSOP-10</description>
       <docs>https://www.mpja.com/download/35227cpdata.pdf</docs>
@@ -3377,24 +3391,6 @@
         <pin num="1" name="GND" type="power_in"/>
         <pin num="2" name="VIN" type="power_in"/>
         <pin num="3" name="VOUT" type="power_out"/>
-      </pins>
-    </libpart>
-    <libpart lib="SparkFun_Sensors" part="ISL29125">
-      <description>Intersil ISL29125 RGB Color Light Sensor The ISL29125 is a low power, high sensitivity, RED, GREEN and BLUE color light sensor (RGB) with an I2C (SMBus compatible) interface. Its state-of-the-art photodiode array provides an accurate RGB spectral response and excellent light source to light source variation (LS2LS). &lt;a href="https://cdn.sparkfun.com/datasheets/Sensors/LightImaging/isl29125.pdf"&gt;Datasheet&lt;/a&gt; &lt;h4&gt;SparkFun Products&lt;/h4&gt;&lt;ul&gt;&lt;li&gt;&lt;a href="https://www.sparkfun.com/products/12829"&gt;SparkFun RGB Light Sensor - ISL29125&lt;/a&gt; (SEN-12829)&lt;/li&gt;&lt;/ul&gt;</description>
-      <footprints>
-        <fp>*ODFN-6*</fp>
-      </footprints>
-      <fields>
-        <field name="Reference">U</field>
-        <field name="Value">ISL29125</field>
-        <field name="Footprint">Sparkfun_Silicon_Standard:ODFN-6</field>
-      </fields>
-      <pins>
-        <pin num="1" name="VDD" type="power_in"/>
-        <pin num="3" name="GND" type="power_in"/>
-        <pin num="4" name="SDA" type="bidirectional"/>
-        <pin num="5" name="~{INT}" type="output"/>
-        <pin num="6" name="SCL" type="input"/>
       </pins>
     </libpart>
     <libpart lib="Switch" part="SW_Push">
@@ -3590,9 +3586,6 @@
     <library logical="Regulator_Linear">
       <uri>/usr/share/kicad/symbols//Regulator_Linear.kicad_sym</uri>
     </library>
-    <library logical="SparkFun_Sensors">
-      <uri>/home/adam/hardware/kicad/SparkFun-KiCad-Libraries/Libraries/SparkFun-Sensors.kicad_sym</uri>
-    </library>
     <library logical="Switch">
       <uri>/usr/share/kicad/symbols//Switch.kicad_sym</uri>
     </library>
@@ -3695,7 +3688,7 @@
       <node ref="R14" pin="2" pintype="passive"/>
       <node ref="R6" pin="1" pintype="passive"/>
       <node ref="SW1" pin="5" pintype="input"/>
-      <node ref="SW11" pin="3" pinfunction="C" pintype="passive"/>
+      <node ref="SW11" pin="1" pinfunction="A" pintype="passive"/>
       <node ref="SW2" pin="5" pintype="input"/>
       <node ref="SW3" pin="5" pintype="input"/>
       <node ref="SW4" pin="5" pintype="input"/>
@@ -3806,13 +3799,13 @@
       <node ref="R41" pin="2" pintype="passive"/>
       <node ref="U2" pin="6" pinfunction="SCL" pintype="input"/>
       <node ref="U8" pin="29" pinfunction="PA9/NC" pintype="bidirectional"/>
-      <node ref="U9" pin="6" pinfunction="SCL" pintype="input"/>
+      <node ref="U9" pin="3" pintype="input"/>
     </net>
     <net code="25" name="/SDA">
       <node ref="R40" pin="2" pintype="passive"/>
       <node ref="U2" pin="5" pinfunction="SDA" pintype="bidirectional"/>
       <node ref="U8" pin="32" pinfunction="PA10/NC" pintype="bidirectional"/>
-      <node ref="U9" pin="4" pinfunction="SDA" pintype="bidirectional"/>
+      <node ref="U9" pin="2" pintype="bidirectional"/>
     </net>
     <net code="26" name="/SWDIO">
       <node ref="J3" pin="3" pinfunction="Pin_3" pintype="passive"/>
@@ -4054,7 +4047,7 @@
       <node ref="U7" pin="1" pinfunction="TEMP" pintype="input"/>
       <node ref="U7" pin="3" pinfunction="GND" pintype="power_in"/>
       <node ref="U8" pin="7" pinfunction="VSS" pintype="power_in"/>
-      <node ref="U9" pin="3" pinfunction="GND" pintype="power_in"/>
+      <node ref="U9" pin="1" pintype="power_in"/>
     </net>
     <net code="46" name="Net-(D5-DOUT)">
       <node ref="D5" pin="2" pinfunction="DOUT" pintype="output"/>
@@ -4409,7 +4402,7 @@
       <node ref="U6" pin="2" pinfunction="3.3V" pintype="power_in"/>
       <node ref="U8" pin="5" pinfunction="VREF+" pintype="input"/>
       <node ref="U8" pin="6" pinfunction="VDD" pintype="power_in"/>
-      <node ref="U9" pin="1" pinfunction="VDD" pintype="power_in"/>
+      <node ref="U9" pin="4" pintype="power_in"/>
     </net>
     <net code="123" name="unconnected-(D46-IO3-Pad4)">
       <node ref="D46" pin="4" pinfunction="IO3" pintype="input+no_connect"/>
@@ -4480,8 +4473,8 @@
     <net code="145" name="unconnected-(SW9-Pad3)">
       <node ref="SW9" pin="3" pintype="bidirectional+no_connect"/>
     </net>
-    <net code="146" name="unconnected-(SW11-A-Pad1)">
-      <node ref="SW11" pin="1" pinfunction="A" pintype="passive+no_connect"/>
+    <net code="146" name="unconnected-(SW11-C-Pad3)">
+      <node ref="SW11" pin="3" pinfunction="C" pintype="passive+no_connect"/>
     </net>
     <net code="147" name="unconnected-(U1-SET-Pad7)">
       <node ref="U1" pin="7" pinfunction="SET" pintype="input+no_connect"/>
@@ -4572,9 +4565,6 @@
     </net>
     <net code="176" name="unconnected-(U8-VBAT-Pad4)">
       <node ref="U8" pin="4" pinfunction="VBAT" pintype="power_in+no_connect"/>
-    </net>
-    <net code="177" name="unconnected-(U9-~{INT}-Pad5)">
-      <node ref="U9" pin="5" pinfunction="~{INT}" pintype="output+no_connect"/>
     </net>
   </nets>
 </export>
