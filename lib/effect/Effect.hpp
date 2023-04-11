@@ -17,7 +17,7 @@ class Effect {
                       const StripDescription &strip,
                       RadioPacket *setEffectPacket) = 0;
 
-  static const std::vector<ColorPalette> palettes();
+  static const std::vector<ColorPalette>& palettes();
 
  protected:
   /**
