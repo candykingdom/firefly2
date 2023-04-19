@@ -5,7 +5,7 @@
 #include "leds.h"
 
 constexpr uint8_t kLeftButtonLed = 41;
-constexpr uint8_t kRightButtonLed = 36;
+constexpr uint8_t kRightButtonLed = 39;
 constexpr uint8_t kBottomButtonLed = 40;
 
 constexpr uint8_t kButtonActiveBrightness = 64;
