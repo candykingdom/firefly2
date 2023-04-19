@@ -19,7 +19,8 @@ enum class ControllerMode {
   // Left/right buttons immediately make everything light up a single color.
   DirectColor,
 
-  // Left/right buttons immediately change the palette for the current effect.
+  // Left/right buttons immediately change the palette for the current
+  // effect.
   DirectPalette,
 };
 
@@ -44,6 +45,9 @@ const StripDescription kPaletteStrip =
 
 constexpr uint8_t kSetEffectDelay = 60;
 
+// Constants for the mode switch, which uses an evenly-divided voltage divider.
+// See
+// http://www.ignorantofthings.com/2018/07/the-perfect-multi-button-input-resistor.html?m=1
 static constexpr uint16_t kMode1Threshold = 346 / 2;
 static constexpr uint16_t kMode2Threshold = (346 + 678) / 2;
 static constexpr uint16_t kMode3Threshold = (678 + 1023) / 2;
