@@ -73,21 +73,21 @@ RadioPacket set_effect_packet;
 RadioPacket control_packet;
 
 std::array<DebounceFilter, 3> left_buttons = {
-    DebounceFilter(filter_functions::ForDigitalRead<kLeftButtons[0]>()),
-    DebounceFilter(filter_functions::ForDigitalRead<kLeftButtons[1]>()),
-    DebounceFilter(filter_functions::ForDigitalRead<kLeftButtons[2]>()),
+    DebounceFilter(filter_functions::ForInvertedDigitalRead<kLeftButtons[0]>()),
+    DebounceFilter(filter_functions::ForInvertedDigitalRead<kLeftButtons[1]>()),
+    DebounceFilter(filter_functions::ForInvertedDigitalRead<kLeftButtons[2]>()),
 };
 
 std::array<DebounceFilter, 3> right_buttons = {
-    DebounceFilter(filter_functions::ForDigitalRead<kRightButtons[0]>()),
-    DebounceFilter(filter_functions::ForDigitalRead<kRightButtons[1]>()),
-    DebounceFilter(filter_functions::ForDigitalRead<kRightButtons[2]>()),
+    DebounceFilter(filter_functions::ForInvertedDigitalRead<kRightButtons[0]>()),
+    DebounceFilter(filter_functions::ForInvertedDigitalRead<kRightButtons[1]>()),
+    DebounceFilter(filter_functions::ForInvertedDigitalRead<kRightButtons[2]>()),
 };
 
 std::array<DebounceFilter, 3> bottom_buttons = {
-    DebounceFilter(filter_functions::ForDigitalRead<kBottomButtons[0]>()),
-    DebounceFilter(filter_functions::ForDigitalRead<kBottomButtons[1]>()),
-    DebounceFilter(filter_functions::ForDigitalRead<kBottomButtons[2]>()),
+    DebounceFilter(filter_functions::ForInvertedDigitalRead<kBottomButtons[0]>()),
+    DebounceFilter(filter_functions::ForInvertedDigitalRead<kBottomButtons[1]>()),
+    DebounceFilter(filter_functions::ForInvertedDigitalRead<kBottomButtons[2]>()),
 };
 
 MedianFilter<uint16_t, uint16_t, 5> mode_switch(
@@ -334,7 +334,11 @@ void setup() {
 
   FastLED.addLeds<NEOPIXEL, kNeopixelPin>(leds.data(), kLedCount)
       .setCorrection(TypicalLEDStrip);
-  FastLED.setBrightness(32);
+  FastLED.clear(/*writeData=*/true);
+
+  SPI.setMISO(PB4);
+  SPI.setMOSI(PB5);
+  SPI.setSCLK(PB3);
 
   if (!radio.Begin()) {
     while (true) {
@@ -342,15 +346,14 @@ void setup() {
       FastLED.show();
     }
   }
-  FastLED.clear(/*writeData=*/true);
 
   pinMode(kLeftButtons[0], INPUT_PULLUP);
-  pinMode(kLeftButtons[0], INPUT_PULLUP);
   pinMode(kLeftButtons[1], INPUT_PULLUP);
+  pinMode(kLeftButtons[2], INPUT_PULLUP);
   pinMode(kRightButtons[0], INPUT_PULLUP);
   pinMode(kRightButtons[1], INPUT_PULLUP);
   pinMode(kRightButtons[2], INPUT_PULLUP);
-  pinMode(kBottomButtons[2], INPUT_PULLUP);
+  pinMode(kBottomButtons[0], INPUT_PULLUP);
   pinMode(kBottomButtons[1], INPUT_PULLUP);
   pinMode(kBottomButtons[2], INPUT_PULLUP);
 }
