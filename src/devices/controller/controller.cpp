@@ -79,15 +79,21 @@ std::array<DebounceFilter, 3> left_buttons = {
 };
 
 std::array<DebounceFilter, 3> right_buttons = {
-    DebounceFilter(filter_functions::ForInvertedDigitalRead<kRightButtons[0]>()),
-    DebounceFilter(filter_functions::ForInvertedDigitalRead<kRightButtons[1]>()),
-    DebounceFilter(filter_functions::ForInvertedDigitalRead<kRightButtons[2]>()),
+    DebounceFilter(
+        filter_functions::ForInvertedDigitalRead<kRightButtons[0]>()),
+    DebounceFilter(
+        filter_functions::ForInvertedDigitalRead<kRightButtons[1]>()),
+    DebounceFilter(
+        filter_functions::ForInvertedDigitalRead<kRightButtons[2]>()),
 };
 
 std::array<DebounceFilter, 3> bottom_buttons = {
-    DebounceFilter(filter_functions::ForInvertedDigitalRead<kBottomButtons[0]>()),
-    DebounceFilter(filter_functions::ForInvertedDigitalRead<kBottomButtons[1]>()),
-    DebounceFilter(filter_functions::ForInvertedDigitalRead<kBottomButtons[2]>()),
+    DebounceFilter(
+        filter_functions::ForInvertedDigitalRead<kBottomButtons[0]>()),
+    DebounceFilter(
+        filter_functions::ForInvertedDigitalRead<kBottomButtons[1]>()),
+    DebounceFilter(
+        filter_functions::ForInvertedDigitalRead<kBottomButtons[2]>()),
 };
 
 MedianFilter<uint16_t, uint16_t, 5> mode_switch(
