@@ -353,29 +353,21 @@ void setup() {
     }
   }
 
-  pinMode(kLeftButtons[0], INPUT_PULLUP);
-  pinMode(kLeftButtons[1], INPUT_PULLUP);
-  pinMode(kLeftButtons[2], INPUT_PULLUP);
-  pinMode(kRightButtons[0], INPUT_PULLUP);
-  pinMode(kRightButtons[1], INPUT_PULLUP);
-  pinMode(kRightButtons[2], INPUT_PULLUP);
-  pinMode(kBottomButtons[0], INPUT_PULLUP);
-  pinMode(kBottomButtons[1], INPUT_PULLUP);
-  pinMode(kBottomButtons[2], INPUT_PULLUP);
+  for (uint8_t i = 0; i < 3; i++) {
+    pinMode(kLeftButtons[i], INPUT_PULLUP);
+    pinMode(kRightButtons[i], INPUT_PULLUP);
+    pinMode(kBottomButtons[i], INPUT_PULLUP);
+  }
 }
 
 void loop() {
   state_machine.Tick();
 
-  left_buttons[0].Run();
-  left_buttons[1].Run();
-  left_buttons[2].Run();
-  right_buttons[0].Run();
-  right_buttons[1].Run();
-  right_buttons[2].Run();
-  bottom_buttons[0].Run();
-  bottom_buttons[1].Run();
-  bottom_buttons[2].Run();
+  for (uint8_t i = 0; i < 3; i++) {
+    left_buttons[i].Run();
+    right_buttons[i].Run();
+    bottom_buttons[i].Run();
+  }
 
   mode_switch.Run();
   if (mode_switch.GetFilteredValue() < kMode1Threshold) {
