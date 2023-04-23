@@ -3,6 +3,8 @@
 #include <exponential-moving-average-filter.h>
 #include <median-filter.h>
 
+#include <FlashStorage_STM32.h>
+
 #include <DeviceDescription.hpp>
 #include <Devices.hpp>
 #include <StripDescription.hpp>
@@ -68,6 +70,12 @@ void setup() {
   pinMode(kLedPin, OUTPUT);
   digitalWrite(kLedPin, HIGH);
 
+  Serial2.begin(115200);
+  Serial2.println("Booting...");
+
+  // EEPROM.update(0, 37);
+  Serial2.printf("EEPROM value: %d\n", EEPROM.read(0));
+
   analogReadResolution(10);
   battery_median_filter.SetMinRunInterval(10);
   battery_average_filter.SetMinRunInterval(10);
@@ -85,6 +93,7 @@ void setup() {
 }
 
 void loop() {
+
   battery_median_filter.Run();
   battery_average_filter.Run();
   if (battery_average_filter.GetFilteredValue() <

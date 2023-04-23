@@ -30,7 +30,7 @@
   "name": "generic_stm32g030c8t",
   "upload": {
     "maximum_ram_size": 8192,
-    "maximum_size": 65536,
+    "maximum_size": 63488,
     "protocol": "mbed",
     "protocols": [
       "blackmagic",
