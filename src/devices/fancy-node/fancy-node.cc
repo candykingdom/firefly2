@@ -14,12 +14,6 @@
 #include "../../generic/NetworkManager.hpp"
 #include "../../generic/RadioStateMachine.hpp"
 
-enum class DeviceMode {
-  CURRENT_FROM_HEADER,
-  READ_FROM_FLASH,
-  WRITE_TO_FLASH,
-};
-
 constexpr DeviceMode kDeviceMode = DeviceMode::CURRENT_FROM_HEADER;
 
 const int kLedPin = PB0;

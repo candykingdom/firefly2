@@ -42,6 +42,9 @@ const DeviceDescription hex_light =
 // Modify this variable to easily switch between devices.
 const DeviceDescription &current = bike;
 
+static_assert(sizeof(current) <= DeviceDescription::kMaxSize,
+              "Current device too large");
+
 }  // namespace Devices
 
 #endif  // __DEVICES_HPP__
