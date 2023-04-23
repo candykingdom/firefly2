@@ -111,6 +111,7 @@ void setup() {
   }
 
   led_manager->PlayStartupAnimation();
+  digitalWrite(kLedPin, LOW);
 }
 
 void loop() {
@@ -119,8 +120,9 @@ void loop() {
   if (battery_average_filter.GetFilteredValue() <
       BatteryVoltageToRawReading(kBatteryDead)) {
     // TODO: display a battery-low pattern?
-    led_manager->SetGlobalColor(CRGB::Black);
-    led_manager->SetOnboardLed(CRGB(4, 0, 0));
+    FastLED.clearData();
+    led_manager->SetOnboardLed(CRGB(8, 0, 0));
+    FastLED.show();
   } else {
     // Display battery status on onboard LED for the first 20 seconds
     if (millis() < 20 * 1000) {
@@ -138,4 +140,5 @@ void loop() {
     state_machine.Tick();
     led_manager->RunEffect();
   }
+  delay(5);
 }
