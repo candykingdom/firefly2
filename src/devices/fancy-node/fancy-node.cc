@@ -1,9 +1,8 @@
 #include <Arduino.h>
 #include <FastLED.h>
+#include <FlashStorage_STM32.h>
 #include <exponential-moving-average-filter.h>
 #include <median-filter.h>
-
-#include <FlashStorage_STM32.h>
 
 #include <DeviceDescription.hpp>
 #include <Devices.hpp>
@@ -15,6 +14,14 @@
 #include "../../generic/NetworkManager.hpp"
 #include "../../generic/RadioStateMachine.hpp"
 
+enum class DeviceMode {
+  CURRENT_FROM_HEADER,
+  READ_FROM_FLASH,
+  WRITE_TO_FLASH,
+};
+
+constexpr DeviceMode kDeviceMode = DeviceMode::CURRENT_FROM_HEADER;
+
 const int kLedPin = PB0;
 const int kNeopixelPin = PA12;
 const int kBatteryPin = PA0;
@@ -25,7 +32,7 @@ const DeviceDescription test_device =
 RadioHeadRadio *radio = new RadioHeadRadio();
 NetworkManager nm(radio);
 RadioStateMachine state_machine(&nm);
-FastLedManager led_manager(Devices::current, &state_machine);
+FastLedManager *led_manager;
 
 // val = (previous * 3 + current) / 4
 static constexpr uint8_t kBatteryFilterAlpha = 96;
@@ -73,9 +80,6 @@ void setup() {
   Serial2.begin(115200);
   Serial2.println("Booting...");
 
-  // EEPROM.update(0, 37);
-  Serial2.printf("EEPROM value: %d\n", EEPROM.read(0));
-
   analogReadResolution(10);
   battery_median_filter.SetMinRunInterval(10);
   battery_average_filter.SetMinRunInterval(10);
@@ -85,22 +89,38 @@ void setup() {
   SPI.setSCLK(PA5);
   SPI.setSSEL(PA4);
 
+  DeviceDescription const *device;
+  switch (kDeviceMode) {
+    case DeviceMode::READ_FROM_FLASH:
+      EEPROM.get(0, *device);
+      break;
+
+    case DeviceMode::WRITE_TO_FLASH:
+      EEPROM.put(0, Devices::current);
+      break;
+
+    default:
+    case DeviceMode::CURRENT_FROM_HEADER:
+      device = &Devices::current;
+      break;
+  }
+  led_manager = new FastLedManager(*device, &state_machine);
+
   if (!radio->Begin()) {
-    led_manager.FatalErrorAnimation();
+    led_manager->FatalErrorAnimation();
   }
 
-  led_manager.PlayStartupAnimation();
+  led_manager->PlayStartupAnimation();
 }
 
 void loop() {
-
   battery_median_filter.Run();
   battery_average_filter.Run();
   if (battery_average_filter.GetFilteredValue() <
       BatteryVoltageToRawReading(kBatteryDead)) {
     // TODO: display a battery-low pattern?
-    led_manager.SetGlobalColor(CRGB::Black);
-    led_manager.SetOnboardLed(CRGB(4, 0, 0));
+    led_manager->SetGlobalColor(CRGB::Black);
+    led_manager->SetOnboardLed(CRGB(4, 0, 0));
   } else {
     // Display battery status on onboard LED for the first 20 seconds
     if (millis() < 20 * 1000) {
@@ -110,12 +130,12 @@ void loop() {
                                BatteryVoltageToRawReading(kBatteryDead);
       // Red is hue 0
       uint8_t hue = (battery_val * HUE_GREEN) / battery_range;
-      led_manager.SetOnboardLed(CHSV(hue, 255, 255));
+      led_manager->SetOnboardLed(CHSV(hue, 255, 255));
     } else {
-      led_manager.SetOnboardLed(CRGB::Black);
+      led_manager->SetOnboardLed(CRGB::Black);
     }
 
     state_machine.Tick();
-    led_manager.RunEffect();
+    led_manager->RunEffect();
   }
 }
