@@ -14,7 +14,7 @@
 #include "../../generic/NetworkManager.hpp"
 #include "../../generic/RadioStateMachine.hpp"
 
-constexpr DeviceMode kDeviceMode = DeviceMode::CURRENT_FROM_HEADER;
+constexpr DeviceMode kDeviceMode = DeviceMode::READ_FROM_FLASH;
 
 const int kLedPin = PB0;
 const int kNeopixelPin = PA12;
@@ -45,6 +45,49 @@ constexpr uint16_t kBatteryDividerLow = 180;
 constexpr uint16_t BatteryVoltageToRawReading(float voltage) {
   return voltage / (kBatteryDividerLow * 3.3 /
                     (kBatteryDividerHigh + kBatteryDividerLow) / 1024);
+}
+
+FastLedManager *ReadDeviceFromFlash() {
+  DeviceDescription *device =
+      (DeviceDescription *)malloc(DeviceDescription::kMaxSize);
+  if (device == nullptr) {
+    Serial2.println("Failed to malloc DeviceDescription");
+    return new FastLedManager(Devices::current, &state_machine);
+  }
+
+  uint8_t *device_buffer = (uint8_t *)device;
+  for (uint32_t i = 0; i < DeviceDescription::kMaxSize; i++) {
+    device_buffer[i] = EEPROM.read(i);
+  }
+
+  if (device->check_value != DeviceDescription::kCheckValue) {
+    Serial.print("Got invalid check value when reading DeviceDescription: ");
+    Serial.println(device->check_value);
+    return new FastLedManager(Devices::current, &state_machine);
+  }
+  return new FastLedManager(*device, &state_machine);
+}
+
+void WriteDeviceToFlash() {
+  bool same = true;
+  uint8_t *device = (uint8_t *)(&Devices::current);
+  for (uint32_t i = 0; i < sizeof(Devices::current); i++) {
+    if (EEPROM.read(i) != device[i]) {
+      same = false;
+      break;
+    }
+  }
+
+  if (same) {
+    Serial.println("Current device already written to flash");
+    return;
+  }
+
+  for (uint32_t i = 0;
+       i < sizeof(Devices::current) && i < DeviceDescription::kMaxSize; i++) {
+    EEPROM.write(i, device[i]);
+  }
+  EEPROM.commit();
 }
 
 void setup() {
@@ -86,19 +129,19 @@ void setup() {
   DeviceDescription const *device;
   switch (kDeviceMode) {
     case DeviceMode::READ_FROM_FLASH:
-      EEPROM.get(0, *device);
+      led_manager = ReadDeviceFromFlash();
       break;
 
     case DeviceMode::WRITE_TO_FLASH:
-      EEPROM.put(0, Devices::current);
+      WriteDeviceToFlash();
+      led_manager = ReadDeviceFromFlash();
       break;
 
     default:
     case DeviceMode::CURRENT_FROM_HEADER:
-      device = &Devices::current;
+      led_manager = new FastLedManager(Devices::current, &state_machine);
       break;
   }
-  led_manager = new FastLedManager(*device, &state_machine);
 
   if (!radio->Begin()) {
     led_manager->FatalErrorAnimation();
