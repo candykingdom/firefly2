@@ -46,7 +46,7 @@
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": true,
-          "min_clearance": 0.0
+          "min_clearance": 0.5
         }
       },
       "diff_pair_dimensions": [
@@ -88,9 +88,9 @@
         "missing_courtyard": "ignore",
         "missing_footprint": "warning",
         "net_conflict": "warning",
-        "npth_inside_courtyard": "warning",
+        "npth_inside_courtyard": "ignore",
         "padstack": "error",
-        "pth_inside_courtyard": "warning",
+        "pth_inside_courtyard": "ignore",
         "shorting_items": "error",
         "silk_edge_clearance": "warning",
         "silk_over_copper": "warning",
@@ -116,19 +116,19 @@
         "max_error": 0.005,
         "min_clearance": 0.127,
         "min_connection": 0.0,
-        "min_copper_edge_clearance": 0.19999999999999998,
+        "min_copper_edge_clearance": 0.0,
         "min_hole_clearance": 0.25,
-        "min_hole_to_hole": 0.254,
+        "min_hole_to_hole": 0.25,
         "min_microvia_diameter": 0.19999999999999998,
         "min_microvia_drill": 0.09999999999999999,
         "min_resolved_spokes": 2,
         "min_silk_clearance": 0.0,
-        "min_text_height": 1.0,
-        "min_text_thickness": 0.153,
-        "min_through_hole_diameter": 0.19999999999999998,
-        "min_track_width": 0.127,
-        "min_via_annular_width": 0.13,
-        "min_via_diameter": 0.3,
+        "min_text_height": 0.7999999999999999,
+        "min_text_thickness": 0.08,
+        "min_through_hole_diameter": 0.3,
+        "min_track_width": 0.15,
+        "min_via_annular_width": 0.049999999999999996,
+        "min_via_diameter": 0.39999999999999997,
         "solder_mask_clearance": 0.0,
         "solder_mask_min_width": 0.0,
         "solder_mask_to_copper_clearance": 0.0,
@@ -176,7 +176,6 @@
       ],
       "track_widths": [
         0.0,
-        0.0,
         0.127,
         0.15,
         0.2,
@@ -193,12 +192,8 @@
           "drill": 0.0
         },
         {
-          "diameter": 0.5,
-          "drill": 0.3
-        },
-        {
           "diameter": 0.6,
-          "drill": 0.4
+          "drill": 0.3
         },
         {
           "diameter": 1.0,
@@ -209,7 +204,7 @@
           "drill": 0.6
         }
       ],
-      "zones_allow_external_fillets": true,
+      "zones_allow_external_fillets": false,
       "zones_use_no_outline": true
     },
     "layer_presets": [],
@@ -220,9 +215,7 @@
     "equivalence_files": []
   },
   "erc": {
-    "erc_exclusions": [
-      "label_dangling|3759200|1943100|56659293-b2ea-4cd8-b50f-6cbe210356c8|00000000-0000-0000-0000-000000000000|||"
-    ],
+    "erc_exclusions": [],
     "meta": {
       "version": 0
     },
@@ -461,52 +454,18 @@
       },
       {
         "bus_width": 12,
-        "clearance": 0.2,
-        "diff_pair_gap": 0.25,
-        "diff_pair_via_gap": 0.25,
-        "diff_pair_width": 0.2,
-        "line_style": 0,
-        "microvia_diameter": 0.3,
-        "microvia_drill": 0.1,
-        "name": "Power",
-        "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.5,
-        "via_diameter": 0.6,
-        "via_drill": 0.4,
-        "wire_width": 6
-      },
-      {
-        "bus_width": 12,
-        "clearance": 0.15,
-        "diff_pair_gap": 0.25,
-        "diff_pair_via_gap": 0.25,
-        "diff_pair_width": 0.2,
-        "line_style": 0,
-        "microvia_diameter": 0.3,
-        "microvia_drill": 0.1,
-        "name": "Signal",
-        "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.15,
-        "via_diameter": 0.6,
-        "via_drill": 0.4,
-        "wire_width": 6
-      },
-      {
-        "bus_width": 12,
         "clearance": 0.127,
-        "diff_pair_gap": 0.127,
+        "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
-        "diff_pair_width": 0.62,
+        "diff_pair_width": 0.2,
         "line_style": 0,
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
-        "name": "USB",
+        "name": "Tight",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.62,
-        "via_diameter": 0.62,
+        "track_width": 0.25,
+        "via_diameter": 0.8,
         "via_drill": 0.4,
         "wire_width": 6
       }
@@ -518,84 +477,88 @@
     "netclass_assignments": null,
     "netclass_patterns": [
       {
-        "netclass": "Power",
+        "netclass": "Default",
         "pattern": "+BATT"
       },
       {
-        "netclass": "Power",
+        "netclass": "Default",
         "pattern": "/BATT_DIRECT"
       },
       {
-        "netclass": "Power",
+        "netclass": "Default",
         "pattern": "VBUS"
       },
       {
-        "netclass": "Signal",
+        "netclass": "Default",
         "pattern": "/BOOT0"
       },
       {
-        "netclass": "Signal",
+        "netclass": "Default",
         "pattern": "/DIO0"
       },
       {
-        "netclass": "Signal",
+        "netclass": "Default",
         "pattern": "/EXTERNAL_LED"
       },
       {
-        "netclass": "Signal",
+        "netclass": "Default",
         "pattern": "/INTERNAL_LED"
       },
       {
-        "netclass": "Signal",
+        "netclass": "Default",
         "pattern": "/MISO"
       },
       {
-        "netclass": "Signal",
+        "netclass": "Default",
         "pattern": "/MOSI"
       },
       {
-        "netclass": "Signal",
+        "netclass": "Default",
         "pattern": "/NSS"
       },
       {
-        "netclass": "Signal",
+        "netclass": "Default",
         "pattern": "/SCK"
       },
       {
-        "netclass": "Signal",
+        "netclass": "Default",
         "pattern": "/SWDIO"
       },
       {
-        "netclass": "Signal",
+        "netclass": "Default",
         "pattern": "/USART_RX"
       },
       {
-        "netclass": "Signal",
+        "netclass": "Default",
         "pattern": "/USART_TX"
       },
       {
-        "netclass": "Signal",
+        "netclass": "Default",
         "pattern": "/VBATT_DIV"
       },
       {
-        "netclass": "Signal",
+        "netclass": "Default",
         "pattern": "/~{CHRG}"
       },
       {
-        "netclass": "Signal",
+        "netclass": "Default",
         "pattern": "/~{DTR}"
       },
       {
-        "netclass": "Signal",
+        "netclass": "Default",
         "pattern": "/~{STDBY}"
       },
       {
-        "netclass": "USB",
+        "netclass": "Tight",
         "pattern": "/USB+"
       },
       {
-        "netclass": "USB",
+        "netclass": "Tight",
         "pattern": "/USB-"
+      },
+      {
+        "netclass": "Tight",
+        "pattern": "/ANTENNA_UFL"
       }
     ]
   },
