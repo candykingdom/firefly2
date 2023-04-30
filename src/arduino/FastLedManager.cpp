@@ -11,11 +11,10 @@ FastLedManager::FastLedManager(const DeviceDescription &device,
 
   // The first LED is on-board, and only serves as a bit shift pass through.
   leds = new CRGB[led_count + 1];
-  leds[0] = CRGB::Black;
   FastLED.addLeds<NEOPIXEL, WS2812_PIN>(leds, led_count + 1)
       .setCorrection(TypicalLEDStrip);
   FastLED.setMaxPowerInVoltsAndMilliamps(5, device.milliamps_supported);
-  FastLED.showColor(CRGB(0, 0, 0));
+  FastLED.clear(/*writeData=*/true);
 }
 
 void FastLedManager::SetGlobalColor(const CRGB &rgb) { FastLED.showColor(rgb); }
@@ -34,6 +33,7 @@ void FastLedManager::PlayStartupAnimation() {
     FastLED.show();
     delay(500 / led_count);
   }
+  FastLED.clear(/*writeData=*/true);
 }
 
 void FastLedManager::FatalErrorAnimation() {
