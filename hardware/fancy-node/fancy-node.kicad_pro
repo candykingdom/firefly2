@@ -46,7 +46,7 @@
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": true,
-          "min_clearance": 0.5
+          "min_clearance": 0.0
         }
       },
       "diff_pair_dimensions": [
@@ -92,9 +92,9 @@
         "padstack": "error",
         "pth_inside_courtyard": "ignore",
         "shorting_items": "error",
-        "silk_edge_clearance": "warning",
-        "silk_over_copper": "warning",
-        "silk_overlap": "warning",
+        "silk_edge_clearance": "ignore",
+        "silk_over_copper": "ignore",
+        "silk_overlap": "ignore",
         "skew_out_of_range": "error",
         "solder_mask_bridge": "error",
         "starved_thermal": "error",
@@ -126,7 +126,7 @@
         "min_text_height": 0.7999999999999999,
         "min_text_thickness": 0.08,
         "min_through_hole_diameter": 0.3,
-        "min_track_width": 0.15,
+        "min_track_width": 0.127,
         "min_via_annular_width": 0.049999999999999996,
         "min_via_diameter": 0.39999999999999997,
         "solder_mask_clearance": 0.0,
@@ -176,7 +176,6 @@
       ],
       "track_widths": [
         0.0,
-        0.127,
         0.15,
         0.2,
         0.25,
@@ -193,7 +192,7 @@
         },
         {
           "diameter": 0.6,
-          "drill": 0.3
+          "drill": 0.4
         },
         {
           "diameter": 1.0,
@@ -415,10 +414,10 @@
       "no_connect_dangling": "warning",
       "pin_not_connected": "error",
       "pin_not_driven": "error",
-      "pin_to_pin": "error",
+      "pin_to_pin": "warning",
       "power_pin_not_driven": "error",
       "similar_labels": "warning",
-      "simulation_model_issue": "ignore",
+      "simulation_model_issue": "error",
       "unannotated": "error",
       "unit_value_mismatch": "error",
       "unresolved_variable": "error",
@@ -454,18 +453,52 @@
       },
       {
         "bus_width": 12,
-        "clearance": 0.127,
+        "clearance": 0.2,
         "diff_pair_gap": 0.25,
         "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.2,
         "line_style": 0,
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
-        "name": "Tight",
+        "name": "Power",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.25,
-        "via_diameter": 0.8,
+        "track_width": 0.5,
+        "via_diameter": 0.6,
+        "via_drill": 0.4,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.15,
+        "diff_pair_gap": 0.25,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.2,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "Signal",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.15,
+        "via_diameter": 0.6,
+        "via_drill": 0.4,
+        "wire_width": 6
+      },
+      {
+        "bus_width": 12,
+        "clearance": 0.127,
+        "diff_pair_gap": 0.127,
+        "diff_pair_via_gap": 0.25,
+        "diff_pair_width": 0.62,
+        "line_style": 0,
+        "microvia_diameter": 0.3,
+        "microvia_drill": 0.1,
+        "name": "USB",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.62,
+        "via_diameter": 0.62,
         "via_drill": 0.4,
         "wire_width": 6
       }
@@ -477,88 +510,84 @@
     "netclass_assignments": null,
     "netclass_patterns": [
       {
-        "netclass": "Default",
+        "netclass": "Power",
         "pattern": "+BATT"
       },
       {
-        "netclass": "Default",
+        "netclass": "Power",
         "pattern": "/BATT_DIRECT"
       },
       {
-        "netclass": "Default",
+        "netclass": "Power",
         "pattern": "VBUS"
       },
       {
-        "netclass": "Default",
+        "netclass": "Signal",
         "pattern": "/BOOT0"
       },
       {
-        "netclass": "Default",
+        "netclass": "Signal",
         "pattern": "/DIO0"
       },
       {
-        "netclass": "Default",
+        "netclass": "Signal",
         "pattern": "/EXTERNAL_LED"
       },
       {
-        "netclass": "Default",
+        "netclass": "Signal",
         "pattern": "/INTERNAL_LED"
       },
       {
-        "netclass": "Default",
+        "netclass": "Signal",
         "pattern": "/MISO"
       },
       {
-        "netclass": "Default",
+        "netclass": "Signal",
         "pattern": "/MOSI"
       },
       {
-        "netclass": "Default",
+        "netclass": "Signal",
         "pattern": "/NSS"
       },
       {
-        "netclass": "Default",
+        "netclass": "Signal",
         "pattern": "/SCK"
       },
       {
-        "netclass": "Default",
+        "netclass": "Signal",
         "pattern": "/SWDIO"
       },
       {
-        "netclass": "Default",
+        "netclass": "Signal",
         "pattern": "/USART_RX"
       },
       {
-        "netclass": "Default",
+        "netclass": "Signal",
         "pattern": "/USART_TX"
       },
       {
-        "netclass": "Default",
+        "netclass": "Signal",
         "pattern": "/VBATT_DIV"
       },
       {
-        "netclass": "Default",
+        "netclass": "Signal",
         "pattern": "/~{CHRG}"
       },
       {
-        "netclass": "Default",
+        "netclass": "Signal",
         "pattern": "/~{DTR}"
       },
       {
-        "netclass": "Default",
+        "netclass": "Signal",
         "pattern": "/~{STDBY}"
       },
       {
-        "netclass": "Tight",
+        "netclass": "USB",
         "pattern": "/USB+"
       },
       {
-        "netclass": "Tight",
+        "netclass": "USB",
         "pattern": "/USB-"
-      },
-      {
-        "netclass": "Tight",
-        "pattern": "/ANTENNA_UFL"
       }
     ]
   },
