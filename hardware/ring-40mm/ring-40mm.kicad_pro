@@ -418,7 +418,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "ring-30mm.kicad_pro",
+    "filename": "ring-40mm.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -484,7 +484,7 @@
     },
     "net_format_name": "",
     "page_layout_descr_file": "",
-    "plot_directory": "",
+    "plot_directory": "ref",
     "spice_current_sheet_as_root": false,
     "spice_external_command": "spice \"%I\"",
     "spice_model_current_sheet_as_root": true,

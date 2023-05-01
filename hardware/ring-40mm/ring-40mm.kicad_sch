@@ -1020,7 +1020,7 @@
     (pin "1" (uuid a762cce1-c531-46f2-9d18-377fc744abdd))
     (pin "2" (uuid 574c8f14-2066-4ad6-9032-bb75c4224905))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "C3") (unit 1)
         )
@@ -1051,7 +1051,7 @@
     (pin "3" (uuid 0a553818-4610-4d7d-9910-c1740cc874cb))
     (pin "4" (uuid cf4c3975-3745-459b-9c14-672b5bef1628))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "D4") (unit 1)
         )
@@ -1080,7 +1080,7 @@
     (pin "1" (uuid 07263a81-379f-493f-83f7-9ee9b92ab68d))
     (pin "2" (uuid 17acbe04-8ff6-475b-a8c8-9386030874e1))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "R2") (unit 1)
         )
@@ -1105,7 +1105,7 @@
     )
     (pin "1" (uuid 53e01d90-31dd-406d-bbe6-b7bc421af9d1))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "#PWR011") (unit 1)
         )
@@ -1136,7 +1136,7 @@
     (pin "3" (uuid 100afee7-a7b4-4110-a1f4-24984ade3fd2))
     (pin "4" (uuid 8809f67f-f4ad-42d9-9276-4232323fd90a))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "D10") (unit 1)
         )
@@ -1161,7 +1161,7 @@
     )
     (pin "1" (uuid 74814636-b53b-4adc-9b51-5f7c38b83d12))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "#PWR08") (unit 1)
         )
@@ -1186,7 +1186,7 @@
     )
     (pin "1" (uuid 5ceaf58c-574a-4eb1-b179-36a5b3225967))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "#PWR010") (unit 1)
         )
@@ -1211,7 +1211,7 @@
     )
     (pin "1" (uuid a7c7fbfa-bf2d-4390-8500-50627d919c7a))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "#PWR06") (unit 1)
         )
@@ -1242,7 +1242,7 @@
     (pin "3" (uuid 4f9fca80-fc54-4fcd-be13-15b75eac2348))
     (pin "4" (uuid 6c4c41ce-5be4-4ff5-9b49-df5afb1ac65b))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "D14") (unit 1)
         )
@@ -1271,7 +1271,7 @@
     (pin "1" (uuid 3cbf94d8-a164-470a-bedf-ac51eca6ea86))
     (pin "2" (uuid da24bac2-d14c-44c6-8a46-4e7913b3a687))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "C17") (unit 1)
         )
@@ -1296,7 +1296,7 @@
     )
     (pin "1" (uuid 7c33e58a-2a14-49c5-ac6e-488787124977))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "#PWR03") (unit 1)
         )
@@ -1321,7 +1321,7 @@
     )
     (pin "1" (uuid 02878ef5-286f-4ced-aade-71a968d83bbd))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "#PWR012") (unit 1)
         )
@@ -1352,7 +1352,7 @@
     (pin "3" (uuid 01f68eeb-22dc-4b77-9f3d-7ecf0e34d5ad))
     (pin "4" (uuid 05685138-97db-43e6-be28-c94549270bed))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "D15") (unit 1)
         )
@@ -1381,7 +1381,7 @@
     (pin "1" (uuid d5ea07ee-4e93-4336-9366-b076dde632ef))
     (pin "2" (uuid 8ffc2426-0f4f-4f09-bf30-ee8ca4912e34))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "C5") (unit 1)
         )
@@ -1406,7 +1406,7 @@
     )
     (pin "1" (uuid 89f875f4-5d03-45dd-b3c7-8e729dddbdc5))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "#FLG02") (unit 1)
         )
@@ -1435,7 +1435,7 @@
     (pin "1" (uuid c18abadc-3e2d-4e94-9bef-4415aba141ac))
     (pin "2" (uuid 96efbeea-d965-4a36-805c-a73a10ca3110))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "C10") (unit 1)
         )
@@ -1466,9 +1466,38 @@
     (pin "3" (uuid 78927eda-e2cc-4895-8e9a-90c9a2c24df8))
     (pin "4" (uuid ea54acfb-038e-45e2-a09d-efe4d1a1fae0))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "D17") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:C") (at 34.29 146.05 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 36863f20-9ba9-4a27-b5f3-0b787e457143)
+    (property "Reference" "C21" (at 37.211 145.4063 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "22uF" (at 37.211 147.3273 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "Capacitor_SMD:C_0805_2012Metric" (at 35.2552 149.86 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 34.29 146.05 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "LCSC" "C45783" (at 34.29 146.05 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid df266e37-c9a0-4498-b020-b7880367f59a))
+    (pin "2" (uuid 1ddb36ae-8707-4568-8184-e4b5acd24333))
+    (instances
+      (project "ring-40mm"
+        (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
+          (reference "C21") (unit 1)
         )
       )
     )
@@ -1491,7 +1520,7 @@
     )
     (pin "1" (uuid 74877d67-e289-4091-95ce-6edc18ee3910))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "#PWR02") (unit 1)
         )
@@ -1520,7 +1549,7 @@
     (pin "1" (uuid c5f214b8-c01f-411e-bf5d-f15d3b0c7d4d))
     (pin "2" (uuid 1906e539-aba2-4760-8216-78135f6e72ef))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "C19") (unit 1)
         )
@@ -1549,7 +1578,7 @@
     (pin "1" (uuid 316b5056-007f-4bdc-8fea-9a723b7fb271))
     (pin "2" (uuid 783493a9-d49f-4e6c-b133-32e99ddad091))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "C14") (unit 1)
         )
@@ -1580,7 +1609,7 @@
     (pin "3" (uuid 40375291-4741-41d9-a962-712d6bfdca23))
     (pin "4" (uuid 879b35f6-d19f-4e55-ad3b-e5278b87405b))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "D8") (unit 1)
         )
@@ -1607,7 +1636,7 @@
     (pin "2" (uuid 5eba7da2-af2c-4de3-a937-7ff24fc6d982))
     (pin "3" (uuid 71a0eaa9-e4c5-4c83-a405-97d4e0683ca4))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "J1") (unit 1)
         )
@@ -1636,9 +1665,34 @@
     (pin "1" (uuid 62588e42-3668-476b-8290-358da618325f))
     (pin "2" (uuid 84b5e370-7bf1-4492-b3d3-4161fff6fadb))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "C1") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:VCC") (at 34.29 142.24 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 4e8d610d-0023-4db8-9ec7-effe48fa20c3)
+    (property "Reference" "#PWR013" (at 34.29 146.05 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "VCC" (at 34.29 138.7381 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 34.29 142.24 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 34.29 142.24 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 6b14e7a6-7ba0-48de-b87a-297232358136))
+    (instances
+      (project "ring-40mm"
+        (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
+          (reference "#PWR013") (unit 1)
         )
       )
     )
@@ -1661,7 +1715,7 @@
     )
     (pin "1" (uuid 02d80ebd-3167-443a-beb5-d62570867721))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "#FLG01") (unit 1)
         )
@@ -1690,7 +1744,7 @@
     (pin "1" (uuid a551f61e-ca88-4ad6-ada2-adde18b3aeb7))
     (pin "2" (uuid 34547d6e-37b0-4053-ac42-ecb2928f69bb))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "C11") (unit 1)
         )
@@ -1721,7 +1775,7 @@
     (pin "3" (uuid 621ae1ac-41f2-47fb-b45e-65474833021d))
     (pin "4" (uuid a031f498-d42b-4884-8515-305a0950ec14))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "D20") (unit 1)
         )
@@ -1752,7 +1806,7 @@
     (pin "3" (uuid dd841799-cf44-428e-925e-eb591f75565c))
     (pin "4" (uuid 0bace5a8-0e6b-4efe-90ea-ea9b82b45725))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "D12") (unit 1)
         )
@@ -1781,7 +1835,7 @@
     (pin "1" (uuid 5fd13466-a262-4c6e-8578-926e54614ef1))
     (pin "2" (uuid 705fd411-ec89-47fb-9595-8c9e99a08155))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "C9") (unit 1)
         )
@@ -1808,7 +1862,7 @@
     (pin "2" (uuid c423324b-3712-41f9-b7a7-4b827c5c7437))
     (pin "3" (uuid d7951f9c-ca26-4a2d-a8d8-833d0b40e9ed))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "J2") (unit 1)
         )
@@ -1839,7 +1893,7 @@
     (pin "3" (uuid 699ac94d-3026-4450-8759-df78ba0927a3))
     (pin "4" (uuid 7249a709-e5fc-4a32-bd21-d0b4d8e2ff89))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "D1") (unit 1)
         )
@@ -1864,7 +1918,7 @@
     )
     (pin "1" (uuid 74839752-610e-4adb-aa99-d3552cb9a9c2))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "#PWR04") (unit 1)
         )
@@ -1893,7 +1947,7 @@
     (pin "1" (uuid a5dd1649-4c80-4b21-b29e-d9edc01437e6))
     (pin "2" (uuid 86c0d54b-d4d8-4bd6-889f-a9aebc823c37))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "C12") (unit 1)
         )
@@ -1924,7 +1978,7 @@
     (pin "3" (uuid 2a3a6f92-1ea7-4490-8fbc-894c723fa179))
     (pin "4" (uuid 40d1192f-6e53-402c-a3b4-a64eeb5ecaa1))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "D16") (unit 1)
         )
@@ -1949,7 +2003,7 @@
     )
     (pin "1" (uuid 4cb2c5cb-724f-46e1-9bf1-714278e6d2b7))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "#PWR07") (unit 1)
         )
@@ -1980,7 +2034,7 @@
     (pin "3" (uuid 270b765d-d273-44aa-937b-9bbb9c06c500))
     (pin "4" (uuid 5f0f15e0-6246-49b7-be27-901c99401b57))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "D5") (unit 1)
         )
@@ -2011,7 +2065,7 @@
     (pin "3" (uuid ad930324-432d-4843-819f-cfbad9fd2d00))
     (pin "4" (uuid 3a1dd960-fee4-4534-a2ef-901dcaa79b20))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "D9") (unit 1)
         )
@@ -2040,7 +2094,7 @@
     (pin "1" (uuid eac5e122-d6ba-4650-9db6-002636e623d1))
     (pin "2" (uuid 35ce14f5-b684-4c2f-bef4-d92dd251a8bc))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "C15") (unit 1)
         )
@@ -2069,7 +2123,7 @@
     (pin "1" (uuid cceaa4f2-ccf3-43a9-ae08-017037232dcd))
     (pin "2" (uuid 754ea9c0-4dc3-4a54-b857-ce2baf62b90f))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "C6") (unit 1)
         )
@@ -2098,7 +2152,7 @@
     (pin "1" (uuid ccb411a4-5138-4e3f-8f2c-8caa0fb9ce0b))
     (pin "2" (uuid cd2a4dac-f51d-4e81-bc18-6be53cd1985f))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "C18") (unit 1)
         )
@@ -2127,7 +2181,7 @@
     (pin "1" (uuid 93e2c462-4540-4430-8fb8-e93c3af4c9e0))
     (pin "2" (uuid e4d747b5-1c43-441a-95f9-f8e16d93cee6))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "C16") (unit 1)
         )
@@ -2156,7 +2210,7 @@
     (pin "1" (uuid 68b2782f-cc45-457a-8077-39bf5fc3d4d6))
     (pin "2" (uuid b83efced-cac0-456e-acd5-e77caaa4a45f))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "C2") (unit 1)
         )
@@ -2187,7 +2241,7 @@
     (pin "3" (uuid 38a04451-2481-4a5e-972a-6559989c5379))
     (pin "4" (uuid b74ad769-ca1c-408e-b7e2-5b3c847cc78b))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "D2") (unit 1)
         )
@@ -2218,7 +2272,7 @@
     (pin "3" (uuid 28b5addd-0735-455e-bca9-e6fa9da054cc))
     (pin "4" (uuid 4fe372b4-73b3-4c5d-969d-aaef8dfc168b))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "D3") (unit 1)
         )
@@ -2243,7 +2297,7 @@
     )
     (pin "1" (uuid 2026ed35-6735-46f9-a4be-46f456d7d2f5))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "#PWR09") (unit 1)
         )
@@ -2274,7 +2328,7 @@
     (pin "3" (uuid cd297389-77e8-4054-a3be-7c7a15df1e55))
     (pin "4" (uuid b9a21932-83ce-4e40-8124-db379d943e1c))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "D18") (unit 1)
         )
@@ -2303,7 +2357,7 @@
     (pin "1" (uuid 476a81fa-6233-4ffe-b528-401ae5ab3422))
     (pin "2" (uuid f8ad55ce-1749-4572-9679-8951e43ca4cc))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "C13") (unit 1)
         )
@@ -2334,9 +2388,34 @@
     (pin "3" (uuid ef1db4b5-4a68-412d-b0cb-4aa01583e77e))
     (pin "4" (uuid 7e64fff5-c6f6-4a6d-b5ad-94fa252627ac))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "D7") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:GND") (at 34.29 149.86 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid b9738ba0-4269-476d-8912-4f67bc227031)
+    (property "Reference" "#PWR014" (at 34.29 156.21 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GND" (at 34.29 153.9955 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 34.29 149.86 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 34.29 149.86 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 41e33525-1ae1-4083-b814-311574b67e04))
+    (instances
+      (project "ring-40mm"
+        (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
+          (reference "#PWR014") (unit 1)
         )
       )
     )
@@ -2359,7 +2438,7 @@
     )
     (pin "1" (uuid 2f4444b0-a671-47cd-baeb-c27ee0c71945))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "#PWR01") (unit 1)
         )
@@ -2390,7 +2469,7 @@
     (pin "3" (uuid 7de7bd05-91c9-4f66-b792-4d98936b7f60))
     (pin "4" (uuid aa6cee82-dea7-4e26-8d80-bce19d8f80b4))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "D11") (unit 1)
         )
@@ -2419,7 +2498,7 @@
     (pin "1" (uuid c99db504-414b-426a-8098-65af8edcf54b))
     (pin "2" (uuid 33d263c3-5c89-4ede-9ed4-ea6e90093c52))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "R1") (unit 1)
         )
@@ -2444,7 +2523,7 @@
     )
     (pin "1" (uuid 9da33443-239b-4284-91c4-be1ea59f0647))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "#PWR05") (unit 1)
         )
@@ -2473,7 +2552,7 @@
     (pin "1" (uuid 088c5081-c140-44a6-90ed-9b2194c4cdda))
     (pin "2" (uuid 8601c042-462f-4999-be77-bac60b1da445))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "C20") (unit 1)
         )
@@ -2504,7 +2583,7 @@
     (pin "3" (uuid 37362620-611c-41e0-a3b5-6a2d8c45a03e))
     (pin "4" (uuid 9cce680b-f219-4e19-8f6d-7a533a35e6b2))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "D6") (unit 1)
         )
@@ -2535,7 +2614,7 @@
     (pin "3" (uuid da5386e7-1dcb-4134-98ed-9b64714aa0a9))
     (pin "4" (uuid 1c783d6f-ee80-4f41-8e48-1030e3f2bc06))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "D19") (unit 1)
         )
@@ -2564,7 +2643,7 @@
     (pin "1" (uuid 6cb4683b-92cf-4a54-9381-0fed0c33bf93))
     (pin "2" (uuid f49cf1fa-a0af-44db-a7d0-40f43435358a))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "C8") (unit 1)
         )
@@ -2595,7 +2674,7 @@
     (pin "3" (uuid 29ad30b8-557a-4d75-8622-eee8a46390ec))
     (pin "4" (uuid 06f20568-9c96-4bd3-8254-b85cc74045e5))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "D13") (unit 1)
         )
@@ -2624,7 +2703,7 @@
     (pin "1" (uuid ddcc5f64-9f66-49ce-bbf8-be1cde1bd2a3))
     (pin "2" (uuid 0bd7049c-0865-4612-8d69-e559507c872b))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "C4") (unit 1)
         )
@@ -2653,7 +2732,7 @@
     (pin "1" (uuid ba1de013-907d-447b-b333-6d7aed952daf))
     (pin "2" (uuid 474544be-444c-427f-9181-f7124c1a34e6))
     (instances
-      (project "ring-30mm"
+      (project "ring-40mm"
         (path "/7a82cd20-8078-4f64-9ef0-f2e14b95217b"
           (reference "C7") (unit 1)
         )
