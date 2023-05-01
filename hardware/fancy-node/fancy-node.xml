@@ -2,7 +2,7 @@
 <export version="E">
   <design>
     <source>/home/adam/hardware/firefly2/hardware/fancy-node/fancy-node.kicad_sch</source>
-    <date>Sun 30 Apr 2023 09:16:58 AM MDT</date>
+    <date>Sun 30 Apr 2023 10:58:49 PM MDT</date>
     <tool>Eeschema 7.0.2-6a45011f42~172~ubuntu22.04.1</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
@@ -669,13 +669,13 @@
       <tstamps>ec37d8c5-2d28-48a2-8e0e-c5ab0799bdfa</tstamps>
     </comp>
     <comp ref="R9">
-      <value>33</value>
-      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <value>470</value>
+      <footprint>Resistor_SMD:R_0603_1608Metric</footprint>
       <fields>
-        <field name="LCSC">C25105</field>
+        <field name="LCSC">C23179</field>
       </fields>
       <libsource lib="Device" part="R" description="Resistor"/>
-      <property name="LCSC" value="C25105"/>
+      <property name="LCSC" value="C23179"/>
       <property name="Sheetname" value=""/>
       <property name="Sheetfile" value="fancy-node.kicad_sch"/>
       <property name="ki_description" value="Resistor"/>
@@ -1523,7 +1523,6 @@
     <net code="10" name="/EXTERNAL_LED">
       <node ref="D2" pin="6" pinfunction="IO4" pintype="input"/>
       <node ref="J3" pin="2" pinfunction="Pin_2" pintype="passive"/>
-      <node ref="R9" pin="1" pintype="passive"/>
     </net>
     <net code="11" name="/INTERNAL_LED">
       <node ref="U2" pin="32" pinfunction="PA10" pintype="bidirectional"/>
@@ -1704,7 +1703,6 @@
       <node ref="U2" pin="21" pinfunction="PB2" pintype="bidirectional"/>
     </net>
     <net code="43" name="Net-(U3-DOUT)">
-      <node ref="R9" pin="2" pintype="passive"/>
       <node ref="U3" pin="2" pinfunction="DOUT" pintype="output"/>
     </net>
     <net code="44" name="Net-(U6-CE)">
