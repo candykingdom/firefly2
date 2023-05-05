@@ -3,9 +3,7 @@
 #include <Debug.hpp>
 
 NetworkManager::NetworkManager(Radio *const radio) : radio_(radio) {
-  for (uint8_t i = 0; i < kRecentIdsCacheSize; i++) {
-    recent_ids_cache_[i] = 0;
-  }
+  recent_ids_cache_.fill(0);
   recent_ids_cache_index_ = 0;
 }
 

@@ -9,10 +9,7 @@
 
 RadioStateMachine::RadioStateMachine(NetworkManager *networkManager)
     : network_manager_(networkManager) {
-  // Note: this takes advantage of the fact that C++ enums are actually uints.
-  for (int i = 0; i <= TIMER_TYPE_LAST; i++) {
-    timers_[i] = 0;
-  }
+  timers_.fill(0);
   state_ = RadioState::Slave;
   next_state_ = RadioState::Slave;
   beginSlave();
@@ -21,7 +18,7 @@ RadioStateMachine::RadioStateMachine(NetworkManager *networkManager)
 
 RadioStateMachine::~RadioStateMachine() {}
 
-RadioState RadioStateMachine::GetCurrentState() { return state_; }
+RadioState RadioStateMachine::GetCurrentState() const { return state_; }
 
 void RadioStateMachine::Tick() {
   // Run the radio state machine twice, since writing out LEDs may take several
@@ -38,12 +35,12 @@ void RadioStateMachine::Tick() {
   tick_run_ = true;
 }
 
-uint32_t RadioStateMachine::GetNetworkMillis() {
+uint32_t RadioStateMachine::GetNetworkMillis() const {
   // DANGER: adding unsigned and signed types!
   return millis() + millis_offset_;
 }
 
-uint8_t RadioStateMachine::GetEffectIndex() { return effect_index_; }
+uint8_t RadioStateMachine::GetEffectIndex() const { return effect_index_; }
 
 RadioPacket *RadioStateMachine::GetSetEffect() { return &set_effect_packet_; }
 
@@ -250,7 +247,7 @@ void RadioStateMachine::SetTimer(TimerType timer, uint32_t delay) {
   }
 }
 
-TimerType RadioStateMachine::TimerExpired() {
+TimerType RadioStateMachine::TimerExpired() const {
   // TODO: Trellis hangs here if RadioTick is called twice the first time -
   // possibly a hardware/compiler bug. This only happens when the device is
   // first powered on (i.e. resetting using the button after it's on works

@@ -3,6 +3,7 @@
 
 #include <Radio.hpp>
 #include <Types.hpp>
+#include <array>
 
 class NetworkManager {
  public:
@@ -33,7 +34,7 @@ class NetworkManager {
    * packet is sent or received, its packet ID is added to this buffer, and the
    * LRU ID is dropped.
    */
-  uint16_t recent_ids_cache_[kRecentIdsCacheSize];
+  std::array<uint16_t, kRecentIdsCacheSize> recent_ids_cache_;
   uint8_t recent_ids_cache_index_;
 };
 
