@@ -10,6 +10,7 @@
 #include <StripDescription.hpp>
 #include <vector>
 
+#include "Battery.hpp"
 #include "../../arduino/FastLedManager.hpp"
 #include "../../arduino/RadioHeadRadio.hpp"
 #include "../../generic/NetworkManager.hpp"
@@ -44,14 +45,6 @@ bool battery_filters_initialized = false;
 // battery detection until that happens.
 CountDownTimer startup_battery_timer{3000};
 
-// References for battery level at startup. We can only really measure the
-// battery state-of-charge when the battery is unloaded, and has been unloaded
-// for at least a second or so. At startup, we check the approximate charge
-// level. We display this charge level on the onboard LED, and also put the
-// device into low power mode if the battery is effectively empty.
-static constexpr float kBatteryEmpty = 3.7;
-static constexpr float kBatteryFull = 4.2;
-
 // Cutoff under load. Since the LEDs may draw significant current (2-3A), the
 // under-load voltage could be significantly lower than the battery-empty
 // open-circuit voltage. 3V is a conservative cutoff voltage.
@@ -60,16 +53,6 @@ static constexpr float kBatteryLowCutoff = 3.0;
 // Once we detect low battery, the battery must hit this voltage before turning
 // back on. This is about 50% charged (open voltage).
 static constexpr float kBatteryResume = 3.85;
-
-// voltage = battery * (62 + 180) / 180 * 3.3 / 1024
-constexpr float kBatteryDividerHigh = 62;
-constexpr float kBatteryDividerLow = 180;
-constexpr uint16_t BatteryVoltageToRawReading(float voltage) {
-  const float divided_voltage =
-      voltage /
-      ((kBatteryDividerHigh + kBatteryDividerLow) / kBatteryDividerLow);
-  return divided_voltage / 3.3 * 1024.0;
-}
 
 uint16_t battery_at_boot = 0;
 bool battery_low = false;
