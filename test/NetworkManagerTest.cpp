@@ -37,7 +37,7 @@ TEST_F(NetworkManagerTest, receive_setsPacket) {
 
   RadioPacket received_packet;
   received_packet.packet_id = 12345;
-  received_packet.dataLength = 1;
+  received_packet.writeHeartbeat(1);
   radio.setReceivedPacket(&received_packet);
 
   EXPECT_EQ(networkManager.receive(packet), true);
@@ -49,7 +49,7 @@ TEST_F(NetworkManagerTest, receive_rebroadcasts) {
 
   RadioPacket received_packet;
   received_packet.packet_id = 12345;
-  received_packet.dataLength = 1;
+  received_packet.writeHeartbeat(1);
   radio.setReceivedPacket(&received_packet);
 
   EXPECT_EQ(networkManager.receive(packet), true);
@@ -80,14 +80,15 @@ TEST_F(NetworkManagerTest, receive_rebroadcasts) {
 
 TEST_F(NetworkManagerTest, receive_doesntRebroadcastSentId) {
   RadioPacket sent_packet;
-  sent_packet.dataLength = 1;
+  sent_packet.packet_id = 1;
+  sent_packet.writeHeartbeat(1);
   networkManager.send(sent_packet);
   // Consume the FakeRadio's sent packet
   delete radio.getSentPacket();
 
   RadioPacket received_packet;
   received_packet.packet_id = sent_packet.packet_id;
-  received_packet.dataLength = 1;
+  received_packet.writeHeartbeat(1);
   radio.setReceivedPacket(&received_packet);
 
   RadioPacket packet;
@@ -98,7 +99,7 @@ TEST_F(NetworkManagerTest, receive_doesntRebroadcastSentId) {
 TEST_F(NetworkManagerTest, send_sendsPacket) {
   RadioPacket packet;
   packet.packet_id = 0;
-  packet.dataLength = 1;
+  packet.writeHeartbeat(1);
 
   networkManager.send(packet);
   RadioPacket *sent_packet = radio.getSentPacket();
