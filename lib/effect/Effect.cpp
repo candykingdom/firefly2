@@ -2,7 +2,7 @@
 
 Effect::Effect() {}
 
-uint8_t Effect::GetThresholdSin(int16_t x, uint8_t threshold) {
+uint8_t Effect::GetThresholdSin(int16_t x, uint8_t threshold) const {
   int16_t val = sin16(x);
   int16_t shifted_val = val / 128;
   if (shifted_val < threshold) {

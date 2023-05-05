@@ -12,7 +12,7 @@ FireEffect::FireEffect() : Effect() {
 
 CRGB FireEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
                         const StripDescription &strip,
-                        RadioPacket *setEffectPacket) {
+                        RadioPacket *setEffectPacket) const {
   UNUSED(setEffectPacket);
   uint32_t side_differentiator = 0;
   uint8_t led_count = strip.led_count;

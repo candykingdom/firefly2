@@ -4,7 +4,7 @@ SimpleBlinkEffect::SimpleBlinkEffect(uint16_t speed) : Effect(), speed(speed) {}
 
 CRGB SimpleBlinkEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
                                const StripDescription &strip,
-                               RadioPacket *setEffectPacket) {
+                               RadioPacket *setEffectPacket) const {
   UNUSED(led_index);
   const uint32_t chunk = (time_ms / (speed)) % 3;
   if (chunk == 0) {

@@ -59,17 +59,14 @@ TEST(LedManager, effectIndexIsInRange) {
 
 class TestEffect : public Effect {
  public:
-  std::vector<uint8_t> called_indicies;
-
-  TestEffect() : called_indicies() {}
+  TestEffect() {}
 
   CRGB GetRGB(uint8_t led_index, uint32_t time_ms,
-              const StripDescription &strip, RadioPacket *setEffectPacket) {
+              const StripDescription &strip, RadioPacket *setEffectPacket) const {
     UNUSED(time_ms);
     UNUSED(strip);
     UNUSED(setEffectPacket);
-    called_indicies.push_back(led_index);
-    return CRGB(0, 0, 0);
+    return CRGB(led_index, 0, 0);
   }
 };
 
@@ -91,12 +88,7 @@ TEST(LedManager, callStripInReverse) {
   state_machine.SetEffect(&setEffect);
 
   manager.RunEffect();
-
-  ASSERT_EQ(test_effect->called_indicies.size(), 5);
-
-  uint8_t expected_index = 4;
-  for (auto actual : test_effect->called_indicies) {
-    ASSERT_EQ(actual, expected_index--)
-        << "Reverse strip should be called in reverse order!";
+  for (uint8_t i = 0; i < 5; i++) {
+    EXPECT_EQ(manager.GetLed(i).r, 4 - i);
   }
 }

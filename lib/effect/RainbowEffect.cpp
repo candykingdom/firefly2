@@ -4,7 +4,7 @@ RainbowEffect::RainbowEffect() : Effect() {}
 
 CRGB RainbowEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
                            const StripDescription &strip,
-                           RadioPacket *setEffectPacket) {
+                           RadioPacket *setEffectPacket) const {
   uint8_t v = strip.FlagEnabled(Bright) ? 255 : 128;
 
   const uint8_t palette_index =
