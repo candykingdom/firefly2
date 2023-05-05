@@ -144,6 +144,8 @@ class RadioStateMachine {
 
   RadioPacket packet_;
   RadioPacket set_effect_packet_;
+
+  bool tick_run_ = false;
 };
 
 #endif

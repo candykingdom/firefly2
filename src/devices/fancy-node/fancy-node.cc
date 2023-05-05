@@ -188,10 +188,6 @@ void setup() {
 
   analogReadResolution(10);
 
-  // For some reason, if there's more than a ~1s delay before running this for
-  // the first time, it hangs.
-  state_machine.Tick();
-
   bool button_still_pressed = !(digitalRead(kButton1) && digitalRead(kButton2));
   if (button_pressed && button_still_pressed) {
     led_manager->SetOnboardLed(CHSV(0, 0, 32));
