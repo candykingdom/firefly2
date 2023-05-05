@@ -6,7 +6,7 @@
 
 LedManager::LedManager(const DeviceDescription &device,
                        RadioStateMachine *radio_state)
-    : device(device), radio_state(radio_state) {
+    : device(device), radio_state(radio_state), control_effect(new ControlEffect()) {
   AddEffect(new ColorCycleEffect(), 2);
   AddEffect(new ContrastBumpsEffect(), 2);
   AddEffect(new FireEffect(), 1);
@@ -31,8 +31,6 @@ LedManager::LedManager(const DeviceDescription &device,
   // These two must be last
   AddEffect(new DisplayColorPaletteEffect(), 0);
   AddEffect(new DarkEffect(), 0);
-
-  control_effect = new ControlEffect();
 
   radio_state->SetNumEffects(GetNumEffects());
   radio_state->SetNumPalettes(Effect::palettes().size());
@@ -96,17 +94,17 @@ void LedManager::RunEffect() {
   WriteOutLeds();
 }
 
-uint8_t LedManager::GetNumEffects() { return effects.size(); }
+uint8_t LedManager::GetNumEffects() const { return effects.size(); }
 
-uint8_t LedManager::GetNumUniqueEffects() {
+uint8_t LedManager::GetNumUniqueEffects() const {
   return uniqueEffectIndices.size() + non_random_effects.size();
 }
 
-uint8_t LedManager::GetNumNonRandomEffects() {
+uint8_t LedManager::GetNumNonRandomEffects() const {
   return non_random_effects.size();
 }
 
-uint8_t LedManager::UniqueEffectNumberToIndex(uint8_t uniqueEffectNumber) {
+uint8_t LedManager::UniqueEffectNumberToIndex(uint8_t uniqueEffectNumber)  const{
   if (uniqueEffectNumber < uniqueEffectIndices.size()) {
     return uniqueEffectIndices[uniqueEffectNumber];
   } else {
