@@ -83,8 +83,7 @@ TEST_F(RadioStateMachineTest, sendsHeartbeats) {
 TEST_F(RadioStateMachineTest, doesntBecomeMasterIfReceivesPackets) {
   RadioPacket packet;
   packet.packet_id = 1;
-  packet.type = HEARTBEAT;
-  packet.dataLength = 0;
+  packet.writeHeartbeat(0);
 
   radio.setReceivedPacket(&packet);
   advanceMillis(kMaxSlaveTimeout);
@@ -124,8 +123,7 @@ TEST_F(RadioStateMachineTest, doesElectionAndBecomesSlave) {
   RadioPacket packet;
   // The random ID for master election is in the range [2, 0xFFFF)
   packet.packet_id = 0xFFFF;
-  packet.type = HEARTBEAT;
-  packet.dataLength = 0;
+  packet.writeHeartbeat(0);
   radio.setReceivedPacket(&packet);
   state_machine->RadioTick();
   EXPECT_EQ(state_machine->GetCurrentState(), RadioState::Slave);
@@ -139,8 +137,7 @@ TEST_F(RadioStateMachineTest, doesElectionAndBecomesMaster) {
   RadioPacket packet;
   // The random ID for master election is in the range [2, 0xFFFF)
   packet.packet_id = 1;
-  packet.type = HEARTBEAT;
-  packet.dataLength = 0;
+  packet.writeHeartbeat(0);
   radio.setReceivedPacket(&packet);
   state_machine->RadioTick();
   EXPECT_EQ(state_machine->GetCurrentState(), RadioState::Master);
