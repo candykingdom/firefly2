@@ -5,7 +5,7 @@
 #include <Effects.hpp>
 #include <cstdio>
 
-//#define DEBUG
+// #define DEBUG
 
 RadioStateMachine::RadioStateMachine(NetworkManager *networkManager)
     : network_manager_(networkManager) {
@@ -26,10 +26,16 @@ RadioState RadioStateMachine::GetCurrentState() { return state_; }
 void RadioStateMachine::Tick() {
   // Run the radio state machine twice, since writing out LEDs may take several
   // ms.
+  //
+  // There is a bug (probably a compiler bug) where if the first call to Tick()
+  // calls RadioTick() twice, in the second call the call to TimerExpired()
+  // hangs when it tries to access timers_. So, only call RadioTick once the
+  // first time Tick() is called.
   RadioTick();
-  if (millis() > 2000) {
+  if (tick_run_) {
     RadioTick();
   }
+  tick_run_ = true;
 }
 
 uint32_t RadioStateMachine::GetNetworkMillis() {
