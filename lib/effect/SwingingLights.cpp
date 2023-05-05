@@ -18,7 +18,7 @@ static void addInPlace(const CHSV &value, CRGB &result) {
 
 CRGB SwingingLights::GetRGB(uint8_t led_index, uint32_t time_ms,
                             const StripDescription &strip,
-                            RadioPacket *setEffectPacket) {
+                            RadioPacket *setEffectPacket) const {
   // This effect looks bad on small devices. Instead of creating another
   // effect we can just make the LEDs flash when a light pulse hits the end of a
   // "long" strip which looks pretty cool.
@@ -31,7 +31,7 @@ CRGB SwingingLights::GetRGB(uint8_t led_index, uint32_t time_ms,
   }
 
   // Map [0, period) to [0, MAX_UINT16)
-  const fract16 angle = (time_ms % period) * MAX_UINT16 / period;
+  const fract16 angle = (time_ms % kPeriod) * MAX_UINT16 / kPeriod;
 
   // Map [0, num_leds) to [0, MAX_UINT16)
   const fract16 led_pos = (uint32_t)led_index * MAX_UINT16 / num_leds;

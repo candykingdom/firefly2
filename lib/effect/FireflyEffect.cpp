@@ -6,12 +6,13 @@ FireflyEffect::FireflyEffect() : Effect() {
 #ifdef ARDUINO
   randomSeed((analogRead(A0) << 10) | analogRead(A0));
 #endif
-  offset = random(0, kBlinkPeriod / 2);
+  offset_ = random(0, kBlinkPeriod / 2);
 }
 
 CRGB FireflyEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
                            const StripDescription &strip,
-                           RadioPacket *setEffectPacket) {
+                           RadioPacket *setEffectPacket) const {
+  uint32_t offset = offset_;
   if (strip.FlagEnabled(Controller)) {
     // For the controller, blink the lights mostly in sync
     if (led_index % 2 == 1) {

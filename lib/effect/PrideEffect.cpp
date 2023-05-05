@@ -4,14 +4,14 @@ PrideEffect::PrideEffect() : Effect() {}
 
 // The minimum number of steps of "temporal resolution" per pixel. Is multiplied
 // by the strip LED count to ensure the result is a round number.
-static const uint8_t depth_multiplier = 8;
+static constexpr uint8_t depth_multiplier = 8;
 
 // The reciprocal of the amount of fade per stripe width.
-static const uint8_t fade_fract = 8;
+static constexpr uint8_t fade_fract = 8;
 
 CRGB PrideEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
                          const StripDescription &strip,
-                         RadioPacket *setEffectPacket) {
+                         RadioPacket *setEffectPacket) const {
   UNUSED(setEffectPacket);
   const uint16_t stripe_width = strip.led_count * depth_multiplier;
 
