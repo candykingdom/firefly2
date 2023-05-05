@@ -53,7 +53,8 @@ void RadioHeadRadio::sendPacket(RadioPacket &packet) {
   // Now that we have consumed the first 3 bytes of data, memcpy past the
   // consumed part and write into the rest of the buffer.
   if (packet.dataLength > 0) {
-    memcpy(buffer.data() + kFrontPacketPadding, packet.data.data(), packet.dataLength);
+    memcpy(buffer.data() + kFrontPacketPadding, packet.data.data(),
+           packet.dataLength);
   }
 
   radio.send(buffer.data(), packet.dataLength + kFrontPacketPadding);
