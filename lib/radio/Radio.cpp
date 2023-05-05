@@ -12,7 +12,7 @@ void RadioPacket::writeHeartbeat(uint32_t time) {
   this->data[3] = time;
 }
 
-uint32_t RadioPacket::readTimeFromHeartbeat() {
+uint32_t RadioPacket::readTimeFromHeartbeat() const {
   // TODO: add a check for the type and length if debug is enabled?
   uint32_t time = this->data[3];
   time |= this->data[2] << 8;
@@ -30,11 +30,15 @@ void RadioPacket::writeSetEffect(uint8_t effect_index, uint8_t delay,
   this->data[2] = hue;
 }
 
-uint8_t RadioPacket::readEffectIndexFromSetEffect() { return this->data[0]; }
+uint8_t RadioPacket::readEffectIndexFromSetEffect() const {
+  return this->data[0];
+}
 
-uint8_t RadioPacket::readDelayFromSetEffect() { return this->data[1]; }
+uint8_t RadioPacket::readDelayFromSetEffect() const { return this->data[1]; }
 
-uint8_t RadioPacket::readPaletteIndexFromSetEffect() { return this->data[2]; }
+uint8_t RadioPacket::readPaletteIndexFromSetEffect() const {
+  return this->data[2];
+}
 
 void RadioPacket::writeControl(uint8_t delay, CRGB rgb) {
   this->type = SET_CONTROL;
@@ -45,8 +49,8 @@ void RadioPacket::writeControl(uint8_t delay, CRGB rgb) {
   this->data[3] = rgb.b;
 }
 
-uint8_t RadioPacket::readDelayFromSetControl() { return this->data[0]; }
+uint8_t RadioPacket::readDelayFromSetControl() const { return this->data[0]; }
 
-CRGB RadioPacket::readRgbFromSetControl() {
+CRGB RadioPacket::readRgbFromSetControl() const {
   return CRGB(this->data[1], this->data[2], this->data[3]);
 }

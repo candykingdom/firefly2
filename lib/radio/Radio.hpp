@@ -2,6 +2,7 @@
 #define __RADIO_H__
 
 #include <Types.hpp>
+#include <array>
 
 enum PacketType {
   // Tells the slaves that they should blink the light.
@@ -21,7 +22,7 @@ enum PacketType {
   SET_CONTROL,
 };
 
-static const uint8_t PACKET_DATA_LENGTH = 58;
+static constexpr uint8_t PACKET_DATA_LENGTH = 58;
 
 struct RadioPacket {
   /**
@@ -45,28 +46,28 @@ struct RadioPacket {
    * The raw application-layer data. The length is the max packet length (61)
    * minus the size of the packet ID and type (3 bytes).
    */
-  uint8_t data[PACKET_DATA_LENGTH];
+  std::array<uint8_t, PACKET_DATA_LENGTH> data;
 
   // Member functions to create and read specific packet types.
 
   // For HEARTBEAT
   void writeHeartbeat(uint32_t time);
-  uint32_t readTimeFromHeartbeat();
+  uint32_t readTimeFromHeartbeat() const;
 
   // For SET_EFFECT
   // delay: time for the master to not change the effect, in seconds
   void writeSetEffect(uint8_t effect_index, uint8_t delay,
                       uint8_t palette_index);
-  uint8_t readEffectIndexFromSetEffect();
-  uint8_t readDelayFromSetEffect();
-  uint8_t readPaletteIndexFromSetEffect();
+  uint8_t readEffectIndexFromSetEffect() const;
+  uint8_t readDelayFromSetEffect() const;
+  uint8_t readPaletteIndexFromSetEffect() const;
 
   // For SET_CONTROL
   // delay: time for the master to not change the effect, in seconds
   // rgb: the color to set the node to
   void writeControl(uint8_t delay, CRGB rgb);
-  uint8_t readDelayFromSetControl();
-  CRGB readRgbFromSetControl();
+  uint8_t readDelayFromSetControl() const;
+  CRGB readRgbFromSetControl() const;
 };
 
 inline bool operator==(const RadioPacket& lhs, const RadioPacket& rhs) {
@@ -78,7 +79,7 @@ inline bool operator==(const RadioPacket& lhs, const RadioPacket& rhs) {
 
   return lhs.packet_id == rhs.packet_id && lhs.type == rhs.type &&
          lhs.dataLength == rhs.dataLength &&
-         !memcmp(lhs.data, rhs.data, lhs.dataLength);
+         !memcmp(lhs.data.data(), rhs.data.data(), lhs.dataLength);
 }
 
 class Radio {

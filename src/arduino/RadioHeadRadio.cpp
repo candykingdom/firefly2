@@ -16,14 +16,14 @@ bool RadioHeadRadio::Begin() {
 }
 
 bool RadioHeadRadio::readPacket(RadioPacket &packet) {
-  static uint8_t buffer[kMaxFifoSizePacketSize];
+  static std::array<uint8_t, kMaxFifoSizePacketSize> buffer;
   if (!radio.available()) {
     return false;
   }
 
   uint8_t received_length = 0;
   received_length = kMaxFifoSizePacketSize;
-  if (radio.recv(buffer, &received_length)) {
+  if (radio.recv(buffer.data(), &received_length)) {
     if (received_length > kFrontPacketPadding) {
       packet.packet_id = (buffer[0] << 8) + buffer[1];
       packet.type = (PacketType)buffer[2];
@@ -44,7 +44,7 @@ bool RadioHeadRadio::readPacket(RadioPacket &packet) {
 }
 
 void RadioHeadRadio::sendPacket(RadioPacket &packet) {
-  static uint8_t buffer[kMaxPacketSize];
+  static std::array<uint8_t, kMaxPacketSize> buffer;
 
   buffer[0] = packet.packet_id >> 8;      // Take the top 8 bits.
   buffer[1] = packet.packet_id & 0x00ff;  // Mask off the top 8 bits.
@@ -53,10 +53,10 @@ void RadioHeadRadio::sendPacket(RadioPacket &packet) {
   // Now that we have consumed the first 3 bytes of data, memcpy past the
   // consumed part and write into the rest of the buffer.
   if (packet.dataLength > 0) {
-    memcpy(buffer + kFrontPacketPadding, packet.data, packet.dataLength);
+    memcpy(buffer.data() + kFrontPacketPadding, packet.data.data(), packet.dataLength);
   }
 
-  radio.send((uint8_t *)buffer, packet.dataLength + kFrontPacketPadding);
+  radio.send(buffer.data(), packet.dataLength + kFrontPacketPadding);
 
   // Go back into RX mode
   radio.available();
