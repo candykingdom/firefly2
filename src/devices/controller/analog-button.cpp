@@ -26,13 +26,13 @@ void AnalogButton::Tick() {
   }
 }
 
-bool AnalogButton::Button1Pressed() { return button1_pressed_; }
+bool AnalogButton::Button1Pressed() const { return button1_pressed_; }
 
-bool AnalogButton::Button2Pressed() { return button2_pressed_; }
+bool AnalogButton::Button2Pressed() const { return button2_pressed_; }
 
-bool AnalogButton::Button3Pressed() { return button3_pressed_; }
+bool AnalogButton::Button3Pressed() const { return button3_pressed_; }
 
-int AnalogButton::ReadAnalog() {
+int AnalogButton::ReadAnalog() const {
   uint16_t input = analog_filter_.GetFilteredValue();
   if (input < kSwitch1Threshold) return 1;
   if (input < kSwitch2Threshold) return 2;

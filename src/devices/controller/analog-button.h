@@ -8,12 +8,12 @@ class AnalogButton {
   explicit AnalogButton(int pin);
   void Tick();
 
-  bool Button1Pressed();
-  bool Button2Pressed();
-  bool Button3Pressed();
+  bool Button1Pressed() const;
+  bool Button2Pressed() const;
+  bool Button3Pressed() const;
 
  private:
-  int ReadAnalog();
+  int ReadAnalog() const;
 
   EdgeFilter analog_filter_;
 
