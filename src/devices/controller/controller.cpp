@@ -6,6 +6,7 @@
 
 #include <array>
 
+#include "Battery.hpp"
 #include "FakeLedManager.hpp"
 #include "analog-button.h"
 #include "arduino/RadioHeadRadio.hpp"
@@ -36,7 +37,7 @@ constexpr std::array<uint8_t, 3> kRightButtons = {PA8, PC6, PC7};
 constexpr std::array<uint8_t, 3> kBottomButtons = {PA11, PA12, PA15};
 
 constexpr int kModeSwitch = PA6;
-constexpr int kVbattDiv = PA7;
+constexpr int kBatteryPin = PA7;
 
 // Note: for some reason, `PA4` has a resolved pin number of 196, which confuses
 // FastLED.
@@ -110,6 +111,43 @@ std::array<CHSV, 6> colors = {
 std::array<uint8_t, 6> palettes = {
     8, 9, 10, 11, 12, 13,
 };
+
+// On controller v1.1, the filter cap on the battery voltage divider has a time
+// constant of ~0.5s, so when the device is cold-booted, it takes a couple of
+// seconds before the read battery level stabilizes. This timer ignores low
+// battery detection until that happens.
+// TODO(adam): replace the caps with 0.1uF and remove this timer
+CountDownTimer startup_battery_timer{3000};
+
+// Cutoff under load. The max power consumption of the controller is about
+// 500mA, at which load the battery voltage will be moderately lower than the
+// open-cell voltage.
+// TODO(adam): tune this
+static constexpr float kBatteryLowCutoff = 3.4;
+
+// Once we detect low battery, the battery must hit this voltage before turning
+// back on. This is about 50% charged (open voltage).
+static constexpr float kBatteryResume = 3.85;
+
+// Heavy filtering
+static constexpr uint8_t kBatteryFilterAlpha = 1;
+static constexpr uint8_t kBatteryMedianFilterSize = 5;
+MedianFilter<uint16_t, uint16_t, kBatteryMedianFilterSize>
+    battery_median_filter{filter_functions::ForAnalogRead<kBatteryPin>()};
+ExponentialMovingAverageFilter<uint16_t> battery_average_filter{
+    []() { return battery_median_filter.GetFilteredValue(); },
+    kBatteryFilterAlpha};
+bool battery_filters_initialized = false;
+
+uint16_t battery_at_boot = 0;
+bool battery_low = false;
+
+void LowBatteryMode() {
+  FastLED.clearData();
+  leds[kStatusLeft] = CRGB(8, 0, 0);
+  FastLED.show();
+  radio.sleep();
+}
 
 void RunEffectMode() {
   const uint8_t num_unique_effects = led_manager.GetNumUniqueEffects();
@@ -338,6 +376,10 @@ void setup() {
       ;
   }
 
+  startup_battery_timer.Reset();
+
+  pinMode(kBatteryPin, INPUT);
+
   FastLED.addLeds<NEOPIXEL, kNeopixelPin>(leds.data(), kLedCount)
       .setCorrection(TypicalLEDStrip);
   FastLED.clear(/*writeData=*/true);
@@ -358,9 +400,66 @@ void setup() {
     pinMode(kRightButtons[i], INPUT_PULLUP);
     pinMode(kBottomButtons[i], INPUT_PULLUP);
   }
+
+  if (!digitalRead(kLeftButtons[0])) {
+    leds[kStatusLeft] = CHSV(0, 0, 32);
+    FastLED.show();
+    // Give time for the battery input filter capacitor to charge.
+    // TODO: remove this once Adam replace filter caps on controller boards.
+    delay(2000);
+    battery_at_boot = analogRead(kBatteryPin);
+
+    uint16_t battery_val =
+        battery_at_boot - BatteryVoltageToRawReading(kBatteryEmpty);
+    constexpr uint16_t battery_range =
+        BatteryVoltageToRawReading(kBatteryFull) -
+        BatteryVoltageToRawReading(kBatteryEmpty);
+    static_assert(battery_range != 0);
+    if (battery_val > battery_range) {
+      battery_val = 0;
+    }
+
+    // Red is hue 0
+    uint8_t hue = (battery_val * HUE_GREEN) / battery_range;
+    leds[kStatusLeft] = CHSV(hue, 255, 255);
+    FastLED.show();
+    delay(5000);
+  }
 }
 
 void loop() {
+  if (startup_battery_timer.Expired()) {
+    if (!battery_filters_initialized) {
+      for (uint8_t i = 0; i < kBatteryMedianFilterSize; i++) {
+        battery_median_filter.Run();
+      }
+      battery_average_filter.Initialize(analogRead(kBatteryPin));
+      battery_average_filter.Run();
+
+      battery_median_filter.SetMinRunInterval(100);
+      battery_average_filter.SetMinRunInterval(100);
+      battery_filters_initialized = true;
+    }
+    battery_median_filter.Run();
+    battery_average_filter.Run();
+
+    if (!battery_low && battery_average_filter.GetFilteredValue() <
+                            BatteryVoltageToRawReading(kBatteryLowCutoff)) {
+      battery_low = true;
+      LowBatteryMode();
+    }
+
+    if (battery_low) {
+      if (battery_average_filter.GetFilteredValue() >
+          BatteryVoltageToRawReading(kBatteryResume)) {
+        battery_low = false;
+      } else {
+        delay(100);
+        return;
+      }
+    }
+  }
+
   state_machine.Tick();
 
   for (uint8_t i = 0; i < 3; i++) {
