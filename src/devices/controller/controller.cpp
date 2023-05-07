@@ -28,6 +28,8 @@ enum class ControllerMode {
   DirectPalette,
 };
 
+// HardwareSerial Serial2(/*RX=*/PA2, /*TX=*/PA3);
+
 ControllerMode mode = ControllerMode::Effect;
 ControllerMode prev_mode = mode;
 
@@ -189,7 +191,7 @@ void RunEffectMode() {
 
   const uint8_t real_effect_index =
       led_manager.UniqueEffectNumberToIndex(effect_index);
-  Effect* current_effect = led_manager.GetEffect(real_effect_index);
+  Effect *current_effect = led_manager.GetEffect(real_effect_index);
   set_effect_packet.writeSetEffect(real_effect_index, kSetEffectDelay,
                                    palette_index);
 
@@ -355,9 +357,53 @@ void RunPaletteMode() {
   }
 }
 
+// See
+// https://community.st.com/s/question/0D53W00000BLufdSAD/how-do-i-jump-from-application-code-to-bootloader-without-toggling-the-boot0-pin-on-stm32h745
+// and
+// https://community.st.com/s/article/STM32H7-bootloader-jump-from-application
+void JumpToBootloader() {
+  void (*SysMemBootJump)(void);
+
+  /* Set the address of the entry point to bootloader */
+  volatile uint32_t BootAddr = 0x1FFF0000;
+
+  /* Disable all interrupts */
+  __disable_irq();
+
+  /* Disable Systick timer */
+  SysTick->CTRL = 0;
+
+  /* Set the clock to the default state */
+  HAL_RCC_DeInit();
+
+  /* Clear Interrupt Enable Register & Interrupt Pending Register */
+  NVIC->ICER[0] = 0xFFFFFFFF;
+  NVIC->ICPR[0] = 0xFFFFFFFF;
+
+  /* Re-enable all interrupts */
+  __enable_irq();
+
+  /* Set up the jump to booloader address + 4 */
+  SysMemBootJump = (void (*)(void))(*((uint32_t *)((BootAddr + 4))));
+
+  /* Set the main stack pointer to the bootloader stack */
+  __set_MSP(*(uint32_t *)BootAddr);
+
+  /* Call the function to jump to bootloader location */
+  SysMemBootJump();
+
+  /* Jump is done successfully */
+  while (1) {
+    /* Code should never reach this loop */
+  }
+}
+
 void setup() {
+  Serial2.begin(115200);
+  Serial2.println("Booting...");
+
   // check if nBOOT_SEL bit is set
-  if (FLASH->OPTR & FLASH_OPTR_nBOOT_SEL) {
+  if (!(FLASH->OPTR & FLASH_OPTR_nBOOT_SEL)) {
     // unlock flash/option
     FLASH->KEYR = 0x45670123;
     FLASH->KEYR = 0xCDEF89AB;
@@ -367,8 +413,8 @@ void setup() {
     while (FLASH->SR & FLASH_SR_BSY1)
       ;
 
-    // clear nBOOT_SEL bit
-    FLASH->OPTR &= ~FLASH_OPTR_nBOOT_SEL;
+    // Set nBOOT_SEL bit
+    FLASH->OPTR |= FLASH_OPTR_nBOOT_SEL;
 
     // write
     FLASH->CR |= FLASH_CR_OPTSTRT;
