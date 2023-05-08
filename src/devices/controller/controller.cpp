@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <FastLED.h>
+#include <STM32RTC.h>
 #include <arduino-timer.h>
 #include <debounce-filter.h>
 #include <median-filter.h>
@@ -27,8 +28,6 @@ enum class ControllerMode {
   // effect.
   DirectPalette,
 };
-
-// HardwareSerial Serial2(/*RX=*/PA2, /*TX=*/PA3);
 
 ControllerMode mode = ControllerMode::Effect;
 ControllerMode prev_mode = mode;
@@ -398,8 +397,27 @@ void JumpToBootloader() {
   }
 }
 
+// Arbitrary (valid) date
+static constexpr uint32_t kEpochTimer = 1451606400;
+static constexpr uint32_t kEpochReset = 1441606400;
+
 void setup() {
+  STM32RTC &rtc = STM32RTC::getInstance();
+  rtc.begin(/*resetTime=*/false);
+  if (rtc.getEpoch() == kEpochTimer) {
+    rtc.setEpoch(kEpochReset);
+    NVIC_SystemReset();
+  } else if (rtc.getEpoch() == kEpochReset) {
+    rtc.setEpoch(kEpochTimer);
+    JumpToBootloader();
+  }
+  rtc.setEpoch(kEpochTimer);
+
   Serial2.begin(115200);
+  // Note: must have a short delay here before printing. The bootloader
+  // double-taps the reset line - we can't start writing to serial after the
+  // first reset, or the bootloader won't be able to use the serial port.
+  delay(20);
   Serial2.println("Booting...");
 
   // check if nBOOT_SEL bit is set
