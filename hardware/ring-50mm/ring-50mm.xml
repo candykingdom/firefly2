@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <export version="E">
   <design>
-    <source>/home/adam/hardware/firefly2/hardware/ring-40mm/ring-40mm.kicad_sch</source>
-    <date>Sun 30 Apr 2023 12:51:26 PM MDT</date>
+    <source>/home/adam/hardware/firefly2/hardware/ring-50mm/ring-50mm.kicad_sch</source>
+    <date>Sat 13 May 2023 10:39:26 AM MDT</date>
     <tool>Eeschema 7.0.2-6a45011f42~172~ubuntu22.04.1</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
@@ -10,7 +10,7 @@
         <company/>
         <rev/>
         <date/>
-        <source>ring-40mm.kicad_sch</source>
+        <source>ring-50mm.kicad_sch</source>
         <comment number="1" value=""/>
         <comment number="2" value=""/>
         <comment number="3" value=""/>
@@ -33,7 +33,7 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C307331"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -48,7 +48,7 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C307331"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -63,7 +63,7 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C307331"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -78,7 +78,7 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C307331"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -93,7 +93,7 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C307331"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -108,7 +108,7 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C307331"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -123,7 +123,7 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C307331"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -138,7 +138,7 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C307331"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -153,7 +153,7 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C307331"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -168,7 +168,7 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C307331"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -183,7 +183,7 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C307331"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -198,7 +198,7 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C307331"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -213,7 +213,7 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C307331"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -228,7 +228,7 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C307331"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -243,7 +243,7 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C307331"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -258,7 +258,7 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C307331"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -273,7 +273,7 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C307331"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -288,7 +288,7 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C307331"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -303,7 +303,7 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C307331"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -318,13 +318,73 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C307331"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamps>dd6e1660-b7a3-4ac0-a966-29583fded76c</tstamps>
     </comp>
     <comp ref="C21">
+      <value>100nF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <fields>
+        <field name="LCSC">C307331</field>
+      </fields>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="LCSC" value="C307331"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
+      <property name="ki_description" value="Unpolarized capacitor"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>d28374c6-0043-4419-a71e-75da0b1d67c0</tstamps>
+    </comp>
+    <comp ref="C22">
+      <value>100nF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <fields>
+        <field name="LCSC">C307331</field>
+      </fields>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="LCSC" value="C307331"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
+      <property name="ki_description" value="Unpolarized capacitor"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>7965fbf8-d517-43cf-94e0-8ae97e40a79b</tstamps>
+    </comp>
+    <comp ref="C23">
+      <value>100nF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <fields>
+        <field name="LCSC">C307331</field>
+      </fields>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="LCSC" value="C307331"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
+      <property name="ki_description" value="Unpolarized capacitor"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>b2d314ed-1ecc-4916-9908-6900ac218801</tstamps>
+    </comp>
+    <comp ref="C24">
+      <value>100nF</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <fields>
+        <field name="LCSC">C307331</field>
+      </fields>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <property name="LCSC" value="C307331"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
+      <property name="ki_description" value="Unpolarized capacitor"/>
+      <property name="ki_keywords" value="cap capacitor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>3a1b731e-7b58-4e6e-9bbd-1cccf0ddf11a</tstamps>
+    </comp>
+    <comp ref="C25">
       <value>22uF</value>
       <footprint>Capacitor_SMD:C_0805_2012Metric</footprint>
       <fields>
@@ -333,7 +393,7 @@
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
       <property name="LCSC" value="C45783"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Unpolarized capacitor"/>
       <property name="ki_keywords" value="cap capacitor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -349,7 +409,7 @@
       <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
       <property name="LCSC" value="C5349953"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="RGB LED with integrated controller"/>
       <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
       <sheetpath names="/" tstamps="/"/>
@@ -365,7 +425,7 @@
       <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
       <property name="LCSC" value="C5349953"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="RGB LED with integrated controller"/>
       <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
       <sheetpath names="/" tstamps="/"/>
@@ -381,7 +441,7 @@
       <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
       <property name="LCSC" value="C5349953"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="RGB LED with integrated controller"/>
       <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
       <sheetpath names="/" tstamps="/"/>
@@ -397,7 +457,7 @@
       <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
       <property name="LCSC" value="C5349953"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="RGB LED with integrated controller"/>
       <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
       <sheetpath names="/" tstamps="/"/>
@@ -413,7 +473,7 @@
       <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
       <property name="LCSC" value="C5349953"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="RGB LED with integrated controller"/>
       <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
       <sheetpath names="/" tstamps="/"/>
@@ -429,7 +489,7 @@
       <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
       <property name="LCSC" value="C5349953"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="RGB LED with integrated controller"/>
       <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
       <sheetpath names="/" tstamps="/"/>
@@ -445,7 +505,7 @@
       <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
       <property name="LCSC" value="C5349953"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="RGB LED with integrated controller"/>
       <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
       <sheetpath names="/" tstamps="/"/>
@@ -461,7 +521,7 @@
       <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
       <property name="LCSC" value="C5349953"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="RGB LED with integrated controller"/>
       <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
       <sheetpath names="/" tstamps="/"/>
@@ -477,7 +537,7 @@
       <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
       <property name="LCSC" value="C5349953"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="RGB LED with integrated controller"/>
       <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
       <sheetpath names="/" tstamps="/"/>
@@ -493,7 +553,7 @@
       <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
       <property name="LCSC" value="C5349953"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="RGB LED with integrated controller"/>
       <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
       <sheetpath names="/" tstamps="/"/>
@@ -509,7 +569,7 @@
       <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
       <property name="LCSC" value="C5349953"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="RGB LED with integrated controller"/>
       <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
       <sheetpath names="/" tstamps="/"/>
@@ -525,7 +585,7 @@
       <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
       <property name="LCSC" value="C5349953"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="RGB LED with integrated controller"/>
       <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
       <sheetpath names="/" tstamps="/"/>
@@ -541,7 +601,7 @@
       <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
       <property name="LCSC" value="C5349953"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="RGB LED with integrated controller"/>
       <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
       <sheetpath names="/" tstamps="/"/>
@@ -557,7 +617,7 @@
       <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
       <property name="LCSC" value="C5349953"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="RGB LED with integrated controller"/>
       <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
       <sheetpath names="/" tstamps="/"/>
@@ -573,7 +633,7 @@
       <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
       <property name="LCSC" value="C5349953"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="RGB LED with integrated controller"/>
       <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
       <sheetpath names="/" tstamps="/"/>
@@ -589,7 +649,7 @@
       <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
       <property name="LCSC" value="C5349953"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="RGB LED with integrated controller"/>
       <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
       <sheetpath names="/" tstamps="/"/>
@@ -605,7 +665,7 @@
       <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
       <property name="LCSC" value="C5349953"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="RGB LED with integrated controller"/>
       <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
       <sheetpath names="/" tstamps="/"/>
@@ -621,7 +681,7 @@
       <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
       <property name="LCSC" value="C5349953"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="RGB LED with integrated controller"/>
       <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
       <sheetpath names="/" tstamps="/"/>
@@ -637,7 +697,7 @@
       <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
       <property name="LCSC" value="C5349953"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="RGB LED with integrated controller"/>
       <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
       <sheetpath names="/" tstamps="/"/>
@@ -653,18 +713,82 @@
       <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
       <property name="LCSC" value="C5349953"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="RGB LED with integrated controller"/>
       <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamps>5347d2d5-416b-4c50-9667-24ae96aaa313</tstamps>
+    </comp>
+    <comp ref="D21">
+      <value>XL-1010RGBC-WS2812B</value>
+      <footprint>Homebrew:XINGLIGHT-XL-1010RGBC-WS2812B</footprint>
+      <datasheet>https://datasheet.lcsc.com/lcsc/2301111010_XINGLIGHT-XL-1010RGBC-WS2812B_C5349953.pdf</datasheet>
+      <fields>
+        <field name="LCSC">C5349953</field>
+      </fields>
+      <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
+      <property name="LCSC" value="C5349953"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
+      <property name="ki_description" value="RGB LED with integrated controller"/>
+      <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>004b3488-4b7c-4f5e-a277-02d9c359e5f5</tstamps>
+    </comp>
+    <comp ref="D22">
+      <value>XL-1010RGBC-WS2812B</value>
+      <footprint>Homebrew:XINGLIGHT-XL-1010RGBC-WS2812B</footprint>
+      <datasheet>https://datasheet.lcsc.com/lcsc/2301111010_XINGLIGHT-XL-1010RGBC-WS2812B_C5349953.pdf</datasheet>
+      <fields>
+        <field name="LCSC">C5349953</field>
+      </fields>
+      <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
+      <property name="LCSC" value="C5349953"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
+      <property name="ki_description" value="RGB LED with integrated controller"/>
+      <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>73a31f0a-9161-4354-b60d-b92bf40bc8ed</tstamps>
+    </comp>
+    <comp ref="D23">
+      <value>XL-1010RGBC-WS2812B</value>
+      <footprint>Homebrew:XINGLIGHT-XL-1010RGBC-WS2812B</footprint>
+      <datasheet>https://datasheet.lcsc.com/lcsc/2301111010_XINGLIGHT-XL-1010RGBC-WS2812B_C5349953.pdf</datasheet>
+      <fields>
+        <field name="LCSC">C5349953</field>
+      </fields>
+      <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
+      <property name="LCSC" value="C5349953"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
+      <property name="ki_description" value="RGB LED with integrated controller"/>
+      <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>9a7bc6b5-8528-4172-8fd7-4567a6089030</tstamps>
+    </comp>
+    <comp ref="D24">
+      <value>XL-1010RGBC-WS2812B</value>
+      <footprint>Homebrew:XINGLIGHT-XL-1010RGBC-WS2812B</footprint>
+      <datasheet>https://datasheet.lcsc.com/lcsc/2301111010_XINGLIGHT-XL-1010RGBC-WS2812B_C5349953.pdf</datasheet>
+      <fields>
+        <field name="LCSC">C5349953</field>
+      </fields>
+      <libsource lib="Homebrew" part="XINGLIGHT-XL-1010RGBC-WS2812B" description="RGB LED with integrated controller"/>
+      <property name="LCSC" value="C5349953"/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
+      <property name="ki_description" value="RGB LED with integrated controller"/>
+      <property name="ki_keywords" value="RGB LED NeoPixel addressable"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>591acc07-6f20-4de8-a7ed-193ac1bb0efb</tstamps>
     </comp>
     <comp ref="J1">
       <value>Conn_01x03</value>
       <footprint>Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical</footprint>
       <libsource lib="Connector_Generic" part="Conn_01x03" description="Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
       <property name="ki_keywords" value="connector"/>
       <sheetpath names="/" tstamps="/"/>
@@ -675,7 +799,7 @@
       <footprint>Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical</footprint>
       <libsource lib="Connector_Generic" part="Conn_01x03" description="Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
       <property name="ki_keywords" value="connector"/>
       <sheetpath names="/" tstamps="/"/>
@@ -690,7 +814,7 @@
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="LCSC" value="C23204"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Resistor"/>
       <property name="ki_keywords" value="R res resistor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -705,7 +829,7 @@
       <libsource lib="Device" part="R" description="Resistor"/>
       <property name="LCSC" value="C23204"/>
       <property name="Sheetname" value=""/>
-      <property name="Sheetfile" value="ring-40mm.kicad_sch"/>
+      <property name="Sheetfile" value="ring-50mm.kicad_sch"/>
       <property name="ki_description" value="Resistor"/>
       <property name="ki_keywords" value="R res resistor"/>
       <sheetpath names="/" tstamps="/"/>
@@ -818,6 +942,10 @@
       <node ref="C2" pin="2" pintype="passive"/>
       <node ref="C20" pin="2" pintype="passive"/>
       <node ref="C21" pin="2" pintype="passive"/>
+      <node ref="C22" pin="2" pintype="passive"/>
+      <node ref="C23" pin="2" pintype="passive"/>
+      <node ref="C24" pin="2" pintype="passive"/>
+      <node ref="C25" pin="2" pintype="passive"/>
       <node ref="C3" pin="2" pintype="passive"/>
       <node ref="C4" pin="2" pintype="passive"/>
       <node ref="C5" pin="2" pintype="passive"/>
@@ -838,6 +966,10 @@
       <node ref="D19" pin="3" pinfunction="GND" pintype="power_in"/>
       <node ref="D2" pin="3" pinfunction="GND" pintype="power_in"/>
       <node ref="D20" pin="3" pinfunction="GND" pintype="power_in"/>
+      <node ref="D21" pin="3" pinfunction="GND" pintype="power_in"/>
+      <node ref="D22" pin="3" pinfunction="GND" pintype="power_in"/>
+      <node ref="D23" pin="3" pinfunction="GND" pintype="power_in"/>
+      <node ref="D24" pin="3" pinfunction="GND" pintype="power_in"/>
       <node ref="D3" pin="3" pinfunction="GND" pintype="power_in"/>
       <node ref="D4" pin="3" pinfunction="GND" pintype="power_in"/>
       <node ref="D5" pin="3" pinfunction="GND" pintype="power_in"/>
@@ -930,9 +1062,25 @@
     </net>
     <net code="24" name="Net-(D20-DOUT)">
       <node ref="D20" pin="1" pinfunction="DOUT" pintype="output"/>
+      <node ref="D21" pin="4" pinfunction="DIN" pintype="input"/>
+    </net>
+    <net code="25" name="Net-(D21-DOUT)">
+      <node ref="D21" pin="1" pinfunction="DOUT" pintype="output"/>
+      <node ref="D22" pin="4" pinfunction="DIN" pintype="input"/>
+    </net>
+    <net code="26" name="Net-(D22-DOUT)">
+      <node ref="D22" pin="1" pinfunction="DOUT" pintype="output"/>
+      <node ref="D23" pin="4" pinfunction="DIN" pintype="input"/>
+    </net>
+    <net code="27" name="Net-(D23-DOUT)">
+      <node ref="D23" pin="1" pinfunction="DOUT" pintype="output"/>
+      <node ref="D24" pin="4" pinfunction="DIN" pintype="input"/>
+    </net>
+    <net code="28" name="Net-(D24-DOUT)">
+      <node ref="D24" pin="1" pinfunction="DOUT" pintype="output"/>
       <node ref="R2" pin="1" pintype="passive"/>
     </net>
-    <net code="25" name="VCC">
+    <net code="29" name="VCC">
       <node ref="C1" pin="1" pintype="passive"/>
       <node ref="C10" pin="1" pintype="passive"/>
       <node ref="C11" pin="1" pintype="passive"/>
@@ -947,6 +1095,10 @@
       <node ref="C2" pin="1" pintype="passive"/>
       <node ref="C20" pin="1" pintype="passive"/>
       <node ref="C21" pin="1" pintype="passive"/>
+      <node ref="C22" pin="1" pintype="passive"/>
+      <node ref="C23" pin="1" pintype="passive"/>
+      <node ref="C24" pin="1" pintype="passive"/>
+      <node ref="C25" pin="1" pintype="passive"/>
       <node ref="C3" pin="1" pintype="passive"/>
       <node ref="C4" pin="1" pintype="passive"/>
       <node ref="C5" pin="1" pintype="passive"/>
@@ -967,6 +1119,10 @@
       <node ref="D19" pin="2" pinfunction="VDD" pintype="power_in"/>
       <node ref="D2" pin="2" pinfunction="VDD" pintype="power_in"/>
       <node ref="D20" pin="2" pinfunction="VDD" pintype="power_in"/>
+      <node ref="D21" pin="2" pinfunction="VDD" pintype="power_in"/>
+      <node ref="D22" pin="2" pinfunction="VDD" pintype="power_in"/>
+      <node ref="D23" pin="2" pinfunction="VDD" pintype="power_in"/>
+      <node ref="D24" pin="2" pinfunction="VDD" pintype="power_in"/>
       <node ref="D3" pin="2" pinfunction="VDD" pintype="power_in"/>
       <node ref="D4" pin="2" pinfunction="VDD" pintype="power_in"/>
       <node ref="D5" pin="2" pinfunction="VDD" pintype="power_in"/>
