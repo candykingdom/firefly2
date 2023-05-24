@@ -5,9 +5,11 @@
 #include <arduino-timer.h>
 #include <button-filter.h>
 #include <median-filter.h>
+#include <Wire.h>
 
 #include <array>
 
+#include "fram.h"
 #include "Battery.hpp"
 #include "FakeLedManager.hpp"
 #include "analog-button.h"
@@ -39,6 +41,9 @@ ControllerMode prev_mode = mode;
 // Pin definitions
 constexpr int kModeSwitch = PA6;
 constexpr int kBatteryPin = PA7;
+
+constexpr int kScl = PA9;
+constexpr int kSda = PA10;
 
 // Note: for some reason, `PA4` has a resolved pin number of 196, which confuses
 // FastLED.
@@ -333,6 +338,12 @@ void setup() {
     FastLED.show();
     delay(5000);
   }
+
+  Serial2.println("Initializing Wire");
+  Wire.setSCL(kScl);
+  Wire.setSDA(kSda);
+  Wire.begin();
+  Wire.setClock(1000000);
 }
 
 void loop() {
