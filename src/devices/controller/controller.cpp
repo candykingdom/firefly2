@@ -402,13 +402,29 @@ static constexpr uint32_t kEpochTimer = 1451606400;
 static constexpr uint32_t kEpochReset = 1441606400;
 
 void setup() {
+  /*
+   * When the reset pin is pulled high the following operations take place:
+   * 0. The system is started normally and the timer is set to `kEpochTimer`
+   * 1. Within the first second (before the timer ticks) the reset pin is pulled
+   *    high
+   * 2. The CPU is reset but not the timer
+   * 3. `setup()` is re-entered and this time the timer is set to `kEpochTimer`
+   * 4. The timer is set to `kEpochReset`
+   * 5. The CPU is software reset to ensure all registers are zeroed out
+   * 6. `setup()` is re-entered and this time the timer is set to `kEpochReset`
+   * 7. The timer is set to `kEpochTimer` (in case the reset pin is pulled high
+   *    in the next second and we need to do the full restart again)
+   * 8. The bootloader is entered and never returns
+   */
   STM32RTC &rtc = STM32RTC::getInstance();
   rtc.begin(/*resetTime=*/false);
   if (rtc.getEpoch() == kEpochTimer) {
     rtc.setEpoch(kEpochReset);
+    // This call never returns
     NVIC_SystemReset();
   } else if (rtc.getEpoch() == kEpochReset) {
     rtc.setEpoch(kEpochTimer);
+    // This call never returns
     JumpToBootloader();
   }
   rtc.setEpoch(kEpochTimer);
