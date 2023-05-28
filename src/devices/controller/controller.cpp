@@ -401,6 +401,8 @@ void setup() {
     pinMode(kBottomButtons[i], INPUT_PULLUP);
   }
 
+  // TODO: change this to one of the function buttons, and extract the button
+  // number into a constant.
   if (!digitalRead(kLeftButtons[0])) {
     leds[kStatusLeft] = CHSV(0, 0, 32);
     FastLED.show();
