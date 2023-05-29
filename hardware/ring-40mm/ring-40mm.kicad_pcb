@@ -2433,7 +2433,7 @@
   (gr_text "+" (at 95.7 122.9) (layer "F.SilkS") (tstamp f69488eb-3aff-4cd1-b264-6b0550d11253)
     (effects (font (size 1 1) (thickness 0.15)) (justify left bottom))
   )
-  (gr_text "Diode ring: r=17.5mm" (at 91.6 71.7) (layer "Dwgs.User") (tstamp 1a2edb5c-bbad-4bc8-a4a8-ea0290d7fa0a)
+  (gr_text "Diode ring: r=17.5mm" (at 76.4 79.3) (layer "Dwgs.User") (tstamp 1a2edb5c-bbad-4bc8-a4a8-ea0290d7fa0a)
     (effects (font (size 1 1) (thickness 0.15)) (justify left bottom))
   )
   (dimension (type aligned) (layer "User.2") (tstamp 79c660cb-1c69-458a-b46e-7b2067f5b6af)
