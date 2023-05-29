@@ -1,8 +1,9 @@
 #include <Arduino.h>
 #include <FastLED.h>
 #include <STM32RTC.h>
+#include <Wire.h>
 #include <arduino-timer.h>
-#include <debounce-filter.h>
+#include <button-filter.h>
 #include <median-filter.h>
 
 #include <array>
@@ -12,6 +13,7 @@
 #include "analog-button.h"
 #include "arduino/RadioHeadRadio.hpp"
 #include "buttons.h"
+#include "fram.h"
 #include "generic/NetworkManager.hpp"
 #include "generic/RadioStateMachine.hpp"
 #include "leds.h"
@@ -31,6 +33,19 @@ enum class ControllerMode {
 
 ControllerMode mode = ControllerMode::Effect;
 ControllerMode prev_mode = mode;
+
+// For DirectColor and DirectPalette, customize which colors or palettes are
+// shown.
+enum class SubMode {
+  // Normal operation
+  Normal,
+
+  ChooseSlot,
+
+  ChooseItem,
+};
+SubMode sub_mode = SubMode::Normal;
+SubMode prev_sub_mode = SubMode::Normal;
 
 // Pin definitions
 constexpr std::array<uint8_t, 3> kLeftButtons = {PB2, PB14, PB15};
@@ -74,28 +89,32 @@ uint8_t palette_index = 0;
 RadioPacket set_effect_packet;
 RadioPacket control_packet;
 
-std::array<DebounceFilter, 3> left_buttons = {
-    DebounceFilter(filter_functions::ForInvertedDigitalRead<kLeftButtons[0]>()),
-    DebounceFilter(filter_functions::ForInvertedDigitalRead<kLeftButtons[1]>()),
-    DebounceFilter(filter_functions::ForInvertedDigitalRead<kLeftButtons[2]>()),
+constexpr uint16_t kButtonHeldMillis = 800;
+std::array<ButtonFilter, 3> left_buttons = {
+    ButtonFilter(filter_functions::ForInvertedDigitalRead<kLeftButtons[0]>(),
+                 kButtonHeldMillis),
+    ButtonFilter(filter_functions::ForInvertedDigitalRead<kLeftButtons[1]>(),
+                 kButtonHeldMillis),
+    ButtonFilter(filter_functions::ForInvertedDigitalRead<kLeftButtons[2]>(),
+                 kButtonHeldMillis),
 };
 
-std::array<DebounceFilter, 3> right_buttons = {
-    DebounceFilter(
-        filter_functions::ForInvertedDigitalRead<kRightButtons[0]>()),
-    DebounceFilter(
-        filter_functions::ForInvertedDigitalRead<kRightButtons[1]>()),
-    DebounceFilter(
-        filter_functions::ForInvertedDigitalRead<kRightButtons[2]>()),
+std::array<ButtonFilter, 3> right_buttons = {
+    ButtonFilter(filter_functions::ForInvertedDigitalRead<kRightButtons[0]>(),
+                 kButtonHeldMillis),
+    ButtonFilter(filter_functions::ForInvertedDigitalRead<kRightButtons[1]>(),
+                 kButtonHeldMillis),
+    ButtonFilter(filter_functions::ForInvertedDigitalRead<kRightButtons[2]>(),
+                 kButtonHeldMillis),
 };
 
-std::array<DebounceFilter, 3> bottom_buttons = {
-    DebounceFilter(
-        filter_functions::ForInvertedDigitalRead<kBottomButtons[0]>()),
-    DebounceFilter(
-        filter_functions::ForInvertedDigitalRead<kBottomButtons[1]>()),
-    DebounceFilter(
-        filter_functions::ForInvertedDigitalRead<kBottomButtons[2]>()),
+std::array<ButtonFilter, 3> bottom_buttons = {
+    ButtonFilter(filter_functions::ForInvertedDigitalRead<kBottomButtons[0]>(),
+                 kButtonHeldMillis),
+    ButtonFilter(filter_functions::ForInvertedDigitalRead<kBottomButtons[1]>(),
+                 kButtonHeldMillis),
+    ButtonFilter(filter_functions::ForInvertedDigitalRead<kBottomButtons[2]>(),
+                 kButtonHeldMillis),
 };
 
 MedianFilter<uint16_t, uint16_t, 5> mode_switch(
@@ -281,6 +300,74 @@ void RunColorMode() {
     control_packet.writeControl(kSetEffectDelay, colors[color_index]);
     state_machine.SetEffect(&control_packet);
   }
+
+  if (bottom_buttons[0].Held()) {
+    sub_mode = SubMode::ChooseSlot;
+  }
+}
+
+void RunColorConfig() {
+  static uint8_t selected_slot = 255;
+  static uint8_t current_color = 0;
+  static uint8_t current_saturation = 255;
+  static constexpr uint8_t kColorStep = 256 / 16;
+
+  if (sub_mode == SubMode::ChooseSlot) {
+    SetLeftButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
+                      kButtonActiveBrightness);
+    SetRightButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
+                       kButtonActiveBrightness);
+    for (uint8_t i = 0; i < 36; i++) {
+      SetMainLed(i, CRGB(0, 0, 0));
+    }
+
+    selected_slot = 255;
+    for (uint8_t i = 0; i < 3; ++i) {
+      if (left_buttons[i].Rose()) {
+        SetLeftButtonLed(i, kButtonPressedBrightness);
+        selected_slot = i * 2;
+        break;
+      }
+      if (right_buttons[i].Rose()) {
+        SetRightButtonLed(i, kButtonPressedBrightness);
+        selected_slot = i * 2 + 1;
+        break;
+      }
+    }
+    if (selected_slot != 255) {
+      sub_mode = SubMode::ChooseItem;
+    }
+
+  } else {
+    if (left_buttons[0].Rose()) {
+      current_color = current_color - kColorStep;
+    } else if (right_buttons[0].Rose()) {
+      current_color = current_color + kColorStep;
+    }
+
+    if (left_buttons[1].Rose()) {
+      current_saturation = current_saturation - kColorStep;
+    } else if (right_buttons[1].Rose()) {
+      current_saturation = current_saturation + kColorStep;
+    }
+
+    if (bottom_buttons[0].Rose()) {
+      colors[selected_slot] = CHSV(current_color, current_saturation, 255);
+      sub_mode = SubMode::Normal;
+    }
+    SetLeftButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness, 0);
+    SetRightButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness, 0);
+
+    for (uint8_t i = 0; i < 12; i++) {
+      SetMainLed(i, CHSV(current_color, current_saturation, 255));
+    }
+    for (uint8_t i = 12; i < 36; i++) {
+      SetMainLed(i, CRGB(0, 0, 0));
+    }
+  }
+
+  // Blink the carousel button
+  SetBottomButtonLeds((millis() / 500) % 2 == 0 ? 192 : 96, 0, 0);
 }
 
 void RunPaletteMode() {
@@ -565,8 +652,10 @@ void loop() {
   }
   if (prev_mode != mode) {
     FastLED.clearData();
+    sub_mode = SubMode::Normal;
   }
   prev_mode = mode;
+  prev_sub_mode = sub_mode;
 
   switch (mode) {
     case ControllerMode::Effect:
@@ -574,7 +663,11 @@ void loop() {
       break;
 
     case ControllerMode::DirectColor:
-      RunColorMode();
+      if (sub_mode == SubMode::Normal) {
+        RunColorMode();
+      } else {
+        RunColorConfig();
+      }
       break;
 
     case ControllerMode::DirectPalette:
