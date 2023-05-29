@@ -47,8 +47,9 @@ CountDownTimer startup_battery_timer{3000};
 
 // Cutoff under load. Since the LEDs may draw significant current (2-3A), the
 // under-load voltage could be significantly lower than the battery-empty
-// open-circuit voltage. 3V is a conservative cutoff voltage.
-static constexpr float kBatteryLowCutoff = 3.0;
+// open-circuit voltage. The dropout of the voltage regulator is ~100mV, so this
+// become nonlinear below (Vcc + Vdropout) ~= 3.4V.
+static constexpr float kBatteryLowCutoff = 3.5;
 
 // Once we detect low battery, the battery must hit this voltage before turning
 // back on. This is about 50% charged (open voltage).
