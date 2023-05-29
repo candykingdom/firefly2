@@ -49,7 +49,7 @@ CountDownTimer startup_battery_timer{3000};
 // under-load voltage could be significantly lower than the battery-empty
 // open-circuit voltage. The dropout of the voltage regulator is ~100mV, so this
 // become nonlinear below (Vcc + Vdropout) ~= 3.4V.
-static constexpr float kBatteryLowCutoff = 3.5;
+static constexpr float kBatteryLowCutoff = 3.6;
 
 // Once we detect low battery, the battery must hit this voltage before turning
 // back on. This is about 50% charged (open voltage).
