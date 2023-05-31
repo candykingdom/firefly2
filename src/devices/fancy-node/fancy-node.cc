@@ -10,12 +10,19 @@
 #include <StripDescription.hpp>
 #include <vector>
 
-#include "stm32-lib.h"
-#include "Battery.hpp"
 #include "../../arduino/FastLedManager.hpp"
 #include "../../arduino/RadioHeadRadio.hpp"
 #include "../../generic/NetworkManager.hpp"
 #include "../../generic/RadioStateMachine.hpp"
+#include "Battery.hpp"
+#include "stm32-lib.h"
+
+enum class FancyNodeVersion {
+  V1_1,
+  V1_2,
+};
+
+constexpr FancyNodeVersion kVersion = FancyNodeVersion::V1_2;
 
 constexpr DeviceMode kDeviceMode = DeviceMode::CURRENT_FROM_HEADER;
 
@@ -111,7 +118,16 @@ void LowBatteryMode() {
 }
 
 void setup() {
-  stm32::Clear_nBOOT_SEL();
+  switch (kVersion) {
+    case FancyNodeVersion::V1_1:
+      stm32::Clear_nBOOT_SEL();
+      break;
+
+    case FancyNodeVersion::V1_2:
+      stm32::StartupBootloaderCheck();
+      stm32::Set_nBOOT_SEL();
+      break;
+  }
 
   pinMode(kLedPin, OUTPUT);
   digitalWrite(kLedPin, HIGH);
