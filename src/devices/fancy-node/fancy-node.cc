@@ -10,6 +10,7 @@
 #include <StripDescription.hpp>
 #include <vector>
 
+#include "stm32-lib.h"
 #include "Battery.hpp"
 #include "../../arduino/FastLedManager.hpp"
 #include "../../arduino/RadioHeadRadio.hpp"
@@ -110,25 +111,7 @@ void LowBatteryMode() {
 }
 
 void setup() {
-  // check if nBOOT_SEL bit is set
-  if (FLASH->OPTR & FLASH_OPTR_nBOOT_SEL) {
-    // unlock flash/option
-    FLASH->KEYR = 0x45670123;
-    FLASH->KEYR = 0xCDEF89AB;
-    FLASH->OPTKEYR = 0x08192A3B;
-    FLASH->OPTKEYR = 0x4C5D6E7F;
-
-    while (FLASH->SR & FLASH_SR_BSY1)
-      ;
-
-    // clear nBOOT_SEL bit
-    FLASH->OPTR &= ~FLASH_OPTR_nBOOT_SEL;
-
-    // write
-    FLASH->CR |= FLASH_CR_OPTSTRT;
-    while (FLASH->SR & FLASH_SR_BSY1)
-      ;
-  }
+  stm32::Clear_nBOOT_SEL();
 
   pinMode(kLedPin, OUTPUT);
   digitalWrite(kLedPin, HIGH);
