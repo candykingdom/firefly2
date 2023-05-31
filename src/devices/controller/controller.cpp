@@ -7,7 +7,6 @@
 
 #include <array>
 
-#include "stm32-lib.h"
 #include "Battery.hpp"
 #include "FakeLedManager.hpp"
 #include "analog-button.h"
@@ -16,6 +15,7 @@
 #include "generic/NetworkManager.hpp"
 #include "generic/RadioStateMachine.hpp"
 #include "leds.h"
+#include "stm32-lib.h"
 
 // Which mode of control the device is in
 enum class ControllerMode {

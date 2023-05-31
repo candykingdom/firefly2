@@ -3,7 +3,6 @@
 #include <FlashStorage_STM32.h>
 #include <arduino-timer.h>
 #include <exponential-moving-average-filter.h>
-#include <median-filter.h>
 
 #include <DeviceDescription.hpp>
 #include <Devices.hpp>
@@ -26,9 +25,10 @@ constexpr FancyNodeVersion kVersion = FancyNodeVersion::V1_2;
 
 constexpr DeviceMode kDeviceMode = DeviceMode::CURRENT_FROM_HEADER;
 
+constexpr int kBatteryPin = kVersion == FancyNodeVersion::V1_1 ? PA0 : PA1;
+
 constexpr int kLedPin = PB0;
 constexpr int kNeopixelPin = PA12;
-constexpr int kBatteryPin = PA0;
 constexpr int kButton1 = PB1;
 constexpr int kButton2 = PB2;
 
@@ -40,10 +40,8 @@ FastLedManager *led_manager;
 // Heavy filtering
 static constexpr uint8_t kBatteryFilterAlpha = 1;
 static constexpr uint8_t kBatteryMedianFilterSize = 5;
-MedianFilter<uint16_t, uint16_t, kBatteryMedianFilterSize>
-    battery_median_filter{filter_functions::ForAnalogRead<kBatteryPin>()};
 ExponentialMovingAverageFilter<uint16_t> battery_average_filter{
-    []() { return battery_median_filter.GetFilteredValue(); },
+    filter_functions::ForAnalogRead<kBatteryPin>(),
     kBatteryFilterAlpha};
 bool battery_filters_initialized = false;
 
@@ -70,7 +68,7 @@ FastLedManager *ReadDeviceFromFlash() {
   DeviceDescription *device =
       (DeviceDescription *)malloc(DeviceDescription::kMaxSize);
   if (device == nullptr) {
-    Serial2.println("Failed to malloc DeviceDescription");
+    // Serial2.println("Failed to malloc DeviceDescription");
     return new FastLedManager(Devices::current, &state_machine);
   }
 
@@ -80,8 +78,8 @@ FastLedManager *ReadDeviceFromFlash() {
   }
 
   if (device->check_value != DeviceDescription::kCheckValue) {
-    Serial2.print("Got invalid check value when reading DeviceDescription: ");
-    Serial2.println(device->check_value);
+    // Serial2.print("Got invalid check value when reading DeviceDescription: ");
+    // Serial2.println(device->check_value);
     return new FastLedManager(Devices::current, &state_machine);
   }
   return new FastLedManager(*device, &state_machine);
@@ -98,7 +96,7 @@ void WriteDeviceToFlash() {
   }
 
   if (same) {
-    Serial.println("Current device already written to flash");
+    // Serial.println("Current device already written to flash");
     return;
   }
 
@@ -131,8 +129,8 @@ void setup() {
 
   pinMode(kLedPin, OUTPUT);
   digitalWrite(kLedPin, HIGH);
-  Serial2.begin(115200);
-  Serial2.println("Booting...");
+  // Serial2.begin(115200);
+  // Serial2.println("Booting...");
 
   startup_battery_timer.Reset();
 
@@ -190,17 +188,12 @@ void loop() {
 
   if (startup_battery_timer.Expired()) {
     if (!battery_filters_initialized) {
-      for (uint8_t i = 0; i < kBatteryMedianFilterSize; i++) {
-        battery_median_filter.Run();
-      }
       battery_average_filter.Initialize(analogRead(kBatteryPin));
       battery_average_filter.Run();
 
-      battery_median_filter.SetMinRunInterval(100);
       battery_average_filter.SetMinRunInterval(100);
       battery_filters_initialized = true;
     }
-    battery_median_filter.Run();
     battery_average_filter.Run();
 
     if (!battery_low && battery_average_filter.GetFilteredValue() <
