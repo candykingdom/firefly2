@@ -47,6 +47,7 @@ enum class SubMode {
 };
 SubMode sub_mode = SubMode::Normal;
 SubMode prev_sub_mode = SubMode::Normal;
+uint8_t normal_carousel = 0;
 uint8_t config_carousel = 0;
 
 // Pin definitions
@@ -124,10 +125,29 @@ MedianFilter<uint16_t, uint16_t, 5> mode_switch(
 
 // TODO(adam): add pagination for color and palette mode
 // Colors for color mode
-std::array<CHSV, 6> colors = {
-    CHSV{0, 255, 255},           CHSV{256 / 6, 255, 255},
-    CHSV{256 * 2 / 6, 255, 255}, CHSV{256 * 3 / 6, 255, 255},
-    CHSV{256 * 4 / 6, 255, 255}, CHSV{256 * 5 / 6, 255, 255}};
+const CHSV kHsvBlack = CHSV{0, 255, 0};
+std::array<std::array<CHSV, 6>, 3> colors = {
+    std::array<CHSV, 6>{
+        CHSV{0, 255, 255}, CHSV{256 / 6, 255, 255}, CHSV{256 * 2 / 6, 255, 255},
+        CHSV{256 * 3 / 6, 255, 255}, CHSV{256 * 4 / 6, 255, 255},
+        CHSV{256 * 5 / 6, 255, 255}},
+    std::array<CHSV, 6>{
+        kHsvBlack,
+        kHsvBlack,
+        kHsvBlack,
+        kHsvBlack,
+        kHsvBlack,
+        kHsvBlack,
+    },
+    std::array<CHSV, 6>{
+        kHsvBlack,
+        kHsvBlack,
+        kHsvBlack,
+        kHsvBlack,
+        kHsvBlack,
+        kHsvBlack,
+    },
+};
 
 // Palette indices for palette mode.
 std::array<uint8_t, 6> palettes = {
@@ -238,14 +258,6 @@ void RunEffectMode() {
 }
 
 void RunColorMode() {
-  for (uint8_t i = 0; i < 36; i++) {
-    if ((i % 12) > 4 && (i % 12) <= 6) {
-      SetMainLed(i, CRGB(0, 0, 0));
-    } else {
-      SetMainLed(i, colors[(i / 6)]);
-    }
-  }
-
   bool pressed = false;
   uint8_t color_index = 0;
   if (left_buttons[0].Rose()) {
@@ -296,10 +308,25 @@ void RunColorMode() {
                        kButtonActiveBrightness);
   }
 
+  for (uint8_t i = 0; i < 3; i++) {
+    if (bottom_buttons[i].Pressed()) {
+      normal_carousel = i;
+    }
+  }
   SetBottomButtonLeds(0, 0, 0);
+  SetBottomButtonLed(normal_carousel + 1, kButtonActiveBrightness);
+
+  for (uint8_t i = 0; i < 36; i++) {
+    if ((i % 12) > 4 && (i % 12) <= 6) {
+      SetMainLed(i, CRGB(0, 0, 0));
+    } else {
+      SetMainLed(i, colors[normal_carousel][(i / 6)]);
+    }
+  }
 
   if (pressed) {
-    control_packet.writeControl(kSetEffectDelay, colors[color_index]);
+    control_packet.writeControl(kSetEffectDelay,
+                                colors[normal_carousel][color_index]);
     state_machine.SetEffect(&control_packet);
   }
 
@@ -331,7 +358,7 @@ void RunColorConfig() {
       if ((i % 12) > 4 && (i % 12) <= 6) {
         SetMainLed(i, CRGB(0, 0, 0));
       } else {
-        SetMainLed(i, colors[(i / 6)]);
+        SetMainLed(i, colors[config_carousel][(i / 6)]);
       }
     }
 
@@ -394,7 +421,8 @@ void RunColorConfig() {
         // Pressing the blinking bottom button saves the current color. Pressing
         // the other bottom buttons cancels and returns to normal mode.
         if (i == config_carousel) {
-          colors[selected_slot] = CHSV(current_color, current_saturation, 255);
+          colors[config_carousel][selected_slot] =
+              CHSV(current_color, current_saturation, 255);
         }
         sub_mode = SubMode::Normal;
       }
