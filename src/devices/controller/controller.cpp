@@ -13,7 +13,6 @@
 #include "analog-button.h"
 #include "arduino/RadioHeadRadio.hpp"
 #include "buttons.h"
-#include "fram.h"
 #include "generic/NetworkManager.hpp"
 #include "generic/RadioStateMachine.hpp"
 #include "leds.h"
@@ -310,7 +309,8 @@ void RunColorConfig() {
   static uint8_t selected_slot = 255;
   static uint8_t current_color = 0;
   static uint8_t current_saturation = 255;
-  static constexpr uint8_t kColorStep = 256 / 16;
+  static constexpr uint8_t kColorPressStep = 256 / 16;
+  static constexpr uint8_t kColorHeldStep = 1;
 
   if (sub_mode == SubMode::ChooseSlot) {
     SetLeftButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
@@ -336,19 +336,43 @@ void RunColorConfig() {
     }
     if (selected_slot != 255) {
       sub_mode = SubMode::ChooseItem;
+      left_buttons[0].SetRepeatDelay(30);
+      left_buttons[1].SetRepeatDelay(30);
+      right_buttons[0].SetRepeatDelay(30);
+      right_buttons[1].SetRepeatDelay(30);
     }
 
   } else {
-    if (left_buttons[0].Rose()) {
-      current_color = current_color - kColorStep;
-    } else if (right_buttons[0].Rose()) {
-      current_color = current_color + kColorStep;
+    if (left_buttons[0].Pressed()) {
+      current_color = current_color - kColorPressStep;
+    } else if (left_buttons[0].Held() || left_buttons[0].Repeated()) {
+      current_color = current_color - kColorHeldStep;
+    } else if (right_buttons[0].Pressed()) {
+      current_color = current_color + kColorPressStep;
+    } else if (right_buttons[0].Held() || right_buttons[0].Repeated()) {
+      current_color = current_color + kColorHeldStep;
     }
 
-    if (left_buttons[1].Rose()) {
-      current_saturation = current_saturation - kColorStep;
-    } else if (right_buttons[1].Rose()) {
-      current_saturation = current_saturation + kColorStep;
+    if (left_buttons[1].Pressed()) {
+      if (current_saturation < kColorPressStep) {
+        // When wrapping around from low saturation to high saturation, force
+        // the saturation to full.
+        current_saturation = 255;
+      } else {
+        current_saturation = current_saturation - kColorPressStep;
+      }
+    } else if (left_buttons[1].Held() || left_buttons[1].Repeated()) {
+      current_saturation = current_saturation - kColorHeldStep;
+    } else if (right_buttons[1].Pressed()) {
+      // When wrapping around from high saturation to low, force the saturation
+      // to 0.
+      if (current_saturation > (255 - kColorPressStep)) {
+        current_saturation = 0;
+      } else {
+        current_saturation = current_saturation + kColorPressStep;
+      }
+    } else if (right_buttons[1].Held() || right_buttons[1].Repeated()) {
+      current_saturation = current_saturation + kColorHeldStep;
     }
 
     if (bottom_buttons[0].Rose()) {
