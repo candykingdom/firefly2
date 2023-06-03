@@ -9,6 +9,31 @@ extern RadioPacket control_packet;
 extern RadioStateMachine state_machine;
 extern uint8_t kSetEffectDelay;
 
+// Colors for color mode
+const CHSV kHsvBlack = CHSV{0, 255, 0};
+std::array<std::array<CHSV, 6>, 3> colors = {
+    std::array<CHSV, 6>{
+        CHSV{0, 255, 255}, CHSV{256 / 6, 255, 255}, CHSV{256 * 2 / 6, 255, 255},
+        CHSV{256 * 3 / 6, 255, 255}, CHSV{256 * 4 / 6, 255, 255},
+        CHSV{256 * 5 / 6, 255, 255}},
+    std::array<CHSV, 6>{
+        kHsvBlack,
+        kHsvBlack,
+        kHsvBlack,
+        kHsvBlack,
+        kHsvBlack,
+        kHsvBlack,
+    },
+    std::array<CHSV, 6>{
+        kHsvBlack,
+        kHsvBlack,
+        kHsvBlack,
+        kHsvBlack,
+        kHsvBlack,
+        kHsvBlack,
+    },
+};
+
 void RunColorMode() {
   bool pressed = false;
   uint8_t color_index = 0;
@@ -194,27 +219,3 @@ void RunColorConfig() {
     }
   }
 }
-
-const CHSV kHsvBlack = CHSV{0, 255, 0};
-std::array<std::array<CHSV, 6>, 3> colors = {
-    std::array<CHSV, 6>{
-        CHSV{0, 255, 255}, CHSV{256 / 6, 255, 255}, CHSV{256 * 2 / 6, 255, 255},
-        CHSV{256 * 3 / 6, 255, 255}, CHSV{256 * 4 / 6, 255, 255},
-        CHSV{256 * 5 / 6, 255, 255}},
-    std::array<CHSV, 6>{
-        kHsvBlack,
-        kHsvBlack,
-        kHsvBlack,
-        kHsvBlack,
-        kHsvBlack,
-        kHsvBlack,
-    },
-    std::array<CHSV, 6>{
-        kHsvBlack,
-        kHsvBlack,
-        kHsvBlack,
-        kHsvBlack,
-        kHsvBlack,
-        kHsvBlack,
-    },
-};
