@@ -9,6 +9,8 @@ extern RadioPacket control_packet;
 extern RadioStateMachine state_machine;
 extern uint8_t kSetEffectDelay;
 
+constexpr uint32_t kRepeatDelay = 30;
+
 // Colors for color mode
 const CHSV kHsvBlack = CHSV{0, 255, 0};
 std::array<std::array<CHSV, 6>, 3> colors = {
@@ -33,6 +35,16 @@ std::array<std::array<CHSV, 6>, 3> colors = {
         kHsvBlack,
     },
 };
+
+void WriteColorsToMainLeds() {
+  for (uint8_t i = 0; i < 36; i++) {
+    if ((i % 12) > 4 && (i % 12) <= 6) {
+      SetMainLed(i, CRGB(0, 0, 0));
+    } else {
+      SetMainLed(i, colors[color_carousel][(i / 6)]);
+    }
+  }
+}
 
 void RunColorMode() {
   bool pressed = false;
@@ -93,13 +105,7 @@ void RunColorMode() {
   SetBottomButtonLeds(0, 0, 0);
   SetBottomButtonLed(color_carousel + 1, kButtonActiveBrightness);
 
-  for (uint8_t i = 0; i < 36; i++) {
-    if ((i % 12) > 4 && (i % 12) <= 6) {
-      SetMainLed(i, CRGB(0, 0, 0));
-    } else {
-      SetMainLed(i, colors[color_carousel][(i / 6)]);
-    }
-  }
+  WriteColorsToMainLeds();
 
   if (pressed) {
     control_packet.writeControl(kSetEffectDelay,
@@ -122,7 +128,7 @@ void RunColorConfig() {
   static constexpr uint8_t kColorPressStep = 256 / 16;
   static constexpr uint8_t kColorHeldStep = 1;
 
-  uint8_t blink_brightness = (millis() / 500) % 2 == 0
+  uint8_t blink_brightness = (millis() / kButtonBlinkPeriod) % 2 == 0
                                  ? kButtonBlinkBrightness
                                  : kButtonActiveBrightness;
 
@@ -131,13 +137,7 @@ void RunColorConfig() {
     SetRightButtonLeds(blink_brightness, blink_brightness, blink_brightness);
     SetBottomButtonLeds(0, 0, 0);
     SetBottomButtonLed(config_carousel + 1, kButtonActiveBrightness);
-    for (uint8_t i = 0; i < 36; i++) {
-      if ((i % 12) > 4 && (i % 12) <= 6) {
-        SetMainLed(i, CRGB(0, 0, 0));
-      } else {
-        SetMainLed(i, colors[config_carousel][(i / 6)]);
-      }
-    }
+    WriteColorsToMainLeds();
 
     selected_slot = 255;
     for (uint8_t i = 0; i < 3; ++i) {
@@ -154,10 +154,10 @@ void RunColorConfig() {
     }
     if (selected_slot != 255) {
       sub_mode = SubMode::ChooseItem;
-      left_buttons[0].SetRepeatDelay(30);
-      left_buttons[1].SetRepeatDelay(30);
-      right_buttons[0].SetRepeatDelay(30);
-      right_buttons[1].SetRepeatDelay(30);
+      left_buttons[0].SetRepeatDelay(kRepeatDelay);
+      left_buttons[1].SetRepeatDelay(kRepeatDelay);
+      right_buttons[0].SetRepeatDelay(kRepeatDelay);
+      right_buttons[1].SetRepeatDelay(kRepeatDelay);
     }
 
   } else {
@@ -194,7 +194,7 @@ void RunColorConfig() {
     }
 
     for (uint8_t i = 0; i < 3; i++) {
-      if (bottom_buttons[i].Rose()) {
+      if (bottom_buttons[i].Pressed()) {
         // Pressing the blinking bottom button saves the current color. Pressing
         // the other bottom buttons cancels and returns to normal mode.
         if (i == config_carousel) {
@@ -211,11 +211,14 @@ void RunColorConfig() {
     SetBottomButtonLeds(0, 0, 0);
     SetBottomButtonLed(config_carousel + 1, blink_brightness);
 
+    const CHSV current_hsv = CHSV(current_color, current_saturation, 255);
     for (uint8_t i = 0; i < 12; i++) {
-      SetMainLed(i, CHSV(current_color, current_saturation, 255));
+      SetMainLed(i, current_hsv);
     }
     for (uint8_t i = 12; i < 36; i++) {
       SetMainLed(i, CRGB(0, 0, 0));
     }
+    // Light one LED in the second row as an indicator for saturation level
+    SetMainLed(12 + (current_saturation * 12 / 256), current_hsv);
   }
 }

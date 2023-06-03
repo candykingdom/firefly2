@@ -14,6 +14,8 @@ extern RadioPacket set_effect_packet;
 extern RadioStateMachine state_machine;
 extern uint8_t kSetEffectDelay;
 
+constexpr uint32_t kRepeatDelay = 500;
+
 // Palette indices for palette mode.
 std::array<std::array<uint8_t, 6>, 3> palettes = {
     std::array<uint8_t, 6>{8, 9, 10, 11, 12, 13},
@@ -120,7 +122,7 @@ void RunPaletteConfig() {
   static uint8_t selected_slot = 255;
   static uint8_t current_palette = 0;
 
-  uint8_t blink_brightness = (millis() / 500) % 2 == 0
+  uint8_t blink_brightness = (millis() / kButtonBlinkPeriod) % 2 == 0
                                  ? kButtonBlinkBrightness
                                  : kButtonActiveBrightness;
 
@@ -146,8 +148,8 @@ void RunPaletteConfig() {
     }
     if (selected_slot != 255) {
       sub_mode = SubMode::ChooseItem;
-      left_buttons[0].SetRepeatDelay(300);
-      right_buttons[0].SetRepeatDelay(300);
+      left_buttons[0].SetRepeatDelay(kRepeatDelay);
+      right_buttons[0].SetRepeatDelay(kRepeatDelay);
     }
 
   } else {
@@ -160,7 +162,7 @@ void RunPaletteConfig() {
     }
 
     for (uint8_t i = 0; i < 3; i++) {
-      if (bottom_buttons[i].Rose()) {
+      if (bottom_buttons[i].Pressed()) {
         // Pressing the blinking bottom button saves the current color. Pressing
         // the other bottom buttons cancels and returns to normal mode.
         if (i == config_carousel) {

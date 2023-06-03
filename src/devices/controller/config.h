@@ -19,3 +19,5 @@ extern SubMode prev_sub_mode;
 extern uint8_t color_carousel;
 extern uint8_t palette_carousel;
 extern uint8_t config_carousel;
+
+constexpr uint32_t kButtonBlinkPeriod = 500;
