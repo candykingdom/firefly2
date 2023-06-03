@@ -125,6 +125,7 @@ void RunColorConfig() {
   static uint8_t selected_slot = 255;
   static uint8_t current_color = 0;
   static uint8_t current_saturation = 255;
+  static uint8_t current_value = 255;
   static constexpr uint8_t kColorPressStep = 256 / 16;
   static constexpr uint8_t kColorHeldStep = 1;
 
@@ -156,11 +157,14 @@ void RunColorConfig() {
       sub_mode = SubMode::ChooseItem;
       left_buttons[0].SetRepeatDelay(kRepeatDelay);
       left_buttons[1].SetRepeatDelay(kRepeatDelay);
+      left_buttons[2].SetRepeatDelay(kRepeatDelay);
       right_buttons[0].SetRepeatDelay(kRepeatDelay);
       right_buttons[1].SetRepeatDelay(kRepeatDelay);
+      right_buttons[2].SetRepeatDelay(kRepeatDelay);
     }
 
   } else {
+    // Hue
     if (left_buttons[0].Pressed()) {
       current_color = current_color - kColorPressStep;
     } else if (left_buttons[0].Held() || left_buttons[0].Repeated()) {
@@ -171,6 +175,7 @@ void RunColorConfig() {
       current_color = current_color + kColorHeldStep;
     }
 
+    // Saturation
     if (left_buttons[1].Pressed()) {
       if (current_saturation < kColorPressStep) {
         // When wrapping around from low saturation to high saturation, force
@@ -193,13 +198,40 @@ void RunColorConfig() {
       current_saturation = current_saturation + kColorHeldStep;
     }
 
+    // Value
+    if (left_buttons[2].Pressed()) {
+      if (current_value < kColorPressStep) {
+        // When wrapping around from low value to high value, force
+        // the value to full.
+        current_value = 255;
+      } else {
+        current_value = current_value - kColorPressStep;
+      }
+    } else if (left_buttons[2].Held() || left_buttons[2].Repeated()) {
+      current_value = current_value - kColorHeldStep;
+    } else if (right_buttons[2].Pressed()) {
+      // When wrapping around from high value to low, force the value
+      // to 0.
+      if (current_value > (255 - kColorPressStep)) {
+        current_value = 0;
+      } else {
+        current_value = current_value + kColorPressStep;
+      }
+    } else if (right_buttons[2].Held() || right_buttons[2].Repeated()) {
+      current_value = current_value + kColorHeldStep;
+    }
+    if (current_value < 4) {
+      current_value = 0;
+    }
+
+    const CHSV current_hsv =
+        CHSV(current_color, current_saturation, current_value);
     for (uint8_t i = 0; i < 3; i++) {
       if (bottom_buttons[i].Pressed()) {
         // Pressing the blinking bottom button saves the current color. Pressing
         // the other bottom buttons cancels and returns to normal mode.
         if (i == config_carousel) {
-          colors[config_carousel][selected_slot] =
-              CHSV(current_color, current_saturation, 255);
+          colors[config_carousel][selected_slot] = current_hsv;
         }
         sub_mode = SubMode::Normal;
       }
@@ -211,14 +243,17 @@ void RunColorConfig() {
     SetBottomButtonLeds(0, 0, 0);
     SetBottomButtonLed(config_carousel + 1, blink_brightness);
 
-    const CHSV current_hsv = CHSV(current_color, current_saturation, 255);
     for (uint8_t i = 0; i < 12; i++) {
       SetMainLed(i, current_hsv);
     }
     for (uint8_t i = 12; i < 36; i++) {
       SetMainLed(i, CRGB(0, 0, 0));
     }
+
+    const CHSV indicator = CHSV(0, 0, 128);
     // Light one LED in the second row as an indicator for saturation level
-    SetMainLed(12 + (current_saturation * 12 / 256), current_hsv);
+    SetMainLed(12 + (current_saturation * 12 / 256), indicator);
+    // Light one LED in the third row as an indicator for saturation level
+    SetMainLed(24 + (current_value * 12 / 256), indicator);
   }
 }
