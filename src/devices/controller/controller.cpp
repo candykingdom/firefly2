@@ -18,6 +18,7 @@
 #include "generic/NetworkManager.hpp"
 #include "generic/RadioStateMachine.hpp"
 #include "leds.h"
+#include "palette-mode.h"
 
 // Which mode of control the device is in
 enum class ControllerMode {
@@ -46,8 +47,6 @@ constexpr int kNeopixelPin = PA_4;
 const StripDescription kRowStrip =
     StripDescription(/*led_count=*/12, {Bright, Controller});
 const DeviceDescription kRowDescription(2000, {kRowStrip});
-const StripDescription kPaletteStrip =
-    StripDescription(/*led_count=*/5, {Bright, Controller});
 
 extern constexpr uint8_t kSetEffectDelay = 60;
 
@@ -66,20 +65,14 @@ NetworkManager nm(&radio);
 RadioStateMachine state_machine(&nm);
 FakeLedManager led_manager(kRowDescription, &state_machine);
 
-DisplayColorPaletteEffect palette_effect;
-
 uint8_t effect_index = 0;
 uint8_t palette_index = 0;
 RadioPacket set_effect_packet;
 RadioPacket control_packet;
+DisplayColorPaletteEffect palette_effect;
 
 MedianFilter<uint16_t, uint16_t, 5> mode_switch(
     filter_functions::ForAnalogRead<kModeSwitch>());
-
-// Palette indices for palette mode.
-std::array<uint8_t, 6> palettes = {
-    8, 9, 10, 11, 12, 13,
-};
 
 // On controller v1.1, the filter cap on the battery voltage divider has a time
 // constant of ~0.5s, so when the device is cold-booted, it takes a couple of
@@ -182,79 +175,6 @@ void RunEffectMode() {
 
   // Update "sending" status LED.
   leds[kStatusRight] = CRGB(0, 0, broadcast_led_timer.Active() ? 255 : 0);
-}
-
-void RunPaletteMode() {
-  for (uint8_t i = 0; i < 36; i++) {
-    if ((i % 12) > 4 && (i % 12) <= 6) {
-      SetMainLed(i, CRGB(0, 0, 0));
-    } else {
-      set_effect_packet.writeSetEffect(/*effect_index=*/0, /*delay=*/1,
-                                       /*palette_index=*/palettes[i / 6]);
-      uint8_t led_index = (i % 6);
-      SetMainLed(
-          i, palette_effect.GetRGB(led_index, state_machine.GetNetworkMillis(),
-                                   kPaletteStrip, &set_effect_packet));
-    }
-  }
-
-  bool pressed = false;
-  uint8_t palette_index = 0;
-  if (left_buttons[0].Rose()) {
-    pressed = true;
-    palette_index = 0;
-  } else if (left_buttons[1].Rose()) {
-    pressed = true;
-    palette_index = 2;
-  } else if (left_buttons[2].Rose()) {
-    pressed = true;
-    palette_index = 4;
-  } else if (right_buttons[0].Rose()) {
-    pressed = true;
-    palette_index = 1;
-  } else if (right_buttons[1].Rose()) {
-    pressed = true;
-    palette_index = 3;
-  } else if (right_buttons[2].Rose()) {
-    pressed = true;
-    palette_index = 5;
-  }
-
-  if (left_buttons[0].Rose()) {
-    SetLeftButtonLeds(kButtonPressedBrightness, kButtonActiveBrightness,
-                      kButtonActiveBrightness);
-  } else if (left_buttons[1].Rose()) {
-    SetLeftButtonLeds(kButtonActiveBrightness, kButtonPressedBrightness,
-                      kButtonActiveBrightness);
-  } else if (left_buttons[2].Rose()) {
-    SetLeftButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
-                      kButtonPressedBrightness);
-  } else {
-    SetLeftButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
-                      kButtonActiveBrightness);
-  }
-
-  if (right_buttons[0].Rose()) {
-    SetRightButtonLeds(kButtonPressedBrightness, kButtonActiveBrightness,
-                       kButtonActiveBrightness);
-  } else if (right_buttons[1].Rose()) {
-    SetRightButtonLeds(kButtonActiveBrightness, kButtonPressedBrightness,
-                       kButtonActiveBrightness);
-  } else if (right_buttons[2].Rose()) {
-    SetRightButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
-                       kButtonPressedBrightness);
-  } else {
-    SetRightButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
-                       kButtonActiveBrightness);
-  }
-
-  SetBottomButtonLeds(0, 0, 0);
-
-  if (pressed) {
-    set_effect_packet.writeSetEffect(state_machine.GetEffectIndex(),
-                                     kSetEffectDelay, palettes[palette_index]);
-    state_machine.SetEffect(&set_effect_packet);
-  }
 }
 
 // See
