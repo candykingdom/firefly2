@@ -312,23 +312,30 @@ void RunColorConfig() {
   static constexpr uint8_t kColorPressStep = 256 / 16;
   static constexpr uint8_t kColorHeldStep = 1;
 
+  uint8_t blink_brightness = (millis() / 500) % 2 == 0
+                                 ? kButtonBlinkBrightness
+                                 : kButtonActiveBrightness;
+
   if (sub_mode == SubMode::ChooseSlot) {
-    SetLeftButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
-                      kButtonActiveBrightness);
-    SetRightButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
-                       kButtonActiveBrightness);
+    SetLeftButtonLeds(blink_brightness, blink_brightness, blink_brightness);
+    SetRightButtonLeds(blink_brightness, blink_brightness, blink_brightness);
+    SetBottomButtonLeds(kButtonActiveBrightness, 0, 0);
     for (uint8_t i = 0; i < 36; i++) {
-      SetMainLed(i, CRGB(0, 0, 0));
+      if ((i % 12) > 4 && (i % 12) <= 6) {
+        SetMainLed(i, CRGB(0, 0, 0));
+      } else {
+        SetMainLed(i, colors[(i / 6)]);
+      }
     }
 
     selected_slot = 255;
     for (uint8_t i = 0; i < 3; ++i) {
-      if (left_buttons[i].Rose()) {
+      if (left_buttons[i].Pressed()) {
         SetLeftButtonLed(i, kButtonPressedBrightness);
         selected_slot = i * 2;
         break;
       }
-      if (right_buttons[i].Rose()) {
+      if (right_buttons[i].Pressed()) {
         SetRightButtonLed(i, kButtonPressedBrightness);
         selected_slot = i * 2 + 1;
         break;
@@ -382,6 +389,9 @@ void RunColorConfig() {
     SetLeftButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness, 0);
     SetRightButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness, 0);
 
+    // Blink the carousel button
+    SetBottomButtonLeds(blink_brightness, 0, 0);
+
     for (uint8_t i = 0; i < 12; i++) {
       SetMainLed(i, CHSV(current_color, current_saturation, 255));
     }
@@ -389,9 +399,6 @@ void RunColorConfig() {
       SetMainLed(i, CRGB(0, 0, 0));
     }
   }
-
-  // Blink the carousel button
-  SetBottomButtonLeds((millis() / 500) % 2 == 0 ? 192 : 96, 0, 0);
 }
 
 void RunPaletteMode() {

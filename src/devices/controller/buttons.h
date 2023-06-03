@@ -9,6 +9,7 @@ constexpr uint8_t kRightButtonLed = 39;
 constexpr uint8_t kBottomButtonLed = 40;
 
 constexpr uint8_t kButtonActiveBrightness = 64;
+constexpr uint8_t kButtonBlinkBrightness = 128;
 constexpr uint8_t kButtonPressedBrightness = 255;
 
 // button_index: 1-3
