@@ -39,12 +39,15 @@ enum class SubMode {
   // Normal operation
   Normal,
 
+  // Config step: choose which slot to change
   ChooseSlot,
 
+  // Config step: select the item to go in the chosen slot
   ChooseItem,
 };
 SubMode sub_mode = SubMode::Normal;
 SubMode prev_sub_mode = SubMode::Normal;
+uint8_t config_carousel = 0;
 
 // Pin definitions
 constexpr std::array<uint8_t, 3> kLeftButtons = {PB2, PB14, PB15};
@@ -300,8 +303,11 @@ void RunColorMode() {
     state_machine.SetEffect(&control_packet);
   }
 
-  if (bottom_buttons[0].Held()) {
-    sub_mode = SubMode::ChooseSlot;
+  for (uint8_t i = 0; i < 3; i++) {
+    if (bottom_buttons[i].Held()) {
+      sub_mode = SubMode::ChooseSlot;
+      config_carousel = i;
+    }
   }
 }
 
@@ -319,7 +325,8 @@ void RunColorConfig() {
   if (sub_mode == SubMode::ChooseSlot) {
     SetLeftButtonLeds(blink_brightness, blink_brightness, blink_brightness);
     SetRightButtonLeds(blink_brightness, blink_brightness, blink_brightness);
-    SetBottomButtonLeds(kButtonActiveBrightness, 0, 0);
+    SetBottomButtonLeds(0, 0, 0);
+    SetBottomButtonLed(config_carousel + 1, kButtonActiveBrightness);
     for (uint8_t i = 0; i < 36; i++) {
       if ((i % 12) > 4 && (i % 12) <= 6) {
         SetMainLed(i, CRGB(0, 0, 0));
@@ -382,15 +389,22 @@ void RunColorConfig() {
       current_saturation = current_saturation + kColorHeldStep;
     }
 
-    if (bottom_buttons[0].Rose()) {
-      colors[selected_slot] = CHSV(current_color, current_saturation, 255);
-      sub_mode = SubMode::Normal;
+    for (uint8_t i = 0; i < 3; i++) {
+      if (bottom_buttons[i].Rose()) {
+        // Pressing the blinking bottom button saves the current color. Pressing
+        // the other bottom buttons cancels and returns to normal mode.
+        if (i == config_carousel) {
+          colors[selected_slot] = CHSV(current_color, current_saturation, 255);
+        }
+        sub_mode = SubMode::Normal;
+      }
     }
     SetLeftButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness, 0);
     SetRightButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness, 0);
 
     // Blink the carousel button
-    SetBottomButtonLeds(blink_brightness, 0, 0);
+    SetBottomButtonLeds(0, 0, 0);
+    SetBottomButtonLed(config_carousel + 1, blink_brightness);
 
     for (uint8_t i = 0; i < 12; i++) {
       SetMainLed(i, CHSV(current_color, current_saturation, 255));
