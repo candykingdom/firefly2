@@ -405,7 +405,11 @@ void loop() {
       break;
 
     case ControllerMode::DirectPalette:
-      RunPaletteMode();
+      if (sub_mode == SubMode::Normal) {
+        RunPaletteMode();
+      } else {
+        RunPaletteConfig();
+      }
       break;
   }
 

@@ -87,23 +87,23 @@ void RunColorMode() {
 
   for (uint8_t i = 0; i < 3; i++) {
     if (bottom_buttons[i].Pressed()) {
-      normal_carousel = i;
+      color_carousel = i;
     }
   }
   SetBottomButtonLeds(0, 0, 0);
-  SetBottomButtonLed(normal_carousel + 1, kButtonActiveBrightness);
+  SetBottomButtonLed(color_carousel + 1, kButtonActiveBrightness);
 
   for (uint8_t i = 0; i < 36; i++) {
     if ((i % 12) > 4 && (i % 12) <= 6) {
       SetMainLed(i, CRGB(0, 0, 0));
     } else {
-      SetMainLed(i, colors[normal_carousel][(i / 6)]);
+      SetMainLed(i, colors[color_carousel][(i / 6)]);
     }
   }
 
   if (pressed) {
     control_packet.writeControl(kSetEffectDelay,
-                                colors[normal_carousel][color_index]);
+                                colors[color_carousel][color_index]);
     state_machine.SetEffect(&control_packet);
   }
 
