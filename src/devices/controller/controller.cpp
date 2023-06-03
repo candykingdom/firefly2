@@ -5,11 +5,9 @@
 #include <arduino-timer.h>
 #include <button-filter.h>
 #include <median-filter.h>
-#include <Wire.h>
 
 #include <array>
 
-#include "fram.h"
 #include "Battery.hpp"
 #include "FakeLedManager.hpp"
 #include "analog-button.h"
@@ -17,6 +15,7 @@
 #include "buttons.h"
 #include "color-mode.h"
 #include "config.h"
+#include "fram.h"
 #include "generic/NetworkManager.hpp"
 #include "generic/RadioStateMachine.hpp"
 #include "leds.h"
@@ -344,6 +343,9 @@ void setup() {
   Wire.setSDA(kSda);
   Wire.begin();
   Wire.setClock(1000000);
+
+  MaybeLoadColorConfig();
+  MaybeLoadPaletteConfig();
 }
 
 void loop() {

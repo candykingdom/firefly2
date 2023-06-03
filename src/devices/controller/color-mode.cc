@@ -2,6 +2,7 @@
 
 #include "Types.hpp"
 #include "buttons.h"
+#include "fram.h"
 #include "generic/RadioStateMachine.hpp"
 #include "leds.h"
 
@@ -10,6 +11,9 @@ extern RadioStateMachine state_machine;
 extern uint8_t kSetEffectDelay;
 
 constexpr uint32_t kRepeatDelay = 30;
+constexpr uint8_t kColorConfigPage = 0;
+constexpr uint8_t kColorConfigWord = 0;
+constexpr std::array<uint8_t, 4> kColorInitialized = {0xDE, 0xAD, 0xBE, 0xEF};
 
 // Colors for color mode
 const CHSV kHsvBlack = CHSV{0, 255, 0};
@@ -35,6 +39,16 @@ std::array<std::array<CHSV, 6>, 3> colors = {
         kHsvBlack,
     },
 };
+
+void MaybeLoadColorConfig() {
+  std::array<uint8_t, 4> fram_init;
+  fram::Read(kColorConfigPage, kColorConfigWord, fram_init.data(),
+             sizeof(fram_init));
+  if (fram_init == kColorInitialized) {
+    fram::Read(kColorConfigPage, kColorConfigWord + sizeof(kColorInitialized),
+               reinterpret_cast<uint8_t*>(colors.data()), sizeof(colors));
+  }
+}
 
 void WriteColorsToMainLeds() {
   for (uint8_t i = 0; i < 36; i++) {
@@ -233,6 +247,12 @@ void RunColorConfig() {
         if (i == config_carousel) {
           colors[config_carousel][selected_slot] = current_hsv;
         }
+        fram::Write(kColorConfigPage,
+                    kColorConfigWord + sizeof(kColorInitialized),
+                    reinterpret_cast<uint8_t*>(colors.data()), sizeof(colors));
+        fram::Write(kColorConfigPage, kColorConfigWord,
+                    reinterpret_cast<const uint8_t*>(kColorInitialized.data()),
+                    sizeof(kColorInitialized));
         sub_mode = SubMode::Normal;
       }
     }
