@@ -418,7 +418,11 @@ void setup() {
    */
   STM32RTC &rtc = STM32RTC::getInstance();
   rtc.begin(/*resetTime=*/false);
-  if (rtc.getEpoch() == kEpochTimer) {
+  // The CH340X triggers a reset on initial power-up. If the reset delay is less
+  // than 100ms, don't enter the bootloader, so that we run the application code
+  // when switched on.
+  uint32_t sub_seconds = rtc.getSubSeconds();
+  if (rtc.getEpoch() == kEpochTimer && sub_seconds > 100) {
     rtc.setEpoch(kEpochReset);
     // This call never returns
     NVIC_SystemReset();
@@ -428,12 +432,13 @@ void setup() {
     JumpToBootloader();
   }
   rtc.setEpoch(kEpochTimer);
+  rtc.setSubSeconds(0);
 
   Serial2.begin(115200);
   // Note: must have a short delay here before printing. The bootloader
   // double-taps the reset line - we can't start writing to serial after the
   // first reset, or the bootloader won't be able to use the serial port.
-  delay(20);
+  delay(200);
   Serial2.println("Booting...");
 
   // check if nBOOT_SEL bit is set
