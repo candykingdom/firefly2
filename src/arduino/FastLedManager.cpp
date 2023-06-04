@@ -23,17 +23,26 @@ void FastLedManager::PlayStartupAnimation() {
   uint16_t led_count = device.GetLedCount();
 
   CRGB white = CRGB(128, 128, 128);
-  for (uint32_t i = 0; i < led_count * 2; ++i) {
-    uint32_t index = i;
-    if (i >= led_count) {
-      index = led_count - (i - led_count);
-    }
+  for (uint32_t i = 0; i < led_count; ++i) {
     FastLED.clear();
-    SetLed(index, white);
+    SetLed(i, white);
     FastLED.show();
     delay(500 / led_count);
   }
-  FastLED.clear(/*writeData=*/true);
+
+  FastLED.clear();
+  for (uint32_t i = 0; i < 256; ++i) {
+    CHSV col = CHSV(i, 255, 128);
+    SetLed(led_count - 1, col);
+    FastLED.show();
+  }
+
+  for (uint32_t i = led_count; i > 0; --i) {
+    FastLED.clear();
+    SetLed(i - 1, white);
+    FastLED.show();
+    delay(500 / led_count);
+  }
 }
 
 void FastLedManager::FatalErrorAnimation() {
