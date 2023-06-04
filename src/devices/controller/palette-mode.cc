@@ -6,6 +6,7 @@
 #include "DisplayColorPaletteEffect.hpp"
 #include "Types.hpp"
 #include "buttons.h"
+#include "fram.h"
 #include "generic/RadioStateMachine.hpp"
 #include "leds.h"
 
@@ -15,6 +16,10 @@ extern RadioStateMachine state_machine;
 extern uint8_t kSetEffectDelay;
 
 constexpr uint32_t kRepeatDelay = 500;
+constexpr uint8_t kPaletteConfigPage = 0;
+// Since color config starts at 0, this leaves 1K each for color and palette config.
+constexpr uint8_t kPaletteConfigWord = 0x80;
+constexpr std::array<uint8_t, 4> kPaletteInitialized = {0xBA, 0xAD, 0xF0, 0x0D};
 
 // Palette indices for palette mode.
 std::array<std::array<uint8_t, 6>, 3> palettes = {
@@ -25,6 +30,17 @@ std::array<std::array<uint8_t, 6>, 3> palettes = {
 
 const StripDescription kPaletteStrip =
     StripDescription(/*led_count=*/5, {Bright, Controller});
+
+void MaybeLoadPaletteConfig() {
+  std::array<uint8_t, 4> fram_init;
+  fram::Read(kPaletteConfigPage, kPaletteConfigWord, fram_init.data(),
+             sizeof(fram_init));
+  if (fram_init == kPaletteInitialized) {
+    fram::Read(kPaletteConfigPage,
+               kPaletteConfigWord + sizeof(kPaletteInitialized),
+               reinterpret_cast<uint8_t*>(palettes.data()), sizeof(palettes));
+  }
+}
 
 void WritePalettesToMainLeds() {
   for (uint8_t i = 0; i < 36; i++) {
@@ -168,6 +184,13 @@ void RunPaletteConfig() {
         if (i == config_carousel) {
           palettes[config_carousel][selected_slot] = current_palette;
         }
+        fram::Write(kPaletteConfigPage,
+                    kPaletteConfigWord + sizeof(kPaletteInitialized),
+                    reinterpret_cast<uint8_t*>(palettes.data()),
+                    sizeof(palettes));
+        fram::Write(kPaletteConfigPage, kPaletteConfigWord,
+                    reinterpret_cast<const uint8_t*>(kPaletteInitialized.data()),
+                    sizeof(kPaletteInitialized));
         sub_mode = SubMode::Normal;
       }
     }

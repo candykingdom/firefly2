@@ -15,6 +15,7 @@
 #include "buttons.h"
 #include "color-mode.h"
 #include "config.h"
+#include "fram.h"
 #include "generic/NetworkManager.hpp"
 #include "generic/RadioStateMachine.hpp"
 #include "leds.h"
@@ -39,6 +40,9 @@ ControllerMode prev_mode = mode;
 // Pin definitions
 constexpr int kModeSwitch = PA6;
 constexpr int kBatteryPin = PA7;
+
+constexpr int kScl = PA9;
+constexpr int kSda = PA10;
 
 // Note: for some reason, `PA4` has a resolved pin number of 196, which confuses
 // FastLED.
@@ -333,6 +337,15 @@ void setup() {
     FastLED.show();
     delay(5000);
   }
+
+  Serial2.println("Initializing Wire");
+  Wire.setSCL(kScl);
+  Wire.setSDA(kSda);
+  Wire.begin();
+  Wire.setClock(1000000);
+
+  MaybeLoadColorConfig();
+  MaybeLoadPaletteConfig();
 }
 
 void loop() {
