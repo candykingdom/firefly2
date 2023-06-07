@@ -22,7 +22,7 @@ void FastLedManager::SetGlobalColor(const CRGB &rgb) { FastLED.showColor(rgb); }
 
 void FastLedManager::PlayStartupAnimation() {
   uint16_t led_count = device.GetLedCount();
- 
+
   uint16_t half_delay = 500 / led_count;
   uint16_t min_delay = led_count / 30 + 1;
 
