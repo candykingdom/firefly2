@@ -1,6 +1,7 @@
 #include "FastLedManager.hpp"
 
 #include <DeviceDescription.hpp>
+#include <algorithm>
 #include <functional>
 #include <numeric>
 
@@ -21,13 +22,16 @@ void FastLedManager::SetGlobalColor(const CRGB &rgb) { FastLED.showColor(rgb); }
 
 void FastLedManager::PlayStartupAnimation() {
   uint16_t led_count = device.GetLedCount();
+ 
+  uint16_t half_delay = 500 / led_count;
+  uint16_t min_delay = led_count / 30 + 1;
 
   CRGB white = CRGB(128, 128, 128);
   for (uint32_t i = 0; i < led_count; ++i) {
     FastLED.clear();
     SetLed(i, white);
     FastLED.show();
-    delay(500 / led_count);
+    delay(std::max(half_delay, min_delay));
   }
 
   FastLED.clear();
@@ -35,14 +39,17 @@ void FastLedManager::PlayStartupAnimation() {
     CHSV col = CHSV(i, 255, 128);
     SetLed(led_count - 1, col);
     FastLED.show();
+    delay(min_delay);
   }
 
   for (uint32_t i = led_count; i > 0; --i) {
     FastLED.clear();
     SetLed(i - 1, white);
     FastLED.show();
-    delay(500 / led_count);
+    delay(std::max(half_delay, min_delay));
   }
+
+  FastLED.clear(/*writeData=*/true);
 }
 
 void FastLedManager::FatalErrorAnimation() {
