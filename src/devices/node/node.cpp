@@ -16,7 +16,7 @@
 
 const int kLedPin = 0;
 
-constexpr DeviceMode kDeviceMode = DeviceMode::READ_FROM_FLASH;
+constexpr DeviceMode kDeviceMode = DeviceMode::CURRENT_FROM_HEADER;
 
 // Note: `RadioHeadRadio` needs to be a pointer - if it's an object, the node
 // crashes upon receiving a packet.
