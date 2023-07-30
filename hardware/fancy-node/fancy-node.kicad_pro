@@ -56,7 +56,15 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        "clearance|92057199|94495699|d494afd2-8f62-418f-bd1b-02e4f0f30053|ac09da0a-4dff-496a-b5a1-d9dea1b05f81",
+        "clearance|93047799|94495699|d494afd2-8f62-418f-bd1b-02e4f0f30053|382a781f-adfb-49ab-82e4-dea652c9462f",
+        "lib_footprint_mismatch|91430000|87499999|d3112c77-38fc-4010-83b1-e577b1a37c7a|00000000-0000-0000-0000-000000000000",
+        "missing_courtyard|54000000|90860000|c5dd44b9-c6de-471d-8ac3-44270108b158|00000000-0000-0000-0000-000000000000",
+        "npth_inside_courtyard|54000000|88320000|796b89b9-2bf4-4b71-adc2-61d23dc03b97|04f016e2-30d0-4c06-9a67-2a09a0a6d4a8",
+        "npth_inside_courtyard|54000000|90860000|6e12525f-355c-4579-bfbf-2a86d9395950|04f016e2-30d0-4c06-9a67-2a09a0a6d4a8",
+        "npth_inside_courtyard|54000000|93400000|2e4cfab6-b4fe-48c4-b259-765af3c23752|04f016e2-30d0-4c06-9a67-2a09a0a6d4a8"
+      ],
       "meta": {
         "version": 2
       },
@@ -85,12 +93,12 @@
         "lib_footprint_mismatch": "warning",
         "malformed_courtyard": "error",
         "microvia_drill_out_of_range": "error",
-        "missing_courtyard": "ignore",
+        "missing_courtyard": "warning",
         "missing_footprint": "warning",
         "net_conflict": "warning",
-        "npth_inside_courtyard": "ignore",
+        "npth_inside_courtyard": "warning",
         "padstack": "error",
-        "pth_inside_courtyard": "ignore",
+        "pth_inside_courtyard": "warning",
         "shorting_items": "error",
         "silk_edge_clearance": "ignore",
         "silk_over_copper": "ignore",
@@ -176,6 +184,7 @@
       ],
       "track_widths": [
         0.0,
+        0.13,
         0.15,
         0.2,
         0.25,
@@ -414,10 +423,10 @@
       "no_connect_dangling": "warning",
       "pin_not_connected": "error",
       "pin_not_driven": "error",
-      "pin_to_pin": "warning",
+      "pin_to_pin": "error",
       "power_pin_not_driven": "error",
       "similar_labels": "warning",
-      "simulation_model_issue": "error",
+      "simulation_model_issue": "ignore",
       "unannotated": "error",
       "unit_value_mismatch": "error",
       "unresolved_variable": "error",
