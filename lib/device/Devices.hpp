@@ -38,6 +38,17 @@ const DeviceDescription will_top_hat = SimpleRfBoardDescription(50, {Circular});
 const DeviceDescription bike_front = SimpleRfBoardDescription(18, {Circular});
 const DeviceDescription hex_light =
     SimpleRfBoardDescription(12, {Circular, Tiny});
+const DeviceDescription half_matrix_panel = DeviceDescription(
+    RF_BOARD_MA_SUPPORTED, {
+                               StripDescription(16, {}),
+                               StripDescription(16, {Reversed}),
+                               StripDescription(16, {}),
+                               StripDescription(16, {Reversed}),
+                               StripDescription(16, {}),
+                               StripDescription(16, {Reversed}),
+                               StripDescription(16, {}),
+                               StripDescription(16, {Reversed}),
+                           });
 
 // Modify this variable to easily switch between devices.
 const DeviceDescription &current = bike;
