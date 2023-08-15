@@ -18,7 +18,7 @@ void FakeLedManager::SetGlobalColor(const CRGB &rgb) {
   }
 }
 
-CRGB FakeLedManager::GetLed(uint8_t led_index) {
+CRGB FakeLedManager::GetLed(uint16_t led_index) {
 #ifndef ARDUINO
   assert(led_index < led_count);
 #endif
@@ -41,7 +41,7 @@ void FakeLedManager::PublicAddEffect(Effect *effect, uint8_t proportion) {
   AddEffect(effect, proportion);
 }
 
-void FakeLedManager::SetLed(uint8_t led_index, const CRGB &rgb) {
+void FakeLedManager::SetLed(uint16_t led_index, const CRGB &rgb) {
 #ifndef ARDUINO
   assert(led_index < led_count);
 #endif

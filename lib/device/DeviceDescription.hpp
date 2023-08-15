@@ -27,7 +27,7 @@ class DeviceDescription {
   explicit DeviceDescription(const uint32_t milliamps_supported,
                              const std::vector<StripDescription> strips);
 
-  uint8_t GetLedCount() const;
+  uint16_t GetLedCount() const;
 
   static constexpr uint32_t kCheckValue = 0x12345678;
 

@@ -13,7 +13,7 @@ class FakeLedManager : public LedManager {
                           RadioStateMachine *state_machine);
   ~FakeLedManager();
 
-  CRGB GetLed(uint8_t led_index);
+  CRGB GetLed(uint16_t led_index);
 
   void SetGlobalColor(const CRGB &rgb) override;
 
@@ -21,12 +21,12 @@ class FakeLedManager : public LedManager {
   void PublicAddEffect(Effect *effect, uint8_t proportion);
 
  protected:
-  void SetLed(uint8_t led_index, const CRGB &rgb) override;
+  void SetLed(uint16_t led_index, const CRGB &rgb) override;
 
   void WriteOutLeds() override;
 
  private:
-  uint8_t led_count;
+  uint16_t led_count;
 
   // Note: this looks like a pointer, but is actually an array of size num_leds
   CRGB *leds;

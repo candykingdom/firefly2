@@ -10,7 +10,7 @@ RorschachEffect::RorschachEffect() : Effect() {
   offset = random16();
 }
 
-CRGB RorschachEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
+CRGB RorschachEffect::GetRGB(uint16_t led_index, uint32_t time_ms,
                              const StripDescription &strip,
                              RadioPacket *setEffectPacket) const {
   const uint8_t palette_index =

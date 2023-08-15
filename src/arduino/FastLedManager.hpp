@@ -20,7 +20,7 @@ class FastLedManager : public LedManager {
   // Blinks the LEDs red. Never returns; call upon unrecoverable error.
   void FatalErrorAnimation();
 
-  void SetLed(uint8_t led_index, const CRGB &rgb) override;
+  void SetLed(uint16_t led_index, const CRGB &rgb) override;
 
   void SetOnboardLed(const CRGB &rgb);
 

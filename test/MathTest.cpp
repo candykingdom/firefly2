@@ -65,8 +65,8 @@ TEST(Math, shouldMirrorIndicies) {
   };
 
   for (auto it = cases.begin(); it != cases.end(); ++it) {
-    uint8_t led_index = (*it)[0];
-    uint8_t led_count = (*it)[1];
+    uint16_t led_index = (*it)[0];
+    uint16_t led_count = (*it)[1];
     MirrorIndex(&led_index, &led_count);
     std::string run_desc = "(index: " + std::to_string((*it)[0]) +
                            ", count: " + std::to_string((*it)[1]) + ")";

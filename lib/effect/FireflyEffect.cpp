@@ -9,7 +9,7 @@ FireflyEffect::FireflyEffect() : Effect() {
   offset_ = random(0, kBlinkPeriod / 2);
 }
 
-CRGB FireflyEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
+CRGB FireflyEffect::GetRGB(uint16_t led_index, uint32_t time_ms,
                            const StripDescription &strip,
                            RadioPacket *setEffectPacket) const {
   uint32_t offset = offset_;

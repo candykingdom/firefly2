@@ -10,7 +10,7 @@ class FireflyEffect : public Effect {
  public:
   FireflyEffect();
 
-  CRGB GetRGB(uint8_t led_index, uint32_t time_ms,
+  CRGB GetRGB(uint16_t led_index, uint32_t time_ms,
               const StripDescription &strip,
               RadioPacket *setEffectPacket) const override;
 

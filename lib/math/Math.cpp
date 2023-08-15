@@ -3,7 +3,7 @@
 #include <Types.hpp>
 #include <cstdio>
 
-void GetPosOnCircle(uint8_t led_count, uint8_t led_index, uint8_t *angle,
+void GetPosOnCircle(uint16_t led_count, uint16_t led_index, uint8_t *angle,
                     uint8_t *radius) {
   uint32_t tau = 6283;
   uint32_t circum = led_count * 32;
@@ -11,10 +11,10 @@ void GetPosOnCircle(uint8_t led_count, uint8_t led_index, uint8_t *angle,
   *radius = (circum * 1000) / tau;
 }
 
-void MirrorIndex(uint8_t *led_index, uint8_t *led_count) {
+void MirrorIndex(uint16_t *led_index, uint16_t *led_count) {
   *led_index %= *led_count;
 
-  uint8_t new_count = (*led_count + 1) / 2;
+  uint16_t new_count = (*led_count + 1) / 2;
 
   if (*led_index >= new_count) {
     *led_index = *led_count - *led_index - 1;
