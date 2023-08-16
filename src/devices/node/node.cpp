@@ -126,8 +126,8 @@ void setup() {
   // Documentation for this field here:
   // http://asf.atmel.com/docs/latest/samd20/html/group__asfdoc__sam0__wdt__group.html
   WDT->CONFIG.bit.PER =
-      9;  // WDT clock runs at ~32kHz (effective). A value of 9 means 4096
-          // cycles, which means a period of ~128ms.
+      0xB;  // WDT clock runs at ~32kHz (effective). A value of 0xB means 16384
+          // cycles, which means a period of ~512ms.
   WDT->CTRL.bit.WEN = 0;  // Disable window mode
   while (WDT->STATUS.bit.SYNCBUSY) {
   }

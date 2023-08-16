@@ -7,7 +7,7 @@ void GetPosOnCircle(uint16_t led_count, uint16_t led_index, uint8_t *angle,
                     uint8_t *radius) {
   uint32_t tau = 6283;
   uint32_t circum = led_count * 32;
-  *angle = led_index * 255 / led_count;
+  *angle = led_index * MAX_UINT8 / led_count;
   *radius = (circum * 1000) / tau;
 }
 
