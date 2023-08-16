@@ -49,9 +49,14 @@ const DeviceDescription half_matrix_panel = DeviceDescription(
                                StripDescription(16, {}),
                                StripDescription(16, {Reversed}),
                            });
+const DeviceDescription backpack_rope = DeviceDescription(
+    RF_BOARD_MA_SUPPORTED, {
+                               StripDescription(96, {Dim}),
+                               StripDescription(96, {Dim, Reversed}),
+                           });
 
 // Modify this variable to easily switch between devices.
-const DeviceDescription &current = bike;
+const DeviceDescription &current = backpack_rope;
 
 static_assert(sizeof(current) <= DeviceDescription::kMaxSize,
               "Current device too large");
