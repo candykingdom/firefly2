@@ -290,7 +290,7 @@ void RunPaletteMode() {
     } else {
       set_effect_packet.writeSetEffect(/*effect_index=*/0, /*delay=*/1,
                                        /*palette_index=*/palettes[i / 6]);
-      uint8_t led_index = (i % 6);
+      uint16_t led_index = (i % 6);
       SetMainLed(
           i, palette_effect.GetRGB(led_index, state_machine.GetNetworkMillis(),
                                    kPaletteStrip, &set_effect_packet));

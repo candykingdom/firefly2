@@ -61,7 +61,7 @@ void FastLedManager::FatalErrorAnimation() {
   }
 }
 
-void FastLedManager::SetLed(uint8_t led_index, const CRGB &rgb) {
+void FastLedManager::SetLed(uint16_t led_index, const CRGB &rgb) {
   // If we only have one LED then treat the board LED as the first LED. This is
   // useful for testing boards themselves.
   if (device.GetLedCount() == 1 && led_index == 0) {

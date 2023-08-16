@@ -40,7 +40,7 @@ class LedManager {
   /** Sets all LEDs to the given color. */
   virtual void SetGlobalColor(const CRGB &rgb) = 0;
 
-  virtual void SetLed(uint8_t led_index, const CRGB &rgb) = 0;
+  virtual void SetLed(uint16_t led_index, const CRGB &rgb) = 0;
 
  protected:
   // Note: these need to be defined, or else calls to this classes' constructor

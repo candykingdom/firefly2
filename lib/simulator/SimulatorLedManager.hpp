@@ -22,7 +22,7 @@ class SimulatorLedManager : private FastLEDSimulator<NumLeds>,
   SDL_Point GetInitialPosition() override;
 
   void SetGlobalColor(const CRGB &rgb) override;
-  void SetLed(uint8_t led_index, const CRGB &rgb) override;
+  void SetLed(uint16_t led_index, const CRGB &rgb) override;
 
  protected:
   void WriteOutLeds() override {}
@@ -73,6 +73,6 @@ void SimulatorLedManager<NumLeds>::SetGlobalColor(const CRGB &rgb) {
 }
 
 template <uint16_t NumLeds>
-void SimulatorLedManager<NumLeds>::SetLed(uint8_t led_index, const CRGB &rgb) {
+void SimulatorLedManager<NumLeds>::SetLed(uint16_t led_index, const CRGB &rgb) {
   FastLEDSimulator<NumLeds>::leds[led_index] = rgb;
 }

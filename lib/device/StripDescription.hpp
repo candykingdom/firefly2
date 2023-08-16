@@ -15,9 +15,9 @@ enum StripFlag {
 
 class StripDescription {
  public:
-  const uint8_t led_count;
+  const uint16_t led_count;
 
-  explicit StripDescription(uint8_t led_count, std::vector<StripFlag> flags);
+  explicit StripDescription(uint16_t led_count, std::vector<StripFlag> flags);
 
   bool FlagEnabled(StripFlag flag) const;
 

@@ -9,7 +9,7 @@ static constexpr uint8_t depth_multiplier = 8;
 // The reciprocal of the amount of fade per stripe width.
 static constexpr uint8_t fade_fract = 8;
 
-CRGB PrideEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
+CRGB PrideEffect::GetRGB(uint16_t led_index, uint32_t time_ms,
                          const StripDescription &strip,
                          RadioPacket *setEffectPacket) const {
   UNUSED(setEffectPacket);

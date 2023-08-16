@@ -13,7 +13,7 @@
  * circle. This is in an arbitrary unit that is designed to look good with the
  * Perlin noise functoins.
  */
-void GetPosOnCircle(uint8_t led_count, uint8_t led_index, uint8_t *angle,
+void GetPosOnCircle(uint16_t led_count, uint16_t led_index, uint8_t *angle,
                     uint8_t *radius);
 
 /**
@@ -25,6 +25,6 @@ void GetPosOnCircle(uint8_t led_count, uint8_t led_index, uint8_t *angle,
  * @param led_index A pointer to the unmodified index of the LED.
  * @param led_count A pointer to the unmodified count of all the LEDs.
  */
-void MirrorIndex(uint8_t *led_index, uint8_t *led_count);
+void MirrorIndex(uint16_t *led_index, uint16_t *led_count);
 
 #endif  // __MATH_HPP__

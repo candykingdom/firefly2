@@ -16,13 +16,13 @@ static void addInPlace(const CHSV &value, CRGB &result) {
   result.b = qadd8(result.b, color.b);
 }
 
-CRGB SwingingLights::GetRGB(uint8_t led_index, uint32_t time_ms,
+CRGB SwingingLights::GetRGB(uint16_t led_index, uint32_t time_ms,
                             const StripDescription &strip,
                             RadioPacket *setEffectPacket) const {
   // This effect looks bad on small devices. Instead of creating another
   // effect we can just make the LEDs flash when a light pulse hits the end of a
   // "long" strip which looks pretty cool.
-  uint8_t num_leds = strip.led_count;
+  uint16_t num_leds = strip.led_count;
   if (strip.FlagEnabled(Tiny) && !strip.FlagEnabled(Circular)) {
     led_index = 0;
     num_leds = 50;

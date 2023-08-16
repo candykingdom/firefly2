@@ -10,12 +10,12 @@ FireEffect::FireEffect() : Effect() {
   offset = random16();
 }
 
-CRGB FireEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
+CRGB FireEffect::GetRGB(uint16_t led_index, uint32_t time_ms,
                         const StripDescription &strip,
                         RadioPacket *setEffectPacket) const {
   UNUSED(setEffectPacket);
   uint32_t side_differentiator = 0;
-  uint8_t led_count = strip.led_count;
+  uint16_t led_count = strip.led_count;
   if (strip.FlagEnabled(Mirrored)) {
     if (led_index > led_count / 2) {
       side_differentiator = 6789;

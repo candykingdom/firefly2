@@ -2,7 +2,7 @@
 
 SimpleBlinkEffect::SimpleBlinkEffect(uint16_t speed) : Effect(), speed(speed) {}
 
-CRGB SimpleBlinkEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
+CRGB SimpleBlinkEffect::GetRGB(uint16_t led_index, uint32_t time_ms,
                                const StripDescription &strip,
                                RadioPacket *setEffectPacket) const {
   UNUSED(led_index);

@@ -48,10 +48,18 @@ const DeviceDescription half_matrix_panel = DeviceDescription(
                                StripDescription(16, {Reversed}),
                                StripDescription(16, {}),
                                StripDescription(16, {Reversed}),
+                               StripDescription(16, {}),
+                               StripDescription(16, {Reversed}),
+                               StripDescription(16, {}),
+                               StripDescription(16, {Reversed}),
+                               StripDescription(16, {}),
+                               StripDescription(16, {Reversed}),
+                               StripDescription(16, {}),
+                               StripDescription(16, {Reversed}),
                            });
 
 // Modify this variable to easily switch between devices.
-const DeviceDescription &current = bike;
+const DeviceDescription &current = half_matrix_panel;
 
 static_assert(sizeof(current) <= DeviceDescription::kMaxSize,
               "Current device too large");
