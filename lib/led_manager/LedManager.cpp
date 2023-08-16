@@ -86,9 +86,19 @@ void LedManager::RunEffect() {
         virtual_index = strip_index;
       }
 
-      CRGB rgb = GetCurrentEffect()->GetRGB(virtual_index,
-                                            radio_state->GetNetworkMillis(),
-                                            strip, radio_state->GetSetEffect());
+      CRGB rgb;
+      if (!strip.FlagEnabled(Off)) {
+        rgb = GetCurrentEffect()->GetRGB(
+            virtual_index, radio_state->GetNetworkMillis(), strip,
+            radio_state->GetSetEffect());
+
+        if (strip.FlagEnabled(Dim)) {
+          rgb = rgb / (uint8_t)8;
+        }
+      } else {
+        rgb = CRGB::Black;
+      } 
+
       SetLed(global_index, rgb);
       global_index += 1;
     }
