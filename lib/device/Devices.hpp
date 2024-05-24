@@ -17,6 +17,7 @@ const DeviceDescription SimpleRfBoardDescription(uint8_t led_count,
 }
 
 const DeviceDescription bike = SimpleRfBoardDescription(30, {Bright});
+const DeviceDescription ben_s_bike = SimpleRfBoardDescription(28, {Bright});
 const DeviceDescription will_bike = SimpleRfBoardDescription(63, {Bright});
 const DeviceDescription scarf = SimpleRfBoardDescription(46, {});
 const DeviceDescription lantern = SimpleRfBoardDescription(5, {Tiny});
@@ -54,9 +55,32 @@ const DeviceDescription backpack_rope = DeviceDescription(
                                StripDescription(96, {Dim}),
                                StripDescription(96, {Dim, Reversed}),
                            });
+const DeviceDescription ufo = DeviceDescription(
+    RF_BOARD_MA_SUPPORTED, {
+                               StripDescription(12, {Circular}), // Top Circle
+                               StripDescription(16, {Circular}), // Bottom Circle
+                               StripDescription(12, {Bright, Circular}), // Bottom Lights
+                               StripDescription(52, {Dim, Circular}), // Rim
+                           });
+const DeviceDescription brooke_bike = DeviceDescription(
+    RF_BOARD_MA_SUPPORTED, {
+                               StripDescription(15, {Circular}),
+                               StripDescription(19, {}),
+                               StripDescription(16, {Circular}),
+                               StripDescription(33, {Bright}),
+                           });
+const DeviceDescription ross_backpack= DeviceDescription(
+    RF_BOARD_MA_SUPPORTED, {
+                               StripDescription(13, {Reversed}),
+                               StripDescription(12, {}),
+                               StripDescription(13, {Reversed}),
+                               StripDescription(12, {}),
+                           });
+
+const DeviceDescription whatever = SimpleRfBoardDescription(18, {Circular});
 
 // Modify this variable to easily switch between devices.
-const DeviceDescription &current = backpack_rope;
+const DeviceDescription &current = scarf;
 
 static_assert(sizeof(current) <= DeviceDescription::kMaxSize,
               "Current device too large");

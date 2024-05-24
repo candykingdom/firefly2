@@ -22,7 +22,7 @@ LedManager::LedManager(const DeviceDescription &device,
   AddEffect(new SwingingLights(), 4);
 
   // Non-random effects
-  AddEffect(new PoliceEffect(), 0);
+  AddEffect(new SwingingLights(), 0); // Formerly police lights
   AddEffect(new StopLightEffect(), 0);
   // Strobes
   AddEffect(new SimpleBlinkEffect(60), 0);
