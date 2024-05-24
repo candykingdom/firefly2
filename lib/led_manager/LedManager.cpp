@@ -22,7 +22,7 @@ LedManager::LedManager(const DeviceDescription &device,
   AddEffect(new SwingingLights(), 4);
 
   // Non-random effects
-  AddEffect(new SwingingLights(), 0); // Formerly police lights
+  AddEffect(new SwingingLights(), 0);  // Formerly police lights
   AddEffect(new StopLightEffect(), 0);
   // Strobes
   AddEffect(new SimpleBlinkEffect(60), 0);
@@ -90,9 +90,9 @@ void LedManager::RunEffect() {
       if (strip.FlagEnabled(Off)) {
         rgb = CRGB::Black;
       } else {
-        rgb = GetCurrentEffect()->GetRGB(
-            virtual_index, radio_state->GetNetworkMillis(), strip,
-            radio_state->GetSetEffect());
+        rgb = GetCurrentEffect()->GetRGB(virtual_index,
+                                         radio_state->GetNetworkMillis(), strip,
+                                         radio_state->GetSetEffect());
 
         if (strip.FlagEnabled(Dim)) {
           rgb = rgb / (uint8_t)8;

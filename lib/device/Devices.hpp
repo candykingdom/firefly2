@@ -56,12 +56,13 @@ const DeviceDescription backpack_rope = DeviceDescription(
                                StripDescription(96, {Dim, Reversed}),
                            });
 const DeviceDescription ufo = DeviceDescription(
-    RF_BOARD_MA_SUPPORTED, {
-                               StripDescription(12, {Circular}), // Top Circle
-                               StripDescription(16, {Circular}), // Bottom Circle
-                               StripDescription(12, {Bright, Circular}), // Bottom Lights
-                               StripDescription(52, {Dim, Circular}), // Rim
-                           });
+    RF_BOARD_MA_SUPPORTED,
+    {
+        StripDescription(12, {Circular}),          // Top Circle
+        StripDescription(16, {Circular}),          // Bottom Circle
+        StripDescription(12, {Bright, Circular}),  // Bottom Lights
+        StripDescription(52, {Dim, Circular}),     // Rim
+    });
 const DeviceDescription brooke_bike = DeviceDescription(
     RF_BOARD_MA_SUPPORTED, {
                                StripDescription(15, {Circular}),
@@ -69,7 +70,7 @@ const DeviceDescription brooke_bike = DeviceDescription(
                                StripDescription(16, {Circular}),
                                StripDescription(33, {Bright}),
                            });
-const DeviceDescription ross_backpack= DeviceDescription(
+const DeviceDescription ross_backpack = DeviceDescription(
     RF_BOARD_MA_SUPPORTED, {
                                StripDescription(13, {Reversed}),
                                StripDescription(12, {}),
