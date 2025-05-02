@@ -449,16 +449,14 @@ void setup() {
     FLASH->OPTKEYR = 0x08192A3B;
     FLASH->OPTKEYR = 0x4C5D6E7F;
 
-    while (FLASH->SR & FLASH_SR_BSY1)
-      ;
+    while (FLASH->SR & FLASH_SR_BSY1);
 
     // Set nBOOT_SEL bit
     FLASH->OPTR |= FLASH_OPTR_nBOOT_SEL;
 
     // write
     FLASH->CR |= FLASH_CR_OPTSTRT;
-    while (FLASH->SR & FLASH_SR_BSY1)
-      ;
+    while (FLASH->SR & FLASH_SR_BSY1);
   }
 
   startup_battery_timer.Reset();
