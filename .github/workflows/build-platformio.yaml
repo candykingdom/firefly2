@@ -31,5 +31,6 @@ jobs:
       run: pio run -e node
     - name: Build Fancy Node
       run: pio run -e fancy-node
-    - name: Build DMX
-      run: pio run -e dmx
+    # TODO: re-enable building this
+    #- name: Build DMX
+    #  run: pio run -e dmx
