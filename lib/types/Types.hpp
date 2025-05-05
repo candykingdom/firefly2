@@ -42,8 +42,10 @@ uint16_t XY(uint8_t x, uint8_t y);
 #undef max
 
 #include <FastLED.h>
+#include <string.h>
 
-#include "string.h"
+#include <cstdint>
+
 #endif
 
 const uint8_t MAX_UINT8 = 255;

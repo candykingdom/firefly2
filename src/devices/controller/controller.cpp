@@ -1,8 +1,9 @@
 #include <Arduino.h>
 #include <FastLED.h>
 #include <STM32RTC.h>
+#include <Wire.h>
 #include <arduino-timer.h>
-#include <debounce-filter.h>
+#include <button-filter.h>
 #include <median-filter.h>
 
 #include <array>
@@ -12,9 +13,12 @@
 #include "analog-button.h"
 #include "arduino/RadioHeadRadio.hpp"
 #include "buttons.h"
+#include "color-mode.h"
+#include "config.h"
 #include "generic/NetworkManager.hpp"
 #include "generic/RadioStateMachine.hpp"
 #include "leds.h"
+#include "palette-mode.h"
 
 // Which mode of control the device is in
 enum class ControllerMode {
@@ -33,10 +37,6 @@ ControllerMode mode = ControllerMode::Effect;
 ControllerMode prev_mode = mode;
 
 // Pin definitions
-constexpr std::array<uint8_t, 3> kLeftButtons = {PB2, PB14, PB15};
-constexpr std::array<uint8_t, 3> kRightButtons = {PA8, PC6, PC7};
-constexpr std::array<uint8_t, 3> kBottomButtons = {PA11, PA12, PA15};
-
 constexpr int kModeSwitch = PA6;
 constexpr int kBatteryPin = PA7;
 
@@ -47,10 +47,8 @@ constexpr int kNeopixelPin = PA_4;
 const StripDescription kRowStrip =
     StripDescription(/*led_count=*/12, {Bright, Controller});
 const DeviceDescription kRowDescription(2000, {kRowStrip});
-const StripDescription kPaletteStrip =
-    StripDescription(/*led_count=*/5, {Bright, Controller});
 
-constexpr uint8_t kSetEffectDelay = 60;
+extern constexpr uint8_t kSetEffectDelay = 60;
 
 // Constants for the mode switch, which uses an evenly-divided voltage divider.
 // See
@@ -67,51 +65,14 @@ NetworkManager nm(&radio);
 RadioStateMachine state_machine(&nm);
 FakeLedManager led_manager(kRowDescription, &state_machine);
 
-DisplayColorPaletteEffect palette_effect;
-
 uint8_t effect_index = 0;
 uint8_t palette_index = 0;
 RadioPacket set_effect_packet;
 RadioPacket control_packet;
-
-std::array<DebounceFilter, 3> left_buttons = {
-    DebounceFilter(filter_functions::ForInvertedDigitalRead<kLeftButtons[0]>()),
-    DebounceFilter(filter_functions::ForInvertedDigitalRead<kLeftButtons[1]>()),
-    DebounceFilter(filter_functions::ForInvertedDigitalRead<kLeftButtons[2]>()),
-};
-
-std::array<DebounceFilter, 3> right_buttons = {
-    DebounceFilter(
-        filter_functions::ForInvertedDigitalRead<kRightButtons[0]>()),
-    DebounceFilter(
-        filter_functions::ForInvertedDigitalRead<kRightButtons[1]>()),
-    DebounceFilter(
-        filter_functions::ForInvertedDigitalRead<kRightButtons[2]>()),
-};
-
-std::array<DebounceFilter, 3> bottom_buttons = {
-    DebounceFilter(
-        filter_functions::ForInvertedDigitalRead<kBottomButtons[0]>()),
-    DebounceFilter(
-        filter_functions::ForInvertedDigitalRead<kBottomButtons[1]>()),
-    DebounceFilter(
-        filter_functions::ForInvertedDigitalRead<kBottomButtons[2]>()),
-};
+DisplayColorPaletteEffect palette_effect;
 
 MedianFilter<uint16_t, uint16_t, 5> mode_switch(
     filter_functions::ForAnalogRead<kModeSwitch>());
-
-// TODO(adam): add pagination for color and palette mode
-// Colors for color mode
-std::array<CHSV, 6> colors = {
-    CHSV{0, 255, 255},           CHSV{256 / 6, 255, 255},
-    CHSV{256 * 2 / 6, 255, 255}, CHSV{256 * 3 / 6, 255, 255},
-    CHSV{256 * 4 / 6, 255, 255}, CHSV{256 * 5 / 6, 255, 255}};
-
-// Palette indices for palette mode.
-std::array<uint8_t, 6> palettes = {
-    8, 9, 10, 11, 12, 13,
-};
 
 // On controller v1.1, the filter cap on the battery voltage divider has a time
 // constant of ~0.5s, so when the device is cold-booted, it takes a couple of
@@ -214,146 +175,6 @@ void RunEffectMode() {
 
   // Update "sending" status LED.
   leds[kStatusRight] = CRGB(0, 0, broadcast_led_timer.Active() ? 255 : 0);
-}
-
-void RunColorMode() {
-  for (uint8_t i = 0; i < 36; i++) {
-    if ((i % 12) > 4 && (i % 12) <= 6) {
-      SetMainLed(i, CRGB(0, 0, 0));
-    } else {
-      SetMainLed(i, colors[(i / 6)]);
-    }
-  }
-
-  bool pressed = false;
-  uint8_t color_index = 0;
-  if (left_buttons[0].Rose()) {
-    pressed = true;
-    color_index = 0;
-  } else if (left_buttons[1].Rose()) {
-    pressed = true;
-    color_index = 2;
-  } else if (left_buttons[2].Rose()) {
-    pressed = true;
-    color_index = 4;
-  } else if (right_buttons[0].Rose()) {
-    pressed = true;
-    color_index = 1;
-  } else if (right_buttons[1].Rose()) {
-    pressed = true;
-    color_index = 3;
-  } else if (right_buttons[2].Rose()) {
-    pressed = true;
-    color_index = 5;
-  }
-
-  if (left_buttons[0].Rose()) {
-    SetLeftButtonLeds(kButtonPressedBrightness, kButtonActiveBrightness,
-                      kButtonActiveBrightness);
-  } else if (left_buttons[1].Rose()) {
-    SetLeftButtonLeds(kButtonActiveBrightness, kButtonPressedBrightness,
-                      kButtonActiveBrightness);
-  } else if (left_buttons[2].Rose()) {
-    SetLeftButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
-                      kButtonPressedBrightness);
-  } else {
-    SetLeftButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
-                      kButtonActiveBrightness);
-  }
-
-  if (right_buttons[0].Rose()) {
-    SetRightButtonLeds(kButtonPressedBrightness, kButtonActiveBrightness,
-                       kButtonActiveBrightness);
-  } else if (left_buttons[1].Rose()) {
-    SetRightButtonLeds(kButtonActiveBrightness, kButtonPressedBrightness,
-                       kButtonActiveBrightness);
-  } else if (left_buttons[2].Rose()) {
-    SetRightButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
-                       kButtonPressedBrightness);
-  } else {
-    SetRightButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
-                       kButtonActiveBrightness);
-  }
-
-  SetBottomButtonLeds(0, 0, 0);
-
-  if (pressed) {
-    control_packet.writeControl(kSetEffectDelay, colors[color_index]);
-    state_machine.SetEffect(&control_packet);
-  }
-}
-
-void RunPaletteMode() {
-  for (uint8_t i = 0; i < 36; i++) {
-    if ((i % 12) > 4 && (i % 12) <= 6) {
-      SetMainLed(i, CRGB(0, 0, 0));
-    } else {
-      set_effect_packet.writeSetEffect(/*effect_index=*/0, /*delay=*/1,
-                                       /*palette_index=*/palettes[i / 6]);
-      uint8_t led_index = (i % 6);
-      SetMainLed(
-          i, palette_effect.GetRGB(led_index, state_machine.GetNetworkMillis(),
-                                   kPaletteStrip, &set_effect_packet));
-    }
-  }
-
-  bool pressed = false;
-  uint8_t palette_index = 0;
-  if (left_buttons[0].Rose()) {
-    pressed = true;
-    palette_index = 0;
-  } else if (left_buttons[1].Rose()) {
-    pressed = true;
-    palette_index = 2;
-  } else if (left_buttons[2].Rose()) {
-    pressed = true;
-    palette_index = 4;
-  } else if (right_buttons[0].Rose()) {
-    pressed = true;
-    palette_index = 1;
-  } else if (right_buttons[1].Rose()) {
-    pressed = true;
-    palette_index = 3;
-  } else if (right_buttons[2].Rose()) {
-    pressed = true;
-    palette_index = 5;
-  }
-
-  if (left_buttons[0].Rose()) {
-    SetLeftButtonLeds(kButtonPressedBrightness, kButtonActiveBrightness,
-                      kButtonActiveBrightness);
-  } else if (left_buttons[1].Rose()) {
-    SetLeftButtonLeds(kButtonActiveBrightness, kButtonPressedBrightness,
-                      kButtonActiveBrightness);
-  } else if (left_buttons[2].Rose()) {
-    SetLeftButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
-                      kButtonPressedBrightness);
-  } else {
-    SetLeftButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
-                      kButtonActiveBrightness);
-  }
-
-  if (right_buttons[0].Rose()) {
-    SetRightButtonLeds(kButtonPressedBrightness, kButtonActiveBrightness,
-                       kButtonActiveBrightness);
-  } else if (right_buttons[1].Rose()) {
-    SetRightButtonLeds(kButtonActiveBrightness, kButtonPressedBrightness,
-                       kButtonActiveBrightness);
-  } else if (right_buttons[2].Rose()) {
-    SetRightButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
-                       kButtonPressedBrightness);
-  } else {
-    SetRightButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
-                       kButtonActiveBrightness);
-  }
-
-  SetBottomButtonLeds(0, 0, 0);
-
-  if (pressed) {
-    set_effect_packet.writeSetEffect(state_machine.GetEffectIndex(),
-                                     kSetEffectDelay, palettes[palette_index]);
-    state_machine.SetEffect(&set_effect_packet);
-  }
 }
 
 // See
@@ -563,8 +384,10 @@ void loop() {
   }
   if (prev_mode != mode) {
     FastLED.clearData();
+    sub_mode = SubMode::Normal;
   }
   prev_mode = mode;
+  prev_sub_mode = sub_mode;
 
   switch (mode) {
     case ControllerMode::Effect:
@@ -572,11 +395,19 @@ void loop() {
       break;
 
     case ControllerMode::DirectColor:
-      RunColorMode();
+      if (sub_mode == SubMode::Normal) {
+        RunColorMode();
+      } else {
+        RunColorConfig();
+      }
       break;
 
     case ControllerMode::DirectPalette:
-      RunPaletteMode();
+      if (sub_mode == SubMode::Normal) {
+        RunPaletteMode();
+      } else {
+        RunPaletteConfig();
+      }
       break;
   }
 
