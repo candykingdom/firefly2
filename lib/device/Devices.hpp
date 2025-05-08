@@ -30,6 +30,7 @@ const DeviceDescription rainbow_cloak = DeviceDescription(
                                StripDescription(94, {}),
                                StripDescription(11, {Tiny, Circular, Reversed}),
                            });
+const DeviceDescription tester = SimpleRfBoardDescription(26, {Bright});
 const DeviceDescription backpack_tail = SimpleRfBoardDescription(11, {});
 const DeviceDescription dan_jacket = SimpleRfBoardDescription(60, {});
 const DeviceDescription will_jacket = SimpleRfBoardDescription(56, {});
@@ -81,7 +82,7 @@ const DeviceDescription ross_backpack = DeviceDescription(
 const DeviceDescription whatever = SimpleRfBoardDescription(18, {Circular});
 
 // Modify this variable to easily switch between devices.
-const DeviceDescription &current = scarf;
+const DeviceDescription &current = tester;
 
 static_assert(sizeof(current) <= DeviceDescription::kMaxSize,
               "Current device too large");

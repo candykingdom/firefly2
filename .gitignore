@@ -5,3 +5,5 @@ assembly/*.zip
 .pio
 .vscode
 
+
+**/.claude/settings.local.json
