@@ -1,4 +1,4 @@
-24922996968654025
+24924744834962802
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -58841,6 +58841,13 @@ PVA1-OA-H2
 0
 4
 4
+Homebrew
+PinHeader_1x02_P2.54mm_Vertical_NoPlastic
+Through hole straight pin header, 1x02, 2.54mm pitch, single row
+Through hole pin header THT 1x02 2.54mm single row
+0
+2
+2
 Homebrew
 PinHeader_1x04_P2.54mm_Vertical_NoPlastic
 Through hole straight pin header, 1x04, 2.54mm pitch, single row

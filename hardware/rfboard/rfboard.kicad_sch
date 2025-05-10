@@ -258,6 +258,145 @@
 				)
 			)
 		)
+		(symbol "Connector_Generic:Conn_01x02"
+			(pin_names
+				(offset 1.016) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "J"
+				(at 0 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Conn_01x02"
+				(at 0 -5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "connector"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Connector*:*_1x??_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Conn_01x02_1_1"
+				(rectangle
+					(start -1.27 -2.413)
+					(end 0 -2.667)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 0.127)
+					(end 0 -0.127)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.27 1.27)
+					(end 1.27 -3.81)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin passive line
+					(at -5.08 0 0)
+					(length 3.81)
+					(name "Pin_1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -2.54 0)
+					(length 3.81)
+					(name "Pin_2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
 		(symbol "Connector_Generic:Conn_01x04"
 			(pin_names
 				(offset 1.016) hide)
@@ -5374,6 +5513,10 @@
 		(uuid "938361c1-6679-4280-b024-87a8ce8254ab")
 	)
 	(no_connect
+		(at 307.34 35.56)
+		(uuid "95db5615-8743-4c82-a0aa-afe64b43f7b3")
+	)
+	(no_connect
 		(at 66.04 49.53)
 		(uuid "a85b03aa-edf9-4a39-845d-0070a01cd789")
 	)
@@ -5384,6 +5527,10 @@
 	(no_connect
 		(at 375.92 46.99)
 		(uuid "b699ffe3-05a6-4d44-8dda-cebad467f42b")
+	)
+	(no_connect
+		(at 101.6 52.07)
+		(uuid "b6cd65b4-5e9a-4e8d-9a7f-b442818f7d75")
 	)
 	(no_connect
 		(at 66.04 82.55)
@@ -5404,10 +5551,6 @@
 	(no_connect
 		(at 264.16 29.21)
 		(uuid "cbc02b9e-0aa4-4214-82e4-f3e8c89b6532")
-	)
-	(no_connect
-		(at 101.6 64.77)
-		(uuid "d0d2c954-edee-4590-ba86-2ea444eb7d8c")
 	)
 	(no_connect
 		(at 264.16 168.91)
@@ -6694,9 +6837,9 @@
 		)
 		(uuid "c8b9eaf8-4e54-4be3-be9e-635c0d00a35b")
 	)
-	(text "TIM15_CH2"
+	(text "TIM1_CH1"
 		(exclude_from_sim no)
-		(at 127 51.054 0)
+		(at 127.254 63.754 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6743,16 +6886,6 @@
 			(justify right bottom)
 		)
 		(uuid "08e8fde6-6132-4d45-ab02-acad96baad4b")
-	)
-	(label "LED_EXTERNAL"
-		(at 307.34 35.56 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "107a10c7-fad5-41c9-9b65-cea182121fe3")
 	)
 	(label "RADIO_NSS"
 		(at 101.6 77.47 0)
@@ -6845,7 +6978,7 @@
 		(uuid "4c61d021-ea75-41ff-b440-8d1f973b53de")
 	)
 	(label "VIBRATION_SENSOR"
-		(at 101.6 52.07 0)
+		(at 101.6 64.77 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -9411,6 +9544,85 @@
 		)
 	)
 	(symbol
+		(lib_id "Diode:ESD5Zxx")
+		(at 69.85 179.07 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "2a6000ad-3d51-4096-b5c6-027a6e2a16fd")
+		(property "Reference" "D7"
+			(at 74.168 178.054 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "ESD5Z5.0"
+			(at 80.518 180.086 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 74.295 179.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.onsemi.com/pdf/datasheet/esd5z2.5t1-d.pdf"
+			(at 69.85 179.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "ESD Protection Diode, SOD-523"
+			(at 69.85 179.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C5199848"
+			(at 69.85 179.07 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "5207d630-8807-42e5-940f-ce19dce095c8")
+		)
+		(pin "1"
+			(uuid "77d2cb81-1448-46b0-807e-e45c7b3e087c")
+		)
+		(instances
+			(project "rfboard"
+				(path "/f88eb6ed-4fca-4205-8bd3-dd839e016fb0"
+					(reference "D7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "rfboard-rescue:GND-power")
 		(at 259.08 50.8 0)
 		(unit 1)
@@ -11446,6 +11658,69 @@
 		)
 	)
 	(symbol
+		(lib_id "rfboard-rescue:GND-power")
+		(at 69.85 182.88 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "64617dd8-e489-44b7-a099-d485e03131d7")
+		(property "Reference" "#PWR6"
+			(at 69.85 189.23 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 69.85 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 69.85 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 69.85 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 69.85 182.88 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a01d69b6-e8b2-4c4a-8088-dea9c48cee06")
+		)
+		(instances
+			(project "rfboard"
+				(path "/f88eb6ed-4fca-4205-8bd3-dd839e016fb0"
+					(reference "#PWR6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Regulator_Linear:XC6206PxxxMR")
 		(at 344.17 85.09 0)
 		(unit 1)
@@ -11584,6 +11859,69 @@
 			(project "rfboard"
 				(path "/f88eb6ed-4fca-4205-8bd3-dd839e016fb0"
 					(reference "#PWR36")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "rfboard-rescue:GND-power")
+		(at 306.07 57.15 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6fb73f36-0b43-4716-95d7-a938fe188e94")
+		(property "Reference" "#PWR45"
+			(at 306.07 63.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 306.07 60.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 306.07 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 306.07 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 306.07 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "10a9f60a-933e-46ae-ab4a-bb137aa067b3")
+		)
+		(instances
+			(project "rfboard"
+				(path "/f88eb6ed-4fca-4205-8bd3-dd839e016fb0"
+					(reference "#PWR45")
 					(unit 1)
 				)
 			)
@@ -13731,6 +14069,73 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector_Generic:Conn_01x02")
+		(at 300.99 57.15 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp yes)
+		(uuid "da8b34e1-23cd-405b-9828-ae886be7b1bf")
+		(property "Reference" "J4"
+			(at 300.99 52.07 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_01x02"
+			(at 298.45 55.88 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Homebrew:PinHeader_1x02_P2.54mm_Vertical_NoPlastic"
+			(at 300.99 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 300.99 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 300.99 57.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "00475217-8e33-4d29-9687-c56c7bc5c164")
+		)
+		(pin "1"
+			(uuid "520acd7f-0ebf-4305-b658-10c5f90083f5")
+		)
+		(instances
+			(project ""
+				(path "/f88eb6ed-4fca-4205-8bd3-dd839e016fb0"
+					(reference "J4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 66.04 175.26 90)
 		(unit 1)
@@ -14516,6 +14921,69 @@
 			(project "rfboard"
 				(path "/f88eb6ed-4fca-4205-8bd3-dd839e016fb0"
 					(reference "C18")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "rfboard-rescue:+5V-power")
+		(at 306.07 54.61 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f991bf43-e538-4778-a536-a611522544a5")
+		(property "Reference" "#PWR46"
+			(at 306.07 58.42 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+5V"
+			(at 306.07 51.054 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 306.07 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 306.07 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 306.07 54.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "bb49ef63-5697-4c56-9169-6325c5a88a44")
+		)
+		(instances
+			(project "rfboard"
+				(path "/f88eb6ed-4fca-4205-8bd3-dd839e016fb0"
+					(reference "#PWR46")
 					(unit 1)
 				)
 			)

@@ -41,15 +41,15 @@
           "height": 0.4,
           "width": 0.65
         },
-        "silk_line_width": 0.15,
+        "silk_line_width": 0.16,
         "silk_text_italic": false,
         "silk_text_size_h": 1.0,
         "silk_text_size_v": 1.0,
-        "silk_text_thickness": 0.15,
+        "silk_text_thickness": 0.16,
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
-          "min_clearance": 0.508
+          "min_clearance": 0.2
         }
       },
       "diff_pair_dimensions": [
@@ -59,7 +59,13 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        "silk_edge_clearance|79990000|96097500|9031cffc-2c09-4275-9e8c-a1d46a07a9ed|716c1c83-3260-494c-9688-76a33d19ad0d",
+        "unconnected_items|65500000|108740000|3d1c8436-9fe2-4571-830c-4ae6bc58f4fe|e45709a2-efac-4d2d-a347-540ada52e7f8",
+        "unconnected_items|72150000|108740000|5e4c012b-f642-4317-b2ee-879b2a6d3e1e|15fd3fcf-f098-4cc1-ac58-6b41aa2f142a",
+        "unconnected_items|78800000|108740000|f18cd114-8301-422f-ba51-d216fa31fd3d|15f364b7-4e59-4aa1-82c0-b54df426b88c",
+        "via_dangling|61000000|146900000|8063a8a1-b922-4386-a3c8-82d6d6257171|00000000-0000-0000-0000-000000000000"
+      ],
       "meta": {
         "filename": "board_design_settings.json",
         "version": 2
@@ -138,7 +144,7 @@
         "min_track_width": 0.09,
         "min_via_annular_width": 0.1,
         "min_via_diameter": 0.25,
-        "solder_mask_to_copper_clearance": 0.0,
+        "solder_mask_to_copper_clearance": 0.005,
         "use_height_for_length_calcs": true
       },
       "teardrop_options": [
