@@ -5,7 +5,6 @@ assembly/*.zip
 .pio
 .vscode
 
-
 **/.claude/settings.local.json
 .claude/agents/
 .claude/worktrees/
