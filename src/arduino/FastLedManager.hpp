@@ -8,6 +8,10 @@
 
 #include "../../lib/effect/Effect.hpp"
 
+#ifndef START_LED_IDX
+#define START_LED_IDX 1
+#endif
+
 class FastLedManager : public LedManager {
  public:
   explicit FastLedManager(const DeviceDescription &device,
