@@ -12,7 +12,7 @@
 #include "analog-button.h"
 #include "arduino/RadioHeadRadio.hpp"
 #include "buttons.h"
-#include "generic/NetworkManager.hpp"
+#include "generic/FireflyNetworkManager.hpp"
 #include "generic/RadioStateMachine.hpp"
 #include "leds.h"
 
@@ -63,7 +63,7 @@ static constexpr uint16_t kMode3Threshold = (678 + 1023) / 2;
 CountDownTimer broadcast_led_timer{1000};
 
 RadioHeadRadio radio;
-NetworkManager nm(&radio);
+FireflyNetworkManager nm(&radio);
 RadioStateMachine state_machine(&nm);
 FakeLedManager led_manager(kRowDescription, &state_machine);
 

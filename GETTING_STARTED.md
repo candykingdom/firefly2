@@ -437,7 +437,7 @@ make && ./smalltests --gtest_filter=NetworkManagerTest*
 ## Key Files to Understand
 
 - `lib/radio/Radio.hpp` - Core radio interface
-- `src/generic/NetworkManager.hpp/.cpp` - Network protocol handling
+- `src/generic/FireflyNetworkManager.hpp/.cpp` - Network protocol handling
 - `src/generic/RadioStateMachine.hpp/.cpp` - State management
 - `lib/led_manager/LedManager.hpp` - LED control abstraction
 - `lib/device/DeviceDescription.hpp` - Device configuration

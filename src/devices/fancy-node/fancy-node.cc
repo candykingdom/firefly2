@@ -13,7 +13,7 @@
 #include "Battery.hpp"
 #include "../../arduino/FastLedManager.hpp"
 #include "../../arduino/RadioHeadRadio.hpp"
-#include "../../generic/NetworkManager.hpp"
+#include "../../generic/FireflyNetworkManager.hpp"
 #include "../../generic/RadioStateMachine.hpp"
 
 constexpr DeviceMode kDeviceMode = DeviceMode::CURRENT_FROM_HEADER;
@@ -25,7 +25,7 @@ constexpr int kButton1 = PB1;
 constexpr int kButton2 = PB2;
 
 RadioHeadRadio *radio = new RadioHeadRadio();
-NetworkManager nm(radio);
+FireflyNetworkManager nm(radio);
 RadioStateMachine state_machine(&nm);
 FastLedManager *led_manager;
 

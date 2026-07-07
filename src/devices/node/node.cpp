@@ -11,7 +11,7 @@
 
 #include "../../arduino/FastLedManager.hpp"
 #include "../../arduino/RadioHeadRadio.hpp"
-#include "../../generic/NetworkManager.hpp"
+#include "../../generic/FireflyNetworkManager.hpp"
 #include "../../generic/RadioStateMachine.hpp"
 
 const int kLedPin = 0;
@@ -21,7 +21,7 @@ constexpr DeviceMode kDeviceMode = DeviceMode::CURRENT_FROM_HEADER;
 // Note: `RadioHeadRadio` needs to be a pointer - if it's an object, the node
 // crashes upon receiving a packet.
 RadioHeadRadio *radio = new RadioHeadRadio();
-NetworkManager nm(radio);
+FireflyNetworkManager nm(radio);
 RadioStateMachine state_machine(&nm);
 FastLedManager *led_manager;
 

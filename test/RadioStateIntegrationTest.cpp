@@ -1,6 +1,6 @@
 #include <Radio.hpp>
 
-#include "NetworkManager.hpp"
+#include "FireflyNetworkManager.hpp"
 #include "RadioStateMachine.hpp"
 #include "FakeNetwork.hpp"
 #include "FakeRadio.hpp"

@@ -12,7 +12,7 @@
 #include "../../arduino/FastLedManager.hpp"
 #include "../../arduino/RadioHeadRadio.hpp"
 #include "../../generic/DisplayColorPaletteEffect.hpp"
-#include "../../generic/NetworkManager.hpp"
+#include "../../generic/FireflyNetworkManager.hpp"
 #include "../../generic/RadioStateMachine.hpp"
 
 enum class ChooserMode {
@@ -35,7 +35,7 @@ const uint8_t kEffectDelay = 60;
 Adafruit_NeoTrellis trellis;
 
 RadioHeadRadio* radio;
-NetworkManager* nm;
+FireflyNetworkManager* nm;
 FastLedManager* ledManager;
 RadioStateMachine* stateMachine;
 DisplayColorPaletteEffect* colorPaletteEffect;
@@ -45,7 +45,7 @@ void setup() {
   pinMode(kLedPin, OUTPUT);
 
   radio = new RadioHeadRadio();
-  nm = new NetworkManager(radio);
+  nm = new FireflyNetworkManager(radio);
   stateMachine = new RadioStateMachine(nm);
 
   ledManager = new FastLedManager(kNumLeds, DeviceType::Wearable, stateMachine);

@@ -1,10 +1,10 @@
 #include <Radio.hpp>
 
-#include "NetworkManager.hpp"
+#include "FireflyNetworkManager.hpp"
 #include "FakeRadio.hpp"
 #include "gtest/gtest.h"
 
-class NetworkManagerTest : public ::testing::Test {
+class FireflyNetworkManagerTest : public ::testing::Test {
  protected:
   void SetUp() override { }
 
@@ -17,10 +17,10 @@ class NetworkManagerTest : public ::testing::Test {
   }
 
   FakeRadio radio;
-  NetworkManager networkManager{&radio};
+  FireflyNetworkManager networkManager{&radio};
 };
 
-TEST_F(NetworkManagerTest, receive_noPackets) {
+TEST_F(FireflyNetworkManagerTest, receive_noPackets) {
   RadioPacket packet;
   packet.packet_id = 12345;
   packet.type = HEARTBEAT;
@@ -32,7 +32,7 @@ TEST_F(NetworkManagerTest, receive_noPackets) {
   EXPECT_EQ(packet, original_packet);
 }
 
-TEST_F(NetworkManagerTest, receive_setsPacket) {
+TEST_F(FireflyNetworkManagerTest, receive_setsPacket) {
   RadioPacket packet;
 
   RadioPacket received_packet;
@@ -44,7 +44,7 @@ TEST_F(NetworkManagerTest, receive_setsPacket) {
   EXPECT_EQ(packet, received_packet);
 }
 
-TEST_F(NetworkManagerTest, receive_rebroadcasts) {
+TEST_F(FireflyNetworkManagerTest, receive_rebroadcasts) {
   RadioPacket packet;
 
   RadioPacket received_packet;
@@ -67,7 +67,7 @@ TEST_F(NetworkManagerTest, receive_rebroadcasts) {
 
   // Make sure it doesn't crash when exceeding the cache size
   // Start from 1 because 0 isn't a valid packet ID.
-  for (uint16_t i = 1; i < NetworkManager::kRecentIdsCacheSize * 2; i++) {
+  for (uint16_t i = 1; i < FireflyNetworkManager::kRecentIdsCacheSize * 2; i++) {
     received_packet.packet_id = i;
     radio.setReceivedPacket(&received_packet);
     EXPECT_EQ(networkManager.receive(packet), true);
@@ -78,7 +78,7 @@ TEST_F(NetworkManagerTest, receive_rebroadcasts) {
   }
 }
 
-TEST_F(NetworkManagerTest, receive_doesntRebroadcastSentId) {
+TEST_F(FireflyNetworkManagerTest, receive_doesntRebroadcastSentId) {
   RadioPacket sent_packet;
   sent_packet.packet_id = 1;
   sent_packet.writeHeartbeat(1);
@@ -96,7 +96,7 @@ TEST_F(NetworkManagerTest, receive_doesntRebroadcastSentId) {
   EXPECT_EQ(radio.getSentPacket(), nullptr);
 }
 
-TEST_F(NetworkManagerTest, send_sendsPacket) {
+TEST_F(FireflyNetworkManagerTest, send_sendsPacket) {
   RadioPacket packet;
   packet.packet_id = 0;
   packet.writeHeartbeat(1);

@@ -1,25 +1,25 @@
-#ifndef __NETWORK_MANAGER_H__
-#define __NETWORK_MANAGER_H__
+#ifndef __FIREFLY_NETWORK_MANAGER_H__
+#define __FIREFLY_NETWORK_MANAGER_H__
 
 #include <Radio.hpp>
 #include <Types.hpp>
 #include <array>
 
-class NetworkManager {
+class FireflyNetworkManager {
  public:
-  explicit NetworkManager(Radio *const radio);
+  explicit FireflyNetworkManager(Radio* const radio);
 
   /**
    * Checks if a packet is available. If so, performs network functions (e.g.
    * rebroadcasting), copies the packet into the passed-in struct, and
    * returns true. If no packet is available, returns false.
    */
-  bool receive(RadioPacket &packet);
+  bool receive(RadioPacket& packet);
 
   /**
    * Sends the given packet.
    */
-  void send(RadioPacket &packet);
+  void send(RadioPacket& packet);
 
   // Public for testing
   static const uint8_t kRecentIdsCacheSize = 5;
@@ -27,7 +27,7 @@ class NetworkManager {
  private:
   void AddToRecentIdsCache(uint16_t id);
 
-  Radio *const radio_;
+  Radio* const radio_;
 
   /**
    * We maintain a circular buffer of the most recent packet IDs seen. When a
@@ -38,4 +38,4 @@ class NetworkManager {
   uint8_t recent_ids_cache_index_;
 };
 
-#endif
+#endif  // __FIREFLY_NETWORK_MANAGER_H__

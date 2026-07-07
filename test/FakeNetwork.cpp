@@ -4,7 +4,7 @@
 #include <DeviceDescription.hpp>
 #include <cstdio>
 
-#include "NetworkManager.hpp"
+#include "FireflyNetworkManager.hpp"
 
 // #define DEBUG
 
@@ -14,7 +14,7 @@ FakeNetwork::FakeNetwork() {
   for (int i = 0; i < kNumNodes; i++) {
     advanceMillis(1);
     radios[i] = FakeRadio();
-    networkManagers[i] = new NetworkManager(&radios[i]);
+    networkManagers[i] = new FireflyNetworkManager(&radios[i]);
     stateMachines[i] = new RadioStateMachine(networkManagers[i]);
     ledManagers[i] = new FakeLedManager(device, stateMachines[i]);
     stateMachines[i]->Tick();
@@ -22,7 +22,7 @@ FakeNetwork::FakeNetwork() {
 }
 
 FakeNetwork::~FakeNetwork() {
-  for (NetworkManager* network_manager : networkManagers) {
+  for (FireflyNetworkManager* network_manager : networkManagers) {
     delete network_manager;
   }
   for (RadioStateMachine* state_machine : stateMachines) {
@@ -82,7 +82,7 @@ void FakeNetwork::Tick() {
 void FakeNetwork::reinitNode(int index) {
   delete stateMachines[index];
   delete networkManagers[index];
-  networkManagers[index] = new NetworkManager(&radios[index]);
+  networkManagers[index] = new FireflyNetworkManager(&radios[index]);
   stateMachines[index] = new RadioStateMachine(networkManagers[index]);
   delete ledManagers[index];
   ledManagers[index] = new FakeLedManager(device, stateMachines[index]);

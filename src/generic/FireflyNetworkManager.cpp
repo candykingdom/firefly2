@@ -1,13 +1,13 @@
-#include "NetworkManager.hpp"
+#include "FireflyNetworkManager.hpp"
 
 #include <Debug.hpp>
 
-NetworkManager::NetworkManager(Radio *const radio) : radio_(radio) {
+FireflyNetworkManager::FireflyNetworkManager(Radio *const radio) : radio_(radio) {
   recent_ids_cache_.fill(0);
   recent_ids_cache_index_ = 0;
 }
 
-bool NetworkManager::receive(RadioPacket &packet) {
+bool FireflyNetworkManager::receive(RadioPacket &packet) {
   if (!radio_->readPacket(packet)) {
     return false;
   }
@@ -25,7 +25,7 @@ bool NetworkManager::receive(RadioPacket &packet) {
   return true;
 }
 
-void NetworkManager::send(RadioPacket &packet) {
+void FireflyNetworkManager::send(RadioPacket &packet) {
   // [2, 0xFFFF) allow us to use packet ID 1 in tests, so that the code under
   // test always wins master election.
   packet.packet_id = random(2, 0xFFFF);
@@ -33,7 +33,7 @@ void NetworkManager::send(RadioPacket &packet) {
   AddToRecentIdsCache(packet.packet_id);
 }
 
-void NetworkManager::AddToRecentIdsCache(uint16_t id) {
+void FireflyNetworkManager::AddToRecentIdsCache(uint16_t id) {
   recent_ids_cache_[recent_ids_cache_index_++] = id;
   recent_ids_cache_index_ %= kRecentIdsCacheSize;
 }
