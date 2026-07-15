@@ -13,4 +13,6 @@ TEST(ControllerConfigTest, MapsButtonRowsToAlternatingSlots) {
 TEST(ControllerConfigTest, PreviousPaletteIndexWrapsAtZero) {
   EXPECT_EQ(PreviousPaletteIndex(1, 22), 0);
   EXPECT_EQ(PreviousPaletteIndex(0, 22), 21);
+  EXPECT_EQ(PreviousPaletteIndex(0, 1), 0);
+  EXPECT_EQ(PreviousPaletteIndex(7, 0), 7);
 }

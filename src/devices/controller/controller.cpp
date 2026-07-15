@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <FastLED.h>
 #include <STM32RTC.h>
-#include <Wire.h>
 #include <arduino-timer.h>
 #include <button-filter.h>
 #include <median-filter.h>
@@ -400,8 +399,6 @@ void loop() {
     sub_mode = SubMode::Normal;
   }
   prev_mode = mode;
-  prev_sub_mode = sub_mode;
-
   switch (mode) {
     case ControllerMode::Effect:
       RunEffectMode();
