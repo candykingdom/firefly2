@@ -1,10 +1,9 @@
-name: "CodeQL config"
+name: "Firefly2 CodeQL config"
 
 queries:
   - uses: security-extended
   - uses: security-and-quality
 
 paths:
-  - hardware
   - lib
   - src

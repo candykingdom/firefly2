@@ -73,12 +73,17 @@ npm ci && npm run lint                    # ESLint (dev-only dependency; config 
 
 ## CI (`.github/workflows/`)
 
-Four workflows, all `on: [push]`:
+Five workflows. The build and test workflows run on every push; CodeQL also
+runs for pull requests targeting `master`, pushes to `master`, a weekly
+schedule, and manual dispatch:
 
 - `run-tests.yaml` → `./ci.sh`: cmake with `-DBUILD_SIMULATOR=false`, `make`, then runs `./smalltests` and `./largetests` directly.
 - `run-lint.yaml` → `./lint.sh check` (clang-format `--dry-run --Werror`; style is `.clang-format`, Google-based).
 - `build-platformio.yaml` → builds **`node`, `fancy-node`, and `controller`** (`dmx` commented out with a re-enable TODO).
 - `sim.yaml` → `npm ci`, `npm run lint` (ESLint over `sim/`), `npm test` (the simulator suite).
+- `codeql.yml` → CodeQL v4 scans C/C++ under `lib/` and `src/` with the
+  security-extended and security-and-quality query suites. Its no-build mode
+  includes embedded target sources that the host CMake build does not compile.
 
 `lint.sh` modes: `check`, `format` (in-place), `tidy` (clang-tidy; note there is **no `.clang-tidy` config file** in the repo, so it runs with defaults). Known latent bug: the `find` in `lint.sh` uses `-o` without grouping, so its `-not -path` prune only applies to the first `-iname` branch.
 
