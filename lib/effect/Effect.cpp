@@ -12,6 +12,25 @@ uint8_t Effect::GetThresholdSin(int16_t x, uint8_t threshold) const {
   }
 }
 
+CRGB Effect::FlattenedGradientRGB(const CHSV& color) const {
+  CRGB rgb;
+  hsv2rgb_rainbow(color, rgb);
+  const uint16_t sum = rgb.r + rgb.g + rgb.b;
+
+  // Reference drive: what an un-boosted hue (red) outputs at this
+  // saturation and value.
+  CRGB reference;
+  hsv2rgb_rainbow(CHSV(HUE_RED, color.s, color.v), reference);
+  const uint16_t reference_sum = reference.r + reference.g + reference.b;
+
+  if (sum > reference_sum) {
+    rgb.r = (uint32_t)rgb.r * reference_sum / sum;
+    rgb.g = (uint32_t)rgb.g * reference_sum / sum;
+    rgb.b = (uint32_t)rgb.b * reference_sum / sum;
+  }
+  return rgb;
+}
+
 // If this is a simple static variable, then it might not be initialized before
 // it's used, static variable initialization order is undefined. This method
 // ensures that it is initialized when it's used.

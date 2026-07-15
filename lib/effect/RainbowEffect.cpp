@@ -30,11 +30,11 @@ CRGB RainbowEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
     if (strip.FlagEnabled(Tiny)) {
       CHSV color = palette.GetGradient((time_ms / 16) << 8);
       color.v = v;
-      return color;
+      return FlattenedGradientRGB(color);
     } else {
       CHSV color = palette.GetGradient((time_ms / 16 + led_index * 8) << 8);
       color.v = v;
-      return color;
+      return FlattenedGradientRGB(color);
     }
   }
 }

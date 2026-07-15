@@ -114,10 +114,10 @@ TEST_F(EffectsTest, allColorPalettes) {
   delete manager;
 }
 
-// Golden spot-check pinning exact pre-D4-fix outputs so the switch to
-// palette-by-reference (specs/002-fix-audit-findings, FR-005) is provably
-// output-identical. Captured at commit cceb41f with palette 8 (rainbow),
-// time_ms 123456, a plain 36-LED strip, LEDs 0/17/35.
+// Golden spot-check pinning exact outputs so the switch to palette-by-reference
+// (specs/002-fix-audit-findings, FR-005) remains provably output-identical.
+// Rainbow/Color Cycle values include the intentional gradient power flattening
+// from specs/004-fix-yellow-spike; Spark remains byte-identical to cceb41f.
 TEST_F(EffectsTest, paletteByReferenceKeepsOutputIdentical) {
   RadioPacket packet;
   packet.writeSetEffect(0, 0, 8);
@@ -131,9 +131,9 @@ TEST_F(EffectsTest, paletteByReferenceKeepsOutputIdentical) {
     uint8_t led;
     CRGB expected;
   } cases[] = {
-      {&rainbow, 0, {44, 27, 0}},  {&rainbow, 17, {1, 0, 65}},
-      {&rainbow, 35, {40, 45, 0}}, {&cycle, 0, {43, 27, 0}},
-      {&cycle, 17, {43, 27, 0}},   {&cycle, 35, {43, 27, 0}},
+      {&rainbow, 0, {40, 24, 0}},  {&rainbow, 17, {0, 0, 64}},
+      {&rainbow, 35, {30, 34, 0}}, {&cycle, 0, {39, 24, 0}},
+      {&cycle, 17, {39, 24, 0}},   {&cycle, 35, {39, 24, 0}},
       {&spark, 0, {0, 0, 0}},      {&spark, 17, {0, 0, 0}},
       {&spark, 35, {5, 8, 0}},
   };

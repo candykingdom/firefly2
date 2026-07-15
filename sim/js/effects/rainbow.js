@@ -1,7 +1,11 @@
 // Port of lib/effect/RainbowEffect.{hpp,cpp}.
 
 import { getPalette, paletteGetColor, paletteGetGradient } from '../palette.js';
-import { cubicwave8, hsv2rgbRainbow } from '../fastled.js';
+import {
+  cubicwave8,
+  flattenedGradientRGB,
+  hsv2rgbRainbow,
+} from '../fastled.js';
 
 export function makeRainbowEffect() {
   return {
@@ -36,7 +40,7 @@ export function makeRainbowEffect() {
         if (strip.hasFlag('Tiny')) {
           const color = { ...paletteGetGradient(palette, (t16 << 8) & 0xffff) };
           color.v = v & 0xff;
-          return hsv2rgbRainbow(color);
+          return flattenedGradientRGB(color);
         } else {
           const color = {
             ...paletteGetGradient(
@@ -45,7 +49,7 @@ export function makeRainbowEffect() {
             ),
           };
           color.v = v & 0xff;
-          return hsv2rgbRainbow(color);
+          return flattenedGradientRGB(color);
         }
       }
     },

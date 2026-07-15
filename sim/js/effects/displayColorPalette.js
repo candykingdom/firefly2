@@ -1,6 +1,6 @@
 // Port of lib/effect/DisplayColorPaletteEffect.{hpp,cpp}.
 
-import { hsv2rgbRainbow } from '../fastled.js';
+import { flattenedGradientRGB } from '../fastled.js';
 import { getPalette, paletteGetGradient } from '../palette.js';
 
 export function makeDisplayColorPaletteEffect() {
@@ -21,7 +21,7 @@ export function makeDisplayColorPaletteEffect() {
       if (!strip.hasFlag('Bright')) {
         color.v = Math.trunc(color.v / 2);
       }
-      return hsv2rgbRainbow(color);
+      return flattenedGradientRGB(color);
     },
   };
 }

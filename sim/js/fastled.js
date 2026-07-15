@@ -388,6 +388,20 @@ export function hsv2rgbRainbow(hsv) {
   return { r, g, b };
 }
 
+// Port of Effect::FlattenedGradientRGB (lib/effect/Effect.cpp).
+export function flattenedGradientRGB(color) {
+  const rgb = hsv2rgbRainbow(color);
+  const sum = rgb.r + rgb.g + rgb.b;
+  const reference = hsv2rgbRainbow({ h: 0, s: color.s, v: color.v });
+  const referenceSum = reference.r + reference.g + reference.b;
+  if (sum > referenceSum) {
+    rgb.r = Math.trunc((rgb.r * referenceSum) / sum);
+    rgb.g = Math.trunc((rgb.g * referenceSum) / sum);
+    rgb.b = Math.trunc((rgb.b * referenceSum) / sum);
+  }
+  return rgb;
+}
+
 // --- pixeltypes.h: CRGB operator/(uint8_t) — per-channel integer division ---
 
 export function rgbDiv(rgb, d) {

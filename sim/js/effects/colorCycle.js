@@ -1,7 +1,11 @@
 // Port of lib/effect/ColorCycleEffect.{hpp,cpp}.
 
 import { getPalette, paletteGetColor, paletteGetGradient } from '../palette.js';
-import { cubicwave8, hsv2rgbRainbow } from '../fastled.js';
+import {
+  cubicwave8,
+  flattenedGradientRGB,
+  hsv2rgbRainbow,
+} from '../fastled.js';
 
 export function makeColorCycleEffect() {
   return {
@@ -27,7 +31,7 @@ export function makeColorCycleEffect() {
         if (!strip.hasFlag('Bright')) {
           color.v = Math.trunc(color.v / 2) & 0xff;
         }
-        return hsv2rgbRainbow(color);
+        return flattenedGradientRGB(color);
       }
     },
   };

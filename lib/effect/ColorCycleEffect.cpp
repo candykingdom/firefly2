@@ -27,6 +27,6 @@ CRGB ColorCycleEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
     if (!strip.FlagEnabled(Bright)) {
       color.v /= 2;
     }
-    return color;
+    return FlattenedGradientRGB(color);
   }
 }

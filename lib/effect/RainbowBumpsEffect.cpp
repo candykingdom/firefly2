@@ -25,5 +25,5 @@ CRGB RainbowBumpsEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
 
   CHSV color = palette.GetGradient((time_ms / 10 + offset) << 8);
   color.v = GetThresholdSin(-(time_ms / 16 - offset * 3) << 8, 0);
-  return color;
+  return FlattenedGradientRGB(color);
 }

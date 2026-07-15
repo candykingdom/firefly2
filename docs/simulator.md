@@ -45,6 +45,8 @@ cd .. && npm test   # port the change to sim/js/effects/, iterate until byte-exa
 
 A nonempty `reference.json` diff means firmware rendering behavior changed; the JS port of that effect must be updated to match (`sim/js/effects/*.js` cite their source files).
 
+The Rainbow, Color Cycle, Rainbow Bumps, and Display Color Palette ports use `flattenedGradientRGB` for interpolated gradients, mirroring firmware's integer-truncating removal of `hsv2rgb_rainbow`'s yellow-band power boost. Solid palette branches and noise/texture effects keep the original conversion intentionally; the reference corpus pins that scope byte-for-byte.
+
 Determinism gotchas the vectors encode (see `specs/001-web-simulator/research-fastled-notes.md`):
 
 - Fire/Rorschach constructor offsets are the first two FastLED-LCG draws from seed 1337 (the `analogRead` reseed is `#ifdef ARDUINO`-only); the JS registry replays the same LCG.

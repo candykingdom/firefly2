@@ -46,6 +46,8 @@ virtual CRGB GetRGB(uint8_t led_index, uint32_t time_ms,
 
 Shared helpers: `Effect::palettes()` (Meyers singleton, the global palette table) and `GetThresholdSin(x, threshold)` (`Effect.cpp:5-13`) — a clamped/rescaled `sin16` used for discrete "bumps"; the negative half is always 0.
 
+Rainbow, Color Cycle, Rainbow Bumps, and Display Color Palette convert interpolated palette colors with `FlattenedGradientRGB`, which scales out `hsv2rgb_rainbow`'s extra yellow-band power so smooth gradients do not contain a lone bright yellow LED. Exact palette colors, solid-color branches, and noise/texture effects deliberately retain FastLED's yellow boost.
+
 ## Effect catalog (`lib/effect/`)
 
 | Effect | Visual | Notes |

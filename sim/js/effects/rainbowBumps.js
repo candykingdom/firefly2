@@ -2,7 +2,7 @@
 // MirrorIndex).
 
 import { getPalette, paletteGetGradient, getThresholdSin } from '../palette.js';
-import { hsv2rgbRainbow } from '../fastled.js';
+import { flattenedGradientRGB } from '../fastled.js';
 import { mirrorIndex } from '../perlin.js';
 
 export function makeRainbowBumpsEffect() {
@@ -35,7 +35,7 @@ export function makeRainbowBumpsEffect() {
       const sinArg = (-diff << 8) >>> 0;
       color.v = getThresholdSin(sinArg, 0);
 
-      return hsv2rgbRainbow(color);
+      return flattenedGradientRGB(color);
     },
   };
 }
