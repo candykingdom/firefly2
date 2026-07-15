@@ -6,8 +6,8 @@
 #include "DisplayColorPaletteEffect.hpp"
 #include "Types.hpp"
 #include "buttons.h"
+#include "config-storage.h"
 #include "config-utils.h"
-#include "fram.h"
 #include "generic/RadioStateMachine.hpp"
 #include "leds.h"
 
@@ -17,9 +17,9 @@ extern RadioStateMachine state_machine;
 extern const uint8_t kSetEffectDelay;
 
 constexpr uint32_t kRepeatDelay = 500;
-constexpr uint8_t kPaletteConfigPage = 0;
-// Since color config starts at 0, this leaves 1K each for color and palette config.
-constexpr uint8_t kPaletteConfigWord = 0x80;
+// Split the 2 KiB FRAM into 1 KiB regions for color and palette config.
+constexpr uint8_t kPaletteConfigPage = 4;
+constexpr uint8_t kPaletteConfigWord = 0;
 constexpr std::array<uint8_t, 4> kPaletteInitialized = {0xBA, 0xAD, 0xF0, 0x0D};
 
 // Palette indices for palette mode.
@@ -28,6 +28,7 @@ std::array<std::array<uint8_t, 6>, 3> palettes = {
     std::array<uint8_t, 6>{14, 15, 16, 17, 18, 19},
     std::array<uint8_t, 6>{20, 21, 0, 1, 2, 3},
 };
+static_assert(sizeof(palettes) == 18, "Stored palette schema changed");
 
 const StripDescription kPaletteStrip =
     StripDescription(/*led_count=*/5, {Bright, Controller});
@@ -35,13 +36,13 @@ const StripDescription kPalettePreviewStrip =
     StripDescription(/*led_count=*/12, {Bright, Controller});
 
 void MaybeLoadPaletteConfig() {
-  std::array<uint8_t, 4> fram_init;
-  fram::Read(kPaletteConfigPage, kPaletteConfigWord, fram_init.data(),
-             sizeof(fram_init));
-  if (fram_init == kPaletteInitialized) {
-    fram::Read(kPaletteConfigPage,
-               kPaletteConfigWord + sizeof(kPaletteInitialized),
-               reinterpret_cast<uint8_t*>(palettes.data()), sizeof(palettes));
+  decltype(palettes) loaded{};
+  if (controller_config::LoadRecord<sizeof(loaded)>(
+          kPaletteConfigPage, kPaletteConfigWord, kPaletteInitialized,
+          reinterpret_cast<uint8_t *>(loaded.data())) &&
+      PaletteIndicesAreValid(loaded,
+                             static_cast<uint8_t>(Effect::palettes().size()))) {
+    palettes = loaded;
   }
 }
 
@@ -188,14 +189,10 @@ void RunPaletteConfig() {
         // the other bottom buttons cancels and returns to normal mode.
         if (i == config_carousel) {
           palettes[config_carousel][selected_slot] = current_palette;
+          controller_config::StoreRecord<sizeof(palettes)>(
+              kPaletteConfigPage, kPaletteConfigWord, kPaletteInitialized,
+              reinterpret_cast<const uint8_t *>(palettes.data()));
         }
-        fram::Write(kPaletteConfigPage,
-                    kPaletteConfigWord + sizeof(kPaletteInitialized),
-                    reinterpret_cast<uint8_t*>(palettes.data()),
-                    sizeof(palettes));
-        fram::Write(kPaletteConfigPage, kPaletteConfigWord,
-                    reinterpret_cast<const uint8_t*>(kPaletteInitialized.data()),
-                    sizeof(kPaletteInitialized));
         sub_mode = SubMode::Normal;
       }
     }

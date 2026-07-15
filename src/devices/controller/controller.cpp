@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <FastLED.h>
 #include <STM32RTC.h>
+#include <Wire.h>
 #include <arduino-timer.h>
 #include <button-filter.h>
 #include <median-filter.h>

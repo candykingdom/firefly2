@@ -2,8 +2,8 @@
 
 #include "Types.hpp"
 #include "buttons.h"
+#include "config-storage.h"
 #include "config-utils.h"
-#include "fram.h"
 #include "generic/RadioStateMachine.hpp"
 #include "leds.h"
 
@@ -40,14 +40,15 @@ std::array<std::array<CHSV, 6>, 3> colors = {
         kHsvBlack,
     },
 };
+static_assert(sizeof(CHSV) == 3, "Stored color schema requires 3-byte CHSV");
+static_assert(sizeof(colors) == 54, "Stored color schema changed");
 
 void MaybeLoadColorConfig() {
-  std::array<uint8_t, 4> fram_init;
-  fram::Read(kColorConfigPage, kColorConfigWord, fram_init.data(),
-             sizeof(fram_init));
-  if (fram_init == kColorInitialized) {
-    fram::Read(kColorConfigPage, kColorConfigWord + sizeof(kColorInitialized),
-               reinterpret_cast<uint8_t*>(colors.data()), sizeof(colors));
+  decltype(colors) loaded{};
+  if (controller_config::LoadRecord<sizeof(loaded)>(
+          kColorConfigPage, kColorConfigWord, kColorInitialized,
+          reinterpret_cast<uint8_t *>(loaded.data()))) {
+    colors = loaded;
   }
 }
 
@@ -251,13 +252,10 @@ void RunColorConfig() {
         // the other bottom buttons cancels and returns to normal mode.
         if (i == config_carousel) {
           colors[config_carousel][selected_slot] = current_hsv;
+          controller_config::StoreRecord<sizeof(colors)>(
+              kColorConfigPage, kColorConfigWord, kColorInitialized,
+              reinterpret_cast<const uint8_t *>(colors.data()));
         }
-        fram::Write(kColorConfigPage,
-                    kColorConfigWord + sizeof(kColorInitialized),
-                    reinterpret_cast<uint8_t*>(colors.data()), sizeof(colors));
-        fram::Write(kColorConfigPage, kColorConfigWord,
-                    reinterpret_cast<const uint8_t*>(kColorInitialized.data()),
-                    sizeof(kColorInitialized));
         sub_mode = SubMode::Normal;
       }
     }
