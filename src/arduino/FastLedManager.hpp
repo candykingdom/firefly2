@@ -30,5 +30,9 @@ class FastLedManager : public LedManager {
  private:
   // Note: this looks like a pointer, but is actually an array of size num_leds
   CRGB *leds;
+
+  // Total LEDs across all strips; fixed at construction (the device's strips
+  // are const), cached so SetLed doesn't recompute it per write.
+  const uint16_t led_count_;
 };
 #endif

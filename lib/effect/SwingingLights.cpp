@@ -36,7 +36,7 @@ CRGB SwingingLights::GetRGB(uint8_t led_index, uint32_t time_ms,
   // Map [0, num_leds) to [0, MAX_UINT16)
   const fract16 led_pos = (uint32_t)led_index * MAX_UINT16 / num_leds;
 
-  ColorPalette palette =
+  const ColorPalette &palette =
       palettes()[setEffectPacket->readPaletteIndexFromSetEffect()];
 
   CRGB color(0, 0, 0);

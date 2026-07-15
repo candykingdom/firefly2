@@ -1,0 +1,24 @@
+name: Simulator
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Set up Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+    - name: Install dev tooling
+      run: npm ci
+    - name: Check Claude Code and Codex setup
+      run: npm run check:agents
+    - name: Lint
+      run: npm run lint
+    - name: Test
+      run: npm test

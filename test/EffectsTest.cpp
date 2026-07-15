@@ -113,3 +113,35 @@ TEST_F(EffectsTest, allColorPalettes) {
   }
   delete manager;
 }
+
+// Golden spot-check pinning exact outputs so the switch to palette-by-reference
+// (specs/002-fix-audit-findings, FR-005) remains provably output-identical.
+// Rainbow/Color Cycle values include the intentional gradient power flattening
+// from specs/004-fix-yellow-spike; Spark remains byte-identical to cceb41f.
+TEST_F(EffectsTest, paletteByReferenceKeepsOutputIdentical) {
+  RadioPacket packet;
+  packet.writeSetEffect(0, 0, 8);
+  StripDescription strip(36, {});
+  RainbowEffect rainbow;
+  ColorCycleEffect cycle;
+  SparkEffect spark;
+
+  const struct {
+    const Effect* effect;
+    uint8_t led;
+    CRGB expected;
+  } cases[] = {
+      {&rainbow, 0, {40, 24, 0}},  {&rainbow, 17, {0, 0, 64}},
+      {&rainbow, 35, {30, 34, 0}}, {&cycle, 0, {39, 24, 0}},
+      {&cycle, 17, {39, 24, 0}},   {&cycle, 35, {39, 24, 0}},
+      {&spark, 0, {0, 0, 0}},      {&spark, 17, {0, 0, 0}},
+      {&spark, 35, {5, 8, 0}},
+  };
+
+  for (const auto& c : cases) {
+    CRGB rgb = c.effect->GetRGB(c.led, 123456, strip, &packet);
+    EXPECT_EQ(c.expected.r, rgb.r) << "led " << (int)c.led;
+    EXPECT_EQ(c.expected.g, rgb.g) << "led " << (int)c.led;
+    EXPECT_EQ(c.expected.b, rgb.b) << "led " << (int)c.led;
+  }
+}

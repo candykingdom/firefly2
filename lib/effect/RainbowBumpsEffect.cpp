@@ -9,7 +9,7 @@ CRGB RainbowBumpsEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
                                 RadioPacket *setEffectPacket) const {
   const uint8_t palette_index =
       setEffectPacket->readPaletteIndexFromSetEffect();
-  ColorPalette palette = palettes()[palette_index];
+  const ColorPalette &palette = palettes()[palette_index];
 
   uint8_t led_count = strip.led_count;
   if (strip.FlagEnabled(Mirrored)) {
@@ -25,5 +25,5 @@ CRGB RainbowBumpsEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
 
   CHSV color = palette.GetGradient((time_ms / 10 + offset) << 8);
   color.v = GetThresholdSin(-(time_ms / 16 - offset * 3) << 8, 0);
-  return color;
+  return FlattenedGradientRGB(color);
 }

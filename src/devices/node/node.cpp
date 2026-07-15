@@ -16,7 +16,7 @@
 
 const int kLedPin = 0;
 
-constexpr DeviceMode kDeviceMode = DeviceMode::READ_FROM_FLASH;
+constexpr DeviceMode kDeviceMode = DeviceMode::CURRENT_FROM_HEADER;
 
 // Note: `RadioHeadRadio` needs to be a pointer - if it's an object, the node
 // crashes upon receiving a packet.
@@ -139,17 +139,11 @@ void setup() {
   }
 }
 
-unsigned long print_alive_at = 0;
 uint8_t watchdog_counter = 0;
 
 void loop() {
   state_machine.Tick();
   led_manager->RunEffect();
-
-  if (millis() > print_alive_at) {
-    // Serial.println(state_machine.GetNetworkMillis());
-    print_alive_at = millis() + 1000;
-  }
 
   // Feeding the watchdog takes some time. Each run through this loop should
   // take less than 10ms, so it should be safe to feed the watchdog every 5

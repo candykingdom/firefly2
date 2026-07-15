@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Firefly Simulator</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='30' fill='%23ffd166'/></svg>">
+</head>
+<body>
+  <header>
+    <h1>Firefly <span class="accent">Simulator</span></h1>
+    <p class="tagline">Test lighting shows without hardware · <a href="test.html">test suite</a> · <code>window.sim</code> API in the console</p>
+  </header>
+
+  <main>
+    <section id="stage-wrap" aria-label="LED stage">
+      <canvas id="stage"></canvas>
+      <div id="paused-badge" hidden>paused</div>
+    </section>
+
+    <aside id="controls">
+      <section class="panel" id="panel-devices">
+        <h2>Devices</h2>
+        <div id="device-list" class="scroll-list" role="group" aria-label="devices"></div>
+      </section>
+
+      <section class="panel" id="panel-effect">
+        <h2>Effect</h2>
+        <div id="effect-list" class="scroll-list" role="listbox" aria-label="effects"></div>
+      </section>
+
+      <section class="panel" id="panel-palette">
+        <h2>Palette</h2>
+        <div id="palette-list" role="listbox" aria-label="palettes"></div>
+      </section>
+
+      <section class="panel" id="panel-clock">
+        <h2>Clock</h2>
+        <div class="row">
+          <button id="play-pause" class="big" aria-label="play or pause">Pause</button>
+          <span id="time-readout" class="mono">0.000&nbsp;s</span>
+          <select id="speed" aria-label="playback speed">
+            <option value="0.1">0.1×</option>
+            <option value="0.25">0.25×</option>
+            <option value="0.5">0.5×</option>
+            <option value="1" selected>1×</option>
+            <option value="2">2×</option>
+            <option value="4">4×</option>
+          </select>
+        </div>
+        <div class="row">
+          <input type="range" id="scrub" min="0" max="120000" step="10" value="0" aria-label="scrub network time">
+        </div>
+        <div class="row">
+          <label for="time-exact">t =</label>
+          <input type="number" id="time-exact" min="0" step="1" value="0" class="mono" aria-label="exact network time in milliseconds">
+          <span class="hint">ms</span>
+          <button id="time-set">Set</button>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-master">
+        <h2>Master mode</h2>
+        <div class="row">
+          <label class="switch"><input type="checkbox" id="master-toggle"><span>Autoplay like a mesh master</span></label>
+        </div>
+        <div class="row hint" id="master-status">Changes effect every 60&nbsp;s from the weighted pool.</div>
+      </section>
+
+      <section class="panel" id="panel-control">
+        <h2>Control override</h2>
+        <div class="row">
+          <input type="color" id="control-color" value="#ff2200" aria-label="override color">
+          <label for="control-delay">for</label>
+          <input type="number" id="control-delay" min="0" max="255" value="10" aria-label="override delay seconds">
+          <span class="hint">s</span>
+          <button id="control-send">Send</button>
+          <button id="control-clear">Clear</button>
+        </div>
+        <div class="row hint">SET_CONTROL: all devices hold a solid color, then the show resumes. 0&nbsp;s holds until cleared.</div>
+      </section>
+    </aside>
+  </main>
+
+  <footer id="status" class="mono" aria-live="off"></footer>
+
+  <script type="module" src="js/api.js"></script>
+</body>
+</html>
