@@ -7,6 +7,8 @@
 enum StripFlag {
   Tiny = 1 << 0,
   Bright = 1 << 1,
+  Dim = 1 << 6,
+  Off = 1 << 7,
   Circular = 1 << 2,
   Mirrored = 1 << 3,
   Reversed = 1 << 4,

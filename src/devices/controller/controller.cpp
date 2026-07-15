@@ -52,7 +52,7 @@ const StripDescription kRowStrip =
     StripDescription(/*led_count=*/12, {Bright, Controller});
 const DeviceDescription kRowDescription(2000, {kRowStrip});
 
-extern constexpr uint8_t kSetEffectDelay = 60;
+extern const uint8_t kSetEffectDelay = 60;
 
 // Constants for the mode switch, which uses an evenly-divided voltage divider.
 // See
@@ -141,7 +141,7 @@ void RunEffectMode() {
 
   if (right_buttons[0].Rose()) {
     SetRightButtonLeds(kButtonPressedBrightness, kButtonActiveBrightness, 0);
-  } else if (left_buttons[1].Rose()) {
+  } else if (right_buttons[1].Rose()) {
     SetRightButtonLeds(kButtonActiveBrightness, kButtonPressedBrightness, 0);
   } else {
     SetRightButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness, 0);
@@ -274,16 +274,14 @@ void setup() {
     FLASH->OPTKEYR = 0x08192A3B;
     FLASH->OPTKEYR = 0x4C5D6E7F;
 
-    while (FLASH->SR & FLASH_SR_BSY1)
-      ;
+    while (FLASH->SR & FLASH_SR_BSY1);
 
     // Set nBOOT_SEL bit
     FLASH->OPTR |= FLASH_OPTR_nBOOT_SEL;
 
     // write
     FLASH->CR |= FLASH_CR_OPTSTRT;
-    while (FLASH->SR & FLASH_SR_BSY1)
-      ;
+    while (FLASH->SR & FLASH_SR_BSY1);
   }
 
   startup_battery_timer.Reset();

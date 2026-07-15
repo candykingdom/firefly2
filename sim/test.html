@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Firefly Simulator — Tests</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    main { display: block; padding: 18px 22px; overflow-y: auto; }
+    #summary { font-size: 15px; padding: 10px 14px; border-radius: 8px;
+               border: 1px solid var(--panel-edge); background: var(--panel);
+               margin-bottom: 14px; }
+    #summary.pass { border-color: #2f6b3a; color: #7fd18c; }
+    #summary.fail { border-color: #7a2f2f; color: #e08585; }
+    .case { padding: 3px 0 3px 6px; font-size: 13.5px; }
+    .case.pass::before { content: "✓ "; color: #7fd18c; }
+    .case.fail::before { content: "✗ "; color: #e08585; }
+    .case .err { color: #e08585; font-family: var(--mono); font-size: 12px;
+                 margin: 2px 0 6px 22px; white-space: pre-wrap; }
+    h2.suite { font-size: 13px; color: var(--text-dim); margin: 16px 0 4px;
+               text-transform: none; letter-spacing: 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Firefly Simulator <span class="accent">Tests</span></h1>
+    <p class="tagline">Same cases as <code>node --test sim/test/</code>, run in this browser · <a href="index.html">back to simulator</a></p>
+  </header>
+  <main>
+    <div id="summary">Running…</div>
+    <div id="results"></div>
+  </main>
+  <script type="module">
+    // Import order defines report order. Each module registers its cases into
+    // harness.browserTests (node:test is not used in the browser).
+    const SUITES = [
+      'registry', 'determinism', 'flags', 'tolerance', 'control', 'master',
+      'vectors',
+    ];
+    const { browserTests } = await import('./test/harness.js');
+    const results = document.getElementById('results');
+    const summary = document.getElementById('summary');
+    let pass = 0, fail = 0;
+
+    for (const suite of SUITES) {
+      const before = browserTests.length;
+      try {
+        await import(`./test/cases/${suite}.test.mjs`);
+      } catch (err) {
+        fail++;
+        report(suite, `(failed to load suite)`, err);
+        continue;
+      }
+      const cases = browserTests.slice(before);
+      const heading = document.createElement('h2');
+      heading.className = 'suite';
+      heading.textContent = `${suite}.test.mjs — ${cases.length} cases`;
+      results.appendChild(heading);
+      for (const { name, fn } of cases) {
+        try {
+          await fn();
+          pass++;
+          report(suite, name, null);
+        } catch (err) {
+          fail++;
+          report(suite, name, err);
+        }
+        // Yield so the page stays responsive on long suites.
+        await new Promise((resolve) => setTimeout(resolve, 0));
+      }
+    }
+
+    summary.textContent = fail === 0 ?
+        `All ${pass} tests passed.` : `${fail} FAILED, ${pass} passed.`;
+    summary.className = fail === 0 ? 'pass' : 'fail';
+    // Machine-readable hooks for automated drivers: a window global, and a
+    // beacon request that shows up in the serving host's access log.
+    window.__testResults = { pass, fail, done: true };
+    try { fetch(`/__test-results?pass=${pass}&fail=${fail}`); } catch {}
+
+    function report(suite, name, err) {
+      const div = document.createElement('div');
+      div.className = `case ${err ? 'fail' : 'pass'}`;
+      div.textContent = name;
+      if (err) {
+        const msg = document.createElement('div');
+        msg.className = 'err';
+        msg.textContent = err.stack || String(err);
+        div.appendChild(msg);
+      }
+      results.appendChild(div);
+    }
+  </script>
+</body>
+</html>

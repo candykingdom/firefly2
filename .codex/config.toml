@@ -1,0 +1,5 @@
+# Keep delegation shallow and bounded. Worker-specific model pins live in
+# `.codex/agents/`; the parent session retains control of its Sol effort level.
+[agents]
+max_threads = 4
+max_depth = 1

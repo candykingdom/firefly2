@@ -24,6 +24,9 @@ enum PacketType {
 
 static constexpr uint8_t PACKET_DATA_LENGTH = 58;
 
+// Wire header: 2-byte packet id (big-endian) + 1-byte type.
+static constexpr uint8_t PACKET_HEADER_LENGTH = 3;
+
 struct RadioPacket {
   /**
    * This is used for "mesh" networking. Upon receiving a packet, each node
@@ -47,6 +50,27 @@ struct RadioPacket {
    * minus the size of the packet ID and type (3 bytes).
    */
   std::array<uint8_t, PACKET_DATA_LENGTH> data;
+
+  // Wire codec. See specs/002-fix-audit-findings/contracts/wire-format.md.
+
+  /**
+   * Writes this packet's wire encoding (id big-endian, type, payload) to buf,
+   * which must hold at least PACKET_HEADER_LENGTH + dataLength bytes (61
+   * covers any valid packet). Returns the number of bytes written.
+   *
+   * Precondition: dataLength <= PACKET_DATA_LENGTH. A corrupt oversized
+   * dataLength is clamped rather than reading past the payload array.
+   */
+  uint8_t Serialize(uint8_t* buf) const;
+
+  /**
+   * Parses len wire bytes into this packet, setting packet_id, type,
+   * dataLength (= len - PACKET_HEADER_LENGTH), and the payload. Returns false
+   * (leaving this packet unspecified) if len is shorter than the header or
+   * the payload wouldn't fit. Safe on arbitrary byte content; unknown type
+   * bytes are stored as-is for higher layers to tolerate.
+   */
+  bool Deserialize(const uint8_t* buf, uint8_t len);
 
   // Member functions to create and read specific packet types.
 
@@ -84,7 +108,7 @@ inline bool operator==(const RadioPacket& lhs, const RadioPacket& rhs) {
 
 class Radio {
  public:
-  virtual ~Radio(){};
+  virtual ~Radio() = default;
 
   /**
    * If a packet is available, reads it into the provided struct and returns

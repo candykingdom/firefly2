@@ -6,6 +6,7 @@
 #include "DisplayColorPaletteEffect.hpp"
 #include "Types.hpp"
 #include "buttons.h"
+#include "config-utils.h"
 #include "fram.h"
 #include "generic/RadioStateMachine.hpp"
 #include "leds.h"
@@ -13,7 +14,7 @@
 extern DisplayColorPaletteEffect palette_effect;
 extern RadioPacket set_effect_packet;
 extern RadioStateMachine state_machine;
-extern uint8_t kSetEffectDelay;
+extern const uint8_t kSetEffectDelay;
 
 constexpr uint32_t kRepeatDelay = 500;
 constexpr uint8_t kPaletteConfigPage = 0;
@@ -30,6 +31,8 @@ std::array<std::array<uint8_t, 6>, 3> palettes = {
 
 const StripDescription kPaletteStrip =
     StripDescription(/*led_count=*/5, {Bright, Controller});
+const StripDescription kPalettePreviewStrip =
+    StripDescription(/*led_count=*/12, {Bright, Controller});
 
 void MaybeLoadPaletteConfig() {
   std::array<uint8_t, 4> fram_init;
@@ -152,17 +155,18 @@ void RunPaletteConfig() {
     selected_slot = 255;
     for (uint8_t i = 0; i < 3; ++i) {
       if (left_buttons[i].Pressed()) {
-        SetLeftButtonLed(i, kButtonPressedBrightness);
-        selected_slot = i * 2;
+        SetLeftButtonLed(i + 1, kButtonPressedBrightness);
+        selected_slot = ButtonRowToSlot(i, false);
         break;
       }
       if (right_buttons[i].Pressed()) {
-        SetRightButtonLed(i, kButtonPressedBrightness);
-        selected_slot = i * 2 + 1;
+        SetRightButtonLed(i + 1, kButtonPressedBrightness);
+        selected_slot = ButtonRowToSlot(i, true);
         break;
       }
     }
     if (selected_slot != 255) {
+      current_palette = palettes[config_carousel][selected_slot];
       sub_mode = SubMode::ChooseItem;
       left_buttons[0].SetRepeatDelay(kRepeatDelay);
       right_buttons[0].SetRepeatDelay(kRepeatDelay);
@@ -171,7 +175,8 @@ void RunPaletteConfig() {
   } else {
     if (left_buttons[0].Pressed() || left_buttons[0].Held() ||
         left_buttons[0].Repeated()) {
-      current_palette = (current_palette - 1) % Effect::palettes().size();
+      current_palette = PreviousPaletteIndex(
+          current_palette, static_cast<uint8_t>(Effect::palettes().size()));
     } else if (right_buttons[0].Pressed() || right_buttons[0].Held() ||
                right_buttons[0].Repeated()) {
       current_palette = (current_palette + 1) % Effect::palettes().size();
@@ -204,8 +209,9 @@ void RunPaletteConfig() {
     set_effect_packet.writeSetEffect(/*effect_index=*/0, kSetEffectDelay,
                                      current_palette);
     for (uint8_t i = 0; i < 12; i++) {
-      SetMainLed(i, palette_effect.GetRGB(i, state_machine.GetNetworkMillis(),
-                                          kPaletteStrip, &set_effect_packet));
+      SetMainLed(
+          i, palette_effect.GetRGB(i, state_machine.GetNetworkMillis(),
+                                   kPalettePreviewStrip, &set_effect_packet));
     }
     for (uint8_t i = 12; i < 36; i++) {
       SetMainLed(i, CRGB(0, 0, 0));
