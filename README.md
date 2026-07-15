@@ -58,7 +58,8 @@ make && make test
 node --test "sim/test/cases/*.test.mjs"   # simulator suite, incl. firmware byte-exactness
 ```
 
-CI (GitHub Actions, on every push): host tests, lint, `node`/`fancy-node`/`controller` firmware builds, and the simulator suite.
+CI (GitHub Actions): host tests, lint, `node`/`fancy-node`/`controller` firmware
+builds, the simulator suite, and CodeQL C/C++ security scanning.
 
 ## Repo layout
 
