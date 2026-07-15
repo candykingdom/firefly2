@@ -44,9 +44,11 @@ virtual CRGB GetRGB(uint8_t led_index, uint32_t time_ms,
 
 `time_ms` is **network time** from `RadioStateMachine::GetNetworkMillis()` — the shared clock is what synchronizes animation across devices. Effects derive all motion from it (e.g. `time_ms/16`); per-device randomness (Fire, Firefly, Rorschach offsets) is seeded in constructors from `analogRead(A0)` on Arduino only, keeping host tests deterministic.
 
-Shared helpers: `Effect::palettes()` (Meyers singleton, the global palette table) and `GetThresholdSin(x, threshold)` (`Effect.cpp:5-13`) — a clamped/rescaled `sin16` used for discrete "bumps"; the negative half is always 0.
+Shared helpers: `Effect::palettes()` (Meyers singleton, the global palette table), `GetThresholdSin(x, threshold)` (`Effect.cpp:5-13`) — a clamped/rescaled `sin16` used for discrete "bumps"; the negative half is always 0 — and `FlattenedGradientRGB(CHSV)` (`Effect.cpp:15-32`), the gradient-power flattener described next.
 
-Rainbow, Color Cycle, Rainbow Bumps, and Display Color Palette convert interpolated palette colors with `FlattenedGradientRGB`, which scales out `hsv2rgb_rainbow`'s extra yellow-band power so smooth gradients do not contain a lone bright yellow LED. Exact palette colors, solid-color branches, and noise/texture effects deliberately retain FastLED's yellow boost.
+### Gradient power flattening (`FlattenedGradientRGB`)
+
+FastLED's `hsv2rgb_rainbow` deliberately over-drives hues in the yellow band (32–95) by up to ~34% total RGB power, which looks fine for solid colors but renders a smooth palette gradient with a lone over-bright yellow LED wherever the interpolation crosses that band (e.g. the rainbow palette's red→green blend). The four palette-showcase effects — Rainbow, Color Cycle, Rainbow Bumps, Display Color Palette — convert their interpolated gradient colors through `FlattenedGradientRGB`, which rescales any converted color whose `r+g+b` exceeds the un-boosted (red-hue) baseline at the same saturation/value, so gradients drive uniform power. Noise/texture effects (Fire, Perlin-based, sparks) and exact palette stops via `GetColor` deliberately keep FastLED's boost — it's part of their look. The property is pinned on both sides by `test/GradientPowerTest.cpp` and `sim/test/cases/gradientPower.test.mjs` (specs/004-fix-yellow-spike).
 
 ## Effect catalog (`lib/effect/`)
 

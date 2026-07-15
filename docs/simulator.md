@@ -22,7 +22,7 @@ Programmatic driving (browser console or automation): `window.sim` — e.g. `sim
 node --test "sim/test/cases/*.test.mjs"   # or: npm test
 ```
 
-Seven suites: wire-index registry invariants (incl. the "Display Color Palette / Dark are the last two indices" invariant), determinism, central strip-flag handling (Reversed/Dim/Off), 0–255 wire-byte fuzz, SET_CONTROL semantics, master cadence/weighting, and byte-exact comparison against `sim/test/vectors/reference.json`. The same cases run in-browser at `/test.html` (it reports `window.__testResults` and beacons `/__test-results?pass=N&fail=M` to the serving host for automated drivers).
+Eight suites: wire-index registry invariants (incl. the "Display Color Palette / Dark are the last two indices" invariant), determinism, central strip-flag handling (Reversed/Dim/Off), 0–255 wire-byte fuzz, SET_CONTROL semantics, master cadence/weighting, uniform gradient drive (the specs/004 power flattening, mirroring `test/GradientPowerTest.cpp`), and byte-exact comparison against `sim/test/vectors/reference.json`. The same cases run in-browser at `/test.html` (it reports `window.__testResults` and beacons `/__test-results?pass=N&fail=M` to the serving host for automated drivers).
 
 ## Lint it
 
