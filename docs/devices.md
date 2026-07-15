@@ -70,8 +70,8 @@ The handheld network remote: 42 WS2812 UI LEDs (`kLedCount`, `leds.h:6`), 9 butt
 Three modes selected by the switch (`controller.cpp:557-563`):
 
 1. **Effect** — left/right buttons step effect (row 0) and palette (row 1); the top preview row renders the selected effect live and the middle row the palette; bottom button broadcasts `SetEffect` with `kSetEffectDelay = 60` s lock. Status LEDs: index 7 red/green = Slave/Master, index 9 blue = broadcasting.
-2. **DirectColor** — 6 side buttons map to 6 evenly-spaced hues; a press sends a `SET_CONTROL` (solid color network-wide).
-3. **DirectPalette** — 6 side buttons map to palette indices {8..13}; a press keeps the current effect but swaps the palette.
+2. **DirectColor** — each bottom button selects a six-color carousel and the side buttons send its colors as `SET_CONTROL`. Hold a bottom button to edit that carousel's hue, saturation, and brightness slots; edits remain in RAM until reboot.
+3. **DirectPalette** — each bottom button selects a six-palette carousel and the side buttons keep the current effect while swapping its palette. Hold a bottom button to replace carousel slots from the full palette registry; edits remain in RAM until reboot.
 
 Battery cutoff is 3.4 V (higher load device), resume 3.85 V. Also implements a double-tap-reset → system-bootloader jump using RTC backup state (`controller.cpp:363-460`), needed because the CH340X USB chip toggles reset on power-up. Note `analog-button.{cpp,h}` (`AnalogButton`) is compiled but currently unreferenced — the mode switch is read inline with a median filter.
 

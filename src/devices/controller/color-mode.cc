@@ -2,12 +2,13 @@
 
 #include "Types.hpp"
 #include "buttons.h"
+#include "config-utils.h"
 #include "generic/RadioStateMachine.hpp"
 #include "leds.h"
 
 extern RadioPacket control_packet;
 extern RadioStateMachine state_machine;
-extern uint8_t kSetEffectDelay;
+extern const uint8_t kSetEffectDelay;
 
 constexpr uint32_t kRepeatDelay = 30;
 
@@ -86,10 +87,10 @@ void RunColorMode() {
   if (right_buttons[0].Rose()) {
     SetRightButtonLeds(kButtonPressedBrightness, kButtonActiveBrightness,
                        kButtonActiveBrightness);
-  } else if (left_buttons[1].Rose()) {
+  } else if (right_buttons[1].Rose()) {
     SetRightButtonLeds(kButtonActiveBrightness, kButtonPressedBrightness,
                        kButtonActiveBrightness);
-  } else if (left_buttons[2].Rose()) {
+  } else if (right_buttons[2].Rose()) {
     SetRightButtonLeds(kButtonActiveBrightness, kButtonActiveBrightness,
                        kButtonPressedBrightness);
   } else {
@@ -143,17 +144,21 @@ void RunColorConfig() {
     selected_slot = 255;
     for (uint8_t i = 0; i < 3; ++i) {
       if (left_buttons[i].Pressed()) {
-        SetLeftButtonLed(i, kButtonPressedBrightness);
-        selected_slot = i * 2;
+        SetLeftButtonLed(i + 1, kButtonPressedBrightness);
+        selected_slot = ButtonRowToSlot(i, false);
         break;
       }
       if (right_buttons[i].Pressed()) {
-        SetRightButtonLed(i, kButtonPressedBrightness);
-        selected_slot = i * 2 + 1;
+        SetRightButtonLed(i + 1, kButtonPressedBrightness);
+        selected_slot = ButtonRowToSlot(i, true);
         break;
       }
     }
     if (selected_slot != 255) {
+      const CHSV &selected_color = colors[config_carousel][selected_slot];
+      current_color = selected_color.h;
+      current_saturation = selected_color.s;
+      current_value = selected_color.v;
       sub_mode = SubMode::ChooseItem;
       left_buttons[0].SetRepeatDelay(kRepeatDelay);
       left_buttons[1].SetRepeatDelay(kRepeatDelay);
@@ -253,7 +258,7 @@ void RunColorConfig() {
     const CHSV indicator = CHSV(0, 0, 128);
     // Light one LED in the second row as an indicator for saturation level
     SetMainLed(12 + (current_saturation * 12 / 256), indicator);
-    // Light one LED in the third row as an indicator for saturation level
+    // Light one LED in the third row as an indicator for brightness level
     SetMainLed(24 + (current_value * 12 / 256), indicator);
   }
 }
