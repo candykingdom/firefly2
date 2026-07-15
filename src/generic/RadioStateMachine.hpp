@@ -2,6 +2,7 @@
 #define __RADIO_STATE_MACHINE_H__
 
 #include <Types.hpp>
+#include <array>
 #include <map>
 
 #include "NetworkManager.hpp"
@@ -14,7 +15,7 @@ enum TimerType {
 };
 // This is used to define the length of the array of timers - update it if
 // adding new enum values.
-#define TIMER_TYPE_LAST TimerBroadcastEffect
+constexpr TimerType TIMER_TYPE_LAST = TimerBroadcastEffect;
 
 /**
  * The data passed to a state when an event occurs.
@@ -37,10 +38,10 @@ enum class RadioState {
 
 class RadioStateMachine {
  public:
-  RadioStateMachine(NetworkManager *network_manager);
+  explicit RadioStateMachine(NetworkManager *network_manager);
   ~RadioStateMachine();
 
-  RadioState GetCurrentState();
+  RadioState GetCurrentState() const;
 
   /** Runs the state machine and updates the LEDS. Should be called frequently.
    */
@@ -52,10 +53,10 @@ class RadioStateMachine {
   // Network properties - these are used to coordinate effects
 
   /** Returns the synchronized milliseconds time from the network. */
-  uint32_t GetNetworkMillis();
+  uint32_t GetNetworkMillis() const;
 
   /** Returns the index of the current effect. */
-  uint8_t GetEffectIndex();
+  uint8_t GetEffectIndex() const;
 
   /** Returns the most recent SetEffect packet. */
   RadioPacket *GetSetEffect();
@@ -103,7 +104,7 @@ class RadioStateMachine {
   void SetTimer(TimerType timer, uint32_t delay);
 
   /** Whether a time expired, or None. */
-  TimerType TimerExpired();
+  TimerType TimerExpired() const;
 
   /** Performs master election based on the received heartbeat. */
   void PerformMasterElection(RadioPacket *received_packet);
@@ -119,7 +120,7 @@ class RadioStateMachine {
   /** If not equal to state, the next state. */
   RadioState next_state_;
 
-  uint32_t timers_[TIMER_TYPE_LAST + 1];
+  std::array<uint32_t, TIMER_TYPE_LAST + 1> timers_;
 
   /**
    * The last time we saw the effect change. This is so that we can preserve the
@@ -144,6 +145,8 @@ class RadioStateMachine {
 
   RadioPacket packet_;
   RadioPacket set_effect_packet_;
+
+  bool tick_run_ = false;
 };
 
 #endif

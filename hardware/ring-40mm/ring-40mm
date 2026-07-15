@@ -1,0 +1,14 @@
+"Source:","/home/adam/hardware/firefly2/hardware/ring-40mm/ring-40mm.kicad_sch"
+"Date:","Sun 30 Apr 2023 12:51:26 PM MDT"
+"Tool:","Eeschema 7.0.2-6a45011f42~172~ubuntu22.04.1"
+"Generator:","/usr/share/kicad/plugins/bom_csv_grouped_by_value.py"
+"Component Count:","45"
+
+"Collated Components:"
+
+"Item","Qty","Reference(s)","Value","LibPart","Footprint","Datasheet","DNP","LCSC"
+"1","20","C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15, C16, C17, C18, C19, C20","100nF","Device:C","Capacitor_SMD:C_0402_1005Metric","~","","C307331"
+"2","1","C21","22uF","Device:C","Capacitor_SMD:C_0805_2012Metric","~","","C45783"
+"3","20","D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15, D16, D17, D18, D19, D20","XL-1010RGBC-WS2812B","Homebrew:XINGLIGHT-XL-1010RGBC-WS2812B","Homebrew:XINGLIGHT-XL-1010RGBC-WS2812B","https://datasheet.lcsc.com/lcsc/2301111010_XINGLIGHT-XL-1010RGBC-WS2812B_C5349953.pdf","","C5349953"
+"4","2","J1, J2","Conn_01x03","Connector_Generic:Conn_01x03","Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical","~","",""
+"5","2","R1, R2","560","Device:R","Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder","~","","C23204"

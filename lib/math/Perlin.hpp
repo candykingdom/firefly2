@@ -4,7 +4,7 @@
 #include <Types.hpp>
 
 // Each tile contains 2^resolution number of integers.
-static const uint8_t resolution = 8;
+static constexpr uint8_t resolution = 8;
 
 static inline uint16_t tileHash(uint32_t x, uint32_t y) { return x + y * 7919; }
 

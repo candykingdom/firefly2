@@ -6,7 +6,7 @@
 
 #include "NetworkManager.hpp"
 
-//#define DEBUG
+// #define DEBUG
 
 FakeNetwork::FakeNetwork() {
   setMillis(0);
@@ -14,21 +14,22 @@ FakeNetwork::FakeNetwork() {
   for (int i = 0; i < kNumNodes; i++) {
     advanceMillis(1);
     radios[i] = FakeRadio();
-    stateMachines[i] = new RadioStateMachine(new NetworkManager(&radios[i]));
-    ledManagers[i] = new FakeLedManager(&device, stateMachines[i]);
+    networkManagers[i] = new NetworkManager(&radios[i]);
+    stateMachines[i] = new RadioStateMachine(networkManagers[i]);
+    ledManagers[i] = new FakeLedManager(device, stateMachines[i]);
     stateMachines[i]->Tick();
   }
 }
 
 FakeNetwork::~FakeNetwork() {
+  for (NetworkManager* network_manager : networkManagers) {
+    delete network_manager;
+  }
   for (RadioStateMachine* state_machine : stateMachines) {
     delete state_machine;
   }
   for (FakeLedManager* led_manager : ledManagers) {
     delete led_manager;
-  }
-  for (auto&& strip : device.strips) {
-    delete strip;
   }
   if (packet != nullptr) {
     delete packet;
@@ -80,10 +81,11 @@ void FakeNetwork::Tick() {
 
 void FakeNetwork::reinitNode(int index) {
   delete stateMachines[index];
-  stateMachines[index] =
-      new RadioStateMachine(new NetworkManager(&radios[index]));
+  delete networkManagers[index];
+  networkManagers[index] = new NetworkManager(&radios[index]);
+  stateMachines[index] = new RadioStateMachine(networkManagers[index]);
   delete ledManagers[index];
-  ledManagers[index] = new FakeLedManager(&device, stateMachines[index]);
+  ledManagers[index] = new FakeLedManager(device, stateMachines[index]);
 }
 
 void FakeNetwork::setPacketLoss(int n) { packet_loss = n; }

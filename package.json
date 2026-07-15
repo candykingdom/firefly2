@@ -1,0 +1,16 @@
+{
+  "name": "firefly2-sim",
+  "private": true,
+  "description": "Dev tooling for the browser simulator (sim/). The simulator itself has no runtime dependencies and no build step.",
+  "type": "module",
+  "scripts": {
+    "check:agents": "node scripts/check-agent-setup.mjs",
+    "lint": "eslint sim",
+    "lint:fix": "eslint --fix sim",
+    "test": "node --test \"sim/test/cases/*.test.mjs\""
+  },
+  "devDependencies": {
+    "@stylistic/eslint-plugin": "^3.1.0",
+    "eslint": "^9.20.0"
+  }
+}

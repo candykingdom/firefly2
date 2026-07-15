@@ -7,14 +7,14 @@
 
 class SwingingLights : public Effect {
  public:
-  SwingingLights(const DeviceDescription *device);
+  SwingingLights();
 
   /** Gets the value of a specific LED at a specific time. */
   CRGB GetRGB(uint8_t led_index, uint32_t time_ms,
-              const StripDescription *strip,
-              RadioPacket *setEffectPacket) override;
+              const StripDescription &strip,
+              RadioPacket *setEffectPacket) const override;
 
  private:
-  uint32_t period = 5000;  // 5 second period.
+  static constexpr uint32_t kPeriod = 5000;  // 5 second period.
 };
 #endif

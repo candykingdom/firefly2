@@ -4,9 +4,11 @@
 #include <Radio.hpp>
 #include <cassert>
 
-LedManager::LedManager(const DeviceDescription *device,
+LedManager::LedManager(const DeviceDescription &device,
                        RadioStateMachine *radio_state)
-    : device(device), radio_state(radio_state) {
+    : device(device),
+      radio_state(radio_state),
+      control_effect(new ControlEffect()) {
   AddEffect(new ColorCycleEffect(), 2);
   AddEffect(new ContrastBumpsEffect(), 2);
   AddEffect(new FireEffect(), 1);
@@ -17,10 +19,10 @@ LedManager::LedManager(const DeviceDescription *device,
   AddEffect(new RainbowEffect(), 4);
   AddEffect(new RorschachEffect(), 2);
   AddEffect(new SparkEffect(), 4);
-  AddEffect(new SwingingLights(device), 4);
+  AddEffect(new SwingingLights(), 4);
 
   // Non-random effects
-  AddEffect(new PoliceEffect(), 0);
+  AddEffect(new SwingingLights(), 0);  // Formerly police lights
   AddEffect(new StopLightEffect(), 0);
   // Strobes
   AddEffect(new SimpleBlinkEffect(60), 0);
@@ -31,8 +33,6 @@ LedManager::LedManager(const DeviceDescription *device,
   // These two must be last
   AddEffect(new DisplayColorPaletteEffect(), 0);
   AddEffect(new DarkEffect(), 0);
-
-  control_effect = new ControlEffect();
 
   radio_state->SetNumEffects(GetNumEffects());
   radio_state->SetNumPalettes(Effect::palettes().size());
@@ -74,21 +74,35 @@ Effect *LedManager::GetEffect(uint8_t index) {
 }
 
 void LedManager::RunEffect() {
+  // Resolve these once per frame: nothing can change them mid-frame (the
+  // main loop is single-threaded), and using one timestamp keeps every LED
+  // in the frame consistent.
+  Effect *const effect = GetCurrentEffect();
+  RadioPacket *const set_effect_packet = radio_state->GetSetEffect();
+  const uint32_t time_ms = radio_state->GetNetworkMillis();
+
   uint8_t global_index = 0;
-  for (auto it = device->strips.begin(); it != device->strips.end(); ++it) {
-    const StripDescription *strip = *it;
-    for (uint8_t strip_index = 0; strip_index < strip->led_count;
+  for (const StripDescription &strip : device.strips) {
+    for (uint8_t strip_index = 0; strip_index < strip.led_count;
          ++strip_index) {
       uint8_t virtual_index;
-      if (strip->FlagEnabled(Reversed)) {
-        virtual_index = strip->led_count - strip_index - 1;
+      if (strip.FlagEnabled(Reversed)) {
+        virtual_index = strip.led_count - strip_index - 1;
       } else {
         virtual_index = strip_index;
       }
 
-      CRGB rgb = GetCurrentEffect()->GetRGB(virtual_index,
-                                            radio_state->GetNetworkMillis(),
-                                            strip, radio_state->GetSetEffect());
+      CRGB rgb;
+      if (strip.FlagEnabled(Off)) {
+        rgb = CRGB::Black;
+      } else {
+        rgb = effect->GetRGB(virtual_index, time_ms, strip, set_effect_packet);
+
+        if (strip.FlagEnabled(Dim)) {
+          rgb = rgb / (uint8_t)8;
+        }
+      }
+
       SetLed(global_index, rgb);
       global_index += 1;
     }
@@ -96,17 +110,18 @@ void LedManager::RunEffect() {
   WriteOutLeds();
 }
 
-uint8_t LedManager::GetNumEffects() { return effects.size(); }
+uint8_t LedManager::GetNumEffects() const { return effects.size(); }
 
-uint8_t LedManager::GetNumUniqueEffects() {
+uint8_t LedManager::GetNumUniqueEffects() const {
   return uniqueEffectIndices.size() + non_random_effects.size();
 }
 
-uint8_t LedManager::GetNumNonRandomEffects() {
+uint8_t LedManager::GetNumNonRandomEffects() const {
   return non_random_effects.size();
 }
 
-uint8_t LedManager::UniqueEffectNumberToIndex(uint8_t uniqueEffectNumber) {
+uint8_t LedManager::UniqueEffectNumberToIndex(
+    uint8_t uniqueEffectNumber) const {
   if (uniqueEffectNumber < uniqueEffectIndices.size()) {
     return uniqueEffectIndices[uniqueEffectNumber];
   } else {

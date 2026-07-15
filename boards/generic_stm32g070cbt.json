@@ -1,0 +1,47 @@
+{
+  "build": {
+    "core": "stm32",
+    "cpu": "cortex-m0plus",
+    "extra_flags": "-DSTM32G0xx -DSTM32G070xx",
+    "f_cpu": "64000000L",
+    "framework_extra_flags": {
+      "arduino": "-D__CORTEX_SC=0"
+    },
+    "hwids": [
+      [
+        "0x1A86",
+        "0x7523"
+      ]
+    ],
+    "mcu": "stm32g070cbtx",
+    "product_line": "STM32G070xx",
+    "variant": "STM32G0xx/G070CBT"
+  },
+  "debug": {
+    "jlink_device": "STM32G070CB",
+    "openocd_target": "stm32g0x",
+    "svd_path": "STM32G070.svd"
+  },
+  "frameworks": [
+    "arduino",
+    "cmsis",
+    "stm32cube"
+  ],
+  "name": "generic_stm32g070cbt",
+  "upload": {
+    "maximum_ram_size": 36864,
+    "maximum_size": 131072,
+    "protocol": "mbed",
+    "protocols": [
+      "blackmagic",
+      "cmsis-dap",
+      "dfu",
+      "jlink",
+      "serial",
+      "stlink",
+      "mbed"
+    ]
+  },
+  "url": "https://www.github.com/candykingdom/firefly2",
+  "vendor": "ST"
+}

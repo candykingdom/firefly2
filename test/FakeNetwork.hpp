@@ -34,6 +34,7 @@ class FakeNetwork {
   void TransmitPacket(RadioPacket &packet);
 
   static const long kNumNodes = 5;
+  NetworkManager *networkManagers[kNumNodes];
   RadioStateMachine *stateMachines[kNumNodes];
   FakeLedManager *ledManagers[kNumNodes];
 
@@ -43,7 +44,7 @@ class FakeNetwork {
   RadioPacket *packet = nullptr;
   RadioPacket *previous_packet = nullptr;
   DeviceDescription device =
-      DeviceDescription(2000, {new StripDescription(5, {})});
+      DeviceDescription(2000, {StripDescription(5, {})});
 };
 
 #endif

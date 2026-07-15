@@ -1,4 +1,5 @@
 #include <ColorPalette.hpp>
+#include <Effect.hpp>
 
 #include "gtest/gtest.h"
 
@@ -106,4 +107,71 @@ TEST(ColorPalette, wrapHueNotValues) {
 
   CHSV last = p.GetGradient(MAX_UINT16, false);
   EXPECT_EQ(last.h, HUE_BLUE);
+}
+
+// Degenerate inputs (G4): empty and single-color palettes must not
+// interpolate.
+TEST(ColorPalette, gradientOfEmptyPaletteIsBlack) {
+  ColorPalette p{};
+  EXPECT_EQ(p.Size(), 0);
+
+  for (fract16 position : {(fract16)0, (fract16)(MAX_UINT16 / 2),
+                           (fract16)MAX_UINT16}) {
+    CHSV color = p.GetGradient(position);
+    EXPECT_EQ(color.h, 0) << "position " << position;
+    EXPECT_EQ(color.s, 0) << "position " << position;
+    EXPECT_EQ(color.v, 0) << "position " << position;
+  }
+}
+
+TEST(ColorPalette, gradientOfSingleColorPaletteIsThatColorEverywhere) {
+  ColorPalette p{{HUE_AQUA, 200, 150}};
+
+  for (fract16 position : {(fract16)0, (fract16)1, (fract16)(MAX_UINT16 / 2),
+                           (fract16)MAX_UINT16}) {
+    for (bool wrap : {true, false}) {
+      CHSV color = p.GetGradient(position, wrap);
+      EXPECT_EQ(color.h, HUE_AQUA) << "position " << position;
+      EXPECT_EQ(color.s, 200) << "position " << position;
+      EXPECT_EQ(color.v, 150) << "position " << position;
+    }
+  }
+}
+
+// Positions that land exactly on a palette entry return that entry with no
+// interpolation, and with wrap the max position comes back around to the
+// first color.
+TEST(ColorPalette, gradientAtExactColorBoundariesReturnsThatColor) {
+  ColorPalette p{
+      {HUE_RED, 255, 255},
+      {HUE_GREEN, 200, 150},
+      {HUE_BLUE, 100, 50},
+  };
+
+  const uint16_t color_range = MAX_UINT16 / 3;  // wrap=true segment width
+  for (uint8_t i = 0; i < 3; i++) {
+    CHSV expected = p.GetColor(i);
+    CHSV actual = p.GetGradient(color_range * i);
+    EXPECT_EQ(actual.h, expected.h) << "boundary " << (int)i;
+    EXPECT_EQ(actual.s, expected.s) << "boundary " << (int)i;
+    EXPECT_EQ(actual.v, expected.v) << "boundary " << (int)i;
+  }
+
+  // color_range * 3 == 65535: with wrap, the end of the last segment is the
+  // first color again.
+  CHSV wrapped = p.GetGradient(color_range * 3);
+  EXPECT_EQ(wrapped.h, HUE_RED);
+}
+
+// Registry boundary (G4): palette indices are single wire bytes validated
+// only against this table's size. The corpus records 22 palettes; an
+// out-of-range index reaching palettes()[index] is out-of-bounds vector
+// access (undefined behavior - a known latent defect flagged in the 002
+// audit review, deliberately NOT exercised or fixed here). This pins the
+// boundary so a table-size change is a conscious, corpus-regenerating one.
+TEST(ColorPalette, effectPaletteRegistryBoundary) {
+  ASSERT_EQ(Effect::palettes().size(), 22u);
+  for (const ColorPalette &palette : Effect::palettes()) {
+    EXPECT_GE(palette.Size(), 1) << "palettes must never be empty";
+  }
 }

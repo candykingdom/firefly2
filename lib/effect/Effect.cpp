@@ -2,7 +2,7 @@
 
 Effect::Effect() {}
 
-uint8_t Effect::GetThresholdSin(int16_t x, uint8_t threshold) {
+uint8_t Effect::GetThresholdSin(int16_t x, uint8_t threshold) const {
   int16_t val = sin16(x);
   int16_t shifted_val = val / 128;
   if (shifted_val < threshold) {
@@ -12,10 +12,29 @@ uint8_t Effect::GetThresholdSin(int16_t x, uint8_t threshold) {
   }
 }
 
+CRGB Effect::FlattenedGradientRGB(const CHSV& color) const {
+  CRGB rgb;
+  hsv2rgb_rainbow(color, rgb);
+  const uint16_t sum = rgb.r + rgb.g + rgb.b;
+
+  // Reference drive: what an un-boosted hue (red) outputs at this
+  // saturation and value.
+  CRGB reference;
+  hsv2rgb_rainbow(CHSV(HUE_RED, color.s, color.v), reference);
+  const uint16_t reference_sum = reference.r + reference.g + reference.b;
+
+  if (sum > reference_sum) {
+    rgb.r = (uint32_t)rgb.r * reference_sum / sum;
+    rgb.g = (uint32_t)rgb.g * reference_sum / sum;
+    rgb.b = (uint32_t)rgb.b * reference_sum / sum;
+  }
+  return rgb;
+}
+
 // If this is a simple static variable, then it might not be initialized before
 // it's used, static variable initialization order is undefined. This method
 // ensures that it is initialized when it's used.
-const std::vector<ColorPalette> Effect::palettes() {
+const std::vector<ColorPalette>& Effect::palettes() {
   static const std::vector<ColorPalette> palettes = {
       // Solid color
       {{HUE_RED, 255, 255}},
@@ -40,8 +59,8 @@ const std::vector<ColorPalette> Effect::palettes() {
       // Vaporwave
       // https://i.redd.it/aepphltiqy911.png
       {{33, 241, 249}, {247, 188, 255}, {201, 225, 160}, {153, 251, 150}},
-      // Popo
-      {{HUE_RED, 255, 255}, {HUE_BLUE, 255, 255}},
+      // Cool, Formerly Popo but antifa got to them.
+      {{HUE_AQUA, 0, 255}, {HUE_BLUE, 255, 255}},
       // Candy-cane
       {{HUE_RED, 255, 255}, {HUE_RED, 0, 255}},
       // Winter-mint candy-cane

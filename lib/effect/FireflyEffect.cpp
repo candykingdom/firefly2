@@ -6,12 +6,26 @@ FireflyEffect::FireflyEffect() : Effect() {
 #ifdef ARDUINO
   randomSeed((analogRead(A0) << 10) | analogRead(A0));
 #endif
-  offset = random(0, kBlinkPeriod / 2);
+  offset_ = random(0, kBlinkPeriod / 2);
 }
 
 CRGB FireflyEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
-                           const StripDescription *strip,
-                           RadioPacket *setEffectPacket) {
+                           const StripDescription &strip,
+                           RadioPacket *setEffectPacket) const {
+  uint32_t offset = offset_;
+  if (strip.FlagEnabled(Controller)) {
+    // For the controller, blink the lights mostly in sync
+    if (led_index % 2 == 1) {
+      return CRGB(0, 0, 0);
+    }
+
+    // Mask the shift count: shifting a 32-bit value by >= 32 is undefined
+    // behavior. A no-op for led_index < 32 (all current hardware); larger
+    // indices wrap to an arbitrary-but-stable per-LED offset, which is all
+    // this needs to be.
+    offset = ((kBlinkPeriod + 1234) << (led_index & 31)) % (kBlinkPeriod / 2);
+  }
+
   const int8_t phase = (time_ms / kPeriodMs) % 3;
 
   uint32_t adjusted_time = 0;
@@ -41,7 +55,7 @@ CRGB FireflyEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
   if (curve < 0) {
     curve = 0;
   }
-  ColorPalette palette =
+  const ColorPalette &palette =
       palettes()[setEffectPacket->readPaletteIndexFromSetEffect()];
   CHSV color = palette.GetGradient((time_ms / kBlinkPeriod) << 8);
   color.v = curve / 256;

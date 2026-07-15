@@ -11,7 +11,8 @@
 
 class LedManager {
  public:
-  LedManager(const DeviceDescription *device, RadioStateMachine *radio_state);
+  explicit LedManager(const DeviceDescription &device,
+                      RadioStateMachine *radio_state);
   virtual ~LedManager();
 
   void RunEffect();
@@ -22,17 +23,17 @@ class LedManager {
    * Returns the total number of effects (including the many copies in effects
    * and the non-random effects).
    */
-  uint8_t GetNumEffects();
+  uint8_t GetNumEffects() const;
 
-  uint8_t GetNumUniqueEffects();
+  uint8_t GetNumUniqueEffects() const;
 
-  uint8_t GetNumNonRandomEffects();
+  uint8_t GetNumNonRandomEffects() const;
 
   /**
    * Converts from a unique effect index (between 0 and GetNumUniqueEffects())
    * to the effect index used for SetEffect packets.
    */
-  uint8_t UniqueEffectNumberToIndex(uint8_t uniqueEffectNumber);
+  uint8_t UniqueEffectNumberToIndex(uint8_t uniqueEffectNumber) const;
 
   Effect *GetEffect(uint8_t index);
 
@@ -45,14 +46,14 @@ class LedManager {
   // Note: these need to be defined, or else calls to this classes' constructor
   // don't work.
   virtual void WriteOutLeds() = 0;
-  const DeviceDescription *const device;
+  const DeviceDescription &device;
   RadioStateMachine *const radio_state;
 
   // The effects that will be chosen randomly. This contains many entries for
   // each effect, so that we can control the occurence of each effect.
   std::vector<Effect *> effects;
 
-  // Effects that can only be chosen manuall. These are "harsh" or otherwise
+  // Effects that can only be chosen manually. These are "harsh" or otherwise
   // unsuitable for general use.
   std::vector<Effect *> non_random_effects;
 
@@ -61,6 +62,6 @@ class LedManager {
 
   void AddEffect(Effect *Effect, uint8_t proportion);
 
-  ControlEffect *control_effect;
+  ControlEffect *const control_effect;
 };
 #endif

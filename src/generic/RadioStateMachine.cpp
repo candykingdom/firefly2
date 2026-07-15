@@ -5,45 +5,49 @@
 #include <Effects.hpp>
 #include <cstdio>
 
-//#define DEBUG
+// #define DEBUG
 
 RadioStateMachine::RadioStateMachine(NetworkManager *networkManager)
     : network_manager_(networkManager) {
-  // Note: this takes advantage of the fact that C++ enums are actually uints.
-  for (int i = 0; i <= TIMER_TYPE_LAST; i++) {
-    timers_[i] = 0;
-  }
+  timers_.fill(0);
   state_ = RadioState::Slave;
   next_state_ = RadioState::Slave;
   beginSlave();
   set_effect_packet_.writeSetEffect(1, 0, 0);
 }
 
-RadioStateMachine::~RadioStateMachine() { delete network_manager_; }
+RadioStateMachine::~RadioStateMachine() {}
 
-RadioState RadioStateMachine::GetCurrentState() { return state_; }
+RadioState RadioStateMachine::GetCurrentState() const { return state_; }
 
 void RadioStateMachine::Tick() {
   // Run the radio state machine twice, since writing out LEDs may take several
   // ms.
+  //
+  // There is a bug (probably a compiler bug) where if the first call to Tick()
+  // calls RadioTick() twice, in the second call the call to TimerExpired()
+  // hangs when it tries to access timers_. So, only call RadioTick once the
+  // first time Tick() is called.
   RadioTick();
-  if (millis() > 2000) {
+  if (tick_run_) {
     RadioTick();
   }
+  tick_run_ = true;
 }
 
-uint32_t RadioStateMachine::GetNetworkMillis() {
+uint32_t RadioStateMachine::GetNetworkMillis() const {
   // DANGER: adding unsigned and signed types!
   return millis() + millis_offset_;
 }
 
-uint8_t RadioStateMachine::GetEffectIndex() { return effect_index_; }
+uint8_t RadioStateMachine::GetEffectIndex() const { return effect_index_; }
 
 RadioPacket *RadioStateMachine::GetSetEffect() { return &set_effect_packet_; }
 
 void RadioStateMachine::SetEffect(RadioPacket *const setEffect) {
   this->set_effect_packet_ = *setEffect;
   this->network_manager_->send(this->set_effect_packet_);
+  effect_index_ = setEffect->readEffectIndexFromSetEffect();
   if (this->set_effect_packet_.readDelayFromSetEffect()) {
     SetTimer(TimerChangeEffect,
              this->set_effect_packet_.readDelayFromSetEffect() * 1000);
@@ -243,7 +247,7 @@ void RadioStateMachine::SetTimer(TimerType timer, uint32_t delay) {
   }
 }
 
-TimerType RadioStateMachine::TimerExpired() {
+TimerType RadioStateMachine::TimerExpired() const {
   // TODO: Trellis hangs here if RadioTick is called twice the first time -
   // possibly a hardware/compiler bug. This only happens when the device is
   // first powered on (i.e. resetting using the button after it's on works

@@ -4,14 +4,11 @@
 
 FakeRadio::FakeRadio() {
   received_packet = nullptr;
-  sent_packet = nullptr;
+  sent_wire_length = 0;
+  has_sent_packet = false;
 }
 
-FakeRadio::~FakeRadio() {
-  if (sent_packet != nullptr) {
-    delete sent_packet;
-  }
-}
+FakeRadio::~FakeRadio() {}
 
 bool FakeRadio::readPacket(RadioPacket &packet) {
   if (received_packet == nullptr) {
@@ -23,10 +20,8 @@ bool FakeRadio::readPacket(RadioPacket &packet) {
 }
 
 void FakeRadio::sendPacket(RadioPacket &packet) {
-  if (sent_packet == nullptr) {
-    sent_packet = new RadioPacket();
-  }
-  *sent_packet = packet;
+  sent_wire_length = packet.Serialize(sent_wire);
+  has_sent_packet = true;
 }
 
 void FakeRadio::setReceivedPacket(RadioPacket *packet) {
@@ -43,7 +38,15 @@ void FakeRadio::setReceivedPacket(RadioPacket *packet) {
 }
 
 RadioPacket *FakeRadio::getSentPacket() {
-  RadioPacket *thePacket = sent_packet;
-  sent_packet = nullptr;
-  return thePacket;
+  if (!has_sent_packet) {
+    return nullptr;
+  }
+  has_sent_packet = false;
+
+  RadioPacket *packet = new RadioPacket();
+  if (!packet->Deserialize(sent_wire, sent_wire_length)) {
+    delete packet;
+    return nullptr;
+  }
+  return packet;
 }

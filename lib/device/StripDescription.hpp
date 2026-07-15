@@ -7,16 +7,19 @@
 enum StripFlag {
   Tiny = 1 << 0,
   Bright = 1 << 1,
+  Dim = 1 << 6,
+  Off = 1 << 7,
   Circular = 1 << 2,
   Mirrored = 1 << 3,
   Reversed = 1 << 4,
+  Controller = 1 << 5,
 };
 
 class StripDescription {
  public:
   const uint8_t led_count;
 
-  StripDescription(uint8_t led_count, std::vector<StripFlag> flags);
+  explicit StripDescription(uint8_t led_count, std::vector<StripFlag> flags);
 
   bool FlagEnabled(StripFlag flag) const;
 
