@@ -2,8 +2,6 @@
 
 #define ESP_NOW_WIFI_CHANNEL 4
 #define ESPNOW_WIFI_IFACE WIFI_IF_STA
-#define ESPNOW_EXAMPLE_PMK "pmk1234567890123"
-#define ESPNOW_EXAMPLE_LMK "lmk1234567890123"
 
 uint8_t broadcastAddress[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 uint8_t saved_data[ESP_NOW_MAX_DATA_LEN_V2];
@@ -58,7 +56,7 @@ bool EspNowRadio::Begin() {
   while (!WiFi.STA.started()) {
     delay(100);
   }
-  if (!ESP_NOW.begin((const uint8_t*)ESPNOW_EXAMPLE_PMK)) {
+  if (!ESP_NOW.begin((const uint8_t*)ESPNOW_PMK)) {
     return false;
   }
   ESP_NOW.onNewPeer(register_peer, this);
@@ -66,6 +64,11 @@ bool EspNowRadio::Begin() {
 }
 
 bool EspNowRadio::readPacket(RadioPacket& packet) {
+  RadioPacket *saved_packet = ((RadioPacket *)saved_data);
+  if (last_packet_id == saved_packet->packet_id) {
+    return false;
+  }
+  last_packet_id = saved_packet->packet_id;
   memcpy(&packet, saved_data, saved_data_len);
   return true;
 }

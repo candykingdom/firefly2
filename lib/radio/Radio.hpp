@@ -108,7 +108,13 @@ inline bool operator==(const RadioPacket& lhs, const RadioPacket& rhs) {
 
 class Radio {
  public:
-  virtual ~Radio() = default;
+  virtual ~Radio()  = default;
+
+  /**
+   * Perform essential operations to initialize the radio. Returns false if
+   * there are errors.
+   */
+  virtual bool Begin() = 0;
 
   /**
    * If a packet is available, reads it into the provided struct and returns
