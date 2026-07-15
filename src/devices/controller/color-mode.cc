@@ -2,6 +2,7 @@
 
 #include "Types.hpp"
 #include "buttons.h"
+#include "config-storage.h"
 #include "config-utils.h"
 #include "generic/RadioStateMachine.hpp"
 #include "leds.h"
@@ -11,6 +12,9 @@ extern RadioStateMachine state_machine;
 extern const uint8_t kSetEffectDelay;
 
 constexpr uint32_t kRepeatDelay = 30;
+constexpr uint8_t kColorConfigPage = 0;
+constexpr uint8_t kColorConfigWord = 0;
+constexpr std::array<uint8_t, 4> kColorInitialized = {0xDE, 0xAD, 0xBE, 0xEF};
 
 // Colors for color mode
 const CHSV kHsvBlack = CHSV{0, 255, 0};
@@ -36,6 +40,17 @@ std::array<std::array<CHSV, 6>, 3> colors = {
         kHsvBlack,
     },
 };
+static_assert(sizeof(CHSV) == 3, "Stored color schema requires 3-byte CHSV");
+static_assert(sizeof(colors) == 54, "Stored color schema changed");
+
+void MaybeLoadColorConfig() {
+  decltype(colors) loaded{};
+  if (controller_config::LoadRecord<sizeof(loaded)>(
+          kColorConfigPage, kColorConfigWord, kColorInitialized,
+          reinterpret_cast<uint8_t *>(loaded.data()))) {
+    colors = loaded;
+  }
+}
 
 void WriteColorsToMainLeds() {
   for (uint8_t i = 0; i < 36; i++) {
@@ -237,6 +252,9 @@ void RunColorConfig() {
         // the other bottom buttons cancels and returns to normal mode.
         if (i == config_carousel) {
           colors[config_carousel][selected_slot] = current_hsv;
+          controller_config::StoreRecord<sizeof(colors)>(
+              kColorConfigPage, kColorConfigWord, kColorInitialized,
+              reinterpret_cast<const uint8_t *>(colors.data()));
         }
         sub_mode = SubMode::Normal;
       }

@@ -6,6 +6,7 @@
 #include "DisplayColorPaletteEffect.hpp"
 #include "Types.hpp"
 #include "buttons.h"
+#include "config-storage.h"
 #include "config-utils.h"
 #include "generic/RadioStateMachine.hpp"
 #include "leds.h"
@@ -16,6 +17,10 @@ extern RadioStateMachine state_machine;
 extern const uint8_t kSetEffectDelay;
 
 constexpr uint32_t kRepeatDelay = 500;
+// Split the 2 KiB FRAM into 1 KiB regions for color and palette config.
+constexpr uint8_t kPaletteConfigPage = 4;
+constexpr uint8_t kPaletteConfigWord = 0;
+constexpr std::array<uint8_t, 4> kPaletteInitialized = {0xBA, 0xAD, 0xF0, 0x0D};
 
 // Palette indices for palette mode.
 std::array<std::array<uint8_t, 6>, 3> palettes = {
@@ -23,11 +28,23 @@ std::array<std::array<uint8_t, 6>, 3> palettes = {
     std::array<uint8_t, 6>{14, 15, 16, 17, 18, 19},
     std::array<uint8_t, 6>{20, 21, 0, 1, 2, 3},
 };
+static_assert(sizeof(palettes) == 18, "Stored palette schema changed");
 
 const StripDescription kPaletteStrip =
     StripDescription(/*led_count=*/5, {Bright, Controller});
 const StripDescription kPalettePreviewStrip =
     StripDescription(/*led_count=*/12, {Bright, Controller});
+
+void MaybeLoadPaletteConfig() {
+  decltype(palettes) loaded{};
+  if (controller_config::LoadRecord<sizeof(loaded)>(
+          kPaletteConfigPage, kPaletteConfigWord, kPaletteInitialized,
+          reinterpret_cast<uint8_t *>(loaded.data())) &&
+      PaletteIndicesAreValid(loaded,
+                             static_cast<uint8_t>(Effect::palettes().size()))) {
+    palettes = loaded;
+  }
+}
 
 void WritePalettesToMainLeds() {
   for (uint8_t i = 0; i < 36; i++) {
@@ -172,6 +189,9 @@ void RunPaletteConfig() {
         // the other bottom buttons cancels and returns to normal mode.
         if (i == config_carousel) {
           palettes[config_carousel][selected_slot] = current_palette;
+          controller_config::StoreRecord<sizeof(palettes)>(
+              kPaletteConfigPage, kPaletteConfigWord, kPaletteInitialized,
+              reinterpret_cast<const uint8_t *>(palettes.data()));
         }
         sub_mode = SubMode::Normal;
       }

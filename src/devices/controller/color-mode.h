@@ -2,5 +2,6 @@
 
 #include "Types.hpp"
 
+void MaybeLoadColorConfig();
 void RunColorMode();
 void RunColorConfig();
