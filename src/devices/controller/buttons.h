@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Types.hpp"
 #include <button-filter.h>
 
-#include "leds.h"
+#include "Types.hpp"
 #include "config.h"
+#include "leds.h"
 
 constexpr std::array<uint8_t, 3> kLeftButtons = {PB2, PB14, PB15};
 constexpr std::array<uint8_t, 3> kRightButtons = {PA8, PC6, PC7};
