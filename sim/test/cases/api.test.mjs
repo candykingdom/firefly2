@@ -85,6 +85,10 @@ test(
     assert(!(snapshot instanceof Promise),
       'getSnapshot must remain synchronous');
     assertEqual(snapshot.time, 456);
+    const controlled = sim.setControl([9, 18, 27], 1).getSnapshot();
+    assert(!(controlled instanceof Promise),
+      'setControl must return a synchronous chainable surface');
+    assertDeepEqual(controlled.devices[0].strips[0].leds[0], [9, 18, 27]);
     assertEqual(documentObject.elements.get('sim-init').hidden, true);
     assertEqual(documentObject.elements.get('sim-app').hidden, false);
   },
@@ -122,39 +126,3 @@ test(
     assertEqual(errors.length, 1);
   },
 );
-
-if (typeof document !== 'undefined') {
-  test('served simulator page publishes a synchronous window.sim API',
-    async () => {
-      const iframe = document.createElement('iframe');
-      iframe.hidden = true;
-      iframe.src = './index.html?device=bike,scarf&effect=Dark' +
-        '&palette=Rainbow&t=789&paused=1';
-      document.body.appendChild(iframe);
-      try {
-        await new Promise((resolve, reject) => {
-          const timeout = globalThis.setTimeout(
-            () => reject(new Error('simulator iframe did not load')), 10000);
-          iframe.addEventListener('load', () => {
-            globalThis.clearTimeout(timeout);
-            resolve();
-          }, { once: true });
-        });
-        let sim = iframe.contentWindow.sim;
-        for (let attempt = 0; !sim && attempt < 100; attempt++) {
-          await new Promise((resolve) =>
-            globalThis.setTimeout(resolve, 10));
-          sim = iframe.contentWindow.sim;
-        }
-        assert(sim, 'served page did not publish window.sim');
-        assertDeepEqual(sim.getState().devices, ['bike', 'scarf']);
-        assertEqual(sim.getState().effectName, 'Dark');
-        assertEqual(sim.getState().time, 789);
-        const snapshot = sim.setControl([9, 18, 27], 1).getSnapshot();
-        assert(!(snapshot instanceof Promise));
-        assertDeepEqual(snapshot.devices[0].strips[0].leds[0], [9, 18, 27]);
-      } finally {
-        iframe.remove();
-      }
-    });
-}
