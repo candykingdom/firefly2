@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "rendererAbi": 1,
+  "emscriptenVersion": "6.0.3",
+  "fakeFastLedCommit": "f00dd2dd4efc34e90c16dd6a1a8eada0922d56ca",
+  "sourceFingerprint": "765061d4c43a5c0b1877c96847d880e2dd60e2fba5046c254349230792ae1a8e",
+  "files": {
+    "firefly-renderer.js": {
+      "sha256": "9cf4b4840ecae0d63eefb6176f2c6674dd9b7bda989c7989dc66b003c9353139",
+      "bytes": 8794
+    },
+    "firefly-renderer.wasm": {
+      "sha256": "4d0c42232f8119c0a2ed4cf75d2e59e027ddc7a7e2b505a1527b91a779351215",
+      "bytes": 35139
+    }
+  }
+}

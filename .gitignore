@@ -10,3 +10,16 @@ assembly/*.zip
 .claude/agents/
 .claude/worktrees/
 node_modules/
+.playwright-browsers/
+playwright-report/
+test-results/
+
+# The renderer artifact is committed, but local/temporary Wasm build trees and
+# uncontracted compiler side-products are not.
+sim/wasm/build*/
+sim/wasm/.build*/
+.emsdk/
+sim/generated/*
+!sim/generated/firefly-renderer.js
+!sim/generated/firefly-renderer.wasm
+!sim/generated/manifest.json

@@ -1,65 +1,111 @@
 # Web Simulator (`sim/`)
 
-A zero-dependency browser simulator for testing Firefly without hardware: all firmware effects and palettes ported to JavaScript with wire-index-faithful registries, the real device catalog, a pausable/scrubbable network clock, master-mode autoplay, and SET_CONTROL overrides. Byte-exact fidelity against the firmware is enforced by committed reference vectors.
+The browser simulator visualizes and verifies Firefly shows without hardware. Its LED bytes come from the production C++ `LedManager`, effects, palettes, device descriptions, FastLED math, and strip-flag handling compiled to WebAssembly. JavaScript owns only the controllable clock/show state, autoplay orchestration, public `window.sim` API, and canvas UI.
 
-Feature docs live in [`specs/001-web-simulator/`](../specs/001-web-simulator/spec.md) — see [quickstart.md](../specs/001-web-simulator/quickstart.md), the [`window.sim` API contract](../specs/001-web-simulator/contracts/sim-api.md), and the [reference-vector contract](../specs/001-web-simulator/contracts/reference-vectors.md).
+Feature docs live in [`specs/001-web-simulator/`](../specs/001-web-simulator/spec.md) and [`specs/005-shared-simulator-engine/`](../specs/005-shared-simulator-engine/spec.md). The stable automation surface is documented in the [`window.sim` API contract](../specs/001-web-simulator/contracts/sim-api.md); the generated files follow the [artifact contract](../specs/005-shared-simulator-engine/contracts/artifact.md).
 
-## Run it
+## Run it (no compiler or build)
 
 ```bash
-python3 -m http.server 8642 -d sim   # ES modules need HTTP, not file://
-# open http://localhost:8642/        — the simulator
-# open http://localhost:8642/test.html — in-browser test suite
+python3 -m http.server 8642 -d sim
+# open http://localhost:8642/
+# open http://localhost:8642/test.html for the in-browser suite
 ```
 
-No build step, no npm needed to *use* it. The page starts animating immediately (scarf + Rainbow); URL params deep-link state: `?device=ufo,puck&effect=13&palette=8&t=5000&paused=1`.
+The checked-in `sim/generated/firefly-renderer.{js,wasm}` files are all the page needs. It makes no runtime download and has no fallback renderer. A missing or incompatible artifact produces an explicit fatal startup state rather than plausible but incorrect pixels.
 
-Programmatic driving (browser console or automation): `window.sim` — e.g. `sim.setDevices(['ufo']).setEffect('Fire').pause().setTime(5000)` then `sim.getSnapshot()` for every LED's color as data.
+The static page and Wasm work in current browsers on macOS, Windows, and Linux. On Windows installations that expose Python through the launcher instead of `python3`, the equivalent server command is `py -3 -m http.server 8642 -d sim`.
 
-## Test it
+URL parameters deep-link state: `?device=ufo,puck&effect=13&palette=8&t=5000&paused=1`. For console or automation use `window.sim`, for example:
+
+```js
+sim.setDevices(['ufo']).setEffect('Fire').pause().setTime(5000);
+sim.getSnapshot();
+```
+
+Page startup is asynchronous while the Wasm module loads. Once `api.js` has resolved and `window.sim` exists, every setter, state read, and `getSnapshot()` call remains synchronous.
+
+## Test it without hardware
 
 ```bash
 node --test "sim/test/cases/*.test.mjs"   # or: npm test
+npm ci && npm run lint                    # dev-only ESLint dependency
 ```
 
-Eight suites: wire-index registry invariants (incl. the "Display Color Palette / Dark are the last two indices" invariant), determinism, central strip-flag handling (Reversed/Dim/Off), 0–255 wire-byte fuzz, SET_CONTROL semantics, master cadence/weighting, uniform gradient drive (the specs/004 power flattening, mirroring `test/GradientPowerTest.cpp`), and byte-exact comparison against `sim/test/vectors/reference.json`. The same cases run in-browser at `/test.html` (it reports `window.__testResults` and beacons `/__test-results?pass=N&fail=M` to the serving host for automated drivers).
+The Node and browser suites load the same committed artifact as the page. They cover the C++ ABI and metadata, URL/API compatibility, registry invariants, deterministic seeds, strip flags, every effect/palette wire byte, SET_CONTROL, master cadence, gradient power, all 1,380 reference cases, manifest hashes/fingerprint, and an assertion that no handwritten production renderer modules return.
 
-## Lint it
+### Automated end-to-end and visual checks
+
+Install the two managed browsers once, then run the served application journeys:
 
 ```bash
-npm ci          # once — dev-only tooling (ESLint); the simulator itself has no dependencies
-npm run lint    # eslint sim/  (config: eslint.config.mjs)
+npm ci
+npx playwright install chromium firefox
+npm run test:e2e
 ```
 
-CI runs both in `.github/workflows/sim.yaml`.
+On a fresh Linux machine, use `npx playwright install --with-deps chromium firefox` so required system libraries are installed too. The test command is otherwise identical on macOS, Windows, and Linux and starts its own isolated static server; it does not replace the one-command Python workflow for normal simulator use.
 
-## Firmware fidelity: reference vectors
+The E2E suite drives the real page in Chromium and Firefox. It verifies Wasm startup from a deep link and reload, catalog/controls, `window.sim` in both directions, exact control color in both the C++ snapshot and canvas pixels, deterministic linear/circular/multi-strip rendering, the complete in-browser parity harness, and the visible no-fallback error when the Wasm request fails. Browser console errors and uncaught exceptions fail the journeys.
 
-`sim/test/vectors/reference.json` is generated by the C++ tool `test/VectorGen.cpp` (CMake target `vectorgen`), which renders sampled (effect × palette × device × time) tuples through the same `FakeLedManager`/FakeFastLED stack the host tests use. The case model is shared (`test/VectorGenCommon.{hpp,cpp}`) with `test/ReferenceVectorTest.cpp`, which re-renders every committed case in `smalltests` — so the corpus pins the firmware too, not just the JS port. After intentionally changing a firmware effect:
+For interactive diagnosis and retained evidence:
 
 ```bash
-cd build && cmake .. -DBUILD_SIMULATOR=false && make vectorgen
-./vectorgen > ../sim/test/vectors/reference.json
-cd .. && npm test   # port the change to sim/js/effects/, iterate until byte-exact
+npm run test:e2e:headed   # watch both browsers execute the journeys
+npm run test:e2e:debug    # Playwright inspector and step controls
+npm run test:e2e:report   # open screenshots, traces, video, and attachments
 ```
 
-A nonempty `reference.json` diff means firmware rendering behavior changed; the JS port of that effect must be updated to match (`sim/js/effects/*.js` cite their source files).
+Successful visual journeys attach a full-page screenshot and structured C++ snapshot; the missing-artifact journey attaches its fatal-state screenshot. Failures retain a screenshot, video, trace, and DOM error context under ignored `test-results/` and `playwright-report/` directories. Simulator CI runs both browsers on macOS, Windows, and Linux and uploads those diagnostics for 14 days.
 
-The Rainbow, Color Cycle, Rainbow Bumps, and Display Color Palette ports use `flattenedGradientRGB` for interpolated gradients, mirroring firmware's integer-truncating removal of `hsv2rgb_rainbow`'s yellow-band power boost. Solid palette branches and noise/texture effects keep the original conversion intentionally; the reference corpus pins that scope byte-for-byte.
+The shared-renderer suite also measures startup and warm render throughput, with automated 16 ms assertions for both one selected device and all 22 catalog devices. On the implementation machine (macOS arm64, Node 26), the measured values were 6.06 ms initialization, 0.003 ms per scarf frame, and 0.075 ms for one frame across all devices. These numbers vary by machine; the enforced budget is the portable requirement.
 
-Determinism gotchas the vectors encode (see `specs/001-web-simulator/research-fastled-notes.md`):
+`sim/test/vectors/reference.json` is a reviewable behavior corpus generated by the C++ `vectorgen` target. `ReferenceVectorTest` re-renders it on the host; `vectors.test.mjs` sends every case through the committed Wasm. The browser is therefore testing production C++ directly, while the corpus still makes intentional pixel changes visible in review.
 
-- Fire/Rorschach constructor offsets are the first two FastLED-LCG draws from seed 1337 (the `analogRead` reseed is `#ifdef ARDUINO`-only); the JS registry replays the same LCG.
-- Firefly's offset comes from libc `rand()` (not portable to JS) — `vectorgen` records it in `meta.effectSeeds` and `DEFAULT_FIREFLY_OFFSET` in `sim/js/effects/registry.js` must match (a test cross-checks).
-- `vectorgen` resets both PRNGs immediately before LedManager construction because the RadioStateMachine constructor consumes a `rand()` for timer jitter.
+## Refresh the committed Wasm artifact
 
-## Adding a new effect (prototyping shows)
+Only developers changing compiled rendering code need Emscripten. Install and activate exactly SDK 6.0.3; FakeFastLED is pinned to `f00dd2dd4efc34e90c16dd6a1a8eada0922d56ca`. Then, from the repository root:
 
-1. Create `sim/js/effects/myEffect.js` exporting `makeMyEffect()` → `{name, getRGB(ledIndex, timeMs, strip, show)}` (pure function of its inputs; see any existing effect).
-2. Register it in `sim/js/effects/registry.js`'s `declarations` list (weight > 0 for the master's random pool, 0 for manual-only). Keep Display Color Palette and Dark as the last two entries — tests enforce this.
-3. It appears in the UI and the API immediately; `npm test` fuzzes it via the tolerance suite.
-4. When porting it to firmware later, register it in `lib/led_manager/LedManager.cpp` at the same position and regenerate vectors.
+```bash
+npm run build:sim-wasm
+npm run check:sim-wasm
+```
+
+Those npm commands are the cross-platform entry points for macOS, Windows, and Linux. The canonical POSIX wrappers remain available on macOS/Linux (and Windows Git Bash):
+
+```bash
+./scripts/build-simulator-wasm.sh
+./scripts/check-simulator-wasm.sh
+```
+
+The builder checks the compiler version, performs a clean temporary release build, fingerprints all compiled sources/headers and flags, creates a deterministic manifest, and replaces the three generated files only after success. The checker performs the same clean build and byte-compares JavaScript, Wasm, and manifest without modifying the worktree. `npm run test:sim-wasm-integration` proves both current and deliberately stale artifact paths.
+
+## Change or add production rendering
+
+There is no simulator-side effect to port. Make the authoritative C++ change, then update its generated evidence:
+
+1. Implement effects under `lib/effect/`, declarations/weights under `lib/effect/EffectRegistry.cpp`, palettes under `lib/effect/Effect.cpp`, or devices under `lib/device/`.
+2. Keep Display Color Palette and Dark as the final two wire entries, keep the total below 256, and add any new compiled source to the explicit ordered list in `sim/wasm/CMakeLists.txt`.
+3. Run the host tests. If LED behavior changed intentionally, regenerate and review the corpus:
+
+   ```bash
+   cd build
+   cmake .. -DBUILD_SIMULATOR=false
+   make vectorgen
+   ./vectorgen > ../sim/test/vectors/reference.json
+   cd ..
+   ```
+
+4. Run `npm run build:sim-wasm`, then the freshness and functional suites.
+
+Fire, Firefly, and Rorschach keep their production random constructors. The simulator ABI supplies explicit deterministic offsets (defaults 6198, 423, and 24359) so repeated verification and the reference corpus remain stable; `setEffectSeed` selects another cached native renderer tuple.
 
 ## Layout
 
-`sim/js/` — `fastled.js` (byte-exact FastLED math), `perlin.js`, `palette.js` (22 palettes), `devices.js` (catalog), `effects/` (one file per effect + `registry.js`), `engine.js` (`SimEngine`: clock, show state, RunEffect port), `master.js` (autoplay), `api.js` (browser bootstrap), `ui.js` (canvas + controls). Everything except `api.js`/`ui.js` is DOM-free and runs in Node — that's what makes the suite runnable headless.
+- `lib/effect/EffectRegistry.*` and `lib/device/DeviceCatalog.*` — authoritative catalogs shared by firmware, host tests, and Wasm.
+- `sim/wasm/` — thin C ABI/lifecycle bridge and explicit Emscripten target; no rendering algorithms.
+- `sim/generated/` — committed deterministic ES-module glue, Wasm binary, and manifest.
+- `sim/js/renderer.js` — ABI validation, metadata decoding, seed-handle cache, and copied RGB output buffers.
+- `sim/js/engine.js` / `master.js` — browser-owned clock, show state, control/master orchestration, and stable API shapes.
+- `sim/js/api.js` / `ui.js` — startup/error state, URL bootstrap, `window.sim`, and canvas controls.
+- `sim/e2e/` and `playwright.config.mjs` — served-page user journeys, deterministic visual assertions, and browser diagnostics.

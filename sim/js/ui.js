@@ -10,11 +10,14 @@ const LABEL_COLOR = '#8b93a3';
 const RING_MIN_RADIUS = 26;
 
 export function startUi(sim) {
+  // Bootstrap calls this only after the shared renderer has initialized. Any
+  // setup failure propagates back to api.js and becomes the fatal state.
   const canvas = document.getElementById('stage');
   const ctx = canvas.getContext('2d');
   const stageWrap = document.getElementById('stage-wrap');
   const pausedBadge = document.getElementById('paused-badge');
   const statusBar = document.getElementById('status');
+  const paletteCount = sim.listPalettes().length;
 
   buildDeviceList(sim);
   buildEffectList(sim);
@@ -29,7 +32,7 @@ export function startUi(sim) {
     lastWall = now;
     const snapshot = sim.getSnapshot();
     draw(snapshot);
-    reflectState(sim);
+    reflectState(sim, paletteCount);
     requestAnimationFrame(frame);
   }
   // Paint synchronously so the page never shows an empty stage (and headless
@@ -166,14 +169,16 @@ export function startUi(sim) {
 
   function buildDeviceList(sim) {
     const host = document.getElementById('device-list');
-    const selected = new Set(sim.getState().devices);
+    const initialSelection = new Set(sim.getState().devices);
     for (const device of sim.listDevices()) {
       const label = document.createElement('label');
       label.className = 'opt';
       const box = document.createElement('input');
       box.type = 'checkbox';
-      box.checked = selected.has(device.name);
+      box.dataset.deviceName = device.name;
+      box.checked = initialSelection.has(device.name);
       box.addEventListener('change', () => {
+        const selected = new Set(sim.getState().devices);
         if (box.checked) selected.add(device.name);
         else selected.delete(device.name);
         if (selected.size === 0) {  // never leave the stage empty
@@ -280,7 +285,7 @@ export function startUi(sim) {
 
   // Reflect engine state back into the controls every frame, so master-mode
   // changes and programmatic (console) driving stay visible.
-  function reflectState(sim) {
+  function reflectState(sim, paletteCount) {
     const state = sim.getState();
     pausedBadge.hidden = !state.paused;
     document.getElementById('play-pause').textContent =
@@ -293,7 +298,11 @@ export function startUi(sim) {
     for (const btn of document.querySelectorAll('#palette-list .swatch')) {
       btn.classList.toggle('selected',
         Number(btn.dataset.paletteIndex) ===
-                               state.paletteIndex % 22);
+                               state.paletteIndex % paletteCount);
+    }
+    const selectedDevices = new Set(state.devices);
+    for (const box of document.querySelectorAll('#device-list input')) {
+      box.checked = selectedDevices.has(box.dataset.deviceName);
     }
 
     document.getElementById('time-readout').textContent =
@@ -320,13 +329,14 @@ export function startUi(sim) {
         `t=${state.time} ms · ` +
         `effect ${state.effectIndex} (${state.effectName})` +
         ` · palette ${state.paletteIndex} (${state.paletteName})` +
+        ` · devices ${state.devices.join(',')}` +
         `${state.masterMode ? ' · master' : ''}${controlNote}` +
         ` · ${state.speed}×${state.paused ? ' · paused' : ''}`;
   }
 }
 
-// Approximate CHSV→sRGB preview for palette swatches (UI only — the engine
-// uses the byte-exact hsv2rgbRainbow; this just needs to look right).
+// Approximate CHSV→sRGB preview for palette swatches. This UI-only color is
+// decorative; rendered LED bytes always come from the shared C++ engine.
 function hsvPreview({ h, s, v }) {
   const hue = (h / 255) * 360;
   const sat = s / 255;

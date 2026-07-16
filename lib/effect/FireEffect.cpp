@@ -10,6 +10,8 @@ FireEffect::FireEffect() : Effect() {
   offset = random16();
 }
 
+FireEffect::FireEffect(uint16_t offset) : Effect(), offset(offset) {}
+
 CRGB FireEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
                         const StripDescription &strip,
                         RadioPacket *setEffectPacket) const {

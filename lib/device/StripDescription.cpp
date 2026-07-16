@@ -12,3 +12,5 @@ StripDescription::StripDescription(uint8_t led_count,
 bool StripDescription::FlagEnabled(StripFlag flag) const {
   return (flags & (int)flag) == (int)flag;
 }
+
+uint8_t StripDescription::GetFlags() const { return flags; }

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Firefly Simulator — Tests</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='30' fill='%23ffd166'/></svg>">
   <style>
     main { display: block; padding: 18px 22px; overflow-y: auto; }
     #summary { font-size: 15px; padding: 10px 14px; border-radius: 8px;
@@ -34,8 +35,8 @@
     // Import order defines report order. Each module registers its cases into
     // harness.browserTests (node:test is not used in the browser).
     const SUITES = [
-      'registry', 'determinism', 'flags', 'tolerance', 'control', 'master',
-      'vectors',
+      'sharedRenderer', 'api', 'registry', 'determinism', 'flags', 'tolerance',
+      'control', 'master', 'gradientPower', 'vectors',
     ];
     const { browserTests } = await import('./test/harness.js');
     const results = document.getElementById('results');

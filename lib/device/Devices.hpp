@@ -8,8 +8,8 @@ namespace Devices {
 
 const uint32_t RF_BOARD_MA_SUPPORTED = 2400 - 50;
 
-const DeviceDescription SimpleRfBoardDescription(uint8_t led_count,
-                                                 std::vector<StripFlag> flags) {
+inline DeviceDescription SimpleRfBoardDescription(
+    uint8_t led_count, std::vector<StripFlag> flags) {
   return DeviceDescription(RF_BOARD_MA_SUPPORTED,
                            {
                                StripDescription(led_count, flags),
@@ -86,7 +86,7 @@ const DeviceDescription will_backpack = DeviceDescription(
                            });
 
 // Modify this variable to easily switch between devices.
-const DeviceDescription &current = scarf;
+static const DeviceDescription &current = scarf;
 
 static_assert(sizeof(current) <= DeviceDescription::kMaxSize,
               "Current device too large");

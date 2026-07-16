@@ -4,6 +4,8 @@
 
 All Technical Context unknowns resolved. Facts below were verified directly against the repository (file:line refs) unless noted.
 
+> **Superseded rendering architecture (2026-07-15, feature 005):** The historical R1–R6 decisions below explain the original JavaScript renderer, but they are no longer operative. The simulator now compiles the authoritative production C++ effects, palettes, devices, FastLED/FakeFastLED math, registry, and `LedManager::RunEffect` path into the committed `sim/generated/firefly-renderer.wasm` artifact. `sim/js/renderer.js` is only a versioned ABI adapter; `engine.js`, `master.js`, `api.js`, and `ui.js` retain browser-owned orchestration. Viewing and testing a clean checkout still require no compiler or npm runtime dependency. Only artifact regeneration/freshness checking requires pinned Emscripten 6.0.3. Do not recreate `fastled.js`, `perlin.js`, `palette.js`, `devices.js`, `effects/*`, or any other handwritten rendering mirror. See [`../005-shared-simulator-engine/research.md`](../005-shared-simulator-engine/research.md) and its [artifact contract](../005-shared-simulator-engine/contracts/artifact.md).
+
 ## R1. Runtime architecture: plain ES modules, engine/UI split
 
 **Decision**: Vanilla JavaScript ES2020 modules, no build step, no npm, no CDN. The rendering engine (`fastled.js`, `perlin.js`, `palette.js`, `devices.js`, `effects/*`, `engine.js`, `master.js`) is DOM-free; `ui.js`/`api.js` are the only browser-coupled files. Page is served with `python3 -m http.server` (documented in quickstart); the same engine modules are imported by Node's built-in test runner (`node --test`, Node ≥ 18) for headless verification.

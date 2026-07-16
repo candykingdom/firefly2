@@ -1,58 +1,47 @@
 import { test, assert } from '../harness.js';
-import { makeStrip } from '../../js/devices.js';
-import {
-  makeDisplayColorPaletteEffect,
-} from '../../js/effects/displayColorPalette.js';
-import { makeRainbowEffect } from '../../js/effects/rainbow.js';
-import { hsv2rgbRainbow } from '../../js/fastled.js';
+import renderer, { DEFAULT_SEEDS } from '../../js/renderer.js';
 
-function drive(rgb) {
-  return rgb.r + rgb.g + rgb.b;
+function drive(bytes, offset) {
+  return bytes[offset] + bytes[offset + 1] + bytes[offset + 2];
 }
 
-function endpointMax(value) {
-  return Math.max(
-    drive(hsv2rgbRainbow({ h: 0, s: 255, v: value })),
-    drive(hsv2rgbRainbow({ h: 96, s: 255, v: value })),
-    drive(hsv2rgbRainbow({ h: 160, s: 255, v: value })),
+function assertUniformDrive(effectName, effectIndex, strip, timeMs, value) {
+  const bytes = renderer.renderStrip(
+    DEFAULT_SEEDS,
+    strip,
+    { effectIndex, paletteIndex: 8, controlRgb: null },
+    timeMs,
   );
-}
-
-function assertUniformDrive(effect, strip, show, timeMs, value) {
-  let worst = { led: 0, rgb: { r: 0, g: 0, b: 0 }, drive: 0 };
-  for (let led = 0; led < strip.ledCount; ++led) {
-    const rgb = effect.getRGB(led, timeMs, strip, show);
-    const ledDrive = drive(rgb);
+  const endpointDrive = value === 255 ? 255 : value === 128 ? 65 : 64;
+  const allowed = Math.trunc((endpointDrive * 105) / 100);
+  let worst = { led: 0, drive: 0, rgb: [0, 0, 0] };
+  for (let offset = 0; offset < bytes.length; offset += 3) {
+    const ledDrive = drive(bytes, offset);
     if (ledDrive > worst.drive) {
-      worst = { led, rgb, drive: ledDrive };
+      worst = {
+        led: offset / 3,
+        drive: ledDrive,
+        rgb: [...bytes.slice(offset, offset + 3)],
+      };
     }
   }
-
-  const allowed = Math.trunc((endpointMax(value) * 105) / 100);
   assert(
     worst.drive <= allowed,
-    `${effect.name} at time ${timeMs}, LED ${worst.led} RGB ` +
-      `(${worst.rgb.r},${worst.rgb.g},${worst.rgb.b}) drive ` +
-      `${worst.drive} exceeds allowed ${allowed}`,
+    `${effectName} at time ${timeMs}, LED ${worst.led} RGB ` +
+      `(${worst.rgb.join(',')}) drive ${worst.drive} exceeds ${allowed}`,
   );
 }
 
 test('Rainbow gradient drive stays within palette endpoints', () => {
-  const effect = makeRainbowEffect();
-  const show = { paletteIndex: 8 };
-  const normalStrip = makeStrip(60, []);
-  const brightStrip = makeStrip(60, ['Bright']);
-
   for (const timeMs of [0, 1000, 5000]) {
-    assertUniformDrive(effect, normalStrip, show, timeMs, 128);
-    assertUniformDrive(effect, brightStrip, show, timeMs, 255);
+    assertUniformDrive('Rainbow', 13, { ledCount: 60, flags: [] },
+      timeMs, 128);
+    assertUniformDrive('Rainbow', 13,
+      { ledCount: 60, flags: ['Bright'] }, timeMs, 255);
   }
 });
 
 test('Display Color Palette drive stays within palette endpoints', () => {
-  const effect = makeDisplayColorPaletteEffect();
-  const show = { paletteIndex: 8 };
-  const strip = makeStrip(100, []);
-
-  assertUniformDrive(effect, strip, show, 0, 127);
+  assertUniformDrive('Display Color Palette', 33,
+    { ledCount: 100, flags: [] }, 0, 127);
 });

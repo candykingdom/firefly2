@@ -1,4 +1,4 @@
-// FR-015 (US4 scenario 2): SET_CONTROL solid-color override semantics.
+// FR-015: SET_CONTROL semantics through the shared C++ render path.
 
 import { test, assert, assertEqual, assertDeepEqual } from '../harness.js';
 import { SimEngine } from '../../js/engine.js';

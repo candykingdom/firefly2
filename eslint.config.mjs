@@ -5,9 +5,17 @@ import js from '@eslint/js';
 import stylistic from '@stylistic/eslint-plugin';
 
 export default [
+  {
+    ignores: ['sim/generated/**', 'sim/wasm/build*/**'],
+  },
   js.configs.recommended,
   {
-    files: ['sim/**/*.js', 'sim/**/*.mjs'],
+    files: [
+      'sim/**/*.js',
+      'sim/**/*.mjs',
+      'playwright.config.mjs',
+      'scripts/serve-simulator-e2e.mjs',
+    ],
     plugins: { '@stylistic': stylistic },
     languageOptions: {
       ecmaVersion: 2022,

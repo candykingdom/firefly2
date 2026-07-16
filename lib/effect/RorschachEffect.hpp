@@ -8,6 +8,7 @@
 class RorschachEffect : public Effect {
  public:
   RorschachEffect();
+  explicit RorschachEffect(uint16_t offset);
 
   /** Gets the value of a specific LED at a specific time. */
   CRGB GetRGB(uint8_t led_index, uint32_t time_ms,

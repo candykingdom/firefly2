@@ -1,5 +1,8 @@
 #include "Effect.hpp"
 
+#include <cassert>
+#include <cstring>
+
 Effect::Effect() {}
 
 uint8_t Effect::GetThresholdSin(int16_t x, uint8_t threshold) const {
@@ -12,7 +15,7 @@ uint8_t Effect::GetThresholdSin(int16_t x, uint8_t threshold) const {
   }
 }
 
-CRGB Effect::FlattenedGradientRGB(const CHSV& color) const {
+CRGB Effect::FlattenedGradientRGB(const CHSV &color) const {
   CRGB rgb;
   hsv2rgb_rainbow(color, rgb);
   const uint16_t sum = rgb.r + rgb.g + rgb.b;
@@ -34,7 +37,7 @@ CRGB Effect::FlattenedGradientRGB(const CHSV& color) const {
 // If this is a simple static variable, then it might not be initialized before
 // it's used, static variable initialization order is undefined. This method
 // ensures that it is initialized when it's used.
-const std::vector<ColorPalette>& Effect::palettes() {
+const std::vector<ColorPalette> &Effect::palettes() {
   static const std::vector<ColorPalette> palettes = {
       // Solid color
       {{HUE_RED, 255, 255}},
@@ -82,5 +85,48 @@ const std::vector<ColorPalette>& Effect::palettes() {
        {HUE_GREEN, 255, 255},
        {HUE_BLUE, 255, 255}},
   };
+#ifndef ARDUINO
+  assert(palettes.size() == palette_names().size());
+#endif
   return palettes;
+}
+
+const std::vector<const char *> &Effect::palette_names() {
+  static const std::vector<const char *> names = {
+      "Red",
+      "Orange",
+      "Yellow",
+      "Green",
+      "Aqua",
+      "Blue",
+      "Purple",
+      "Pink",
+      "Rainbow",
+      "Warm",
+      "Cool",
+      "Yellow-Green",
+      "80s Miami",
+      "Vaporwave",
+      "Cool Popo",
+      "Candy Cane",
+      "Winter Mint",
+      "Fire",
+      "Pastel Rainbow",
+      "Jazz Cup",
+      "Yellow & Double Purp",
+      "Double Rainbow",
+  };
+#ifndef ARDUINO
+  static const bool names_are_valid = [] {
+    for (size_t i = 0; i < names.size(); ++i) {
+      assert(names[i] != nullptr && names[i][0] != '\0');
+      for (size_t j = i + 1; j < names.size(); ++j) {
+        assert(std::strcmp(names[i], names[j]) != 0);
+      }
+    }
+    return true;
+  }();
+  (void)names_are_valid;
+#endif
+  return names;
 }

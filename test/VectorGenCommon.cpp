@@ -1,7 +1,8 @@
 #include "VectorGenCommon.hpp"
 
-#include <Devices.hpp>
+#include <DeviceCatalog.hpp>
 #include <Radio.hpp>
+#include <cassert>
 #include <cstdlib>
 
 namespace vectorgen {
@@ -129,10 +130,16 @@ const std::vector<uint32_t> &TimeGrid() {
 }
 
 const std::vector<DeviceInfo> &DeviceGrid() {
+  const NamedDeviceDescription *scarf = DeviceCatalog::Find("scarf");
+  const NamedDeviceDescription *puck = DeviceCatalog::Find("puck");
+  const NamedDeviceDescription *ufo = DeviceCatalog::Find("ufo");
+  assert(scarf != nullptr);
+  assert(puck != nullptr);
+  assert(ufo != nullptr);
   static const std::vector<DeviceInfo> devices = {
-      {"scarf", Devices::scarf},
-      {"puck", Devices::puck},
-      {"ufo", Devices::ufo},
+      {scarf->name, *scarf->description},
+      {puck->name, *puck->description},
+      {ufo->name, *ufo->description},
   };
   return devices;
 }

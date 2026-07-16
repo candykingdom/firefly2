@@ -14,6 +14,8 @@
 
 * { box-sizing: border-box; }
 
+[hidden] { display: none !important; }
+
 html, body {
   margin: 0;
   height: 100%;
@@ -65,6 +67,46 @@ main {
   flex: 1;
   display: flex;
   min-height: 0;
+}
+
+/* --- renderer initialization --- */
+
+#sim-init {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  padding: 32px;
+  background:
+    radial-gradient(700px 360px at 50% 20%, #151925 0%, var(--bg) 70%);
+}
+
+.init-card {
+  max-width: 560px;
+  padding: 24px 28px;
+  border: 1px solid var(--panel-edge);
+  border-radius: 12px;
+  background: var(--panel);
+  text-align: center;
+}
+
+.init-card h2 {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 17px;
+}
+
+.init-card p {
+  margin: 0;
+  color: var(--text-dim);
+}
+
+#sim-init[data-state="fatal"] .init-card {
+  border-color: #7a2f2f;
+}
+
+#sim-init[data-state="fatal"] .init-card h2 {
+  color: #e08585;
 }
 
 /* --- stage --- */
@@ -286,9 +328,17 @@ footer#status {
 
 /* narrow screens: stack the panel under the stage */
 @media (max-width: 860px) {
-  main { flex-direction: column; }
+  main {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  #stage-wrap {
+    flex: 0 0 45vh;
+    min-height: 280px;
+  }
   #controls {
     width: auto;
+    overflow-y: visible;
     border-left: none;
     border-top: 1px solid var(--panel-edge);
   }

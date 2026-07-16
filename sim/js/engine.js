@@ -1,20 +1,48 @@
-// SimEngine: the DOM-free simulator core. Ports LedManager::RunEffect's
-// central strip handling (lib/led_manager/LedManager.cpp:76-107) and
-// LedManager::GetCurrentEffect's SET_CONTROL precedence, on top of a
-// pausable/scrubbable network clock. This object IS the programmatic API
-// (contracts/sim-api.md); ui.js and the tests are both clients of it.
+// SimEngine owns browser clock/show orchestration and delegates every
+// production rendering decision to the initialized shared C++ renderer.
 
-import { rgbDiv } from './fastled.js';
-import { getPalette, PALETTES } from './palette.js';
-import { DEVICES, getDevice } from './devices.js';
-import { createRegistry } from './effects/registry.js';
+import renderer, { DEFAULT_SEEDS } from './renderer.js';
 
 const UINT32 = 0x100000000;
+const EFFECTS = renderer.metadata.effects;
+const PALETTES = renderer.metadata.palettes;
+const DEVICES = renderer.metadata.devices;
+const DEVICES_BY_NAME = new Map(DEVICES.map((device) =>
+  [device.name, device]));
+
+function initialSeeds(seeds) {
+  return {
+    Fire: seeds.Fire ?? seeds.fireOffset ?? DEFAULT_SEEDS.Fire,
+    Firefly: seeds.Firefly ?? seeds.fireflyOffset ?? DEFAULT_SEEDS.Firefly,
+    Rorschach:
+      seeds.Rorschach ?? seeds.rorschachOffset ?? DEFAULT_SEEDS.Rorschach,
+  };
+}
+
+function registryFacade(seeds) {
+  return {
+    seeds,
+    wireTable: EFFECTS,
+    randomPoolSize: renderer.metadata.randomEffectCount,
+    getByIndex(index) {
+      return EFFECTS[(index & 0xff) % EFFECTS.length];
+    },
+    getIndexByName(name) {
+      const found = EFFECTS.find((effect) => effect.name === name);
+      if (!found) {
+        throw new Error(`unknown effect "${name}"; valid: ${
+          [...new Set(EFFECTS.map((effect) => effect.name))].join(', ')}`);
+      }
+      return found.index;
+    },
+  };
+}
 
 export class SimEngine {
   constructor({ devices = ['scarf'], effect = 'Rainbow', palette = 'Rainbow',
     time = 0, paused = false, seeds = {} } = {}) {
-    this.registry = createRegistry(seeds);
+    this._seeds = initialSeeds(seeds);
+    this.registry = registryFacade(this._seeds);
     this._devices = [];
     this._effectIndex = 0;
     this._paletteIndex = 0;
@@ -33,7 +61,16 @@ export class SimEngine {
   // --- state setters ---
 
   setDevices(names) {
-    this._devices = names.map(getDevice);
+    this._devices = names.map((name) => {
+      const device = DEVICES_BY_NAME.get(name);
+      if (!device) {
+        throw new Error(
+          `Unknown device "${name}". Valid names: ` +
+          `${DEVICES.map((item) => item.name).join(', ')}`,
+        );
+      }
+      return device;
+    });
     return this;
   }
 
@@ -93,17 +130,12 @@ export class SimEngine {
   }
 
   setEffectSeed(effectName, offset) {
-    const seeds = { ...this.registry.seeds };
-    if (!(effectName in seeds)) {
+    if (!(effectName in this._seeds)) {
       throw new Error(`no seed for "${effectName}"; seeded effects: ${
-        Object.keys(seeds).join(', ')}`);
+        Object.keys(this._seeds).join(', ')}`);
     }
-    seeds[effectName] = offset;
-    this.registry = createRegistry({
-      fireOffset: seeds.Fire,
-      rorschachOffset: seeds.Rorschach,
-      fireflyOffset: seeds.Firefly,
-    });
+    this._seeds = { ...this._seeds, [effectName]: offset };
+    this.registry = registryFacade(this._seeds);
     return this;
   }
 
@@ -185,12 +217,13 @@ export class SimEngine {
 
   getState() {
     const effective = this.registry.getByIndex(this._effectIndex);
+    const palette = PALETTES[this._paletteIndex % PALETTES.length];
     return {
       time: this._time,
       effectIndex: this._effectIndex,
       effectName: effective.name,
       paletteIndex: this._paletteIndex,
-      paletteName: getPalette(this._paletteIndex).name,
+      paletteName: palette.name,
       delaySeconds: this._delaySeconds,
       control: this._control ? {
         rgb: [this._control.rgb.r, this._control.rgb.g, this._control.rgb.b],
@@ -218,59 +251,54 @@ export class SimEngine {
   }
 
   listEffects() {
-    return this.registry.wireTable.map(({ index, name, weight }) =>
+    return EFFECTS.map(({ index, name, weight }) =>
       ({ index, name, weight }));
   }
 
   listPalettes() {
-    return PALETTES.map((p, index) =>
-      ({ index, name: p.name, colors: p.colors.map((c) => ({ ...c })) }));
+    return PALETTES.map((palette) => ({
+      index: palette.index,
+      name: palette.name,
+      colors: palette.colors.map((color) => ({ ...color })),
+    }));
   }
 
   listDevices() {
-    return Object.values(DEVICES).map((d) => ({
-      name: d.name,
-      milliamps: d.milliamps,
-      strips: d.strips.map((s) => ({
-        ledCount: s.ledCount,
-        flags: [...s.flags],
+    return DEVICES.map((device) => ({
+      name: device.name,
+      milliamps: device.milliamps,
+      strips: device.strips.map((strip) => ({
+        ledCount: strip.ledCount,
+        flags: [...strip.flags],
       })),
     }));
   }
 
-  // --- rendering (LedManager::RunEffect port) ---
-
-  _currentEffect() {
-    if (this._control) return this.registry.controlEffect;
-    return this.registry.getByIndex(this._effectIndex).effect;
-  }
+  // --- rendering ---
 
   _renderDevice(device) {
-    const effect = this._currentEffect();
     const show = {
+      effectIndex: this._effectIndex,
       paletteIndex: this._paletteIndex,
-      controlRgb: this._control ? { ...this._control.rgb } : {
-        r: 0,
-        g: 0,
-        b: 0,
-      },
+      controlRgb: this._control ? { ...this._control.rgb } : null,
     };
+    const bytes = renderer.renderDevice(
+      this._seeds, device.name, show, this._time);
+    let offset = 0;
     const strips = device.strips.map((strip) => {
-      const leds = [];
-      for (let i = 0; i < strip.ledCount; i++) {
-        const virtualIndex =
-            strip.hasFlag('Reversed') ? strip.ledCount - i - 1 : i;
-        let rgb;
-        if (strip.hasFlag('Off')) {
-          rgb = { r: 0, g: 0, b: 0 };
-        } else {
-          rgb = effect.getRGB(virtualIndex, this._time, strip, show);
-          if (strip.hasFlag('Dim')) rgb = rgbDiv(rgb, 8);
-        }
-        leds.push([rgb.r, rgb.g, rgb.b]);
-      }
+      const leds = [...Array(strip.ledCount)].map(() => {
+        const led = [bytes[offset], bytes[offset + 1], bytes[offset + 2]];
+        offset += 3;
+        return led;
+      });
       return { flags: [...strip.flags], leds };
     });
+    if (offset !== bytes.length) {
+      throw new Error(
+        `renderer returned ${bytes.length} bytes for ${device.name}; ` +
+        `metadata consumed ${offset}`,
+      );
+    }
     return { name: device.name, strips };
   }
 

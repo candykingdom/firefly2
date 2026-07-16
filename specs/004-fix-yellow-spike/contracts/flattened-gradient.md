@@ -1,6 +1,6 @@
-# Contract: FlattenedGradientRGB (firmware ↔ simulator)
+# Contract: FlattenedGradientRGB (production C++ and browser Wasm)
 
-The two implementations below MUST be byte-exact for every input. The corpus (`sim/test/vectors/reference.json`) enforces this in CI from both sides; get the integer semantics right and it holds by construction.
+`Effect::FlattenedGradientRGB` below is the single implementation. Firmware, host tests, and the browser simulator all compile this production C++ method. The corpus (`sim/test/vectors/reference.json`) and `GradientPowerTest` still pin its behavior, but there is no JavaScript implementation to keep in sync.
 
 ## C++ (lib/effect/Effect.{hpp,cpp})
 
@@ -43,27 +43,7 @@ CRGB Effect::FlattenedGradientRGB(const CHSV &color) const {
 
 Notes: `hsv2rgb_rainbow` and `HUE_RED` come via `<FastLED.h>` (already included through `Types.hpp` on every platform; `SwingingLights.cpp` already calls `hsv2rgb_rainbow` directly with the same includes). The `(uint32_t)` cast is required: `rgb.r * reference_sum` can reach 255×765 = 195 075, overflowing `uint16_t`/`int16_t`.
 
-## JavaScript (sim/js/fastled.js)
-
-```js
-// Port of Effect::FlattenedGradientRGB (lib/effect/Effect.cpp).
-export function flattenedGradientRGB(color) {
-  const rgb = hsv2rgbRainbow(color);
-  const sum = rgb.r + rgb.g + rgb.b;
-  const reference = hsv2rgbRainbow({ h: 0, s: color.s, v: color.v });
-  const referenceSum = reference.r + reference.g + reference.b;
-  if (sum > referenceSum) {
-    rgb.r = Math.trunc((rgb.r * referenceSum) / sum);
-    rgb.g = Math.trunc((rgb.g * referenceSum) / sum);
-    rgb.b = Math.trunc((rgb.b * referenceSum) / sum);
-  }
-  return rgb;
-}
-```
-
-Notes: `hsv2rgbRainbow` returns a fresh `{r,g,b}` object (safe to mutate in place). All operands are non-negative integers ≤ 195 075, exact in JS doubles; `Math.trunc(a/b)` matches C++ unsigned truncating division exactly. Do not use `| 0` shortcuts on the products (safe here, but `Math.trunc` matches the C++ reading).
-
-## Call sites (must match 1:1 between C++ and the JS port of each effect)
+## Production call sites
 
 | Effect | Site | C++ change |
 |---|---|---|
@@ -73,7 +53,7 @@ Notes: `hsv2rgbRainbow` returns a fresh `{r,g,b}` object (safe to mutate in plac
 | RainbowBumpsEffect | final return (after `color.v = GetThresholdSin(...)`) | same |
 | DisplayColorPaletteEffect | final return (after the `Bright` v-halving) | same |
 
-Solid-color branches (`palette.Size() < 2`) in RainbowEffect/ColorCycleEffect are **not** changed. JS ports call `flattenedGradientRGB(color)` exactly where they currently call `hsv2rgbRainbow(color)` on those paths (import from `../fastled.js`).
+Solid-color branches (`palette.Size() < 2`) in RainbowEffect/ColorCycleEffect are **not** changed. The Emscripten target compiles these same effect source files, so browser behavior changes only when the C++ changes and the committed artifact is rebuilt.
 
 ## Behavioral guarantees (what the regression tests assert)
 
@@ -94,4 +74,4 @@ endpoint_max = max drive over the palette's own stops rendered at the same
 ASSERT drive(i) <= endpoint_max * 1.05
 ```
 
-Pre-fix: fails (87 > 65×1.05 ≈ 68). Post-fix: passes (max 66). Implement firmware-side in `test/GradientPowerTest.cpp` (gtest, direct `GetRGB` calls — see `EffectsTest.cpp` for the driving pattern) and sim-side in `sim/test/cases/gradientPower.test.mjs` (harness: `import { test, assert } from '../harness.js'`, strip via `makeStrip(60, [])` from `sim/js/devices.js`, effect via `createRegistry()` from `sim/js/effects/registry.js` or `makeRainbowEffect()` directly, show object `{ paletteIndex: 8 }`).
+Pre-fix: fails (87 > 65×1.05 ≈ 68). Post-fix: passes (max 66). `test/GradientPowerTest.cpp` exercises direct production `GetRGB` calls. `sim/test/cases/gradientPower.test.mjs` renders custom strips through `sim/js/renderer.js`, which calls the production C++ Wasm ABI; it is an independent execution surface, not a second algorithm.

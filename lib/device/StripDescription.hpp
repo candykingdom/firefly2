@@ -23,6 +23,8 @@ class StripDescription {
 
   bool FlagEnabled(StripFlag flag) const;
 
+  uint8_t GetFlags() const;
+
  private:
   const uint8_t flags;
 };

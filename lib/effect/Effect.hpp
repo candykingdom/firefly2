@@ -18,6 +18,7 @@ class Effect {
                       RadioPacket *setEffectPacket) const = 0;
 
   static const std::vector<ColorPalette> &palettes();
+  static const std::vector<const char *> &palette_names();
 
  protected:
   /**

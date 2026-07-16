@@ -3,6 +3,7 @@
 
 import { test, assert, assertEqual, assertDeepEqual } from '../harness.js';
 import { SimEngine } from '../../js/engine.js';
+import { DEFAULT_SEEDS } from '../../js/renderer.js';
 
 const PARAMS = { devices: ['scarf'], effect: 'Rainbow', palette: 'Rainbow',
   time: 9000, paused: true };
@@ -89,6 +90,18 @@ test(
       time: 777, paused: true });
     const b = new SimEngine({ devices: ['puck'], effect: 4, palette: 'Fire',
       time: 777, paused: true });
-    assertDeepEqual(a.registry.seeds, b.registry.seeds);
+    assertDeepEqual(a.registry.seeds, DEFAULT_SEEDS);
+    assertDeepEqual(b.registry.seeds, DEFAULT_SEEDS);
     assertDeepEqual(a.getSnapshot().devices, b.getSnapshot().devices);
   });
+
+test('setEffectSeed selects deterministic seed-specific rendering', () => {
+  const make = () => new SimEngine({ devices: ['puck'], effect: 'Fire',
+    palette: 'Fire', time: 777, paused: true });
+  const baseline = make().getSnapshot().devices;
+  const first = make().setEffectSeed('Fire', 1);
+  const second = make().setEffectSeed('Fire', 1);
+  assertDeepEqual(first.getSnapshot().devices, second.getSnapshot().devices);
+  assert(JSON.stringify(first.getSnapshot().devices) !==
+    JSON.stringify(baseline));
+});

@@ -3,22 +3,88 @@ name: Simulator
 on: [push]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      EMSDK: ${{ github.workspace }}/.emsdk
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.playwright-browsers
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v6
     - name: Set up Node
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6
       with:
         node-version: 22
+        cache: npm
+    - name: Cache Emscripten SDK 6.0.3
+      id: cache-emsdk
+      uses: actions/cache@v5
+      with:
+        path: .emsdk
+        key: emsdk-${{ runner.os }}-${{ runner.arch }}-6.0.3
+    - name: Install Emscripten SDK 6.0.3
+      if: steps.cache-emsdk.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        git clone --depth 1 https://github.com/emscripten-core/emsdk.git .emsdk
+        if [[ "$RUNNER_OS" == "Windows" ]]; then
+          ./.emsdk/emsdk.bat install 6.0.3
+        else
+          ./.emsdk/emsdk install 6.0.3
+        fi
+    - name: Activate Emscripten SDK 6.0.3
+      shell: bash
+      run: |
+        if [[ "$RUNNER_OS" == "Windows" ]]; then
+          ./.emsdk/emsdk.bat activate 6.0.3
+          emsdk_path=$(cygpath -w "$GITHUB_WORKSPACE/.emsdk")
+          emscripten_path=$(cygpath -w "$GITHUB_WORKSPACE/.emsdk/upstream/emscripten")
+        else
+          ./.emsdk/emsdk activate 6.0.3
+          emsdk_path="$GITHUB_WORKSPACE/.emsdk"
+          emscripten_path="$GITHUB_WORKSPACE/.emsdk/upstream/emscripten"
+        fi
+        echo "$emsdk_path" >> "$GITHUB_PATH"
+        echo "$emscripten_path" >> "$GITHUB_PATH"
     - name: Install dev tooling
       run: npm ci
+    - name: Cache Playwright 1.61.1 browsers
+      uses: actions/cache@v5
+      with:
+        path: .playwright-browsers
+        key: playwright-${{ runner.os }}-${{ runner.arch }}-1.61.1
+    - name: Install Playwright browsers and Linux dependencies
+      if: runner.os == 'Linux'
+      run: npx playwright install --with-deps chromium firefox
+    - name: Install Playwright browsers
+      if: runner.os != 'Linux'
+      run: npx playwright install chromium firefox
     - name: Check Claude Code and Codex setup
+      if: runner.os == 'Linux'
       run: npm run check:agents
+    - name: Check committed simulator Wasm artifact
+      run: npm run check:sim-wasm
+    - name: Test fresh and deliberately stale artifacts
+      run: npm run test:sim-wasm-integration
     - name: Lint
+      if: runner.os == 'Linux'
       run: npm run lint
-    - name: Test
+    - name: Test committed simulator on ${{ runner.os }}
       run: npm test
+    - name: Test served simulator end to end on ${{ runner.os }}
+      run: npm run test:e2e
+    - name: Upload browser traces, screenshots, and report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: simulator-browser-${{ runner.os }}
+        path: |
+          playwright-report/
+          test-results/playwright/
+        if-no-files-found: ignore
+        retention-days: 14

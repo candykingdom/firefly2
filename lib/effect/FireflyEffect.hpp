@@ -9,6 +9,7 @@
 class FireflyEffect : public Effect {
  public:
   FireflyEffect();
+  explicit FireflyEffect(uint32_t offset);
 
   CRGB GetRGB(uint8_t led_index, uint32_t time_ms,
               const StripDescription &strip,

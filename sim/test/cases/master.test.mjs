@@ -1,5 +1,4 @@
-// FR-015 (US4 scenarios 1 & 3): master-mode autoplay cadence, weighted pool,
-// and manual-set/delay timer interactions.
+// FR-015: browser-owned master cadence consuming the shared C++ catalogs.
 
 import { test, assert, assertEqual } from '../harness.js';
 import { SimEngine } from '../../js/engine.js';

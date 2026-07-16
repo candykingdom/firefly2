@@ -22,7 +22,7 @@ FetchContent_MakeAvailable(googletest)
 
 FetchContent_Declare(fake-fast-led
                  GIT_REPOSITORY      https://github.com/ademuri/FakeFastLED.git
-                 GIT_TAG             master
+                 GIT_TAG             f00dd2dd4efc34e90c16dd6a1a8eada0922d56ca
 )
 FetchContent_MakeAvailable(fake-fast-led)
 
@@ -110,6 +110,11 @@ file(GLOB SMALLTEST_SOURCES "test/*.cpp" "test/*.hpp")
 list(FILTER SMALLTEST_SOURCES EXCLUDE REGEX ".*InvalidPacketTest\\.[ch]pp$")
 list(FILTER SMALLTEST_SOURCES EXCLUDE REGEX ".*VectorGen\\.cpp$")
 add_executable(smalltests ${SMALLTEST_SOURCES})
+target_sources(smalltests PRIVATE
+  "sim/wasm/SimulatorRenderer.cpp"
+  "sim/wasm/SimulatorBridge.cpp"
+)
+target_include_directories(smalltests PRIVATE "sim/wasm")
 target_link_libraries(smalltests generic gmock_main gtest fake-fast-led testlib
                       nlohmann_json::nlohmann_json)
 # Lets ReferenceVectorTest locate the committed corpus from any build dir.

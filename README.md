@@ -56,6 +56,7 @@ make && make test
 ./lint.sh format    # format in place
 ./ci.sh             # exactly what CI runs: cmake + smalltests + largetests
 node --test "sim/test/cases/*.test.mjs"   # simulator suite, incl. firmware byte-exactness
+npm run test:e2e    # served UI/API/canvas journeys in Chromium and Firefox
 ```
 
 CI (GitHub Actions): host tests, lint, `node`/`fancy-node`/`controller` firmware
@@ -69,7 +70,7 @@ builds, the simulator suite, and CodeQL C/C++ security scanning.
 | `src/arduino/` | Hardware backends (FastLED, RadioHead RFM69) |
 | `src/devices/` | One `main` per device target (node, fancy-node, controller, dmx) |
 | `test/` | Host GoogleTest suites + `FakeNetwork` multi-node mesh simulation |
-| `sim/` | Browser simulator (JS port of the effect engine, vector-tested against firmware) |
+| `sim/` | Browser simulator (production C++ renderer via committed Wasm, usable without hardware) |
 | `docs/` | Architecture and per-subsystem notes — start at [docs/index.md](docs/index.md) |
 | `hardware/`, `boards/`, `bootloader/` | PCB designs, PlatformIO board definitions, bootloaders |
 | `specs/` | Spec-kit feature specs (spec → plan → tasks workflow, see CLAUDE.md) |

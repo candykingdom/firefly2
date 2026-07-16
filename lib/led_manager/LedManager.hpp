@@ -2,6 +2,7 @@
 #define __LED_MANAGER_HPP__
 
 #include <Effect.hpp>
+#include <EffectRegistry.hpp>
 #include <Effects.hpp>
 #include <Radio.hpp>
 #include <Types.hpp>
@@ -13,6 +14,8 @@ class LedManager {
  public:
   explicit LedManager(const DeviceDescription &device,
                       RadioStateMachine *radio_state);
+  LedManager(const DeviceDescription &device, RadioStateMachine *radio_state,
+             const EffectSeedOverrides &seed_overrides);
   virtual ~LedManager();
 
   void RunEffect();
@@ -63,5 +66,9 @@ class LedManager {
   void AddEffect(Effect *Effect, uint8_t proportion);
 
   ControlEffect *const control_effect;
+
+ private:
+  LedManager(const DeviceDescription &device, RadioStateMachine *radio_state,
+             const EffectSeedOverrides *seed_overrides);
 };
 #endif

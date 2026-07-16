@@ -58,7 +58,7 @@ node --test "sim/test/cases/*.test.mjs"   # headless suite (or: npm test)
 npm ci && npm run lint                    # ESLint over sim/ (dev-only dep)
 ```
 
-`sim/` is a zero-dependency JS port of the effect engine for testing shows and protocol behavior without hardware — drivable via `window.sim`, byte-exact against firmware via committed reference vectors (`vectorgen` CMake target regenerates them). See [docs/simulator.md](docs/simulator.md). When you change a firmware effect, regenerate vectors and update the matching `sim/js/effects/` port.
+`sim/` runs the production C++ effect engine through a committed WebAssembly artifact, so shows and protocol behavior can be visualized and verified without hardware or a compiler. JavaScript owns only browser clock/show orchestration, `window.sim`, and the canvas UI. The artifact and the full committed reference corpus are tested byte-exact against the host renderer. See [docs/simulator.md](docs/simulator.md). When production rendering changes intentionally, regenerate the reference vectors and rebuild the Wasm artifact with pinned Emscripten 6.0.3; never add a JavaScript rendering copy.
 
 ### CMake (host tests)
 
@@ -107,7 +107,7 @@ Per-device layering — main loop is `state_machine.Tick(); led_manager->RunEffe
 - `RunEffect` handles `Reversed`/`Dim`/`Off` centrally; all other strip flags are each effect's responsibility.
 - New effects must pass `EffectsTest`'s fuzz (every palette, 0–255 LEDs, multi-strip Tiny/Circular devices).
 - On the SAMD node, the watchdog timeout is ~128 ms — long blocking work in the loop will reset the board.
-- The web simulator mirrors the firmware: `sim/js/effects/registry.js` must match `LedManager.cpp` registration (order, weights, last-two invariant), and `sim/test/vectors/reference.json` must be regenerated (`vectorgen`) whenever firmware effect rendering changes — both `ReferenceVectorTest` (host suite) and the sim test suite fail on drift.
+- The web simulator compiles the production renderer: effect declarations live in `lib/effect/EffectRegistry.cpp`, device metadata in `lib/device/DeviceCatalog.cpp`, and the browser consumes the committed files under `sim/generated/`. Any compiled renderer change requires `npm run build:sim-wasm`; CI runs `npm run check:sim-wasm` with Emscripten 6.0.3 on macOS, Windows, and Linux. Regenerate `sim/test/vectors/reference.json` (`vectorgen`) whenever firmware rendering behavior intentionally changes. Never restore a handwritten JavaScript effect/math/palette/device mirror.
 
 ## Spec-Driven Development
 

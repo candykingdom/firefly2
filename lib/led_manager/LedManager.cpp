@@ -1,38 +1,29 @@
 #include "LedManager.hpp"
 
-#include <Effects.hpp>
+#include <EffectRegistry.hpp>
 #include <Radio.hpp>
 #include <cassert>
 
 LedManager::LedManager(const DeviceDescription &device,
                        RadioStateMachine *radio_state)
+    : LedManager(device, radio_state, nullptr) {}
+
+LedManager::LedManager(const DeviceDescription &device,
+                       RadioStateMachine *radio_state,
+                       const EffectSeedOverrides &seed_overrides)
+    : LedManager(device, radio_state, &seed_overrides) {}
+
+LedManager::LedManager(const DeviceDescription &device,
+                       RadioStateMachine *radio_state,
+                       const EffectSeedOverrides *seed_overrides)
     : device(device),
       radio_state(radio_state),
       control_effect(new ControlEffect()) {
-  AddEffect(new ColorCycleEffect(), 2);
-  AddEffect(new ContrastBumpsEffect(), 2);
-  AddEffect(new FireEffect(), 1);
-  AddEffect(new FireflyEffect(), 2);
-  AddEffect(new LightningEffect(), 1);
-  AddEffect(new PrideEffect(), 1);
-  AddEffect(new RainbowBumpsEffect(), 4);
-  AddEffect(new RainbowEffect(), 4);
-  AddEffect(new RorschachEffect(), 2);
-  AddEffect(new SparkEffect(), 4);
-  AddEffect(new SwingingLights(), 4);
-
-  // Non-random effects
-  AddEffect(new SwingingLights(), 0);  // Formerly police lights
-  AddEffect(new StopLightEffect(), 0);
-  // Strobes
-  AddEffect(new SimpleBlinkEffect(60), 0);
-  AddEffect(new SimpleBlinkEffect(30), 0);
-  AddEffect(new SimpleBlinkEffect(12), 0);
-  AddEffect(new SimpleBlinkEffect(300), 0);
-
-  // These two must be last
-  AddEffect(new DisplayColorPaletteEffect(), 0);
-  AddEffect(new DarkEffect(), 0);
+  for (const EffectDeclaration &declaration : EffectRegistry::Declarations()) {
+    Effect *effect = EffectRegistry::CreateEffect(declaration, seed_overrides);
+    assert(effect != nullptr);
+    AddEffect(effect, declaration.weight);
+  }
 
   radio_state->SetNumEffects(GetNumEffects());
   radio_state->SetNumPalettes(Effect::palettes().size());

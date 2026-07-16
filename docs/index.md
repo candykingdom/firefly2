@@ -12,7 +12,7 @@ Code research notes for the Firefly2 LED control system. These are maintained al
 | [devices.md](devices.md) | StripDescription flags, DeviceDescription + flash storage (DeviceMode), the Devices.hpp catalog, per-target firmware walkthroughs (node, fancy-node, controller, dmx, disabled targets), battery thresholds, debug facility |
 | [build-and-test.md](build-and-test.md) | Every PlatformIO environment, host CMake/GoogleTest setup, smalltests vs largetests, test doubles, CI workflows, lint, flashing and bootloader procedures |
 | [hardware.md](hardware.md) | KiCad project catalog, board↔firmware mapping, bootloader install, common electronics |
-| [simulator.md](simulator.md) | Browser simulator (`sim/`): hardware-free show testing, `window.sim` API, JS test suite, firmware reference vectors and regeneration |
+| [simulator.md](simulator.md) | Browser simulator (`sim/`): hardware-free visualization and verification through production C++/Wasm, `window.sim`, deterministic artifact refresh, and reference vectors |
 
 ## Related files elsewhere
 

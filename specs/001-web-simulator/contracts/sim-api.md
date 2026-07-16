@@ -2,7 +2,7 @@
 
 **Feature**: 001-web-simulator
 
-The page exposes exactly one global, `window.sim`, which is also the engine object Node tests construct directly (`new SimEngine(...)` from `sim/js/engine.js`). Everything the UI can do goes through this surface; nothing UI-only mutates engine state. All setters return the engine (chainable) and take effect on the next rendered frame (or immediately for `getSnapshot()` after `setTime`).
+The page exposes exactly one global, `window.sim`, which is also the engine object Node tests construct directly (`new SimEngine(...)` from `sim/js/engine.js`). Page startup first loads the committed C++ WebAssembly renderer asynchronously; after the `api.js` module resolves, `window.sim` exists and every method below remains synchronous. A missing or incompatible artifact leaves the controls hidden and displays a fatal initialization error—there is no fallback renderer. Everything the UI can do goes through this surface; nothing UI-only mutates engine state. All setters return the engine (chainable) and take effect on the next rendered frame (or immediately for `getSnapshot()` after `setTime`).
 
 ## State
 
@@ -31,7 +31,7 @@ The page exposes exactly one global, `window.sim`, which is also the engine obje
 | Method | Signature | Semantics |
 |--------|-----------|-----------|
 | `getState` | `() => {time, effectIndex, effectName, paletteIndex, paletteName, delaySeconds, control, masterMode, speed, paused, devices: string[]}` | Control-plane state |
-| `getSnapshot` | `() => Snapshot` | Full per-LED colors (see data-model.md Snapshot) computed **synchronously** for the current state/time — this is the verification surface |
+| `getSnapshot` | `() => Snapshot` | Full per-LED colors (see data-model.md Snapshot) computed **synchronously by the production C++ renderer** for the current state/time — this is the verification surface |
 | `listEffects` | `() => {index, name, weight}[]` | The 35-entry wire table |
 | `listPalettes` | `() => {index, name, colors}[]` | The 22 palettes |
 | `listDevices` | `() => {name, strips}[]` | Catalog |
@@ -43,3 +43,4 @@ The page exposes exactly one global, `window.sim`, which is also the engine obje
 3. **Purity**: `getSnapshot()` has no side effects and does not advance the clock.
 4. **UI parity**: every UI control maps 1:1 onto these methods; URL query params (`?device=…&effect=…&palette=…&t=…&paused=1`) initialize the same state on load.
 5. **Headless parity**: `SimEngine` in Node produces byte-identical snapshots to `window.sim` in a browser for the same inputs (asserted by running the same case modules in both).
+6. **Initialization**: consumers wait for page/module load once; after that boundary, setters, readback, and snapshots are synchronous. Renderer load or ABI failure is fatal and never selects a JavaScript rendering implementation.

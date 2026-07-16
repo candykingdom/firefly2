@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-firefly-simulator>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,7 +13,14 @@
     <p class="tagline">Test lighting shows without hardware · <a href="test.html">test suite</a> · <code>window.sim</code> API in the console</p>
   </header>
 
-  <main>
+  <div id="sim-init" data-state="loading" role="status" aria-live="polite">
+    <div class="init-card">
+      <h2 id="sim-init-title">Loading the production C++ renderer…</h2>
+      <p id="sim-init-detail">Initializing the checked-in WebAssembly artifact.</p>
+    </div>
+  </div>
+
+  <main id="sim-app" hidden>
     <section id="stage-wrap" aria-label="LED stage">
       <canvas id="stage"></canvas>
       <div id="paused-badge" hidden>paused</div>
@@ -83,7 +90,7 @@
     </aside>
   </main>
 
-  <footer id="status" class="mono" aria-live="off"></footer>
+  <footer id="status" class="mono" aria-live="off" hidden></footer>
 
   <script type="module" src="js/api.js"></script>
 </body>
