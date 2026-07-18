@@ -26,11 +26,12 @@ CRGB PrideEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
       ((led_index * depth_multiplier * palette.Size()) + (time_ms / 8)) %
       (stripe_width * palette.Size());
   const uint8_t color_index = (v_index / stripe_width) % palette.Size();
+  const uint8_t prev_index =
+      (color_index + palette.Size() - 1) % palette.Size();
   const uint16_t color_amount = (v_index % stripe_width);
   if (color_amount < fade_width) {
-    return blend(palette.GetColor(color_index - 1),
-                 palette.GetColor(color_index), color_amount * 255 / fade_width,
-                 SHORTEST_HUES);
+    return blend(palette.GetColor(prev_index), palette.GetColor(color_index),
+                 color_amount * 255 / fade_width, SHORTEST_HUES);
   } else {
     return palette.GetColor(color_index);
   }
