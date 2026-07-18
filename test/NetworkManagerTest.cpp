@@ -67,7 +67,7 @@ TEST_F(FireflyNetworkManagerTest, receive_rebroadcasts) {
 
   // Make sure it doesn't crash when exceeding the cache size
   // Start from 1 because 0 isn't a valid packet ID.
-  for (uint16_t i = 1; i < FireflyNetworkManager::kRecentIdsCacheSize * 2; i++) {
+  for (uint16_t i = 1; i < RadioWrapper::kRecentIdsCacheSize * 2; i++) {
     received_packet.packet_id = i;
     radio.setReceivedPacket(&received_packet);
     EXPECT_EQ(networkManager.receive(packet), true);

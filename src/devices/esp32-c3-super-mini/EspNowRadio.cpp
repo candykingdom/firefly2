@@ -1,11 +1,18 @@
 #include "EspNowRadio.hpp"
 
+#include <freertos/FreeRTOS.h>
+#include <freertos/queue.h>
+
 #define ESP_NOW_WIFI_CHANNEL 4
 #define ESPNOW_WIFI_IFACE WIFI_IF_STA
 
 uint8_t broadcastAddress[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
-uint8_t saved_data[ESP_NOW_MAX_DATA_LEN_V2];
-size_t saved_data_len;
+
+// Depth-1 mailbox between the ESP-NOW receive callback (WiFi task) and
+// readPacket (loop task). xQueueOverwrite/xQueueReceive copy the packet under
+// a critical section, so the reader never sees a torn packet; newest packet
+// wins, matching the single-packet semantics of the RFM69 path.
+QueueHandle_t rx_queue = nullptr;
 
 class ESP_NOW_Broadcast_Peer : public ESP_NOW_Peer {
  public:
@@ -31,8 +38,7 @@ class ESP_NOW_Broadcast_Peer : public ESP_NOW_Peer {
   }
   void onReceive(const uint8_t* data, size_t len, bool broadcast) {
     if (len == sizeof(RadioPacket)) {
-      saved_data_len = len;
-      memcpy(saved_data, data, saved_data_len);
+      xQueueOverwrite(rx_queue, data);
     }
   }
 };
@@ -51,6 +57,10 @@ void register_peer(const esp_now_recv_info_t* info, const uint8_t* data,
 EspNowRadio::EspNowRadio() : Radio() {}
 
 bool EspNowRadio::Begin() {
+  rx_queue = xQueueCreate(1, sizeof(RadioPacket));
+  if (rx_queue == nullptr) {
+    return false;
+  }
   WiFi.mode(WIFI_STA);
   WiFi.setChannel(ESP_NOW_WIFI_CHANNEL);
   while (!WiFi.STA.started()) {
@@ -64,23 +74,15 @@ bool EspNowRadio::Begin() {
 }
 
 bool EspNowRadio::readPacket(RadioPacket& packet) {
-  RadioPacket *saved_packet = ((RadioPacket *)saved_data);
-  if (last_packet_id == saved_packet->packet_id) {
+  if (rx_queue == nullptr) {
     return false;
   }
-  last_packet_id = saved_packet->packet_id;
-  memcpy(&packet, saved_data, saved_data_len);
-  return true;
+  return xQueueReceive(rx_queue, &packet, 0) == pdTRUE;
 }
 
 void EspNowRadio::sendPacket(RadioPacket& packet) {
   // void returning function, don't check error status
   broadcast_peer.send_message((uint8_t*)&packet, sizeof(packet));
-}
-
-void EspNowRadio::saveData(uint8_t* data, size_t len) {
-  memcpy(data, saved_data, saved_data_len);
-  saved_data_len = len;
 }
 
 void EspNowRadio::sleep() {}

@@ -9,6 +9,7 @@ class FakeRadio : public Radio {
   ~FakeRadio();
 
   // Overrides
+  bool Begin() override { return true; }
   bool readPacket(RadioPacket &packet) override;
   void sendPacket(RadioPacket &packet) override;
   void sleep() {}

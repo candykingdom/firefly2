@@ -7,7 +7,7 @@ FireflyNetworkManager::FireflyNetworkManager(Radio* const radio) : radios() {
 }
 
 void FireflyNetworkManager::rebroadcastPacket(RadioPacket& packet) {
-  for (auto radio : radios) {
+  for (auto& radio : radios) {
     if (!radio.IsPacketInCache(packet.packet_id)) {
       radio.AddToRecentIdsCache(packet.packet_id);
       radio.radio->sendPacket(packet);
@@ -16,8 +16,13 @@ void FireflyNetworkManager::rebroadcastPacket(RadioPacket& packet) {
 }
 
 bool FireflyNetworkManager::receive(RadioPacket& packet) {
-  for (auto radio_ : radios) {
+  for (auto& radio_ : radios) {
     if (radio_.radio->readPacket(packet)) {
+      // The mesh floods duplicates; deliver each recently-seen packet id to
+      // the caller only once.
+      if (radio_.IsPacketInCache(packet.packet_id)) {
+        return false;
+      }
       rebroadcastPacket(packet);
       // Unfair, early return can starve a busy radio behind a less busy one
       return true;
@@ -30,7 +35,7 @@ void FireflyNetworkManager::send(RadioPacket& packet) {
   // [2, 0xFFFF) allow us to use packet ID 1 in tests, so that the code under
   // test always wins master election.
   packet.packet_id = random(2, 0xFFFF);
-  for (auto radio : radios) {
+  for (auto& radio : radios) {
     radio.radio->sendPacket(packet);
     radio.AddToRecentIdsCache(packet.packet_id);
   }
@@ -47,7 +52,7 @@ RadioWrapper::RadioWrapper(Radio* const radio) : radio(radio) {
 
 void RadioWrapper::AddToRecentIdsCache(const uint16_t id) {
   recent_ids_cache_[recent_ids_cache_index] = id;
-  recent_ids_cache_index %= kRecentIdsCacheSize;
+  recent_ids_cache_index = (recent_ids_cache_index + 1) % kRecentIdsCacheSize;
 }
 
 bool RadioWrapper::IsPacketInCache(const uint16_t id) {

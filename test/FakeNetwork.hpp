@@ -34,7 +34,7 @@ class FakeNetwork {
   void TransmitPacket(RadioPacket &packet);
 
   static const long kNumNodes = 5;
-  NetworkManager *networkManagers[kNumNodes];
+  FireflyNetworkManager *networkManagers[kNumNodes];
   RadioStateMachine *stateMachines[kNumNodes];
   FakeLedManager *ledManagers[kNumNodes];
 

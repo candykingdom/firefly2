@@ -108,7 +108,7 @@ inline bool operator==(const RadioPacket& lhs, const RadioPacket& rhs) {
 
 class Radio {
  public:
-  virtual ~Radio()  = default;
+  virtual ~Radio() = default;
 
   /**
    * Perform essential operations to initialize the radio. Returns false if

@@ -5,7 +5,7 @@
 #include <Effect.hpp>
 #include <FakeRadio.hpp>
 #include <LedManager.hpp>
-#include <NetworkManager.hpp>
+#include <FireflyNetworkManager.hpp>
 #include <Radio.hpp>
 #include <RadioStateMachine.hpp>
 #include <StripDescription.hpp>
@@ -68,7 +68,7 @@ struct SimulatorRenderer::DeviceRig {
         manager(device, &state_machine, seed_overrides) {}
 
   FakeRadio radio;
-  NetworkManager network_manager;
+  FireflyNetworkManager network_manager;
   RadioStateMachine state_machine;
   BufferLedManager manager;
 };

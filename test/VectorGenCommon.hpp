@@ -16,7 +16,7 @@
 #include <DeviceDescription.hpp>
 #include <FakeLedManager.hpp>
 #include <FakeRadio.hpp>
-#include <NetworkManager.hpp>
+#include <FireflyNetworkManager.hpp>
 #include <RadioStateMachine.hpp>
 #include <Types.hpp>
 #include <functional>
@@ -92,7 +92,7 @@ struct DeviceRig {
   explicit DeviceRig(const DeviceDescription &device);
 
   FakeRadio radio;
-  NetworkManager network_manager;
+  FireflyNetworkManager network_manager;
   RadioStateMachine state_machine;
   FakeLedManager manager;
 };
