@@ -24,6 +24,11 @@ const EMSCRIPTEN_VERSION = '6.0.3';
 const FAKE_FAST_LED_COMMIT = 'f00dd2dd4efc34e90c16dd6a1a8eada0922d56ca';
 const ARTIFACT_FILES = ['firefly-renderer.js', 'firefly-renderer.wasm'];
 const GENERATED_FILES = [...ARTIFACT_FILES, 'manifest.json'];
+// Text artifacts whose newlines must be normalized to LF so the committed
+// bytes are identical across platforms. emcc emits CRLF-terminated glue on
+// Windows; without this the freshness check on Windows sees a different sha256
+// and byte count than the LF copy checked in from Linux/macOS.
+const TEXT_ARTIFACT_FILES = new Set(['firefly-renderer.js']);
 const SOURCE_DIRECTORIES = [
   'lib/color',
   'lib/debug',
@@ -147,6 +152,17 @@ async function generateManifest(outputDirectory, sourceFingerprint) {
     `${JSON.stringify(manifest, null, 2)}\n`);
 }
 
+async function normalizeTextArtifacts(outputDirectory) {
+  for (const filename of TEXT_ARTIFACT_FILES) {
+    const artifactPath = path.join(outputDirectory, filename);
+    const contents = await readFile(artifactPath, 'utf8');
+    const normalized = contents.replaceAll('\r\n', '\n');
+    if (normalized !== contents) {
+      await writeFile(artifactPath, normalized);
+    }
+  }
+}
+
 async function cleanBuild(temporaryRoot) {
   verifyToolchain();
   const fingerprintBeforeBuild = await calculateSourceFingerprint();
@@ -167,6 +183,7 @@ async function cleanBuild(temporaryRoot) {
   for (const filename of ARTIFACT_FILES) {
     await stat(path.join(outputDirectory, filename));
   }
+  await normalizeTextArtifacts(outputDirectory);
   const fingerprintAfterBuild = await calculateSourceFingerprint();
   if (fingerprintAfterBuild !== fingerprintBeforeBuild) {
     throw new Error('renderer sources changed during the Wasm build; retry from a stable tree');

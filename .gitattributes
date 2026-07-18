@@ -1,0 +1,7 @@
+# Committed simulator artifacts are byte-exact reproductions verified in CI by
+# scripts/simulator-wasm.mjs. Git must never rewrite their line endings on
+# checkout: on Windows (core.autocrlf=true) that would turn the LF working-tree
+# copies into CRLF and break the byte-exact freshness check.
+sim/generated/firefly-renderer.js -text
+sim/generated/manifest.json    -text
+sim/generated/firefly-renderer.wasm binary
