@@ -28,3 +28,6 @@ _restore_backup_*
 # Autorouter files (exported from Pcbnew)
 *.dsn
 *.ses
+
+# kicad-happy
+analysis/
