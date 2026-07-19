@@ -5,7 +5,7 @@ Firefly2 is a wireless LED-effect network for Burning Man art installations, bik
 ## The one-page mental model
 
 ```
-        915 MHz RFM69 (flood mesh, 61-byte frames)
+        915 MHz RFM69 (flood mesh, up to 61-byte frames)
   ┌────────┐   ┌────────┐   ┌────────┐   ┌────────────┐
   │  node  │   │ fancy- │   │  ...   │   │ controller │  ← human picks
   │ (SAMD) │   │  node  │   │        │   │ (buttons)  │    effect/color
@@ -33,7 +33,7 @@ The main loop on every device is just `state_machine.Tick(); led_manager->RunEff
 
 1. The master broadcasts a HEARTBEAT every second containing **network time**; slaves compute a local `millis_offset_` from it.
 2. Effects are pure functions of `(led_index, network_time, strip, packet)` — same time + same SET_EFFECT packet ⇒ same colors everywhere, with no frame streaming.
-3. The master rebroadcasts the current effect every 2 s so joiners and lossy links converge.
+3. The master rebroadcasts the current effect every 2s so joiners and lossy links converge.
 
 ## Key design decisions
 

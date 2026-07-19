@@ -14,14 +14,15 @@ Firefly2 is an LED control system designed for Burning Man art installations. It
 
 The system uses several hardware form factors:
 
-1. **Node/RFBoard** - Basic wireless LED controller with SAMD21 microcontroller
-2. **Fancy Node** - Advanced controller using STM32G030C8T with more memory and capabilities
+1. **Node/RFBoard v1** - Basic wireless LED controller with SAMD21 microcontroller. Most devices use this.
+1. **RFBoard v2** - In development. Basic wireless LED controller with STM32G070KBT. Replacement for the v1.
+2. **Fancy Node** - Advanced controller using STM32G030C8T with a built-in battery. Not currently used.
 3. **Controller** - Master control unit with buttons/UI using STM32G070CBT
-4. **Rings** - Circular LED controllers (40mm/50mm versions) optimized for wearables
-5. **Puck** - Another circular form factor with different mounting options
-6. **DMX** - Interface for DMX lighting using ESP32
+4. **Puck** - Deprecated. A circular node with a few LEDs built in.
+5. **DMX** - In development. For controlling the Firefly network using DMX.
 
 Each device typically contains:
+
 - Microcontroller (SAMD21, STM32G0, or ESP32)
 - RF radio module (RFM69HW operating at 915MHz)
 - Connectors for WS2812B (NeoPixel) LED strips
@@ -46,6 +47,7 @@ The foundation of the system is a **master/slave architecture** with mesh networ
   - Synchronizes network time across all devices
 
 **Packet Types:**
+
 - `HEARTBEAT` - Contains network time, sent by master every ~1 second
 - `CLAIM_MASTER` - Used during master negotiation
 - `SET_EFFECT` - Contains effect index, palette index, and delay parameters
@@ -64,6 +66,7 @@ All devices start as slaves. If no heartbeat is received within ~5-7 seconds (wi
   - Maintains effect history to control randomization
 
 The LED manager translates abstract effect calculations into concrete LED control signals, handling hardware-specific details like:
+
 - Maximum brightness limits based on power budget
 - LED strip addressing patterns
 - Color correction and gamma correction
@@ -80,11 +83,13 @@ The LED manager translates abstract effect calculations into concrete LED contro
   - And many more...
 
 Each effect implements these key methods:
+
 - `Init()` - Sets up initial state
 - `Calculate()` - Computes LED colors based on current time
 - `GetName()` - Returns human-readable name
 
 Effects can be:
+
 - Synchronized across devices using network time
 - Selected randomly or manually (with configurable occurrence probabilities)
 - Parameterized with different color palettes
@@ -102,6 +107,7 @@ Effects can be:
   - Data pin assignment
 
 Configurations can be stored in flash memory with three modes:
+
 - `CURRENT_FROM_HEADER` - Use the current device from Devices.hpp
 - `READ_FROM_FLASH` - Read from flash, falling back to header if invalid
 - `WRITE_TO_FLASH` - Write current config to flash, then use it
@@ -111,17 +117,18 @@ Configurations can be stored in flash memory with three modes:
 ### Device Startup Flow
 
 1. **Hardware Initialization**
+
    ```cpp
    // Initialize radio
    RadioHeadRadio radio;
    NetworkManager network_manager(&radio);
-   
+
    // Set up device configuration
    DeviceDescription device = GetCurrentDevice(); // From Devices.hpp or flash
-   
+
    // Create LED Manager with appropriate effects
    FastLedManager led_manager(device, &radio_state_machine);
-   
+
    // Initialize the radio state machine
    RadioStateMachine radio_state_machine(&network_manager);
    ```
@@ -131,10 +138,10 @@ Configurations can be stored in flash memory with three modes:
    void loop() {
      // Run the state machine
      radio_state_machine.Tick();
-     
+
      // Run the current effect
      led_manager.RunEffect();
-     
+
      // Optional: power management, button handling, etc.
    }
    ```
@@ -142,6 +149,7 @@ Configurations can be stored in flash memory with three modes:
 ### Master Device Flow
 
 1. Send heartbeats at regular intervals (`kMasterHeartbeatInterval = 1000ms`)
+
    ```cpp
    // In RadioStateMachine.cpp
    void RadioStateMachine::SendHeartbeat() {
@@ -151,6 +159,7 @@ Configurations can be stored in flash memory with three modes:
    ```
 
 2. Change effects periodically (`kChangeEffectInterval = 60000ms`)
+
    ```cpp
    // In RadioStateMachine.cpp (simplified)
    void handleMasterEvent(RadioEventData &data) {
@@ -158,11 +167,11 @@ Configurations can be stored in flash memory with three modes:
        // Select new effect and palette
        uint8_t new_effect_index = random(num_effects_);
        uint8_t new_palette_index = random(num_palettes_);
-       
+
        // Create and broadcast SET_EFFECT packet
        packet_.writeSetEffect(new_effect_index, 0, new_palette_index);
        network_manager_->send(packet_);
-       
+
        // Save as current effect
        set_effect_packet_ = packet_;
      }
@@ -176,6 +185,7 @@ Configurations can be stored in flash memory with three modes:
 ### Slave Device Flow
 
 1. Listen for heartbeats from master
+
    ```cpp
    // In RadioStateMachine.cpp (simplified)
    void handleSlaveEvent(RadioEventData &data) {
@@ -183,7 +193,7 @@ Configurations can be stored in flash memory with three modes:
        // Update network time offset
        int32_t received_time = data.packet->readTimeFromHeartbeat();
        millis_offset_ = received_time - millis();
-       
+
        // Reset slave timeout timer
        SetTimer(TimerHeartbeat, kSlaveNoPacketTimeout + random(kSlaveNoPacketRandom));
      }
@@ -198,16 +208,17 @@ Configurations can be stored in flash memory with three modes:
 ### Effect Rendering Flow
 
 1. Get current effect from the network state
+
    ```cpp
    // In LedManager.cpp (simplified)
    void LedManager::RunEffect() {
      // Get the current effect based on radio state
      uint8_t effect_index = radio_state->GetEffectIndex();
      Effect* effect = GetEffect(effect_index);
-     
+
      // Calculate LED values based on network time
      effect->Calculate(radio_state->GetNetworkMillis());
-     
+
      // Write the LEDs
      WriteOutLeds();
    }
@@ -222,21 +233,24 @@ Configurations can be stored in flash memory with three modes:
 ### Setup Environment
 
 1. Install PlatformIO:
+
    ```bash
    pip install platformio
    ```
 
 2. Install build tools:
+
    ```bash
    sudo apt install cmake clang-format  # For Linux
    # For macOS: brew install cmake llvm
    ```
 
 3. Install ST-Link tools (for STM32 programming):
+
    ```bash
    # Linux
    sudo apt install stlink-tools
-   
+
    # macOS
    brew install stlink
    ```
@@ -249,6 +263,7 @@ Configurations can be stored in flash memory with three modes:
 ### Building and Flashing
 
 For embedded targets:
+
 ```bash
 # List available environments
 pio project config
@@ -264,6 +279,7 @@ pio run -e fancy-node-usb -t upload --upload-port /dev/ttyUSB0
 ```
 
 For testing:
+
 ```bash
 # Build and run all tests
 mkdir -p build && cd build
@@ -280,43 +296,49 @@ make && ./smalltests --gtest_filter=NetworkManagerTest*
 1. **Modifying an effect**:
    - Edit the effect file in `lib/effect/`
    - Update calculation logic
+
    ```cpp
    // Example: changing parameters in FireEffect.cpp
    void FireEffect::Calculate(uint32_t time_ms) {
      // Adjust parameters for more intense fire
      cooling = 80;  // Increased from 55
      sparking = 180;  // Increased from 120
-     
+
      // Continue with effect calculation...
    }
    ```
+
    - Build and flash to test
 
 2. **Adding a new effect**:
    - Create new effect class inheriting from `Effect`
+
    ```cpp
    // NewEffect.hpp
    class NewEffect : public Effect {
     public:
      NewEffect(uint8_t num_leds, const DeviceDescription& device);
      virtual ~NewEffect();
-     
+
      virtual void Calculate(uint32_t current_time);
      virtual const char* GetName() const { return "New Effect"; }
-   
+
     private:
      // Effect-specific state variables
    };
    ```
+
    - Implement calculation logic in the CPP file
    - Register in LedManager.cpp using `AddEffect(new NewEffect(...), proportion)`
    - Add to Effects.hpp
+
    ```cpp
    #include "NewEffect.hpp"
    ```
 
 3. **Changing device configuration**:
    - Modify `Devices.hpp` to add/update device definitions
+
    ```cpp
    // Example: Adding a new device configuration
    const DeviceDescription my_custom_device(
@@ -326,16 +348,17 @@ make && ./smalltests --gtest_filter=NetworkManagerTest*
        StripDescription(30, StripType::NEOPIXEL, false, true, false)
      }
    );
-   
+
    // Update current device
    #define current my_custom_device
    ```
 
 4. **Debugging**:
-   - Monitor serial output: 
+   - Monitor serial output:
    ```bash
    pio device monitor --port /dev/ttyUSB0 --baud 115200
    ```
+
    - Add debug print statements with `Debug::print()`
    - Use GDB for advanced debugging (requires debugging hardware)
    ```bash
@@ -365,7 +388,8 @@ make && ./smalltests --gtest_filter=NetworkManagerTest*
    - Check proper SPI pin configuration (MISO, MOSI, SCK, SS)
    - Verify radio frequency settings match across devices (915MHz in US)
    - Check antenna connection and placement
-   - Use debug print to track packet reception: 
+   - Use debug print to track packet reception:
+
    ```cpp
    Debug::print("Received packet ID: %d, Type: %d\n", packet.packet_id, packet.type);
    ```
@@ -374,6 +398,7 @@ make && ./smalltests --gtest_filter=NetworkManagerTest*
    - Verify device's `milliamps_supported` configuration matches power supply
    - Measure actual current draw at full brightness
    - Consider using `StripDescription` flags to limit specific strips:
+
    ```cpp
    // For lower brightness strip
    StripDescription(60, StripType::NEOPIXEL, false, true, false) // Dim flag enabled
@@ -381,23 +406,27 @@ make && ./smalltests --gtest_filter=NetworkManagerTest*
 
 3. **Effect synchronization**:
    - Check network time by adding debug print:
+
    ```cpp
-   Debug::print("Network time: %lu, Local: %lu, Offset: %ld\n", 
+   Debug::print("Network time: %lu, Local: %lu, Offset: %ld\n",
                 radio_state.GetNetworkMillis(), millis(), radio_state.GetTimeDifference());
    ```
+
    - Ensure effect calculations use network time, not local time
    - Look for phase or timing inconsistencies in effect animation
 
 4. **Flash storage issues**:
    - Check `FLASH_BASE_ADDRESS` definition in platformio.ini
    - Test different device modes in sequence:
+
    ```cpp
    // First run with WRITE_TO_FLASH
    DeviceMode mode = DeviceMode::WRITE_TO_FLASH;
-   
+
    // Then switch to READ_FROM_FLASH
    DeviceMode mode = DeviceMode::READ_FROM_FLASH;
    ```
+
    - If flash becomes corrupted, reset to header default with `CURRENT_FROM_HEADER`
 
 5. **Unexpected effects or behaviors**:
