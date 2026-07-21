@@ -28,9 +28,31 @@ bool RadioPacket::Deserialize(const uint8_t* buf, uint8_t len) {
   return true;
 }
 
+bool RadioPacket::IsValid() const {
+  if (this->dataLength > PACKET_DATA_LENGTH) {
+    return false;
+  }
+  switch (this->type) {
+    case HEARTBEAT:
+      return this->dataLength >= HEARTBEAT_DATA_LENGTH;
+    case CLAIM_MASTER:
+      return true;
+    case SET_EFFECT:
+      return this->dataLength >= SET_EFFECT_DATA_LENGTH;
+    case SET_CONTROL:
+      return this->dataLength >= SET_CONTROL_DATA_LENGTH;
+  }
+  // Unknown type: it has no read* accessors to protect, and RadioStateMachine
+  // already ignores types it doesn't handle. Treat it as valid so the mesh
+  // still floods it -- otherwise a node running older firmware becomes a black
+  // hole for any packet type added after it was flashed, silently fragmenting
+  // a mixed-firmware mesh.
+  return true;
+}
+
 void RadioPacket::writeHeartbeat(uint32_t time) {
   this->type = HEARTBEAT;
-  this->dataLength = 4;
+  this->dataLength = HEARTBEAT_DATA_LENGTH;
   this->data[0] = time >> 24;
   this->data[1] = time >> 16;
   this->data[2] = time >> 8;
@@ -55,7 +77,7 @@ uint32_t RadioPacket::readTimeFromHeartbeat() const {
 void RadioPacket::writeSetEffect(uint8_t effect_index, uint8_t delay,
                                  uint8_t hue) {
   this->type = SET_EFFECT;
-  this->dataLength = 3;
+  this->dataLength = SET_EFFECT_DATA_LENGTH;
   this->data[0] = effect_index;
   this->data[1] = delay;
   this->data[2] = hue;
@@ -87,7 +109,7 @@ uint8_t RadioPacket::readPaletteIndexFromSetEffect() const {
 
 void RadioPacket::writeControl(uint8_t delay, CRGB rgb) {
   this->type = SET_CONTROL;
-  this->dataLength = 4;
+  this->dataLength = SET_CONTROL_DATA_LENGTH;
   this->data[0] = delay;
   this->data[1] = rgb.r;
   this->data[2] = rgb.g;

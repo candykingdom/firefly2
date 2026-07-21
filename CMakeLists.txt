@@ -58,6 +58,7 @@ file(GLOB LIBRARY_SOURCES
   "lib/led_manager/*.cpp"
   "lib/math/*.cpp"
   "lib/radio/*.cpp"
+  "lib/serial-codec/*.cpp"
   "lib/types/*.cpp"
 )
 add_library(generic ${LIBRARY_SOURCES})
@@ -75,6 +76,7 @@ target_include_directories(generic PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/math>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/network>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/radio>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/serial-codec>
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/types>
   $<INSTALL_INTERFACE:./src/generic>
   $<INSTALL_INTERFACE:./src/generic/FakeFastLED>

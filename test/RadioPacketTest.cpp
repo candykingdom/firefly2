@@ -111,6 +111,72 @@ TEST(RadioPacket, deserializeRejectsTruncatedAndOversizedFrames) {
   EXPECT_FALSE(packet.Deserialize(wire.data(), 255));
 }
 
+TEST(RadioPacket, payloadLengthConstantsMatchWriters) {
+  // IsValid's minimums must track what the write* functions emit.
+  RadioPacket packet;
+  packet.writeHeartbeat(0x12345678);
+  EXPECT_EQ(HEARTBEAT_DATA_LENGTH, packet.dataLength);
+  packet.writeSetEffect(1, 2, 3);
+  EXPECT_EQ(SET_EFFECT_DATA_LENGTH, packet.dataLength);
+  packet.writeControl(4, CRGB(5, 6, 7));
+  EXPECT_EQ(SET_CONTROL_DATA_LENGTH, packet.dataLength);
+}
+
+TEST(RadioPacket, isValidAcceptsWellFormedPackets) {
+  RadioPacket packet;
+  packet.writeHeartbeat(0x12345678);
+  EXPECT_TRUE(packet.IsValid());
+  packet.writeSetEffect(1, 2, 3);
+  EXPECT_TRUE(packet.IsValid());
+  packet.writeControl(4, CRGB(5, 6, 7));
+  EXPECT_TRUE(packet.IsValid());
+
+  packet.type = CLAIM_MASTER;
+  packet.dataLength = 0;
+  EXPECT_TRUE(packet.IsValid());
+}
+
+TEST(RadioPacket, isValidRejectsTruncatedPayloads) {
+  RadioPacket packet;
+  for (uint8_t length = 0; length < HEARTBEAT_DATA_LENGTH; length++) {
+    packet.writeHeartbeat(0x12345678);
+    packet.dataLength = length;
+    EXPECT_FALSE(packet.IsValid()) << "HEARTBEAT length " << (int)length;
+  }
+  for (uint8_t length = 0; length < SET_EFFECT_DATA_LENGTH; length++) {
+    packet.writeSetEffect(1, 2, 3);
+    packet.dataLength = length;
+    EXPECT_FALSE(packet.IsValid()) << "SET_EFFECT length " << (int)length;
+  }
+  for (uint8_t length = 0; length < SET_CONTROL_DATA_LENGTH; length++) {
+    packet.writeControl(4, CRGB(5, 6, 7));
+    packet.dataLength = length;
+    EXPECT_FALSE(packet.IsValid()) << "SET_CONTROL length " << (int)length;
+  }
+}
+
+TEST(RadioPacket, isValidRejectsOversizedPayloads) {
+  RadioPacket packet;
+  packet.writeHeartbeat(0x12345678);
+  packet.dataLength = PACKET_DATA_LENGTH + 1;
+  EXPECT_FALSE(packet.IsValid());
+}
+
+// Unknown types carry no accessors to protect, so they stay valid and keep
+// being flooded -- see IsValid's comment on mixed-firmware meshes. An
+// oversized payload is still rejected regardless of type.
+TEST(RadioPacket, isValidAcceptsUnknownTypesButNotOversizedOnes) {
+  RadioPacket packet;
+  packet.writeHeartbeat(0x12345678);
+  for (uint16_t type = SET_CONTROL + 1; type <= 0xFF; type++) {
+    packet.type = (PacketType)type;
+    packet.dataLength = PACKET_DATA_LENGTH;
+    EXPECT_TRUE(packet.IsValid()) << "type " << type;
+    packet.dataLength = PACKET_DATA_LENGTH + 1;
+    EXPECT_FALSE(packet.IsValid()) << "oversized type " << type;
+  }
+}
+
 TEST(RadioPacket, deserializeAcceptsHeaderOnlyFrame) {
   const uint8_t wire[] = {0x00, 0x07, CLAIM_MASTER};
 

@@ -8,9 +8,21 @@
 
 uint8_t broadcastAddress[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
 
+// Max RadioPacket wire encoding: 3-byte header + 58-byte payload.
+static constexpr size_t kMaxWireLength =
+    PACKET_HEADER_LENGTH + PACKET_DATA_LENGTH;
+
+// A received ESP-NOW frame carried as the architecture-neutral RadioPacket wire
+// encoding (see RadioPacket::Serialize), decoded by readPacket. Using the wire
+// format keeps ESP-NOW consistent with the RFM69 and serial transports.
+struct WireFrame {
+  uint8_t bytes[kMaxWireLength];
+  uint8_t len;
+};
+
 // Depth-1 mailbox between the ESP-NOW receive callback (WiFi task) and
-// readPacket (loop task). xQueueOverwrite/xQueueReceive copy the packet under
-// a critical section, so the reader never sees a torn packet; newest packet
+// readPacket (loop task). xQueueOverwrite/xQueueReceive copy the frame under
+// a critical section, so the reader never sees a torn frame; newest frame
 // wins, matching the single-packet semantics of the RFM69 path.
 QueueHandle_t rx_queue = nullptr;
 
@@ -37,9 +49,13 @@ class ESP_NOW_Broadcast_Peer : public ESP_NOW_Peer {
     return send(data, len) > 0;
   }
   void onReceive(const uint8_t* data, size_t len, bool broadcast) {
-    if (len == sizeof(RadioPacket)) {
-      xQueueOverwrite(rx_queue, data);
+    if (len == 0 || len > kMaxWireLength) {
+      return;
     }
+    WireFrame frame;
+    memcpy(frame.bytes, data, len);
+    frame.len = static_cast<uint8_t>(len);
+    xQueueOverwrite(rx_queue, &frame);
   }
 };
 
@@ -57,7 +73,7 @@ void register_peer(const esp_now_recv_info_t* info, const uint8_t* data,
 EspNowRadio::EspNowRadio() : Radio() {}
 
 bool EspNowRadio::Begin() {
-  rx_queue = xQueueCreate(1, sizeof(RadioPacket));
+  rx_queue = xQueueCreate(1, sizeof(WireFrame));
   if (rx_queue == nullptr) {
     return false;
   }
@@ -77,12 +93,18 @@ bool EspNowRadio::readPacket(RadioPacket& packet) {
   if (rx_queue == nullptr) {
     return false;
   }
-  return xQueueReceive(rx_queue, &packet, 0) == pdTRUE;
+  WireFrame frame;
+  if (xQueueReceive(rx_queue, &frame, 0) != pdTRUE) {
+    return false;
+  }
+  return packet.Deserialize(frame.bytes, frame.len);
 }
 
 void EspNowRadio::sendPacket(RadioPacket& packet) {
+  uint8_t buffer[kMaxWireLength];
+  const uint8_t len = packet.Serialize(buffer);
   // void returning function, don't check error status
-  broadcast_peer.send_message((uint8_t*)&packet, sizeof(packet));
+  broadcast_peer.send_message(buffer, len);
 }
 
 void EspNowRadio::sleep() {}

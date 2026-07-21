@@ -38,8 +38,9 @@ class FireflyNetworkManager {
   bool receive(RadioPacket& packet);
 
   /**
-   * Rebroadcast a packet to all radios, if that packet isn't found in the
-   * cache.
+   * Rebroadcast a packet to every radio whose recent-id cache doesn't already
+   * hold this packet's id. To stop a packet being echoed back out the radio it
+   * arrived on, the caller seeds that radio's cache first (see receive()).
    */
   void rebroadcastPacket(RadioPacket& packet);
 
@@ -55,6 +56,14 @@ class FireflyNetworkManager {
 
  private:
   std::vector<RadioWrapper> radios;
+
+  /**
+   * Round-robin cursor for receive(). Each call starts its scan here and, on
+   * finding a packet, advances past that radio so a consistently busy radio
+   * can't monopolize the single read per tick and starve the others. An index
+   * (rather than an iterator) survives the vector reallocation in addRadio().
+   */
+  size_t next_radio_index_ = 0;
 };
 
 #endif  // __FIREFLY_NETWORK_MANAGER_H__

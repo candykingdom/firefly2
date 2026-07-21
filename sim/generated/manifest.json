@@ -3,15 +3,15 @@
   "rendererAbi": 1,
   "emscriptenVersion": "6.0.3",
   "fakeFastLedCommit": "f00dd2dd4efc34e90c16dd6a1a8eada0922d56ca",
-  "sourceFingerprint": "2cbb99b05ef06acb73da7deaab8cb37561344c14387fb6815ebfb1e74c51d5df",
+  "sourceFingerprint": "663ddb4c6d237e66a1b4685bbd551eaef5d896f4cfa112386366b6318b5d3a8d",
   "files": {
     "firefly-renderer.js": {
       "sha256": "9cf4b4840ecae0d63eefb6176f2c6674dd9b7bda989c7989dc66b003c9353139",
       "bytes": 8794
     },
     "firefly-renderer.wasm": {
-      "sha256": "9087c0f1a89d29c84ee2da3796a44ee3b188eb5adfe1e0f1adcec3f32d7c08e4",
-      "bytes": 35145
+      "sha256": "06c6f6dbdcaaf1ade9e990154ec407500b7ba022c73e8342da68449748afa5f2",
+      "bytes": 35582
     }
   }
 }

@@ -4,7 +4,8 @@
 #include <Types.hpp>
 #include <array>
 
-enum PacketType {
+// One wire byte. Fixed underlying type so unknown values are defined, not UB.
+enum PacketType : uint8_t {
   // Tells the slaves that they should blink the light.
   HEARTBEAT,
 
@@ -26,6 +27,15 @@ static constexpr uint8_t PACKET_DATA_LENGTH = 58;
 
 // Wire header: 2-byte packet id (big-endian) + 1-byte type.
 static constexpr uint8_t PACKET_HEADER_LENGTH = 3;
+
+// Payload length each type needs before its read* accessors have anything to
+// read; shorter is malformed. RadioPacketTest pins these to what write*
+// actually produces.
+static_assert(sizeof(CRGB) == 3, "SET_CONTROL's payload assumes a 3-byte CRGB");
+static constexpr uint8_t HEARTBEAT_DATA_LENGTH = sizeof(uint32_t);
+static constexpr uint8_t SET_EFFECT_DATA_LENGTH = 3;
+static constexpr uint8_t SET_CONTROL_DATA_LENGTH =
+    sizeof(uint8_t) + sizeof(CRGB);
 
 struct RadioPacket {
   /**
@@ -49,7 +59,9 @@ struct RadioPacket {
    * The raw application-layer data. The length is the max packet length (61)
    * minus the size of the packet ID and type (3 bytes).
    */
-  std::array<uint8_t, PACKET_DATA_LENGTH> data;
+  // Zero-initialized so a short packet that slips past IsValid reads
+  // deterministic bytes rather than whatever was on the stack.
+  std::array<uint8_t, PACKET_DATA_LENGTH> data = {};
 
   // Wire codec. See specs/002-fix-audit-findings/contracts/wire-format.md.
 
@@ -71,6 +83,17 @@ struct RadioPacket {
    * bytes are stored as-is for higher layers to tolerate.
    */
   bool Deserialize(const uint8_t* buf, uint8_t len);
+
+  /**
+   * Whether this packet is structurally sound: a known type carrying at least
+   * the payload its read* accessors will index. Deserialize only validates
+   * framing, so noise can decode into a valid header with a truncated payload.
+   * Enforced in FireflyNetworkManager::receive.
+   *
+   * Unknown types are accepted (they have no accessors to protect) so that the
+   * mesh keeps relaying packet types this build predates.
+   */
+  bool IsValid() const;
 
   // Member functions to create and read specific packet types.
 
@@ -132,6 +155,18 @@ class Radio {
    * readPacket or sendPacket.
    */
   virtual void sleep() = 0;
+
+  /**
+   * Whether the mesh should re-send a packet back out this radio when the
+   * packet also *arrived* on this radio. True for shared broadcast media
+   * (RFM69, ESP-NOW), where same-medium rebroadcast is how the flood mesh
+   * reaches nodes outside the master's direct range. False for point-to-point
+   * links (the serial bridge), where the only peer already has the packet so
+   * echoing it back is pure waste. This gates only the *source* radio;
+   * packets are always forwarded onto the other radios (see
+   * FireflyNetworkManager::receive).
+   */
+  virtual bool RebroadcastsToSource() const { return true; }
 };
 
 #endif

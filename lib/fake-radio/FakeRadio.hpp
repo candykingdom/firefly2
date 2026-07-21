@@ -13,8 +13,13 @@ class FakeRadio : public Radio {
   bool readPacket(RadioPacket &packet) override;
   void sendPacket(RadioPacket &packet) override;
   void sleep() {}
+  bool RebroadcastsToSource() const override { return rebroadcasts_to_source_; }
 
   // Test methods
+
+  // Simulates a point-to-point transport (e.g. the serial bridge) rather than
+  // a shared broadcast medium. See Radio::RebroadcastsToSource.
+  void SetRebroadcastsToSource(bool value) { rebroadcasts_to_source_ = value; }
 
   // Injects a packet for readPacket to return. Deliberately bypasses the wire
   // codec so tests can inject invalid packets the codec could never produce.
@@ -32,6 +37,7 @@ class FakeRadio : public Radio {
   uint8_t sent_wire[PACKET_HEADER_LENGTH + PACKET_DATA_LENGTH];
   uint8_t sent_wire_length;
   bool has_sent_packet;
+  bool rebroadcasts_to_source_ = true;
 };
 
 #endif

@@ -20,6 +20,15 @@ class Effect {
   static const std::vector<ColorPalette> &palettes();
   static const std::vector<const char *> &palette_names();
 
+  /**
+   * Returns palettes()[index]. Effects index the palette list with a raw byte
+   * from a SET_EFFECT packet, so an out-of-range index must not index out of
+   * bounds (which crashes in ColorPalette). Mirrors LedManager::GetEffect: the
+   * byte wraps into range on device, but asserts on host so tests catch a bad
+   * index instead of silently masking it.
+   */
+  static const ColorPalette &PaletteAt(uint8_t index);
+
  protected:
   /**
    * Gets a sin wave, only considering the part above threshold, scaled to be
