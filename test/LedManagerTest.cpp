@@ -12,7 +12,7 @@ TEST(LedManager, hasNonRandomEffects) {
   DeviceDescription device = DeviceDescription(2000, {strip});
   EXPECT_EQ(device.GetLedCount(), 1);
   FakeRadio radio;
-  NetworkManager networkManager = NetworkManager(&radio);
+  FireflyNetworkManager networkManager = FireflyNetworkManager(&radio);
   RadioStateMachine state_machine = RadioStateMachine(&networkManager);
   FakeLedManager manager = FakeLedManager(device, &state_machine);
   manager.ClearEffects();
@@ -50,7 +50,7 @@ TEST(LedManager, effectIndexIsInRange) {
   DeviceDescription device = DeviceDescription(2000, {strip});
   EXPECT_EQ(device.GetLedCount(), 1);
   FakeRadio radio;
-  NetworkManager networkManager = NetworkManager(&radio);
+  FireflyNetworkManager networkManager = FireflyNetworkManager(&radio);
   RadioStateMachine state_machine = RadioStateMachine(&networkManager);
   // The calls to AddEffect in LedManager's constructor validate that the number
   // of effects is in range.
@@ -75,7 +75,7 @@ TEST(LedManager, callStripInReverse) {
   DeviceDescription device = DeviceDescription(2000, {strip});
   EXPECT_EQ(device.GetLedCount(), 5);
   FakeRadio radio;
-  NetworkManager networkManager = NetworkManager(&radio);
+  FireflyNetworkManager networkManager = FireflyNetworkManager(&radio);
   RadioStateMachine state_machine = RadioStateMachine(&networkManager);
   FakeLedManager manager = FakeLedManager(device, &state_machine);
 
@@ -143,7 +143,7 @@ class RenderRig {
   }
 
   FakeRadio radio;
-  NetworkManager networkManager;
+  FireflyNetworkManager networkManager;
   RadioStateMachine state_machine;
   FakeLedManager manager;
   RadioPacket setEffect;

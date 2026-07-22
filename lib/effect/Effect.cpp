@@ -91,6 +91,16 @@ const std::vector<ColorPalette> &Effect::palettes() {
   return palettes;
 }
 
+const ColorPalette &Effect::PaletteAt(uint8_t index) {
+  const std::vector<ColorPalette> &p = palettes();
+#ifdef ARDUINO
+  index = index % p.size();
+#else
+  assert(index < p.size());
+#endif
+  return p[index];
+}
+
 const std::vector<const char *> &Effect::palette_names() {
   static const std::vector<const char *> names = {
       "Red",

@@ -7,7 +7,7 @@
 
 // #define DEBUG
 
-RadioStateMachine::RadioStateMachine(NetworkManager *networkManager)
+RadioStateMachine::RadioStateMachine(FireflyNetworkManager *networkManager)
     : network_manager_(networkManager) {
   timers_.fill(0);
   state_ = RadioState::Slave;

@@ -9,7 +9,7 @@ CRGB ContrastBumpsEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
                                  RadioPacket *setEffectPacket) const {
   const uint8_t palette_index =
       setEffectPacket->readPaletteIndexFromSetEffect();
-  const ColorPalette &palette = palettes()[palette_index];
+  const ColorPalette &palette = PaletteAt(palette_index);
 
   uint8_t led_count = strip.led_count;
   if (strip.FlagEnabled(Mirrored)) {

@@ -2,7 +2,7 @@
 
 #include "FakeLedManager.hpp"
 #include "FakeRadio.hpp"
-#include "NetworkManager.hpp"
+#include "FireflyNetworkManager.hpp"
 #include "RadioStateMachine.hpp"
 #include "gtest/gtest.h"
 
@@ -20,7 +20,7 @@ class RadioStateMachineTest : public ::testing::Test {
  protected:
   void SetUp() override {
     setMillis(0);
-    network_manager = new NetworkManager(&radio);
+    network_manager = new FireflyNetworkManager(&radio);
     state_machine = new RadioStateMachine(network_manager);
   }
 
@@ -30,7 +30,7 @@ class RadioStateMachineTest : public ::testing::Test {
   }
 
   FakeRadio radio;
-  NetworkManager *network_manager;
+  FireflyNetworkManager *network_manager;
   RadioStateMachine *state_machine;
 };
 

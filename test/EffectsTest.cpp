@@ -16,7 +16,7 @@ class EffectsTest : public ::testing::Test {
   void runEffectsTest(uint32_t maxTime, uint32_t time_step = 1);
 
   FakeRadio radio;
-  NetworkManager networkManager = NetworkManager(&radio);
+  FireflyNetworkManager networkManager = FireflyNetworkManager(&radio);
   RadioStateMachine state_machine = RadioStateMachine(&networkManager);
   FakeLedManager* manager = nullptr;
 };

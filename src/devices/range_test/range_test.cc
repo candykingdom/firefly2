@@ -7,14 +7,14 @@
 #include <StripDescription.hpp>
 #include "../../arduino/FastLedManager.hpp"
 #include "../../arduino/RadioHeadRadio.hpp"
-#include "../../generic/NetworkManager.hpp"
+#include "../../generic/FireflyNetworkManager.hpp"
 #include "../../generic/RadioStateMachine.hpp"
 
 constexpr int kLedPin = 0;
 static const DeviceDescription device{200, {new StripDescription(1, {})}};
 
 RadioHeadRadio *radio = new RadioHeadRadio();
-NetworkManager nm(radio);
+FireflyNetworkManager nm(radio);
 RadioStateMachine state_machine(&nm);
 FastLedManager led_manager(Devices::current, &state_machine);
 

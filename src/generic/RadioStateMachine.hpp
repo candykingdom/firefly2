@@ -5,7 +5,7 @@
 #include <array>
 #include <map>
 
-#include "NetworkManager.hpp"
+#include "FireflyNetworkManager.hpp"
 
 enum TimerType {
   TimerNone,
@@ -38,7 +38,7 @@ enum class RadioState {
 
 class RadioStateMachine {
  public:
-  explicit RadioStateMachine(NetworkManager *network_manager);
+  explicit RadioStateMachine(FireflyNetworkManager *network_manager);
   ~RadioStateMachine();
 
   RadioState GetCurrentState() const;
@@ -112,7 +112,7 @@ class RadioStateMachine {
   /** Sends a heartbeat packet. */
   void SendHeartbeat();
 
-  NetworkManager *const network_manager_;
+  FireflyNetworkManager *const network_manager_;
 
   /** The current state. */
   RadioState state_;

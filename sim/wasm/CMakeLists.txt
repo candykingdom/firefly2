@@ -55,7 +55,7 @@ set(FIREFLY_RENDERER_SOURCES
   ${FIREFLY_ROOT}/lib/math/Math.cpp
   ${FIREFLY_ROOT}/lib/radio/Radio.cpp
   ${FIREFLY_ROOT}/lib/types/Types.cpp
-  ${FIREFLY_ROOT}/src/generic/NetworkManager.cpp
+  ${FIREFLY_ROOT}/src/generic/FireflyNetworkManager.cpp
   ${FIREFLY_ROOT}/src/generic/RadioStateMachine.cpp
   ${CMAKE_CURRENT_LIST_DIR}/SimulatorRenderer.cpp
   ${CMAKE_CURRENT_LIST_DIR}/SimulatorBridge.cpp

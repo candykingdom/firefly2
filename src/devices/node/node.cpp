@@ -3,6 +3,7 @@
 #undef max
 #undef min
 #include <FlashStorage_SAMD.h>
+#include <wiring_private.h>  // pinPeripheral
 
 #include <DeviceDescription.hpp>
 #include <Devices.hpp>
@@ -11,17 +12,44 @@
 
 #include "../../arduino/FastLedManager.hpp"
 #include "../../arduino/RadioHeadRadio.hpp"
-#include "../../generic/NetworkManager.hpp"
+#include "../../arduino/SerialRadio.hpp"
+#include "../../generic/FireflyNetworkManager.hpp"
 #include "../../generic/RadioStateMachine.hpp"
 
 const int kLedPin = 0;
+
+// Serial bridge to an ESP32-C3 over a hardware UART. Opt-in via
+// -DSERIAL_BRIDGE=1; only enable it when an ESP32 is wired to the UART pins
+// (see the hazard note in SerialRadio.cpp).
+#ifndef SERIAL_BRIDGE
+#define SERIAL_BRIDGE 0
+#endif
+
+#if SERIAL_BRIDGE
+// The rfboard variant deliberately leaves `Serial1` undefined: the header pins
+// labeled 1 & 2 map to PA04/PA05, which are on SERCOM0 -- the SERCOM already
+// dedicated to the RFM69 radio's SPI (see PERIPH_SPI in the variant). They
+// cannot drive a UART while the radio is active. Instead we bring up our own
+// UART on SERCOM1, which is free and reachable on header pins 9 (PA17) and 10
+// (PA16). This defines the `Serial1` the variant declares `extern`.
+constexpr uint32_t kSerialBaud = 115200;
+constexpr uint8_t kSerialRxPin = 9;   // PA17 -> SERCOM1/PAD[1]
+constexpr uint8_t kSerialTxPin = 10;  // PA16 -> SERCOM1/PAD[0]
+
+Uart Serial1(&sercom1, kSerialRxPin, kSerialTxPin, SERCOM_RX_PAD_1,
+             UART_TX_PAD_0);
+void SERCOM1_Handler() { Serial1.IrqHandler(); }
+#endif
 
 constexpr DeviceMode kDeviceMode = DeviceMode::CURRENT_FROM_HEADER;
 
 // Note: `RadioHeadRadio` needs to be a pointer - if it's an object, the node
 // crashes upon receiving a packet.
 RadioHeadRadio *radio = new RadioHeadRadio();
-NetworkManager nm(radio);
+#if SERIAL_BRIDGE
+SerialRadio *serial_radio = new SerialRadio(Serial1);
+#endif
+FireflyNetworkManager nm(radio);
 RadioStateMachine state_machine(&nm);
 FastLedManager *led_manager;
 
@@ -92,6 +120,17 @@ void setup() {
   if (!radio->Begin()) {
     led_manager->FatalErrorAnimation();
   }
+
+#if SERIAL_BRIDGE
+  Serial1.begin(kSerialBaud);
+  // Route the chosen pins to their SERCOM1 peripheral function.
+  pinPeripheral(kSerialRxPin, PIO_SERCOM);
+  pinPeripheral(kSerialTxPin, PIO_SERCOM);
+  if (!serial_radio->Begin()) {
+    led_manager->FatalErrorAnimation();
+  }
+  nm.addRadio(serial_radio);
+#endif
 
   // NOTE: can check if we watchdog rebooted by checking REG_PM_RCAUSE
   // See https://github.com/gjt211/SAMD21-Reset-Cause
