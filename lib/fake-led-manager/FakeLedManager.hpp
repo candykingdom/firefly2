@@ -9,19 +9,19 @@
 
 class FakeLedManager : public LedManager {
  public:
-  explicit FakeLedManager(const DeviceDescription &device,
-                          RadioStateMachine *state_machine);
+  explicit FakeLedManager(const DeviceDescription& device,
+                          RadioStateMachine* state_machine);
   ~FakeLedManager();
 
   CRGB GetLed(uint8_t led_index);
 
-  void SetGlobalColor(const CRGB &rgb) override;
+  void SetGlobalColor(const CRGB& rgb) override;
 
   void ClearEffects();
-  void PublicAddEffect(Effect *effect, uint8_t proportion);
+  void PublicAddEffect(Effect* effect, uint8_t proportion);
 
  protected:
-  void SetLed(uint8_t led_index, const CRGB &rgb) override;
+  void SetLed(uint8_t led_index, const CRGB& rgb) override;
 
   void WriteOutLeds() override;
 
@@ -29,6 +29,6 @@ class FakeLedManager : public LedManager {
   uint8_t led_count;
 
   // Note: this looks like a pointer, but is actually an array of size num_leds
-  CRGB *leds;
+  CRGB* leds;
 };
 #endif

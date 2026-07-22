@@ -11,8 +11,8 @@ class PoliceEffect : public Effect {
 
   /** Gets the value of a specific LED at a specific time. */
   CRGB GetRGB(uint8_t led_index, uint32_t time_ms,
-              const StripDescription &strip,
-              RadioPacket *setEffectPacket) const override;
+              const StripDescription& strip,
+              RadioPacket* setEffectPacket) const override;
 
  private:
   static constexpr uint8_t light_width = 14;

@@ -22,7 +22,7 @@ constexpr TimerType TIMER_TYPE_LAST = TimerBroadcastEffect;
  */
 struct RadioEventData {
   /** The packet that was received, or null if no packet was received. */
-  RadioPacket *packet;
+  RadioPacket* packet;
 
   /** The timer that expired, or none if no timer expired. */
   TimerType timer_expired;
@@ -38,7 +38,7 @@ enum class RadioState {
 
 class RadioStateMachine {
  public:
-  explicit RadioStateMachine(NetworkManager *network_manager);
+  explicit RadioStateMachine(NetworkManager* network_manager);
   ~RadioStateMachine();
 
   RadioState GetCurrentState() const;
@@ -59,10 +59,10 @@ class RadioStateMachine {
   uint8_t GetEffectIndex() const;
 
   /** Returns the most recent SetEffect packet. */
-  RadioPacket *GetSetEffect();
+  RadioPacket* GetSetEffect();
 
   /** Sets and broadcasts the current effect. */
-  void SetEffect(RadioPacket *const setEffect);
+  void SetEffect(RadioPacket* const setEffect);
 
   // See comment on num_palettes and num_effects below.
   void SetNumPalettes(uint8_t num_palettes);
@@ -92,8 +92,8 @@ class RadioStateMachine {
 
  private:
   // Handler functions
-  void handleSlaveEvent(RadioEventData &data);
-  void handleMasterEvent(RadioEventData &data);
+  void handleSlaveEvent(RadioEventData& data);
+  void handleMasterEvent(RadioEventData& data);
 
   // These are called when a state is entered.
   void beginSlave();
@@ -107,12 +107,12 @@ class RadioStateMachine {
   TimerType TimerExpired() const;
 
   /** Performs master election based on the received heartbeat. */
-  void PerformMasterElection(RadioPacket *received_packet);
+  void PerformMasterElection(RadioPacket* received_packet);
 
   /** Sends a heartbeat packet. */
   void SendHeartbeat();
 
-  NetworkManager *const network_manager_;
+  NetworkManager* const network_manager_;
 
   /** The current state. */
   RadioState state_;

@@ -5,12 +5,12 @@
 SparkEffect::SparkEffect() : Effect() {}
 
 CRGB SparkEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
-                         const StripDescription &strip,
-                         RadioPacket *setEffectPacket) const {
+                         const StripDescription& strip,
+                         RadioPacket* setEffectPacket) const {
   const uint8_t pulse_size = brightnesses.size();
   const uint8_t palette_index =
       setEffectPacket->readPaletteIndexFromSetEffect();
-  const ColorPalette &palette = palettes()[palette_index];
+  const ColorPalette& palette = palettes()[palette_index];
 
   uint8_t led_count = strip.led_count;
   if (strip.FlagEnabled(Mirrored)) {

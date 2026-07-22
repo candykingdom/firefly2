@@ -4,23 +4,23 @@
 #include <Radio.hpp>
 #include <cassert>
 
-LedManager::LedManager(const DeviceDescription &device,
-                       RadioStateMachine *radio_state)
+LedManager::LedManager(const DeviceDescription& device,
+                       RadioStateMachine* radio_state)
     : LedManager(device, radio_state, nullptr) {}
 
-LedManager::LedManager(const DeviceDescription &device,
-                       RadioStateMachine *radio_state,
-                       const EffectSeedOverrides &seed_overrides)
+LedManager::LedManager(const DeviceDescription& device,
+                       RadioStateMachine* radio_state,
+                       const EffectSeedOverrides& seed_overrides)
     : LedManager(device, radio_state, &seed_overrides) {}
 
-LedManager::LedManager(const DeviceDescription &device,
-                       RadioStateMachine *radio_state,
-                       const EffectSeedOverrides *seed_overrides)
+LedManager::LedManager(const DeviceDescription& device,
+                       RadioStateMachine* radio_state,
+                       const EffectSeedOverrides* seed_overrides)
     : device(device),
       radio_state(radio_state),
       control_effect(new ControlEffect()) {
-  for (const EffectDeclaration &declaration : EffectRegistry::Declarations()) {
-    Effect *effect = EffectRegistry::CreateEffect(declaration, seed_overrides);
+  for (const EffectDeclaration& declaration : EffectRegistry::Declarations()) {
+    Effect* effect = EffectRegistry::CreateEffect(declaration, seed_overrides);
     assert(effect != nullptr);
     AddEffect(effect, declaration.weight);
   }
@@ -33,14 +33,14 @@ LedManager::~LedManager() {
   for (uint8_t effect_index : uniqueEffectIndices) {
     delete effects[effect_index];
   }
-  for (Effect *effect : non_random_effects) {
+  for (Effect* effect : non_random_effects) {
     delete effect;
   }
   delete control_effect;
 }
 
-Effect *LedManager::GetCurrentEffect() {
-  RadioPacket *packet = radio_state->GetSetEffect();
+Effect* LedManager::GetCurrentEffect() {
+  RadioPacket* packet = radio_state->GetSetEffect();
   if (packet->type == SET_CONTROL) {
     return control_effect;
   }
@@ -49,7 +49,7 @@ Effect *LedManager::GetCurrentEffect() {
   return GetEffect(effect_index);
 }
 
-Effect *LedManager::GetEffect(uint8_t index) {
+Effect* LedManager::GetEffect(uint8_t index) {
   uint8_t total_num_effects = effects.size() + non_random_effects.size();
 #ifdef ARDUINO
   index = index % total_num_effects;
@@ -68,12 +68,12 @@ void LedManager::RunEffect() {
   // Resolve these once per frame: nothing can change them mid-frame (the
   // main loop is single-threaded), and using one timestamp keeps every LED
   // in the frame consistent.
-  Effect *const effect = GetCurrentEffect();
-  RadioPacket *const set_effect_packet = radio_state->GetSetEffect();
+  Effect* const effect = GetCurrentEffect();
+  RadioPacket* const set_effect_packet = radio_state->GetSetEffect();
   const uint32_t time_ms = radio_state->GetNetworkMillis();
 
   uint8_t global_index = 0;
-  for (const StripDescription &strip : device.strips) {
+  for (const StripDescription& strip : device.strips) {
     for (uint8_t strip_index = 0; strip_index < strip.led_count;
          ++strip_index) {
       uint8_t virtual_index;
@@ -120,7 +120,7 @@ uint8_t LedManager::UniqueEffectNumberToIndex(
   }
 }
 
-void LedManager::AddEffect(Effect *effect, uint8_t proportion) {
+void LedManager::AddEffect(Effect* effect, uint8_t proportion) {
   if (proportion > 0) {
     uniqueEffectIndices.push_back(effects.size());
   } else {

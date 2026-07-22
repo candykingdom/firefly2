@@ -190,7 +190,7 @@ void RunEffectMode() {
 
   const uint8_t real_effect_index =
       led_manager.UniqueEffectNumberToIndex(effect_index);
-  Effect *current_effect = led_manager.GetEffect(real_effect_index);
+  Effect* current_effect = led_manager.GetEffect(real_effect_index);
   set_effect_packet.writeSetEffect(real_effect_index, kSetEffectDelay,
                                    palette_index);
 
@@ -383,10 +383,10 @@ void JumpToBootloader() {
   __enable_irq();
 
   /* Set up the jump to booloader address + 4 */
-  SysMemBootJump = (void (*)(void))(*((uint32_t *)((BootAddr + 4))));
+  SysMemBootJump = (void (*)(void))(*((uint32_t*)((BootAddr + 4))));
 
   /* Set the main stack pointer to the bootloader stack */
-  __set_MSP(*(uint32_t *)BootAddr);
+  __set_MSP(*(uint32_t*)BootAddr);
 
   /* Call the function to jump to bootloader location */
   SysMemBootJump();
@@ -416,7 +416,7 @@ void setup() {
    *    in the next second and we need to do the full restart again)
    * 8. The bootloader is entered and never returns
    */
-  STM32RTC &rtc = STM32RTC::getInstance();
+  STM32RTC& rtc = STM32RTC::getInstance();
   rtc.begin(/*resetTime=*/false);
   // The CH340X triggers a reset on initial power-up. If the reset delay is less
   // than 100ms, don't enter the bootloader, so that we run the application code

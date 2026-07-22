@@ -10,8 +10,8 @@ static constexpr uint8_t depth_multiplier = 8;
 static constexpr uint8_t fade_fract = 8;
 
 CRGB PrideEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
-                         const StripDescription &strip,
-                         RadioPacket *setEffectPacket) const {
+                         const StripDescription& strip,
+                         RadioPacket* setEffectPacket) const {
   UNUSED(setEffectPacket);
   const uint16_t stripe_width = strip.led_count * depth_multiplier;
 

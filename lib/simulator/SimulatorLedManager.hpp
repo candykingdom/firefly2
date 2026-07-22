@@ -11,8 +11,8 @@ template <uint16_t NumLeds>
 class SimulatorLedManager : private FastLEDSimulator<NumLeds>,
                             public LedManager {
  public:
-  explicit SimulatorLedManager(const DeviceDescription *device,
-                               RadioStateMachine *radio_state);
+  explicit SimulatorLedManager(const DeviceDescription* device,
+                               RadioStateMachine* radio_state);
   ~SimulatorLedManager();
 
   using FastLEDSimulator<NumLeds>::Run;
@@ -21,8 +21,8 @@ class SimulatorLedManager : private FastLEDSimulator<NumLeds>,
   SDL_Point GetInitialSize() override;
   SDL_Point GetInitialPosition() override;
 
-  void SetGlobalColor(const CRGB &rgb) override;
-  void SetLed(uint8_t led_index, const CRGB &rgb) override;
+  void SetGlobalColor(const CRGB& rgb) override;
+  void SetLed(uint8_t led_index, const CRGB& rgb) override;
 
  protected:
   void WriteOutLeds() override {}
@@ -36,7 +36,7 @@ class SimulatorLedManager : private FastLEDSimulator<NumLeds>,
 
 template <uint16_t NumLeds>
 SimulatorLedManager<NumLeds>::SimulatorLedManager(
-    const DeviceDescription *device, RadioStateMachine *radio_state)
+    const DeviceDescription* device, RadioStateMachine* radio_state)
     : LedManager(device, radio_state) {
   FastLEDSimulator<NumLeds>::Init();
 }
@@ -66,13 +66,13 @@ SDL_Point SimulatorLedManager<NumLeds>::GetInitialPosition() {
 }
 
 template <uint16_t NumLeds>
-void SimulatorLedManager<NumLeds>::SetGlobalColor(const CRGB &rgb) {
+void SimulatorLedManager<NumLeds>::SetGlobalColor(const CRGB& rgb) {
   for (uint16_t i = 0; i < NumLeds; i++) {
     FastLEDSimulator<NumLeds>::leds[i] = rgb;
   }
 }
 
 template <uint16_t NumLeds>
-void SimulatorLedManager<NumLeds>::SetLed(uint8_t led_index, const CRGB &rgb) {
+void SimulatorLedManager<NumLeds>::SetLed(uint8_t led_index, const CRGB& rgb) {
   FastLEDSimulator<NumLeds>::leds[led_index] = rgb;
 }

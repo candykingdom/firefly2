@@ -4,6 +4,6 @@
 // Uncomment this line to enable debug printing.
 // #define DEBUG 1
 
-void debug_printf(const char *fmt, ...);
+void debug_printf(const char* fmt, ...);
 
 #endif

@@ -5,8 +5,8 @@
 #include <functional>
 #include <numeric>
 
-FastLedManager::FastLedManager(const DeviceDescription &device,
-                               RadioStateMachine *radio_state)
+FastLedManager::FastLedManager(const DeviceDescription& device,
+                               RadioStateMachine* radio_state)
     : LedManager(device, radio_state), led_count_(device.GetLedCount()) {
   // The first LED is on-board, and only serves as a bit shift pass through.
   leds = new CRGB[led_count_ + 1];
@@ -16,7 +16,7 @@ FastLedManager::FastLedManager(const DeviceDescription &device,
   FastLED.clear(/*writeData=*/true);
 }
 
-void FastLedManager::SetGlobalColor(const CRGB &rgb) { FastLED.showColor(rgb); }
+void FastLedManager::SetGlobalColor(const CRGB& rgb) { FastLED.showColor(rgb); }
 
 void FastLedManager::PlayStartupAnimation() {
   const uint16_t led_count = led_count_;
@@ -59,7 +59,7 @@ void FastLedManager::FatalErrorAnimation() {
   }
 }
 
-void FastLedManager::SetLed(uint8_t led_index, const CRGB &rgb) {
+void FastLedManager::SetLed(uint8_t led_index, const CRGB& rgb) {
   // If we only have one LED then treat the board LED as the first LED. This is
   // useful for testing boards themselves.
   if (led_count_ == 1 && led_index == 0) {
@@ -68,6 +68,6 @@ void FastLedManager::SetLed(uint8_t led_index, const CRGB &rgb) {
   leds[led_index + 1] = rgb;
 }
 
-void FastLedManager::SetOnboardLed(const CRGB &rgb) { leds[0] = rgb; }
+void FastLedManager::SetOnboardLed(const CRGB& rgb) { leds[0] = rgb; }
 
 void FastLedManager::WriteOutLeds() { FastLED.show(); }

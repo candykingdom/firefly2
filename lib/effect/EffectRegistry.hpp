@@ -30,7 +30,7 @@ enum class EffectKind : uint8_t {
 };
 
 struct EffectDeclaration {
-  const char *name;
+  const char* name;
   uint8_t weight;
   uint16_t parameter;
   EffectKind kind;
@@ -38,18 +38,18 @@ struct EffectDeclaration {
 
 namespace EffectRegistry {
 
-const std::vector<EffectDeclaration> &Declarations();
+const std::vector<EffectDeclaration>& Declarations();
 
 // The expanded wire-index table. Weighted declarations appear once per unit
 // of weight; manual-only declarations (weight zero) appear once in the tail.
-const std::vector<const EffectDeclaration *> &WireTable();
+const std::vector<const EffectDeclaration*>& WireTable();
 
 uint8_t RandomEffectCount();
 
 // The caller owns the returned effect. A null seed pointer preserves the
 // production constructors and their hardware-random offset behavior.
-Effect *CreateEffect(const EffectDeclaration &declaration,
-                     const EffectSeedOverrides *seeds = nullptr);
+Effect* CreateEffect(const EffectDeclaration& declaration,
+                     const EffectSeedOverrides* seeds = nullptr);
 
 }  // namespace EffectRegistry
 

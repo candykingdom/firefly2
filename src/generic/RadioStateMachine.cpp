@@ -7,7 +7,7 @@
 
 // #define DEBUG
 
-RadioStateMachine::RadioStateMachine(NetworkManager *networkManager)
+RadioStateMachine::RadioStateMachine(NetworkManager* networkManager)
     : network_manager_(networkManager) {
   timers_.fill(0);
   state_ = RadioState::Slave;
@@ -42,9 +42,9 @@ uint32_t RadioStateMachine::GetNetworkMillis() const {
 
 uint8_t RadioStateMachine::GetEffectIndex() const { return effect_index_; }
 
-RadioPacket *RadioStateMachine::GetSetEffect() { return &set_effect_packet_; }
+RadioPacket* RadioStateMachine::GetSetEffect() { return &set_effect_packet_; }
 
-void RadioStateMachine::SetEffect(RadioPacket *const setEffect) {
+void RadioStateMachine::SetEffect(RadioPacket* const setEffect) {
   this->set_effect_packet_ = *setEffect;
   this->network_manager_->send(this->set_effect_packet_);
   effect_index_ = setEffect->readEffectIndexFromSetEffect();
@@ -111,7 +111,7 @@ void RadioStateMachine::RadioTick() {
   state_ = next_state_;
 }
 
-void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
+void RadioStateMachine::handleSlaveEvent(RadioEventData& data) {
   // If the timer fired, then we haven't received a packet in a while and should
   // become master
   if (data.packet != nullptr) {
@@ -151,7 +151,7 @@ void RadioStateMachine::handleSlaveEvent(RadioEventData &data) {
   }
 }
 
-void RadioStateMachine::PerformMasterElection(RadioPacket *received_packet) {
+void RadioStateMachine::PerformMasterElection(RadioPacket* received_packet) {
   // Master election: generate a random number. If our number is greater
   // than the packet's ID, become master. Otherwise, become slave.
   const uint16_t our_id = random(1, 0xFFFF);
@@ -164,7 +164,7 @@ void RadioStateMachine::PerformMasterElection(RadioPacket *received_packet) {
   }
 }
 
-void RadioStateMachine::handleMasterEvent(RadioEventData &data) {
+void RadioStateMachine::handleMasterEvent(RadioEventData& data) {
   if (data.packet != nullptr) {
     switch (data.packet->type) {
       case HEARTBEAT:

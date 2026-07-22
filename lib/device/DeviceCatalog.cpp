@@ -6,7 +6,7 @@
 
 namespace DeviceCatalog {
 
-const std::vector<NamedDeviceDescription> &All() {
+const std::vector<NamedDeviceDescription>& All() {
   static const std::vector<NamedDeviceDescription> devices = {
       {"bike", &Devices::bike},
       {"ben_s_bike", &Devices::ben_s_bike},
@@ -47,11 +47,11 @@ const std::vector<NamedDeviceDescription> &All() {
   return devices;
 }
 
-const NamedDeviceDescription *Find(const char *name) {
+const NamedDeviceDescription* Find(const char* name) {
   if (name == nullptr) {
     return nullptr;
   }
-  for (const NamedDeviceDescription &device : All()) {
+  for (const NamedDeviceDescription& device : All()) {
     if (std::strcmp(device.name, name) == 0) {
       return &device;
     }

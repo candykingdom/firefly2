@@ -19,8 +19,8 @@ class RadioHeadRadio : public Radio {
   bool Begin();
 
   // Overrides
-  bool readPacket(RadioPacket &packet) override;
-  void sendPacket(RadioPacket &packet) override;
+  bool readPacket(RadioPacket& packet) override;
+  void sendPacket(RadioPacket& packet) override;
   void sleep() override;
 
   int16_t LastRssi();

@@ -7,19 +7,19 @@
 
 class NetworkManager {
  public:
-  explicit NetworkManager(Radio *const radio);
+  explicit NetworkManager(Radio* const radio);
 
   /**
    * Checks if a packet is available. If so, performs network functions (e.g.
    * rebroadcasting), copies the packet into the passed-in struct, and
    * returns true. If no packet is available, returns false.
    */
-  bool receive(RadioPacket &packet);
+  bool receive(RadioPacket& packet);
 
   /**
    * Sends the given packet.
    */
-  void send(RadioPacket &packet);
+  void send(RadioPacket& packet);
 
   // Public for testing
   static const uint8_t kRecentIdsCacheSize = 5;
@@ -27,7 +27,7 @@ class NetworkManager {
  private:
   void AddToRecentIdsCache(uint16_t id);
 
-  Radio *const radio_;
+  Radio* const radio_;
 
   /**
    * We maintain a circular buffer of the most recent packet IDs seen. When a

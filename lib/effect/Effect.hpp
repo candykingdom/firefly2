@@ -14,11 +14,11 @@ class Effect {
 
   /** Gets the value of a specific LED at a specific time. */
   virtual CRGB GetRGB(uint8_t led_index, uint32_t time_ms,
-                      const StripDescription &strip,
-                      RadioPacket *setEffectPacket) const = 0;
+                      const StripDescription& strip,
+                      RadioPacket* setEffectPacket) const = 0;
 
-  static const std::vector<ColorPalette> &palettes();
-  static const std::vector<const char *> &palette_names();
+  static const std::vector<ColorPalette>& palettes();
+  static const std::vector<const char*>& palette_names();
 
  protected:
   /**
@@ -39,6 +39,6 @@ class Effect {
    * colors (e.g. the rainbow palette's red->green blend). Exact palette
    * colors rendered via GetColor keep FastLED's solid-color boost.
    */
-  CRGB FlattenedGradientRGB(const CHSV &color) const;
+  CRGB FlattenedGradientRGB(const CHSV& color) const;
 };
 #endif

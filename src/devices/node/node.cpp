@@ -20,25 +20,25 @@ constexpr DeviceMode kDeviceMode = DeviceMode::CURRENT_FROM_HEADER;
 
 // Note: `RadioHeadRadio` needs to be a pointer - if it's an object, the node
 // crashes upon receiving a packet.
-RadioHeadRadio *radio = new RadioHeadRadio();
+RadioHeadRadio* radio = new RadioHeadRadio();
 NetworkManager nm(radio);
 RadioStateMachine state_machine(&nm);
-FastLedManager *led_manager;
+FastLedManager* led_manager;
 
 constexpr uint32_t kEepromStart = 0x00020000 - 0x2000;
-FlashClass device_storage(/*flash_addr=*/(void *)kEepromStart,
+FlashClass device_storage(/*flash_addr=*/(void*)kEepromStart,
                           /*size=*/DeviceDescription::kMaxSize);
 
 void FeedWatchdog() { WDT->CLEAR.reg = WDT_CLEAR_CLEAR_KEY; }
 
-FastLedManager *ReadDeviceFromFlash() {
-  DeviceDescription *device =
-      (DeviceDescription *)malloc(DeviceDescription::kMaxSize);
+FastLedManager* ReadDeviceFromFlash() {
+  DeviceDescription* device =
+      (DeviceDescription*)malloc(DeviceDescription::kMaxSize);
   if (device == nullptr) {
     Serial.println("Failed to malloc DeviceDescription");
     return new FastLedManager(Devices::current, &state_machine);
   }
-  device_storage.read((void *)device);
+  device_storage.read((void*)device);
   if (device->check_value != DeviceDescription::kCheckValue) {
     Serial.print("Got invalid check value when reading DeviceDescription: ");
     Serial.println(device->check_value);
@@ -50,8 +50,8 @@ FastLedManager *ReadDeviceFromFlash() {
 void WriteDeviceToFlash() {
   // Don't write if current device is equal
   bool same = true;
-  uint8_t *flash = (uint8_t *)kEepromStart;
-  uint8_t *device = (uint8_t *)(&Devices::current);
+  uint8_t* flash = (uint8_t*)kEepromStart;
+  uint8_t* device = (uint8_t*)(&Devices::current);
   for (uint32_t i = 0; i < sizeof(Devices::current); i++) {
     if (flash[i] != device[i]) {
       same = false;
@@ -65,7 +65,7 @@ void WriteDeviceToFlash() {
   }
 
   device_storage.erase();
-  device_storage.write((void *)&Devices::current);
+  device_storage.write((void*)&Devices::current);
   Serial.println("Wrote current device to flash");
 }
 

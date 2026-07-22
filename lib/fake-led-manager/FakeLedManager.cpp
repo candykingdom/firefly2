@@ -2,8 +2,8 @@
 
 #include <cassert>
 
-FakeLedManager::FakeLedManager(const DeviceDescription &device,
-                               RadioStateMachine *state_machine)
+FakeLedManager::FakeLedManager(const DeviceDescription& device,
+                               RadioStateMachine* state_machine)
     : LedManager(device, state_machine) {
   led_count = device.GetLedCount();
 
@@ -12,7 +12,7 @@ FakeLedManager::FakeLedManager(const DeviceDescription &device,
 
 FakeLedManager::~FakeLedManager() { delete[] leds; }
 
-void FakeLedManager::SetGlobalColor(const CRGB &rgb) {
+void FakeLedManager::SetGlobalColor(const CRGB& rgb) {
   for (uint8_t i = 0; i < led_count; i++) {
     leds[i] = rgb;
   }
@@ -29,7 +29,7 @@ void FakeLedManager::ClearEffects() {
   for (uint8_t effect_index : uniqueEffectIndices) {
     delete effects[effect_index];
   }
-  for (Effect *effect : non_random_effects) {
+  for (Effect* effect : non_random_effects) {
     delete effect;
   }
   effects.clear();
@@ -37,11 +37,11 @@ void FakeLedManager::ClearEffects() {
   uniqueEffectIndices.clear();
 }
 
-void FakeLedManager::PublicAddEffect(Effect *effect, uint8_t proportion) {
+void FakeLedManager::PublicAddEffect(Effect* effect, uint8_t proportion) {
   AddEffect(effect, proportion);
 }
 
-void FakeLedManager::SetLed(uint8_t led_index, const CRGB &rgb) {
+void FakeLedManager::SetLed(uint8_t led_index, const CRGB& rgb) {
 #ifndef ARDUINO
   assert(led_index < led_count);
 #endif

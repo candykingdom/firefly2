@@ -8,7 +8,7 @@ const uint8_t DMX_CHANNELS = 192;
 const uint8_t RESERVATION_SECONDS = 5;
 const uint8_t UPDATE_TIMEOUT_SECONDS = 1;
 
-RadioHeadRadio *radio = new RadioHeadRadio();
+RadioHeadRadio* radio = new RadioHeadRadio();
 
 SparkFunDMX dmx;
 

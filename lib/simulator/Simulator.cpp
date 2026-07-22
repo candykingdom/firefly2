@@ -12,7 +12,7 @@ int main() {
   const DeviceDescription device(5000, {&strip});
 
   FakeRadio radio;
-  NetworkManager *network_manager = new NetworkManager(&radio);
+  NetworkManager* network_manager = new NetworkManager(&radio);
   RadioStateMachine state_machine(network_manager);
   SimulatorLedManager<kNumLeds> led_manager(&device, &state_machine);
 

@@ -5,7 +5,7 @@
 
 namespace EffectRegistry {
 
-const std::vector<EffectDeclaration> &Declarations() {
+const std::vector<EffectDeclaration>& Declarations() {
   static const std::vector<EffectDeclaration> declarations = {
       {"Color Cycle", 2, 0, EffectKind::ColorCycle},
       {"Contrast Bumps", 2, 0, EffectKind::ContrastBumps},
@@ -30,15 +30,15 @@ const std::vector<EffectDeclaration> &Declarations() {
   return declarations;
 }
 
-const std::vector<const EffectDeclaration *> &WireTable() {
-  static const std::vector<const EffectDeclaration *> wire_table = [] {
-    std::vector<const EffectDeclaration *> result;
-    for (const EffectDeclaration &declaration : Declarations()) {
+const std::vector<const EffectDeclaration*>& WireTable() {
+  static const std::vector<const EffectDeclaration*> wire_table = [] {
+    std::vector<const EffectDeclaration*> result;
+    for (const EffectDeclaration& declaration : Declarations()) {
       for (uint8_t copy = 0; copy < declaration.weight; ++copy) {
         result.push_back(&declaration);
       }
     }
-    for (const EffectDeclaration &declaration : Declarations()) {
+    for (const EffectDeclaration& declaration : Declarations()) {
       if (declaration.weight == 0) {
         result.push_back(&declaration);
       }
@@ -54,25 +54,25 @@ const std::vector<const EffectDeclaration *> &WireTable() {
 
 uint8_t RandomEffectCount() {
   uint16_t count = 0;
-  for (const EffectDeclaration &declaration : Declarations()) {
+  for (const EffectDeclaration& declaration : Declarations()) {
     count += declaration.weight;
   }
   assert(count < 256);
   return static_cast<uint8_t>(count);
 }
 
-Effect *CreateEffect(const EffectDeclaration &declaration,
-                     const EffectSeedOverrides *seeds) {
+Effect* CreateEffect(const EffectDeclaration& declaration,
+                     const EffectSeedOverrides* seeds) {
   switch (declaration.kind) {
     case EffectKind::ColorCycle:
       return new ColorCycleEffect();
     case EffectKind::ContrastBumps:
       return new ContrastBumpsEffect();
     case EffectKind::Fire:
-      return seeds == nullptr ? static_cast<Effect *>(new FireEffect())
+      return seeds == nullptr ? static_cast<Effect*>(new FireEffect())
                               : new FireEffect(seeds->fire_offset);
     case EffectKind::Firefly:
-      return seeds == nullptr ? static_cast<Effect *>(new FireflyEffect())
+      return seeds == nullptr ? static_cast<Effect*>(new FireflyEffect())
                               : new FireflyEffect(seeds->firefly_offset);
     case EffectKind::Lightning:
       return new LightningEffect();
@@ -83,7 +83,7 @@ Effect *CreateEffect(const EffectDeclaration &declaration,
     case EffectKind::Rainbow:
       return new RainbowEffect();
     case EffectKind::Rorschach:
-      return seeds == nullptr ? static_cast<Effect *>(new RorschachEffect())
+      return seeds == nullptr ? static_cast<Effect*>(new RorschachEffect())
                               : new RorschachEffect(seeds->rorschach_offset);
     case EffectKind::Spark:
       return new SparkEffect();

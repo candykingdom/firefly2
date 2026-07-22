@@ -5,8 +5,8 @@
 PoliceEffect::PoliceEffect() : Effect() {}
 
 CRGB PoliceEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
-                          const StripDescription &strip,
-                          RadioPacket *setEffectPacket) const {
+                          const StripDescription& strip,
+                          RadioPacket* setEffectPacket) const {
   UNUSED(setEffectPacket);
   const bool red_cycle = ((time_ms / red_speed) & 0b100000) == 0;
   const bool blue_cycle = ((time_ms / blue_speed) & 0b100000) == 0;

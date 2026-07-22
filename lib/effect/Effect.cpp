@@ -15,7 +15,7 @@ uint8_t Effect::GetThresholdSin(int16_t x, uint8_t threshold) const {
   }
 }
 
-CRGB Effect::FlattenedGradientRGB(const CHSV &color) const {
+CRGB Effect::FlattenedGradientRGB(const CHSV& color) const {
   CRGB rgb;
   hsv2rgb_rainbow(color, rgb);
   const uint16_t sum = rgb.r + rgb.g + rgb.b;
@@ -37,7 +37,7 @@ CRGB Effect::FlattenedGradientRGB(const CHSV &color) const {
 // If this is a simple static variable, then it might not be initialized before
 // it's used, static variable initialization order is undefined. This method
 // ensures that it is initialized when it's used.
-const std::vector<ColorPalette> &Effect::palettes() {
+const std::vector<ColorPalette>& Effect::palettes() {
   static const std::vector<ColorPalette> palettes = {
       // Solid color
       {{HUE_RED, 255, 255}},
@@ -91,8 +91,8 @@ const std::vector<ColorPalette> &Effect::palettes() {
   return palettes;
 }
 
-const std::vector<const char *> &Effect::palette_names() {
-  static const std::vector<const char *> names = {
+const std::vector<const char*>& Effect::palette_names() {
+  static const std::vector<const char*> names = {
       "Red",
       "Orange",
       "Yellow",

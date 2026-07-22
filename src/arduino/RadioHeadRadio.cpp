@@ -15,7 +15,7 @@ bool RadioHeadRadio::Begin() {
   return true;
 }
 
-bool RadioHeadRadio::readPacket(RadioPacket &packet) {
+bool RadioHeadRadio::readPacket(RadioPacket& packet) {
   static std::array<uint8_t, kMaxFifoSizePacketSize> buffer;
   if (!radio.available()) {
     return false;
@@ -36,7 +36,7 @@ bool RadioHeadRadio::readPacket(RadioPacket &packet) {
   return false;
 }
 
-void RadioHeadRadio::sendPacket(RadioPacket &packet) {
+void RadioHeadRadio::sendPacket(RadioPacket& packet) {
   static std::array<uint8_t, kMaxPacketSize> buffer;
 
   const uint8_t wire_length = packet.Serialize(buffer.data());

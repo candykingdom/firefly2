@@ -13,11 +13,11 @@ RorschachEffect::RorschachEffect() : Effect() {
 RorschachEffect::RorschachEffect(uint16_t offset) : Effect(), offset(offset) {}
 
 CRGB RorschachEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
-                             const StripDescription &strip,
-                             RadioPacket *setEffectPacket) const {
+                             const StripDescription& strip,
+                             RadioPacket* setEffectPacket) const {
   const uint8_t palette_index =
       setEffectPacket->readPaletteIndexFromSetEffect();
-  const ColorPalette &palette = palettes()[palette_index];
+  const ColorPalette& palette = palettes()[palette_index];
 
   // LEDs at the center of the strip have a lower position.
   const uint16_t led_pos = -abs(led_index - (strip.led_count >> 1));

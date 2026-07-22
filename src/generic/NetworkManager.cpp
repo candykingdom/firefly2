@@ -2,12 +2,12 @@
 
 #include <Debug.hpp>
 
-NetworkManager::NetworkManager(Radio *const radio) : radio_(radio) {
+NetworkManager::NetworkManager(Radio* const radio) : radio_(radio) {
   recent_ids_cache_.fill(0);
   recent_ids_cache_index_ = 0;
 }
 
-bool NetworkManager::receive(RadioPacket &packet) {
+bool NetworkManager::receive(RadioPacket& packet) {
   if (!radio_->readPacket(packet)) {
     return false;
   }
@@ -25,7 +25,7 @@ bool NetworkManager::receive(RadioPacket &packet) {
   return true;
 }
 
-void NetworkManager::send(RadioPacket &packet) {
+void NetworkManager::send(RadioPacket& packet) {
   // [2, 0xFFFF) allow us to use packet ID 1 in tests, so that the code under
   // test always wins master election.
   packet.packet_id = random(2, 0xFFFF);

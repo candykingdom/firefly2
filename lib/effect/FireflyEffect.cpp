@@ -12,8 +12,8 @@ FireflyEffect::FireflyEffect() : Effect() {
 FireflyEffect::FireflyEffect(uint32_t offset) : Effect(), offset_(offset) {}
 
 CRGB FireflyEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
-                           const StripDescription &strip,
-                           RadioPacket *setEffectPacket) const {
+                           const StripDescription& strip,
+                           RadioPacket* setEffectPacket) const {
   uint32_t offset = offset_;
   if (strip.FlagEnabled(Controller)) {
     // For the controller, blink the lights mostly in sync
@@ -57,7 +57,7 @@ CRGB FireflyEffect::GetRGB(uint8_t led_index, uint32_t time_ms,
   if (curve < 0) {
     curve = 0;
   }
-  const ColorPalette &palette =
+  const ColorPalette& palette =
       palettes()[setEffectPacket->readPaletteIndexFromSetEffect()];
   CHSV color = palette.GetGradient((time_ms / kBlinkPeriod) << 8);
   color.v = curve / 256;

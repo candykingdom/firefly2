@@ -12,8 +12,8 @@ class FireflyEffect : public Effect {
   explicit FireflyEffect(uint32_t offset);
 
   CRGB GetRGB(uint8_t led_index, uint32_t time_ms,
-              const StripDescription &strip,
-              RadioPacket *setEffectPacket) const override;
+              const StripDescription& strip,
+              RadioPacket* setEffectPacket) const override;
 
  private:
   // The time it takes for the lights to go from randomly distributed to in-sync

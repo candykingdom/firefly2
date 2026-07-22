@@ -86,7 +86,7 @@ const DeviceDescription will_backpack = DeviceDescription(
                            });
 
 // Modify this variable to easily switch between devices.
-static const DeviceDescription &current = scarf;
+static const DeviceDescription& current = scarf;
 
 static_assert(sizeof(current) <= DeviceDescription::kMaxSize,
               "Current device too large");

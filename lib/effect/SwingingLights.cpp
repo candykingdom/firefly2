@@ -8,7 +8,7 @@ static const uint16_t SPREAD = MAX_UINT16 * 0.2;
 SwingingLights::SwingingLights() : Effect() {}
 
 // Add a CHSV value to a CRGB in place.
-static void addInPlace(const CHSV &value, CRGB &result) {
+static void addInPlace(const CHSV& value, CRGB& result) {
   CRGB color;
   hsv2rgb_rainbow(value, color);
   result.r = qadd8(result.r, color.r);
@@ -17,8 +17,8 @@ static void addInPlace(const CHSV &value, CRGB &result) {
 }
 
 CRGB SwingingLights::GetRGB(uint8_t led_index, uint32_t time_ms,
-                            const StripDescription &strip,
-                            RadioPacket *setEffectPacket) const {
+                            const StripDescription& strip,
+                            RadioPacket* setEffectPacket) const {
   // This effect looks bad on small devices. Instead of creating another
   // effect we can just make the LEDs flash when a light pulse hits the end of a
   // "long" strip which looks pretty cool.
@@ -36,7 +36,7 @@ CRGB SwingingLights::GetRGB(uint8_t led_index, uint32_t time_ms,
   // Map [0, num_leds) to [0, MAX_UINT16)
   const fract16 led_pos = (uint32_t)led_index * MAX_UINT16 / num_leds;
 
-  const ColorPalette &palette =
+  const ColorPalette& palette =
       palettes()[setEffectPacket->readPaletteIndexFromSetEffect()];
 
   CRGB color(0, 0, 0);

@@ -5,15 +5,15 @@
 #include <vector>
 
 struct NamedDeviceDescription {
-  const char *name;
-  const DeviceDescription *description;
+  const char* name;
+  const DeviceDescription* description;
 };
 
 namespace DeviceCatalog {
 
-const std::vector<NamedDeviceDescription> &All();
+const std::vector<NamedDeviceDescription>& All();
 
-const NamedDeviceDescription *Find(const char *name);
+const NamedDeviceDescription* Find(const char* name);
 
 }  // namespace DeviceCatalog
 

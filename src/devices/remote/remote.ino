@@ -3,7 +3,7 @@
 const int kLedPin = 0;
 const int kButton0 = 8;
 
-RadioHeadRadio *radio = new RadioHeadRadio();
+RadioHeadRadio* radio = new RadioHeadRadio();
 RadioPacket packet;
 
 void setup() {
