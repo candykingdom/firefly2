@@ -29,6 +29,8 @@ jobs:
         pip install --upgrade platformio
     - name: Build Node
       run: pio run -e node
+    - name: Build rfboard-v2
+      run: pio run -e rfboard-v2
     - name: Build Fancy Node
       run: pio run -e fancy-node
     - name: Build Controller
