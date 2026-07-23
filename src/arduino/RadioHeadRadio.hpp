@@ -12,7 +12,7 @@ const int kFrontPacketPadding = 3;
 
 class RadioHeadRadio : public Radio {
  public:
-  RadioHeadRadio() {}
+  RadioHeadRadio(bool is_high_power) : is_high_power_(is_high_power) {}
 
   // Initializes the hardware. Call before using this class. Returns true on
   // success.
@@ -26,6 +26,7 @@ class RadioHeadRadio : public Radio {
   int16_t LastRssi();
 
  private:
+  const bool is_high_power_;
   RH_RF69 radio = RH_RF69(RADIO_SS, RADIO_DIO);
 };
 
