@@ -3,7 +3,7 @@
   "rendererAbi": 1,
   "emscriptenVersion": "6.0.3",
   "fakeFastLedCommit": "f00dd2dd4efc34e90c16dd6a1a8eada0922d56ca",
-  "sourceFingerprint": "2cbb99b05ef06acb73da7deaab8cb37561344c14387fb6815ebfb1e74c51d5df",
+  "sourceFingerprint": "a6dbacc00f49649102a468bfc428932cfe14ca5f0199fe8602170fbe8be9e927",
   "files": {
     "firefly-renderer.js": {
       "sha256": "9cf4b4840ecae0d63eefb6176f2c6674dd9b7bda989c7989dc66b003c9353139",
