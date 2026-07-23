@@ -20,7 +20,7 @@ constexpr DeviceMode kDeviceMode = DeviceMode::CURRENT_FROM_HEADER;
 
 // Note: `RadioHeadRadio` needs to be a pointer - if it's an object, the node
 // crashes upon receiving a packet.
-RadioHeadRadio* radio = new RadioHeadRadio();
+RadioHeadRadio* radio = new RadioHeadRadio(/*is_high_power*/ false);
 NetworkManager nm(radio);
 RadioStateMachine state_machine(&nm);
 FastLedManager* led_manager;

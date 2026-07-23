@@ -24,7 +24,7 @@ constexpr int kBatteryPin = PA0;
 constexpr int kButton1 = PB1;
 constexpr int kButton2 = PB2;
 
-RadioHeadRadio *radio = new RadioHeadRadio();
+RadioHeadRadio *radio = new RadioHeadRadio(/*is_high_power*/false);
 NetworkManager nm(radio);
 RadioStateMachine state_machine(&nm);
 FastLedManager *led_manager;

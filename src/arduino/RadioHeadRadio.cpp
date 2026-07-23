@@ -5,11 +5,12 @@
 #include <Debug.hpp>
 
 bool RadioHeadRadio::Begin() {
+  debug_printf("Initializing radio");
   if (!radio.init()) {
     debug_printf("Failed to initialize radio");
     return false;
   }
-  radio.setTxPower(13, false);
+  radio.setTxPower(13, is_high_power_);
   radio.setFrequency(915.0);
   radio.available();
   return true;
@@ -37,6 +38,7 @@ bool RadioHeadRadio::readPacket(RadioPacket& packet) {
 }
 
 void RadioHeadRadio::sendPacket(RadioPacket& packet) {
+  debug_printf("Sending packet");
   static std::array<uint8_t, kMaxPacketSize> buffer;
 
   const uint8_t wire_length = packet.Serialize(buffer.data());

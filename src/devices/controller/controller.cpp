@@ -62,7 +62,7 @@ static constexpr uint16_t kMode3Threshold = (678 + 1023) / 2;
 // Used to show when the radio is broadcasting
 CountDownTimer broadcast_led_timer{1000};
 
-RadioHeadRadio radio;
+RadioHeadRadio radio = RadioHeadRadio(/*is_high_power*/ false);
 NetworkManager nm(&radio);
 RadioStateMachine state_machine(&nm);
 FakeLedManager led_manager(kRowDescription, &state_machine);
