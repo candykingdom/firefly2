@@ -147,7 +147,7 @@ void setup() {
   SPI.setMISO(PA6);
   SPI.setMOSI(PA7);
   SPI.setSCLK(PA5);
-  SPI.setSSEL(PA4);
+  // Note: DON'T set SSEL, since RadioHead manages it in software.
 
   DeviceDescription const *device;
   switch (kDeviceMode) {
