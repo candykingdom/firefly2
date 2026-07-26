@@ -60,6 +60,7 @@ TEST(SimulatorCatalogTest, EffectRegistryPreservesOrderWeightsAndWireTable) {
       {"Simple Blink 30ms", 0, 30},
       {"Simple Blink 12ms", 0, 12},
       {"Simple Blink 300ms", 0, 300},
+      {"Mitxela Piercing", 0, 0},
       {"Display Color Palette", 0, 0},
       {"Dark", 0, 0},
   };
@@ -74,7 +75,7 @@ TEST(SimulatorCatalogTest, EffectRegistryPreservesOrderWeightsAndWireTable) {
   }
 
   const auto &wire_table = EffectRegistry::WireTable();
-  ASSERT_EQ(wire_table.size(), 35u);
+  ASSERT_EQ(wire_table.size(), 36u);
   EXPECT_LT(wire_table.size(), 256u);
   EXPECT_EQ(EffectRegistry::RandomEffectCount(), 27u);
 

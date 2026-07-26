@@ -13,7 +13,7 @@ RadioStateMachine::RadioStateMachine(FireflyNetworkManager *networkManager)
   state_ = RadioState::Slave;
   next_state_ = RadioState::Slave;
   beginSlave();
-  set_effect_packet_.writeSetEffect(1, 0, 0);
+  set_effect_packet_.writeSetEffect(18, 0, 8);
 }
 
 RadioStateMachine::~RadioStateMachine() {}

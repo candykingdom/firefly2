@@ -7,23 +7,24 @@ namespace EffectRegistry {
 
 const std::vector<EffectDeclaration> &Declarations() {
   static const std::vector<EffectDeclaration> declarations = {
-      {"Color Cycle", 2, 0, EffectKind::ColorCycle},
-      {"Contrast Bumps", 2, 0, EffectKind::ContrastBumps},
-      {"Fire", 1, 0, EffectKind::Fire},
-      {"Firefly", 2, 0, EffectKind::Firefly},
-      {"Lightning", 1, 0, EffectKind::Lightning},
-      {"Pride", 1, 0, EffectKind::Pride},
-      {"Rainbow Bumps", 4, 0, EffectKind::RainbowBumps},
-      {"Rainbow", 4, 0, EffectKind::Rainbow},
-      {"Rorschach", 2, 0, EffectKind::Rorschach},
-      {"Spark", 4, 0, EffectKind::Spark},
-      {"Swinging Lights", 4, 0, EffectKind::SwingingLights},
+      {"Color Cycle", 0, 0, EffectKind::ColorCycle},
+      {"Contrast Bumps", 0, 0, EffectKind::ContrastBumps},
+      {"Fire", 0, 0, EffectKind::Fire},
+      {"Firefly", 0, 0, EffectKind::Firefly},
+      {"Lightning", 0, 0, EffectKind::Lightning},
+      {"Pride", 0, 0, EffectKind::Pride},
+      {"Rainbow Bumps", 0, 0, EffectKind::RainbowBumps},
+      {"Rainbow", 0, 0, EffectKind::Rainbow},
+      {"Rorschach", 0, 0, EffectKind::Rorschach},
+      {"Spark", 0, 0, EffectKind::Spark},
+      {"Swinging Lights", 0, 0, EffectKind::SwingingLights},
       {"Swinging Lights (Police)", 0, 0, EffectKind::SwingingLights},
       {"Stop Light", 0, 0, EffectKind::StopLight},
       {"Simple Blink 60ms", 0, 60, EffectKind::SimpleBlink},
       {"Simple Blink 30ms", 0, 30, EffectKind::SimpleBlink},
       {"Simple Blink 12ms", 0, 12, EffectKind::SimpleBlink},
       {"Simple Blink 300ms", 0, 300, EffectKind::SimpleBlink},
+      {"Mitxela Piercing", 1, 0, EffectKind::MitxelaPiercing},
       {"Display Color Palette", 0, 0, EffectKind::DisplayColorPalette},
       {"Dark", 0, 0, EffectKind::Dark},
   };
@@ -76,6 +77,8 @@ Effect *CreateEffect(const EffectDeclaration &declaration,
                               : new FireflyEffect(seeds->firefly_offset);
     case EffectKind::Lightning:
       return new LightningEffect();
+    case EffectKind::MitxelaPiercing:
+      return new MitxelaPiercing();
     case EffectKind::Pride:
       return new PrideEffect();
     case EffectKind::RainbowBumps:

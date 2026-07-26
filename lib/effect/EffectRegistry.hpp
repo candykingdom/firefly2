@@ -17,6 +17,7 @@ enum class EffectKind : uint8_t {
   Fire,
   Firefly,
   Lightning,
+  MitxelaPiercing,
   Pride,
   RainbowBumps,
   Rainbow,
