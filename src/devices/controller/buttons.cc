@@ -1,5 +1,7 @@
 #include "buttons.h"
 
+#include <button-filter.h>
+
 void SetLeftButtonLed(uint8_t button_index, uint8_t brightness) {
   switch (button_index) {
     case 2:
@@ -65,3 +67,30 @@ void SetBottomButtonLeds(uint8_t button1, uint8_t button2, uint8_t button3) {
   SetBottomButtonLed(2, button2);
   SetBottomButtonLed(3, button3);
 }
+
+std::array<ButtonFilter, 3> left_buttons = {
+    ButtonFilter(filter_functions::ForInvertedDigitalRead<kLeftButtons[0]>(),
+                 kButtonHeldMillis),
+    ButtonFilter(filter_functions::ForInvertedDigitalRead<kLeftButtons[1]>(),
+                 kButtonHeldMillis),
+    ButtonFilter(filter_functions::ForInvertedDigitalRead<kLeftButtons[2]>(),
+                 kButtonHeldMillis),
+};
+
+std::array<ButtonFilter, 3> right_buttons = {
+    ButtonFilter(filter_functions::ForInvertedDigitalRead<kRightButtons[0]>(),
+                 kButtonHeldMillis),
+    ButtonFilter(filter_functions::ForInvertedDigitalRead<kRightButtons[1]>(),
+                 kButtonHeldMillis),
+    ButtonFilter(filter_functions::ForInvertedDigitalRead<kRightButtons[2]>(),
+                 kButtonHeldMillis),
+};
+
+std::array<ButtonFilter, 3> bottom_buttons = {
+    ButtonFilter(filter_functions::ForInvertedDigitalRead<kBottomButtons[0]>(),
+                 kButtonHeldMillis),
+    ButtonFilter(filter_functions::ForInvertedDigitalRead<kBottomButtons[1]>(),
+                 kButtonHeldMillis),
+    ButtonFilter(filter_functions::ForInvertedDigitalRead<kBottomButtons[2]>(),
+                 kButtonHeldMillis),
+};
